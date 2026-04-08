@@ -37,7 +37,9 @@ private val Context.dataStore by preferencesDataStore(name = "comprendre_mon_chi
 
 sealed interface AppScreen {
     data object Accueil : AppScreen
+    data object Introduction : AppScreen
     data object Questionnaire : AppScreen
+    data object Chargement : AppScreen
     data object Resultat : AppScreen
     data object Dictionnaire : AppScreen
     data class DictionnaireDetail(val ficheId: String) : AppScreen
@@ -46,7 +48,9 @@ sealed interface AppScreen {
 
 fun AppScreen.toStorageValue(): String = when (this) {
     AppScreen.Accueil -> "accueil"
+    AppScreen.Introduction -> "introduction"
     AppScreen.Questionnaire -> "questionnaire"
+    AppScreen.Chargement -> "questionnaire"
     AppScreen.Resultat -> "resultat"
     AppScreen.Dictionnaire -> "dictionnaire"
     is AppScreen.DictionnaireDetail -> "dictionnaire_detail:${this.ficheId}"
@@ -54,6 +58,7 @@ fun AppScreen.toStorageValue(): String = when (this) {
 }
 
 fun screenFromStorage(value: String): AppScreen = when {
+    value == "introduction" -> AppScreen.Introduction
     value == "questionnaire" -> AppScreen.Questionnaire
     value == "resultat" -> AppScreen.Resultat
     value == "dictionnaire" -> AppScreen.Dictionnaire
@@ -163,14 +168,19 @@ fun ComprendreMonChienApp() {
 
     BackHandler(enabled = screen != AppScreen.Accueil) {
         when (screen) {
+            AppScreen.Introduction -> screen = AppScreen.Accueil
             AppScreen.Questionnaire -> {
                 if (indexQuestion > 0) {
                     indexQuestion--
                     saveState()
                 } else {
-                    screen = AppScreen.Accueil
+                    screen = AppScreen.Introduction
                     saveState()
                 }
+            }
+            AppScreen.Chargement -> {
+                screen = AppScreen.Questionnaire
+                saveState()
             }
             AppScreen.Resultat -> {
                 screen = AppScreen.Questionnaire
@@ -199,7 +209,9 @@ fun ComprendreMonChienApp() {
                 PremiumTopBar(
                     title = when (screen) {
                         AppScreen.Accueil -> "Comprendre mon chien"
+                        AppScreen.Introduction -> "Avant de commencer"
                         AppScreen.Questionnaire -> "Questionnaire"
+                        AppScreen.Chargement -> "Analyse"
                         AppScreen.Resultat -> "Résultat"
                         AppScreen.Dictionnaire -> "Dictionnaire comportemental"
                         is AppScreen.DictionnaireDetail -> {
@@ -209,14 +221,15 @@ fun ComprendreMonChienApp() {
                         }
                         AppScreen.Alimentation -> "Alimentation"
                     },
-                    onBack = if (screen != AppScreen.Accueil) {
+                    onBack = if (screen != AppScreen.Accueil && screen != AppScreen.Chargement) {
                         {
                             when (screen) {
+                                AppScreen.Introduction -> screen = AppScreen.Accueil
                                 AppScreen.Questionnaire -> {
                                     if (indexQuestion > 0) {
                                         indexQuestion--
                                     } else {
-                                        screen = AppScreen.Accueil
+                                        screen = AppScreen.Introduction
                                     }
                                     saveState()
                                 }
@@ -236,7 +249,7 @@ fun ComprendreMonChienApp() {
                                     screen = AppScreen.Accueil
                                     saveState()
                                 }
-                                AppScreen.Accueil -> Unit
+                                else -> Unit
                             }
                         }
                     } else null
@@ -254,14 +267,7 @@ fun ComprendreMonChienApp() {
                     AccueilScreen(
                         modifier = Modifier.padding(padding),
                         hasSavedProgress = hasSavedProgress,
-                        onCommencer = {
-                            reponsesTexte.clear()
-                            reponsesChoix.clear()
-                            indexQuestion = 0
-                            screen = AppScreen.Questionnaire
-                            clearSavedState()
-                            saveState()
-                        },
+                        onCommencer = { screen = AppScreen.Introduction },
                         onReprendre = {
                             screen = AppScreen.Questionnaire
                             saveState()
@@ -277,10 +283,23 @@ fun ComprendreMonChienApp() {
                     )
                 }
 
+                AppScreen.Introduction -> {
+                    IntroductionScreen(
+                        modifier = Modifier.padding(padding),
+                        onCommencer = {
+                            reponsesTexte.clear()
+                            reponsesChoix.clear()
+                            indexQuestion = 0
+                            screen = AppScreen.Questionnaire
+                            clearSavedState()
+                            saveState()
+                        }
+                    )
+                }
+
                 AppScreen.Questionnaire -> {
                     if (questionsVisibles.isNotEmpty()) {
                         val question = questionsVisibles[indexQuestion]
-
                         QuestionnaireScreen(
                             modifier = Modifier.padding(padding),
                             question = question,
@@ -300,14 +319,23 @@ fun ComprendreMonChienApp() {
                             onSuivant = {
                                 if (indexQuestion < questionsVisibles.lastIndex) {
                                     indexQuestion++
-                                    screen = AppScreen.Questionnaire
                                 } else {
-                                    screen = AppScreen.Resultat
+                                    screen = AppScreen.Chargement
                                 }
                                 saveState()
                             }
                         )
                     }
+                }
+
+                AppScreen.Chargement -> {
+                    ChargementAnalyseScreen(
+                        modifier = Modifier.padding(padding),
+                        onTermine = {
+                            screen = AppScreen.Resultat
+                            saveState()
+                        }
+                    )
                 }
 
                 AppScreen.Resultat -> {
@@ -345,19 +373,16 @@ fun ComprendreMonChienApp() {
                                 nomChien = reponsesTexte["nom_chien"].orEmpty(),
                                 analyse = analyse
                             )
-
                             val uri = FileProvider.getUriForFile(
                                 context,
                                 "${context.packageName}.fileprovider",
                                 file
                             )
-
                             val intent = Intent(Intent.ACTION_SEND).apply {
                                 type = "application/pdf"
                                 putExtra(Intent.EXTRA_STREAM, uri)
                                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             }
-
                             context.startActivity(Intent.createChooser(intent, "Partager PDF"))
                         },
                         onRecommencer = {
@@ -389,9 +414,7 @@ fun ComprendreMonChienApp() {
                 }
 
                 AppScreen.Alimentation -> {
-                    DictionnaireScreen(
-                        modifier = Modifier.padding(padding)
-                    )
+                    DictionnaireScreen(modifier = Modifier.padding(padding))
                 }
             }
         }
@@ -416,7 +439,6 @@ fun construireTextePartageBilan(
     analyse: ResultatAnalyse
 ): String {
     val nom = nomChienAffiche(nomChien)
-
     return """
         Bilan pour $nom
         

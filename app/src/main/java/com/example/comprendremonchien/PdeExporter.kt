@@ -642,6 +642,24 @@ object PdfExporter {
             y = top + height + 18f
         }
 
+        // ✅ generateQrCode est maintenant déclarée AVANT drawFooterQrOnly
+        fun generateQrCode(text: String, size: Int): Bitmap {
+            val bitMatrix = QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
+            val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
+
+            for (x in 0 until size) {
+                for (yy in 0 until size) {
+                    bitmap.setPixel(
+                        x,
+                        yy,
+                        if (bitMatrix[x, yy]) colorPrimary else Color.WHITE
+                    )
+                }
+            }
+
+            return bitmap
+        }
+
         fun drawFooterQrOnly() {
             val footerTop = pageHeight - margin - 90f
             val footerBottom = pageHeight - margin
@@ -694,26 +712,9 @@ object PdfExporter {
 
             val textX = footerLeft + 14f
             canvas.drawText("Document généré automatiquement", textX, footerTop + 24f, smallPaint)
-            canvas.drawText("Retrouvez l’application pour suivre l’évolution", textX, footerTop + 44f, tinyPaint)
+            canvas.drawText("Retrouvez l'application pour suivre l'évolution", textX, footerTop + 44f, tinyPaint)
             canvas.drawText("et refaire un bilan plus tard si besoin.", textX, footerTop + 58f, tinyPaint)
-            canvas.drawText("Accéder à l’application", textX, footerTop + 76f, footerLinkPaint)
-        }
-
-        fun generateQrCode(text: String, size: Int): Bitmap {
-            val bitMatrix = QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
-            val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
-
-            for (x in 0 until size) {
-                for (yy in 0 until size) {
-                    bitmap.setPixel(
-                        x,
-                        yy,
-                        if (bitMatrix[x, yy]) colorPrimary else Color.WHITE
-                    )
-                }
-            }
-
-            return bitmap
+            canvas.drawText("Accéder à l'application", textX, footerTop + 76f, footerLinkPaint)
         }
 
         val date = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
@@ -928,7 +929,7 @@ Le premier levier utile est : ${analyse.conseilPrincipal}
 
         section("Conclusion")
         drawParagraph(
-            "L’objectif n’est pas d’étiqueter $nom, mais d’aider à mieux lire ce qui se passe et à avancer de manière plus adaptée, plus concrète et plus rassurante."
+            "L'objectif n'est pas d'étiqueter $nom, mais d'aider à mieux lire ce qui se passe et à avancer de manière plus adaptée, plus concrète et plus rassurante."
         )
 
         ensureSpace(120f)
