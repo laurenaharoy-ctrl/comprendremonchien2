@@ -2,11 +2,16 @@ package com.example.comprendremonchien2
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextPaint
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import java.io.File
@@ -18,937 +23,603 @@ import kotlin.math.max
 
 object PdfExporter {
 
-    fun exporterBilanPdf(
-        context: Context,
-        nomChien: String,
-        analyse: ResultatAnalyse
-    ): File {
+    // ─── Couleurs ───────────────────────────────────────────────
+    private val COLOR_PRIMARY = Color.parseColor("#8E4A2D")
+    private val COLOR_PRIMARY_SOFT = Color.parseColor("#B86A4A")
+    private val COLOR_ACCENT = Color.parseColor("#D9A58F")
+    private val COLOR_INK = Color.parseColor("#33231D")
+    private val COLOR_INK_SOFT = Color.parseColor("#75584C")
+    private val COLOR_BORDER = Color.parseColor("#E0D2C6")
+    private val COLOR_WARM_BG = Color.parseColor("#FCF8F5")
+    private val COLOR_WARM_BG_ALT = Color.parseColor("#F4ECE5")
+    private val COLOR_WHITE = Color.WHITE
 
+    private val COLOR_PRIORITE_FAIBLE = Color.parseColor("#9E8572")
+    private val COLOR_PRIORITE_MODEREE = Color.parseColor("#B8845A")
+    private val COLOR_PRIORITE_ELEVEE = Color.parseColor("#8E4A2D")
+    private val COLOR_PRIORITE_URGENTE = Color.parseColor("#6B2D1A")
+
+    private val COLOR_PRIORITE_FAIBLE_BG = Color.parseColor("#F4EDE6")
+    private val COLOR_PRIORITE_MODEREE_BG = Color.parseColor("#F5E8DC")
+    private val COLOR_PRIORITE_ELEVEE_BG = Color.parseColor("#F2E0D6")
+    private val COLOR_PRIORITE_URGENTE_BG = Color.parseColor("#EDD8D0")
+
+    // ─── Dimensions ─────────────────────────────────────────────
+    private const val PAGE_W = 595
+    private const val PAGE_H = 842
+    private const val MARGIN = 44f
+    private val CONTENT_W = PAGE_W - MARGIN * 2
+    private const val FOOTER_H = 60f
+    private val CONTENT_BOTTOM = PAGE_H - MARGIN - FOOTER_H - 10f
+
+    fun exporterBilanPdf(context: Context, nomChien: String, analyse: ResultatAnalyse): File {
         val document = PdfDocument()
-
-        val pageWidth = 595
-        val pageHeight = 842
-        val margin = 40f
-        val contentWidth = pageWidth - (margin * 2)
-
-        val footerReservedHeight = 110f
-        val contentBottomLimit = pageHeight - margin - footerReservedHeight
-
-        val colorPrimary = Color.parseColor("#8E4A2D")
-        val colorPrimarySoft = Color.parseColor("#B86A4A")
-        val colorAccent = Color.parseColor("#D9A58F")
-        val colorInk = Color.parseColor("#33231D")
-        val colorInkSoft = Color.parseColor("#75584C")
-        val colorBorder = Color.parseColor("#E6D7CC")
-        val colorWarmBg = Color.parseColor("#FCF8F5")
-        val colorWarmBgAlt = Color.parseColor("#F4ECE5")
-        val colorCard = Color.parseColor("#FFFDFB")
-        val colorShadow = Color.parseColor("#14000000")
-        val colorError = Color.parseColor("#B94A48")
-        val colorSuccess = Color.parseColor("#4CAF50")
-        val colorWarning = Color.parseColor("#FF9800")
-        val colorDanger = Color.parseColor("#D32F2F")
-
-        var pageNumber = 1
-        var pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
-        var page = document.startPage(pageInfo)
-        var canvas = page.canvas
-
-        val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 24f
-            color = colorPrimary
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val bigNamePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 26f
-            color = colorPrimary
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val subtitlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 12f
-            color = colorInkSoft
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val sectionPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 16f
-            color = colorPrimary
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val sectionSmallPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 13f
-            color = colorPrimary
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val subLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 11f
-            color = colorInkSoft
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val bodyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 10.9f
-            color = colorInk
-        }
-
-        val bodyBoldPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 10.9f
-            color = colorInk
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val smallPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 9.4f
-            color = colorInkSoft
-        }
-
-        val tinyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 8.6f
-            color = colorInkSoft
-        }
-
-        val alertPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 10.9f
-            color = colorError
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = colorBorder
-            strokeWidth = 1f
-        }
-
-        val cardStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = colorBorder
-            strokeWidth = 1f
-            style = Paint.Style.STROKE
-        }
-
-        val footerLinkPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 10.5f
-            color = colorPrimary
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        }
-
-        val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = colorShadow
-            style = Paint.Style.FILL
-        }
-
-        var y = margin
-
-        fun newPage() {
-            document.finishPage(page)
-            pageNumber++
-            pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
-            page = document.startPage(pageInfo)
-            canvas = page.canvas
-            y = margin
-        }
-
-        fun ensureSpace(space: Float) {
-            if (y + space > contentBottomLimit) newPage()
-        }
-
-        fun wrapLines(text: String, paint: Paint, maxWidth: Float): List<String> {
-            if (text.isBlank()) return listOf("")
-            val words = text.trim().split(Regex("\\s+"))
-            val lines = mutableListOf<String>()
-            var line = ""
-
-            for (word in words) {
-                val test = if (line.isEmpty()) word else "$line $word"
-                if (paint.measureText(test) <= maxWidth) {
-                    line = test
-                } else {
-                    if (line.isNotEmpty()) lines += line
-                    line = word
-                }
-            }
-
-            if (line.isNotEmpty()) lines += line
-            return lines
-        }
-
-        fun paragraphHeight(text: String, paint: Paint = bodyPaint, spacing: Float = 8f): Float {
-            val paragraphs = text.split("\n")
-            var total = 0f
-
-            paragraphs.forEachIndexed { index, raw ->
-                val p = raw.trim()
-                if (p.isEmpty()) {
-                    total += paint.textSize + 4f
-                } else {
-                    val lines = wrapLines(p, paint, contentWidth)
-                    total += lines.size * (paint.textSize + 6f)
-                    total += spacing
-                }
-
-                if (index != paragraphs.lastIndex) {
-                    total += 4f
-                }
-            }
-            return total
-        }
-
-        fun drawParagraph(text: String, spacing: Float = 8f, paint: Paint = bodyPaint) {
-            val paragraphs = text.split("\n")
-
-            paragraphs.forEachIndexed { paragraphIndex, rawParagraph ->
-                val p = rawParagraph.trim()
-
-                if (p.isEmpty()) {
-                    ensureSpace(paint.textSize + 8f)
-                    y += paint.textSize + 3f
-                } else {
-                    val lines = wrapLines(p, paint, contentWidth)
-
-                    lines.forEach { line ->
-                        ensureSpace(paint.textSize + 10f)
-                        canvas.drawText(line, margin, y, paint)
-                        y += paint.textSize + 6f
-                    }
-
-                    y += spacing
-                }
-
-                if (paragraphIndex != paragraphs.lastIndex) {
-                    ensureSpace(6f)
-                    y += 4f
-                }
-            }
-        }
-
-        fun drawLine(spacingAfter: Float = 16f) {
-            ensureSpace(16f)
-            canvas.drawLine(margin, y, pageWidth - margin, y, linePaint)
-            y += spacingAfter
-        }
-
-        fun drawCentered(text: String, paint: Paint, space: Float = 18f) {
-            ensureSpace(28f)
-            val width = paint.measureText(text)
-            canvas.drawText(text, (pageWidth - width) / 2f, y, paint)
-            y += space
-        }
-
-        fun drawCard(
-            left: Float,
-            top: Float,
-            right: Float,
-            bottom: Float,
-            fillColor: Int = colorCard,
-            borderColor: Int = colorBorder,
-            radius: Float = 16f
-        ) {
-            canvas.drawRoundRect(
-                left + 2f,
-                top + 3f,
-                right + 2f,
-                bottom + 3f,
-                radius,
-                radius,
-                shadowPaint
-            )
-
-            canvas.drawRoundRect(
-                left,
-                top,
-                right,
-                bottom,
-                radius,
-                radius,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = fillColor
-                    style = Paint.Style.FILL
-                }
-            )
-
-            canvas.drawRoundRect(
-                left,
-                top,
-                right,
-                bottom,
-                radius,
-                radius,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = borderColor
-                    style = Paint.Style.STROKE
-                    strokeWidth = 1f
-                }
-            )
-        }
-
-        fun drawBullet(text: String, paint: Paint = bodyPaint) {
-            val bulletIndent = 18f
-            val textStart = margin + bulletIndent
-            val maxWidth = contentWidth - bulletIndent
-            val lines = wrapLines(text, paint, maxWidth)
-            val lineHeight = paint.textSize + 6f
-            val blockHeight = (lines.size * lineHeight) + 4f
-
-            ensureSpace(blockHeight + 2f)
-
-            val firstLineY = y
-            val centerY = firstLineY - (paint.textSize * 0.33f)
-
-            canvas.drawCircle(
-                margin + 6f,
-                centerY,
-                2.3f,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = colorPrimarySoft
-                    style = Paint.Style.FILL
-                }
-            )
-
-            lines.forEach { line ->
-                canvas.drawText(line, textStart, y, paint)
-                y += lineHeight
-            }
-
-            y += 2f
-        }
-
-        fun bullets(items: List<String>, paint: Paint = bodyPaint) {
-            items.forEach { drawBullet(it, paint) }
-            y += 8f
-        }
-
-        fun section(title: String, introSpace: Float = 14f) {
-            val minBlockAfterTitle = 30f
-            ensureSpace(introSpace + 34f + minBlockAfterTitle)
-            y += introSpace
-            canvas.drawText(title, margin, y, sectionPaint)
-            y += 10f
-            canvas.drawLine(margin, y, pageWidth - margin, y, linePaint)
-            y += 16f
-        }
-
-        fun keyValue(label: String, value: String) {
-            val labelWidth = 120f
-            val lines = wrapLines(value, bodyPaint, contentWidth - labelWidth)
-            val lineHeight = bodyPaint.textSize + 5f
-            val estimatedHeight = max(24f, (lines.size * lineHeight) + 8f)
-
-            ensureSpace(estimatedHeight)
-
-            canvas.drawText(label, margin, y, subLabelPaint)
-
-            lines.forEachIndexed { index, line ->
-                if (index == 0) {
-                    canvas.drawText(line, margin + labelWidth, y, bodyPaint)
-                } else {
-                    y += lineHeight
-                    canvas.drawText(line, margin + labelWidth, y, bodyPaint)
-                }
-            }
-
-            y += 17f
-        }
-
-        fun drawSimpleBox(
-            text: String,
-            fillColor: Int,
-            borderColor: Int,
-            textPaint: Paint = bodyPaint,
-            radius: Float = 14f,
-            paddingHorizontal: Float = 14f,
-            paddingVertical: Float = 12f
-        ) {
-            val lines = text.split("\n")
-                .flatMap { wrapLines(it, textPaint, contentWidth - (paddingHorizontal * 2)) }
-
-            val lineHeight = textPaint.textSize + 6f
-            val estimatedHeight =
-                (lines.size * lineHeight) + (paddingVertical * 2) + 2f
-
-            ensureSpace(estimatedHeight + 10f)
-
-            val top = y
-            val bottom = y + estimatedHeight
-
-            drawCard(
-                left = margin,
-                top = top,
-                right = pageWidth - margin,
-                bottom = bottom,
-                fillColor = fillColor,
-                borderColor = borderColor,
-                radius = radius
-            )
-
-            y = top + paddingVertical + textPaint.textSize
-
-            lines.forEach { line ->
-                canvas.drawText(line, margin + paddingHorizontal, y, textPaint)
-                y += lineHeight
-            }
-
-            y += 14f
-        }
-
-        fun drawPriorityBox(
-            title: String,
-            levelLabel: String,
-            message: String,
-            items: List<String>,
-            borderColor: Int,
-            fillColor: Int
-        ) {
-            val barWidth = 8f
-            val padding = 16f
-            val badgeHeight = 22f
-            val badgeWidth = 110f
-
-            val messageLines = wrapLines(message, bodyPaint, contentWidth - padding * 2)
-            val itemLineHeight = bodyPaint.textSize + 6f
-            val itemHeights = items.map { wrapLines(it, bodyPaint, contentWidth - padding * 2 - 18f).size * itemLineHeight + 2f }
-            val totalItemsHeight = itemHeights.sum()
-
-            val boxHeight =
-                20f +
-                        24f +
-                        badgeHeight +
-                        10f +
-                        (messageLines.size * (bodyPaint.textSize + 6f)) +
-                        10f +
-                        totalItemsHeight +
-                        20f
-
-            ensureSpace(boxHeight + 10f)
-
-            val top = y
-            val bottom = y + boxHeight
-            val left = margin
-            val right = pageWidth - margin
-
-            drawCard(
-                left = left,
-                top = top,
-                right = right,
-                bottom = bottom,
-                fillColor = fillColor,
-                borderColor = borderColor,
-                radius = 18f
-            )
-
-            canvas.drawRoundRect(
-                left,
-                top,
-                left + barWidth,
-                bottom,
-                18f,
-                18f,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = borderColor
-                    style = Paint.Style.FILL
-                }
-            )
-
-            var innerY = top + 22f
-            val contentLeft = left + padding
-            val contentRight = right - padding
-
-            canvas.drawText(title, contentLeft, innerY, sectionSmallPaint)
-            innerY += 26f
-
-            val badgeLeft = contentLeft
-            val badgeTop = innerY - 14f
-            val badgeRight = badgeLeft + badgeWidth
-            val badgeBottom = badgeTop + badgeHeight
-
-            canvas.drawRoundRect(
-                badgeLeft,
-                badgeTop,
-                badgeRight,
-                badgeBottom,
-                11f,
-                11f,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = borderColor
-                    style = Paint.Style.FILL
-                }
-            )
-
-            val badgeTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                textSize = 9.5f
-                color = Color.WHITE
-                typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            }
-
-            canvas.drawText(levelLabel, badgeLeft + 12f, badgeTop + 15f, badgeTextPaint)
-            innerY += 20f
-
-            messageLines.forEach { line ->
-                canvas.drawText(line, contentLeft, innerY, bodyPaint)
-                innerY += bodyPaint.textSize + 6f
-            }
-
-            innerY += 6f
-
-            items.forEach { item ->
-                val lines = wrapLines(item, bodyPaint, contentRight - contentLeft - 18f)
-                val bulletY = innerY - (bodyPaint.textSize * 0.35f)
-
-                canvas.drawCircle(
-                    contentLeft + 5f,
-                    bulletY,
-                    2.2f,
-                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                        color = colorPrimary
-                        style = Paint.Style.FILL
-                    }
-                )
-
-                lines.forEach { line ->
-                    canvas.drawText(line, contentLeft + 16f, innerY, bodyPaint)
-                    innerY += bodyPaint.textSize + 6f
-                }
-
-                innerY += 2f
-            }
-
-            y = bottom + 16f
-        }
-
-        fun drawInfoGrid(items: List<Pair<String, String>>) {
-            val colGap = 12f
-            val cardWidth = (contentWidth - colGap) / 2f
-            val labelTopPadding = 16f
-            val valueTopPadding = 36f
-            val bottomPadding = 16f
-
-            items.chunked(2).forEach { row ->
-                val rowHeights = row.map { (_, value) ->
-                    val valueLines = wrapLines(value, bodyBoldPaint, cardWidth - 20f)
-                    val lineHeight = bodyBoldPaint.textSize + 5f
-                    labelTopPadding + 8f + (valueLines.size * lineHeight) + bottomPadding
-                }
-                val cardHeight = rowHeights.maxOrNull() ?: 60f
-
-                ensureSpace(cardHeight + 12f)
-                val rowTop = y
-
-                row.forEachIndexed { index, (label, value) ->
-                    val left = margin + index * (cardWidth + colGap)
-                    val top = rowTop
-                    val right = left + cardWidth
-                    val bottom = rowTop + cardHeight
-
-                    drawCard(
-                        left = left,
-                        top = top,
-                        right = right,
-                        bottom = bottom,
-                        fillColor = colorCard,
-                        borderColor = colorBorder,
-                        radius = 14f
-                    )
-
-                    canvas.drawText(label, left + 10f, top + labelTopPadding, smallPaint)
-
-                    var localY = top + valueTopPadding
-                    val valueLines = wrapLines(value, bodyBoldPaint, cardWidth - 20f)
-                    valueLines.forEach { line ->
-                        canvas.drawText(line, left + 10f, localY, bodyBoldPaint)
-                        localY += bodyBoldPaint.textSize + 5f
-                    }
-                }
-
-                y += cardHeight + 12f
-            }
-
-            y += 4f
-        }
-
-        fun drawHeaderCard(
-            nom: String,
-            date: String,
-            phrase: String,
-            statut: String,
-            statutColor: Int
-        ) {
-            val top = y
-            val height = 138f
-
-            ensureSpace(height + 16f)
-
-            drawCard(
-                left = margin,
-                top = top,
-                right = pageWidth - margin,
-                bottom = top + height,
-                fillColor = colorWarmBg,
-                borderColor = colorBorder,
-                radius = 20f
-            )
-
-            val metaPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                textSize = 9.8f
-                color = colorInkSoft
-            }
-
-            val phrasePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                textSize = 11f
-                color = colorInk
-            }
-
-            canvas.drawText(date, pageWidth - margin - 105f, top + 20f, metaPaint)
-            canvas.drawText("COMPRENDRE MON CHIEN", margin + 18f, top + 22f, tinyPaint)
-            canvas.drawText(nom, margin + 18f, top + 54f, bigNamePaint)
-            canvas.drawText("Bilan comportemental", margin + 18f, top + 78f, subtitlePaint)
-
-            val badgeTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                textSize = 9.6f
-                color = Color.WHITE
-                typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            }
-
-            val badgeLabel = statut.uppercase(Locale.getDefault())
-            val badgeWidth = max(96f, badgeTextPaint.measureText(badgeLabel) + 24f)
-
-            canvas.drawRoundRect(
-                margin + 18f,
-                top + 90f,
-                margin + 18f + badgeWidth,
-                top + 112f,
-                11f,
-                11f,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = statutColor
-                    style = Paint.Style.FILL
-                }
-            )
-
-            canvas.drawText(badgeLabel, margin + 30f, top + 105f, badgeTextPaint)
-
-            val phraseLines = wrapLines(
-                phrase,
-                phrasePaint,
-                pageWidth - margin - (margin + 18f) - 24f
-            )
-
-            var phraseY = top + 128f
-            phraseLines.take(2).forEach { line ->
-                canvas.drawText(line, margin + 18f, phraseY, phrasePaint)
-                phraseY += phrasePaint.textSize + 5f
-            }
-
-            y = top + height + 18f
-        }
-
-        // ✅ generateQrCode est maintenant déclarée AVANT drawFooterQrOnly
-        fun generateQrCode(text: String, size: Int): Bitmap {
-            val bitMatrix = QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
-            val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
-
-            for (x in 0 until size) {
-                for (yy in 0 until size) {
-                    bitmap.setPixel(
-                        x,
-                        yy,
-                        if (bitMatrix[x, yy]) colorPrimary else Color.WHITE
-                    )
-                }
-            }
-
-            return bitmap
-        }
-
-        fun drawFooterQrOnly() {
-            val footerTop = pageHeight - margin - 90f
-            val footerBottom = pageHeight - margin
-            val footerLeft = margin
-            val footerRight = pageWidth - margin
-
-            canvas.drawRoundRect(
-                footerLeft,
-                footerTop,
-                footerRight,
-                footerBottom,
-                16f,
-                16f,
-                Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = colorWarmBgAlt
-                    style = Paint.Style.FILL
-                }
-            )
-
-            canvas.drawRoundRect(
-                footerLeft,
-                footerTop,
-                footerRight,
-                footerBottom,
-                16f,
-                16f,
-                cardStrokePaint
-            )
-
-            val qrSize = 64
-            val qrBitmap = generateQrCode(
-                text = "https://comprendremonchien.fr",
-                size = 300
-            )
-
-            val qrLeft = (footerRight - qrSize - 14f).toInt()
-            val qrTop = (footerTop + 13f).toInt()
-
-            canvas.drawBitmap(
-                qrBitmap,
-                null,
-                Rect(
-                    qrLeft,
-                    qrTop,
-                    qrLeft + qrSize,
-                    qrTop + qrSize
-                ),
-                null
-            )
-
-            val textX = footerLeft + 14f
-            canvas.drawText("Document généré automatiquement", textX, footerTop + 24f, smallPaint)
-            canvas.drawText("Retrouvez l'application pour suivre l'évolution", textX, footerTop + 44f, tinyPaint)
-            canvas.drawText("et refaire un bilan plus tard si besoin.", textX, footerTop + 58f, tinyPaint)
-            canvas.drawText("Accéder à l'application", textX, footerTop + 76f, footerLinkPaint)
-        }
-
-        val date = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
         val nom = nomChienAffiche(nomChien)
-        val nomFichierSafe = nom
-            .lowercase(Locale.getDefault())
+        val date = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
+        val couleurPriorite = couleurPourPriorite(analyse.prioriteAction)
+        val libellePriorite = libellePourPriorite(analyse.prioriteAction)
+
+        dessinePage1(document, nom, date, analyse, couleurPriorite, libellePriorite)
+        dessinePage2(document, nom, analyse)
+        dessinePage3(document, nom, analyse)
+        dessinePage4(document, nom, analyse, couleurPriorite)
+
+        val nomFichierSafe = nom.lowercase(Locale.getDefault())
             .replace("\\s+".toRegex(), "_")
             .replace("[^a-z0-9_]+".toRegex(), "")
 
-        val besoinTexte = besoinPrincipal(analyse.problemePrincipal)
-            .removePrefix("Besoin principal : ")
-            .removeSuffix(".")
-            .trim()
-
-        val couleurPrioriteImmediate = when (analyse.prioriteImmediate.niveau) {
-            PrioriteAction.FAIBLE -> colorSuccess
-            PrioriteAction.MODEREE -> colorWarning
-            PrioriteAction.ELEVEE -> colorError
-            PrioriteAction.URGENTE -> colorDanger
-        }
-
-        val fondPrioriteImmediate = when (analyse.prioriteImmediate.niveau) {
-            PrioriteAction.FAIBLE -> Color.parseColor("#EEF8EF")
-            PrioriteAction.MODEREE -> Color.parseColor("#FFF5E8")
-            PrioriteAction.ELEVEE -> Color.parseColor("#FDEDEC")
-            PrioriteAction.URGENTE -> Color.parseColor("#FDE7E6")
-        }
-
-        val libellePriorite = when (analyse.prioriteImmediate.niveau) {
-            PrioriteAction.FAIBLE -> "Priorité faible"
-            PrioriteAction.MODEREE -> "À surveiller"
-            PrioriteAction.ELEVEE -> "Vigilance renforcée"
-            PrioriteAction.URGENTE -> "Action rapide"
-        }
-
-        val aideAEnvisager = when {
-            analyse.aDejaMordu -> "Comportementaliste rapidement"
-            analyse.prioriteAction == PrioriteAction.URGENTE -> "Accompagnement professionnel rapidement"
-            analyse.prioriteAction == PrioriteAction.ELEVEE -> "Comportementaliste"
-            analyse.niveauSituation == NiveauSituation.SENSIBLE -> "Comportementaliste"
-            analyse.reactivite >= 70 || analyse.peur >= 70 -> "Comportementaliste"
-            analyse.impulsivite >= 70 || analyse.attachement >= 70 -> "Éducateur canin ou comportementaliste"
-            else -> "Éducateur canin si besoin"
-        }
-
-        drawHeaderCard(
-            nom = nom,
-            date = date,
-            phrase = analyse.profil.phraseHumaine,
-            statut = libellePriorite,
-            statutColor = couleurPrioriteImmediate
-        )
-
-        section("Priorité immédiate", introSpace = 0f)
-        drawPriorityBox(
-            title = analyse.prioriteImmediate.titre,
-            levelLabel = libellePriorite,
-            message = analyse.prioriteImmediate.message,
-            items = analyse.prioriteImmediate.actionsImmediates,
-            borderColor = couleurPrioriteImmediate,
-            fillColor = fondPrioriteImmediate
-        )
-
-        section("En bref")
-        drawParagraph(analyse.profil.phraseHumaine, spacing = 10f)
-
-        drawInfoGrid(
-            listOf(
-                "Axe principal" to libelleAxe(analyse.problemePrincipal),
-                "Situation" to texteNiveauSituation(analyse.niveauSituation),
-                "Besoin principal" to besoinTexte,
-                "Aide à envisager" to aideAEnvisager
-            )
-        )
-
-        section("Pourquoi ce résultat")
-        drawParagraph(
-            "Les éléments qui pèsent le plus dans cette lecture sont les suivants.",
-            8f,
-            bodyPaint
-        )
-
-        drawParagraph("Raisons principales", 4f, bodyBoldPaint)
-        bullets(analyse.explicationResultat.raisonsPrincipales)
-
-        if (analyse.explicationResultat.facteursAggravants.isNotEmpty()) {
-            drawParagraph("Ce qui peut aggraver", 4f, bodyBoldPaint)
-            bullets(analyse.explicationResultat.facteursAggravants)
-        }
-
-        if (analyse.explicationResultat.facteursProtecteurs.isNotEmpty()) {
-            drawParagraph("Ce qui protège déjà", 4f, bodyBoldPaint)
-            bullets(analyse.explicationResultat.facteursProtecteurs)
-        }
-
-        section("Hypothèse principale")
-        drawSimpleBox(
-            text = analyse.hypothesePrincipale,
-            fillColor = colorCard,
-            borderColor = colorAccent,
-            textPaint = bodyPaint
-        )
-
-        section("Lecture")
-        drawParagraph(analyse.explicationPrincipale)
-
-        section("Profil")
-        keyValue("Type de profil", analyse.profil.profilType)
-        keyValue("Score global", "${analyse.profil.scoreGlobal}/100")
-        drawParagraph(analyse.profil.resume)
-
-        y += 2f
-        keyValue(
-            "Peur",
-            "${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauPeur)} (${analyse.peur}%)"
-        )
-        keyValue(
-            "Attachement",
-            "${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauAttachement)} (${analyse.attachement}%)"
-        )
-        keyValue(
-            "Impulsivité",
-            "${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauImpulsivite)} (${analyse.impulsivite}%)"
-        )
-        keyValue(
-            "Réactivité",
-            "${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauReactivite)} (${analyse.reactivite}%)"
-        )
-
-        if (analyse.problemesImportants.isNotEmpty()) {
-            drawParagraph("Points les plus marqués", 4f, bodyBoldPaint)
-            bullets(analyse.problemesImportants.map { libelleAxe(it) })
-        }
-
-        section("Premier levier utile")
-        drawSimpleBox(
-            text = analyse.conseilPrincipal,
-            fillColor = colorWarmBgAlt,
-            borderColor = colorAccent,
-            textPaint = bodyPaint
-        )
-
-        section("Situation actuelle")
-        drawParagraph(analyse.messageSituation)
-        drawParagraph(analyse.raisonSituation)
-
-        if (analyse.aDejaMordu) {
-            drawParagraph(
-                "Il y a déjà eu morsure. Il vaut mieux ne pas banaliser la situation.",
-                6f,
-                alertPaint
-            )
-        }
-
-        analyse.messageAide
-            ?.takeIf { it.isNotBlank() && !analyse.aDejaMordu }
-            ?.let {
-                drawParagraph(it, 6f, alertPaint)
-            }
-
-        section("Plan d'action")
-        drawParagraph("À faire", 4f, bodyBoldPaint)
-        bullets(analyse.planAction.aFaire)
-
-        drawParagraph("À éviter", 4f, bodyBoldPaint)
-        bullets(analyse.planAction.aEviter)
-
-        drawParagraph("À observer", 4f, bodyBoldPaint)
-        bullets(analyse.planAction.aObserver)
-
-        if (analyse.conseilsPratiques.isNotEmpty()) {
-            section("Conseils complémentaires")
-            bullets(analyse.conseilsPratiques)
-        }
-
-        if (analyse.facteursAggravants.isNotEmpty() || analyse.facteursProtecteurs.isNotEmpty()) {
-            section("Facteurs repérés")
-
-            if (analyse.facteursAggravants.isNotEmpty()) {
-                drawParagraph("Ce qui peut aggraver", 4f, bodyBoldPaint)
-                bullets(analyse.facteursAggravants)
-            }
-
-            if (analyse.facteursProtecteurs.isNotEmpty()) {
-                drawParagraph("Ce qui protège déjà", 4f, bodyBoldPaint)
-                bullets(analyse.facteursProtecteurs)
-            }
-        }
-
-        section("Vigilance et aide")
-        drawParagraph(texteVigilance(analyse.vigilance, nom))
-        drawParagraph(
-            "Cette synthèse peut servir de base de travail à présenter à un vétérinaire, un éducateur canin ou un comportementaliste animalier."
-        )
-        drawParagraph(
-            "Ce bilan aide à repérer la situation, mais ne remplace pas un vétérinaire ni un professionnel du comportement.",
-            6f,
-            bodyPaint
-        )
-
-        section("À retenir")
-        drawSimpleBox(
-            text = """
-${nom} présente surtout un profil ${analyse.profil.profilType.lowercase(Locale.getDefault())}.
-La situation actuelle est évaluée comme ${texteNiveauSituation(analyse.niveauSituation).lowercase(Locale.getDefault())}.
-Le premier levier utile est : ${analyse.conseilPrincipal}
-            """.trimIndent(),
-            fillColor = colorWarmBg,
-            borderColor = colorAccent,
-            textPaint = bodyPaint
-        )
-
-        section("Conclusion")
-        drawParagraph(
-            "L'objectif n'est pas d'étiqueter $nom, mais d'aider à mieux lire ce qui se passe et à avancer de manière plus adaptée, plus concrète et plus rassurante."
-        )
-
-        ensureSpace(120f)
-        y += 8f
-        drawFooterQrOnly()
-
-        document.finishPage(page)
-
-        val file = File(
-            context.cacheDir,
-            "bilan_${nomFichierSafe.ifBlank { "chien" }}.pdf"
-        )
-
-        FileOutputStream(file).use {
-            document.writeTo(it)
-        }
-
+        val file = File(context.cacheDir, "bilan_${nomFichierSafe.ifBlank { "chien" }}.pdf")
+        FileOutputStream(file).use { document.writeTo(it) }
         document.close()
-
         return file
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // PAGE 1 — Couverture inspirée de la couverture du livre
+    // ════════════════════════════════════════════════════════════
+    private fun dessinePage1(
+        document: PdfDocument, nom: String, date: String,
+        analyse: ResultatAnalyse, couleurPriorite: Int, libellePriorite: String
+    ) {
+        val page = demarrerPage(document, 1)
+        val canvas = page.canvas
+        var y: Float
+
+        // ── Bandeau en-tête fond crème ───────────────────────────
+        val headerHeight = 190f
+        drawRect(canvas, 0f, 0f, PAGE_W.toFloat(), headerHeight, COLOR_WARM_BG)
+
+        // Ligne décorative top
+        drawLine(canvas, MARGIN, 26f, PAGE_W - MARGIN, 26f, COLOR_ACCENT, 0.8f)
+
+        // "Comprendre mon chien" centré en italique
+        val appTitlePaint = makePaint(11f, COLOR_INK_SOFT, italic = true)
+        val appTitle = "Comprendre mon chien"
+        val appTitleW = appTitlePaint.measureText(appTitle)
+        canvas.drawText(appTitle, (PAGE_W - appTitleW) / 2f, 44f, appTitlePaint)
+
+        // Tirets décoratives + point central (comme la couverture)
+        val centerX = PAGE_W / 2f
+        drawLine(canvas, centerX - 70f, 54f, centerX - 10f, 54f, COLOR_ACCENT, 0.8f)
+        drawLine(canvas, centerX + 10f, 54f, centerX + 70f, 54f, COLOR_ACCENT, 0.8f)
+        drawCircle(canvas, centerX, 54f, 2f, COLOR_ACCENT)
+
+        // Date en haut à droite
+        val datePaint = makePaint(9f, COLOR_INK_SOFT)
+        canvas.drawText(date, PAGE_W - MARGIN - datePaint.measureText(date), 44f, datePaint)
+
+        // ✅ Nom du chien centré — drawText direct pour éviter le bug de découpage
+        val nomPaint = makePaint(34f, COLOR_PRIMARY, bold = true)
+        val nomW = nomPaint.measureText(nom)
+        canvas.drawText(nom, (PAGE_W - nomW) / 2f, 96f, nomPaint)
+
+        // Sous-titre "Bilan comportemental" centré en italique
+        val sousTitrePaint = makePaint(12f, COLOR_INK_SOFT, italic = true)
+        val sousTitre = "Bilan comportemental"
+        val sousTitreW = sousTitrePaint.measureText(sousTitre)
+        canvas.drawText(sousTitre, (PAGE_W - sousTitreW) / 2f, 118f, sousTitrePaint)
+
+        // Ligne séparatrice élégante
+        drawLine(canvas, MARGIN + 40f, 130f, PAGE_W - MARGIN - 40f, 130f, COLOR_BORDER, 0.8f)
+
+        // ✅ Badge priorité centré — drawText direct
+        val badgeText = libellePriorite.uppercase(Locale.getDefault())
+        val badgePaint = makePaint(9f, COLOR_WHITE, bold = true)
+        val badgeTextW = badgePaint.measureText(badgeText)
+        val badgeW = max(120f, badgeTextW + 36f)
+        val badgeLeft = (PAGE_W - badgeW) / 2f
+        drawRoundRect(canvas, badgeLeft, 140f, badgeLeft + badgeW, 162f, 11f, couleurPriorite)
+        canvas.drawText(badgeText, (PAGE_W - badgeTextW) / 2f, 155f, badgePaint)
+
+        // ✅ Phrase humaine — StaticLayout centré (texte long, pas de problème)
+        val phraseH = measureStaticTextHeight(
+            analyse.profil.phraseHumaine, CONTENT_W.toInt(), makePaint(11f, COLOR_INK, italic = true)
+        )
+        drawStaticText(
+            canvas, analyse.profil.phraseHumaine,
+            MARGIN, 170f, CONTENT_W.toInt(),
+            makePaint(11f, COLOR_INK, italic = true),
+            Layout.Alignment.ALIGN_CENTER
+        )
+
+        y = headerHeight + 20f
+
+        // Ligne séparatrice
+        drawLine(canvas, MARGIN, y, PAGE_W - MARGIN, y, COLOR_BORDER, 0.5f)
+        y += 24f
+
+        // ── Grille "En un coup d'œil" ────────────────────────────
+        drawSectionTitle(canvas, y, "En un coup d\u2019\u0153il")
+        y += 48f
+
+        val gridItems = listOf(
+            "Axe principal" to libelleAxe(analyse.problemePrincipal),
+            "Situation" to texteNiveauSituation(analyse.niveauSituation),
+            "Besoin principal" to besoinPrincipal(analyse.problemePrincipal)
+                .removePrefix("Besoin principal : ").removeSuffix("."),
+            "Aide \u00e0 envisager" to aideAEnvisager(analyse)
+        )
+        y = drawInfoGrid(canvas, y, gridItems)
+        y += 20f
+
+        // ── Phrase situation ─────────────────────────────────────
+        val situationH = measureStaticTextHeight(
+            analyse.messageSituation, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK)
+        ) + 32f
+
+        if (y + situationH < CONTENT_BOTTOM) {
+            drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + situationH, COLOR_WARM_BG_ALT, COLOR_BORDER, 14f)
+            drawStaticText(canvas, analyse.messageSituation, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK))
+        }
+
+        dessineFooter(canvas, 1)
+        document.finishPage(page)
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // PAGE 2 — Profil & Analyse
+    // ════════════════════════════════════════════════════════════
+    private fun dessinePage2(document: PdfDocument, nom: String, analyse: ResultatAnalyse) {
+        val page = demarrerPage(document, 2)
+        val canvas = page.canvas
+        var y = MARGIN
+
+        drawPageHeader(canvas, "Profil de $nom")
+        y += 48f
+
+        drawSectionTitle(canvas, y, "Les 4 dimensions")
+        y += 48f
+
+        val axes = listOf(
+            Triple("Sensibilit\u00e9 / Peur", analyse.niveauPeur, analyse.peur),
+            Triple("Attachement", analyse.niveauAttachement, analyse.attachement),
+            Triple("Impulsivit\u00e9", analyse.niveauImpulsivite, analyse.impulsivite),
+            Triple("R\u00e9activit\u00e9", analyse.niveauReactivite, analyse.reactivite)
+        )
+        axes.forEach { (label, niveau, score) ->
+            y = drawAxeBar(canvas, y, label, niveau, score)
+            y += 12f
+        }
+        y += 14f
+
+        if (y < CONTENT_BOTTOM - 60f) {
+            drawSectionTitle(canvas, y, "Hypoth\u00e8se de lecture")
+            y += 48f
+
+            val hypotheseH = measureStaticTextHeight(
+                analyse.hypothesePrincipale, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK)
+            ) + 32f
+
+            if (y + hypotheseH < CONTENT_BOTTOM) {
+                drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + hypotheseH, COLOR_WHITE, COLOR_ACCENT, 14f)
+                drawStaticText(canvas, analyse.hypothesePrincipale, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK))
+                y += hypotheseH + 24f
+            }
+        }
+
+        if (y < CONTENT_BOTTOM - 60f) {
+            drawSectionTitle(canvas, y, "Ce qui se passe probablement")
+            y += 48f
+
+            val explicationH = measureStaticTextHeight(
+                analyse.explicationPrincipale, CONTENT_W.toInt(), makePaint(11f, COLOR_INK)
+            )
+            if (y + explicationH < CONTENT_BOTTOM) {
+                drawStaticText(canvas, analyse.explicationPrincipale, MARGIN, y, CONTENT_W.toInt(), makePaint(11f, COLOR_INK))
+                y += explicationH + 24f
+            }
+        }
+
+        if (y < CONTENT_BOTTOM - 60f &&
+            (analyse.facteursAggravants.isNotEmpty() || analyse.facteursProtecteurs.isNotEmpty())
+        ) {
+            drawSectionTitle(canvas, y, "Facteurs rep\u00e9r\u00e9s")
+            y += 48f
+
+            if (analyse.facteursAggravants.isNotEmpty() && y < CONTENT_BOTTOM - 30f) {
+                canvas.drawText("Ce qui peut aggraver", MARGIN, y, makePaint(11f, COLOR_PRIMARY, bold = true))
+                y += 20f
+                analyse.facteursAggravants.forEach { if (y < CONTENT_BOTTOM - 20f) y = drawBullet(canvas, y, it) }
+                y += 10f
+            }
+
+            if (analyse.facteursProtecteurs.isNotEmpty() && y < CONTENT_BOTTOM - 30f) {
+                canvas.drawText("Ce qui prot\u00e8ge d\u00e9j\u00e0", MARGIN, y, makePaint(11f, COLOR_PRIMARY, bold = true))
+                y += 20f
+                analyse.facteursProtecteurs.forEach { if (y < CONTENT_BOTTOM - 20f) y = drawBullet(canvas, y, it) }
+            }
+        }
+
+        dessineFooter(canvas, 2)
+        document.finishPage(page)
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // PAGE 3 — Plan d'action
+    // ════════════════════════════════════════════════════════════
+    private fun dessinePage3(document: PdfDocument, nom: String, analyse: ResultatAnalyse) {
+        val page = demarrerPage(document, 3)
+        val canvas = page.canvas
+        var y = MARGIN
+
+        drawPageHeader(canvas, "Plan d\u2019action pour $nom")
+        y += 48f
+
+        drawSectionTitle(canvas, y, "Premier levier utile")
+        y += 48f
+
+        val levierH = measureStaticTextHeight(
+            analyse.conseilPrincipal, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK)
+        ) + 32f
+
+        if (y + levierH < CONTENT_BOTTOM) {
+            drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + levierH, COLOR_WARM_BG_ALT, COLOR_ACCENT, 14f)
+            drawStaticText(canvas, analyse.conseilPrincipal, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK))
+            y += levierH + 24f
+        }
+
+        if (y < CONTENT_BOTTOM - 60f) {
+            drawSectionTitle(canvas, y, "Les prochains jours")
+            y += 48f
+
+            if (y < CONTENT_BOTTOM - 20f) {
+                canvas.drawText("\u00c0 faire", MARGIN, y, makePaint(11f, COLOR_PRIMARY, bold = true))
+                y += 20f
+                analyse.planAction.aFaire.forEach { if (y < CONTENT_BOTTOM - 20f) y = drawBullet(canvas, y, it) }
+                y += 12f
+            }
+
+            if (y < CONTENT_BOTTOM - 20f) {
+                canvas.drawText("\u00c0 \u00e9viter", MARGIN, y, makePaint(11f, COLOR_PRIMARY, bold = true))
+                y += 20f
+                analyse.planAction.aEviter.forEach { if (y < CONTENT_BOTTOM - 20f) y = drawBullet(canvas, y, it) }
+                y += 12f
+            }
+
+            if (y < CONTENT_BOTTOM - 20f) {
+                canvas.drawText("\u00c0 observer", MARGIN, y, makePaint(11f, COLOR_PRIMARY, bold = true))
+                y += 20f
+                analyse.planAction.aObserver.forEach { if (y < CONTENT_BOTTOM - 20f) y = drawBullet(canvas, y, it) }
+                y += 18f
+            }
+        }
+
+        if (analyse.conseilsPratiques.isNotEmpty() && y < CONTENT_BOTTOM - 60f) {
+            drawSectionTitle(canvas, y, "Conseils compl\u00e9mentaires")
+            y += 48f
+            analyse.conseilsPratiques.forEach { if (y < CONTENT_BOTTOM - 20f) y = drawBullet(canvas, y, it) }
+            y += 12f
+        }
+
+        // ✅ Alerte morsure en rouge-orangé
+        if (analyse.aDejaMordu && y < CONTENT_BOTTOM - 40f) {
+            val morsuText = "Il y a d\u00e9j\u00e0 eu morsure. Il vaut mieux ne pas banaliser la situation et se faire accompagner par un professionnel du comportement."
+            val morsuH = measureStaticTextHeight(morsuText, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_PRIORITE_URGENTE, bold = true)) + 32f
+            if (y + morsuH < CONTENT_BOTTOM) {
+                drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + morsuH, COLOR_PRIORITE_URGENTE_BG, COLOR_PRIORITE_URGENTE, 14f)
+                drawStaticText(canvas, morsuText, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_PRIORITE_URGENTE, bold = true))
+                y += morsuH + 10f
+            }
+        }
+
+        // Message aide si pas de morsure
+        val messageAide = analyse.messageAide
+        if (!messageAide.isNullOrBlank() && !analyse.aDejaMordu && y < CONTENT_BOTTOM - 40f) {
+            val alertH = measureStaticTextHeight(messageAide, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_PRIORITE_ELEVEE, bold = true)) + 32f
+            if (y + alertH < CONTENT_BOTTOM) {
+                drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + alertH, COLOR_PRIORITE_ELEVEE_BG, COLOR_PRIORITE_ELEVEE, 14f)
+                drawStaticText(canvas, messageAide, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_PRIORITE_ELEVEE, bold = true))
+            }
+        }
+
+        dessineFooter(canvas, 3)
+        document.finishPage(page)
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // PAGE 4 — À retenir
+    // ════════════════════════════════════════════════════════════
+    private fun dessinePage4(
+        document: PdfDocument, nom: String,
+        analyse: ResultatAnalyse, couleurPriorite: Int
+    ) {
+        val page = demarrerPage(document, 4)
+        val canvas = page.canvas
+        var y = MARGIN
+
+        drawPageHeader(canvas, "\u00c0 retenir")
+        y += 48f
+
+        val recapText = buildString {
+            append("$nom pr\u00e9sente surtout un profil ${analyse.profil.profilType.lowercase(Locale.getDefault())}.\n\n")
+            append("Situation\u00a0: ${texteNiveauSituation(analyse.niveauSituation).lowercase(Locale.getDefault())}.\n\n")
+            append("Axe principal\u00a0: ${libelleAxe(analyse.problemePrincipal).lowercase(Locale.getDefault())}.\n\n")
+            append(besoinPrincipal(analyse.problemePrincipal))
+        }
+
+        val recapH = measureStaticTextHeight(
+            recapText, (CONTENT_W - 48f).toInt(), makePaint(12f, COLOR_INK)
+        ) + 48f
+
+        drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + recapH, COLOR_WARM_BG, COLOR_BORDER, 16f)
+        drawRoundRect(canvas, MARGIN, y, MARGIN + 5f, y + recapH, 16f, couleurPriorite)
+        drawStaticText(canvas, recapText, MARGIN + 24f, y + 24f, (CONTENT_W - 48f).toInt(), makePaint(12f, COLOR_INK))
+        y += recapH + 32f
+
+        if (y < CONTENT_BOTTOM - 60f) {
+            drawSectionTitle(canvas, y, "Conclusion")
+            y += 48f
+
+            val conclusion = "L\u2019objectif n\u2019est pas d\u2019\u00e9tiqueter $nom, mais d\u2019aider \u00e0 mieux lire ce qui se passe et \u00e0 avancer de mani\u00e8re plus adapt\u00e9e, plus concr\u00e8te et plus rassurante."
+            val conclusionH = measureStaticTextHeight(conclusion, CONTENT_W.toInt(), makePaint(11f, COLOR_INK))
+            if (y + conclusionH < CONTENT_BOTTOM) {
+                drawStaticText(canvas, conclusion, MARGIN, y, CONTENT_W.toInt(), makePaint(11f, COLOR_INK))
+                y += conclusionH + 32f
+            }
+        }
+
+        if (y < CONTENT_BOTTOM - 40f) {
+            drawLine(canvas, MARGIN, y, PAGE_W - MARGIN, y, COLOR_BORDER, 0.5f)
+            y += 16f
+            val disclaimer = "Ce bilan est indicatif. Il ne remplace pas l\u2019avis d\u2019un v\u00e9t\u00e9rinaire ni d\u2019un professionnel du comportement animal. Il peut servir de base de discussion lors d\u2019une consultation."
+            val disclaimerH = measureStaticTextHeight(disclaimer, CONTENT_W.toInt(), makePaint(9.5f, COLOR_INK_SOFT))
+            if (y + disclaimerH < CONTENT_BOTTOM) {
+                drawStaticText(canvas, disclaimer, MARGIN, y, CONTENT_W.toInt(), makePaint(9.5f, COLOR_INK_SOFT))
+            }
+        }
+
+        // ✅ Footer QR ancré en bas de page — position fixe
+        dessineFooterAvecQr(canvas)
+        document.finishPage(page)
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // HELPERS — Dessin
+    // ════════════════════════════════════════════════════════════
+
+    private fun demarrerPage(document: PdfDocument, num: Int): PdfDocument.Page {
+        val info = PdfDocument.PageInfo.Builder(PAGE_W, PAGE_H, num).create()
+        val page = document.startPage(info)
+        page.canvas.drawColor(COLOR_WHITE)
+        return page
+    }
+
+    private fun drawPageHeader(canvas: Canvas, title: String) {
+        drawRect(canvas, 0f, 0f, PAGE_W.toFloat(), MARGIN + 28f, COLOR_WARM_BG)
+        drawLine(canvas, 0f, MARGIN + 28f, PAGE_W.toFloat(), MARGIN + 28f, COLOR_BORDER, 0.5f)
+        // ✅ StaticLayout pour titre avec accents
+        drawStaticText(canvas, title, MARGIN, MARGIN + 6f, (CONTENT_W / 2).toInt(), makePaint(9f, COLOR_INK_SOFT, bold = true))
+        val appLabel = "Comprendre mon chien"
+        val appLabelPaint = makePaint(9f, COLOR_INK_SOFT, italic = true)
+        canvas.drawText(appLabel, PAGE_W - MARGIN - appLabelPaint.measureText(appLabel), MARGIN + 18f, appLabelPaint)
+    }
+
+    private fun drawSectionTitle(canvas: Canvas, y: Float, title: String) {
+        // ✅ StaticLayout pour accents
+        drawStaticText(canvas, title, MARGIN, y, CONTENT_W.toInt(), makePaint(13f, COLOR_PRIMARY, bold = true))
+        drawLine(canvas, MARGIN, y + 22f, PAGE_W - MARGIN, y + 22f, COLOR_BORDER, 0.6f)
+    }
+
+    private fun drawAxeBar(canvas: Canvas, y: Float, label: String, niveau: NiveauAxe, score: Int): Float {
+        val libelleNiveau = QuestionnaireEngine.libelleNiveauAxe(niveau)
+        val fillRatio = (score / 100f).coerceIn(0f, 1f)
+        val barH = 7f
+
+        // ✅ StaticLayout pour label avec accents
+        drawStaticText(canvas, label, MARGIN, y, (CONTENT_W * 0.6f).toInt(), makePaint(10.5f, COLOR_INK))
+        val niveauPaint = makePaint(10.5f, COLOR_PRIMARY_SOFT, bold = true)
+        canvas.drawText(libelleNiveau, PAGE_W - MARGIN - niveauPaint.measureText(libelleNiveau), y + 13f, niveauPaint)
+
+        val barY = y + 18f
+        canvas.drawRoundRect(RectF(MARGIN, barY, MARGIN + CONTENT_W, barY + barH), barH / 2, barH / 2,
+            Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#EDE3DB"); style = Paint.Style.FILL })
+        if (fillRatio > 0f) {
+            canvas.drawRoundRect(RectF(MARGIN, barY, MARGIN + CONTENT_W * fillRatio, barY + barH), barH / 2, barH / 2,
+                Paint(Paint.ANTI_ALIAS_FLAG).apply { color = COLOR_PRIMARY_SOFT; style = Paint.Style.FILL })
+        }
+        return y + 34f
+    }
+
+    private fun drawBullet(canvas: Canvas, y: Float, text: String): Float {
+        val textX = MARGIN + 18f
+        val paint = makePaint(10.5f, COLOR_INK)
+        canvas.drawCircle(MARGIN + 6f, y - 2f, 2.5f,
+            Paint(Paint.ANTI_ALIAS_FLAG).apply { color = COLOR_PRIMARY_SOFT; style = Paint.Style.FILL })
+        val sl = makeStaticLayout(text, (CONTENT_W - 18f).toInt(), paint)
+        canvas.save()
+        canvas.translate(textX, y - paint.textSize * 1.33f)
+        sl.draw(canvas)
+        canvas.restore()
+        return y + sl.height + 5f
+    }
+
+    private fun drawInfoGrid(canvas: Canvas, startY: Float, items: List<Pair<String, String>>): Float {
+        val colGap = 12f
+        val cardW = (CONTENT_W - colGap) / 2f
+        var y = startY
+
+        items.chunked(2).forEach { row ->
+            val cardH = 64f
+            row.forEachIndexed { index, (label, value) ->
+                val left = MARGIN + index * (cardW + colGap)
+                drawCard(canvas, left, y, left + cardW, y + cardH, COLOR_WARM_BG, COLOR_BORDER, 12f)
+                // ✅ StaticLayout pour label avec accents
+                drawStaticText(canvas, label.uppercase(Locale.getDefault()), left + 12f, y + 4f, (cardW - 24f).toInt(), makePaint(8f, COLOR_INK_SOFT, bold = true))
+                val valueLayout = makeStaticLayout(value, (cardW - 24f).toInt(), makePaint(11f, COLOR_PRIMARY, bold = true))
+                canvas.save()
+                canvas.translate(left + 12f, y + 28f)
+                valueLayout.draw(canvas)
+                canvas.restore()
+            }
+            y += cardH + 10f
+        }
+        return y
+    }
+
+    private fun dessineFooter(canvas: Canvas, pageNum: Int) {
+        val footerY = PAGE_H - MARGIN - 14f
+        drawLine(canvas, MARGIN, footerY - 10f, PAGE_W - MARGIN, footerY - 10f, COLOR_BORDER, 0.5f)
+        canvas.drawText("Comprendre mon chien  \u2022  Bilan comportemental indicatif", MARGIN, footerY, makePaint(8f, COLOR_INK_SOFT))
+        val pageLabel = "Page $pageNum / 4"
+        val pagePaint = makePaint(8f, COLOR_INK_SOFT)
+        canvas.drawText(pageLabel, PAGE_W - MARGIN - pagePaint.measureText(pageLabel), footerY, pagePaint)
+    }
+
+    // ✅ Footer QR en position fixe en bas
+    private fun dessineFooterAvecQr(canvas: Canvas) {
+        val footerTop = PAGE_H - MARGIN - 90f
+        drawCard(canvas, MARGIN, footerTop, PAGE_W - MARGIN, PAGE_H - MARGIN + 2f, COLOR_WARM_BG, COLOR_BORDER, 14f)
+
+        val qrSize = 62
+        val qrBitmap = generateQrCode("https://comprendremonchien.fr", 300)
+        val qrLeft = (PAGE_W - MARGIN - qrSize - 14f).toInt()
+        val qrTop = (footerTop + 14f).toInt()
+        canvas.drawBitmap(qrBitmap, null, Rect(qrLeft, qrTop, qrLeft + qrSize, qrTop + qrSize), null)
+
+        val tx = MARGIN + 14f
+        canvas.drawText("Document g\u00e9n\u00e9r\u00e9 automatiquement", tx, footerTop + 22f, makePaint(9f, COLOR_INK_SOFT))
+        canvas.drawText("Retrouvez l\u2019application pour suivre l\u2019\u00e9volution de votre chien.", tx, footerTop + 40f, makePaint(8.5f, COLOR_INK_SOFT))
+        canvas.drawText("Acc\u00e9der \u00e0 l\u2019application \u2014 comprendremonchien.fr", tx, footerTop + 60f, makePaint(9.5f, COLOR_PRIMARY, bold = true))
+
+        val pageLabel = "Page 4 / 4"
+        val pagePaint = makePaint(8f, COLOR_INK_SOFT)
+        canvas.drawText(pageLabel, PAGE_W - MARGIN - pagePaint.measureText(pageLabel), PAGE_H - MARGIN - 4f, pagePaint)
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // HELPERS — StaticLayout
+    // ════════════════════════════════════════════════════════════
+
+    private fun drawStaticText(
+        canvas: Canvas, text: String, x: Float, y: Float,
+        maxWidth: Int, paint: Paint,
+        alignment: Layout.Alignment = Layout.Alignment.ALIGN_NORMAL
+    ) {
+        val tp = if (paint is TextPaint) paint else TextPaint(paint)
+        val sl = makeStaticLayout(text, maxWidth, tp, alignment)
+        canvas.save()
+        canvas.translate(x, y)
+        sl.draw(canvas)
+        canvas.restore()
+    }
+
+    private fun measureStaticTextHeight(text: String, maxWidth: Int, paint: Paint): Float {
+        val tp = if (paint is TextPaint) paint else TextPaint(paint)
+        return makeStaticLayout(text, maxWidth, tp).height.toFloat()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun makeStaticLayout(
+        text: String, maxWidth: Int, paint: Paint,
+        alignment: Layout.Alignment = Layout.Alignment.ALIGN_NORMAL
+    ): StaticLayout {
+        val tp = if (paint is TextPaint) paint else TextPaint(paint)
+        return StaticLayout(text, tp, maxWidth.coerceAtLeast(1), alignment, 1.3f, 0f, false)
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // HELPERS — Formes
+    // ════════════════════════════════════════════════════════════
+
+    private fun drawCard(canvas: Canvas, left: Float, top: Float, right: Float, bottom: Float, fillColor: Int, borderColor: Int, radius: Float) {
+        val rect = RectF(left, top, right, bottom)
+        canvas.drawRoundRect(rect, radius, radius, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = fillColor; style = Paint.Style.FILL })
+        canvas.drawRoundRect(rect, radius, radius, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = borderColor; style = Paint.Style.STROKE; strokeWidth = 1f })
+    }
+
+    private fun drawRoundRect(canvas: Canvas, left: Float, top: Float, right: Float, bottom: Float, radius: Float, color: Int) {
+        canvas.drawRoundRect(RectF(left, top, right, bottom), radius, radius, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color; style = Paint.Style.FILL })
+    }
+
+    private fun drawRect(canvas: Canvas, left: Float, top: Float, right: Float, bottom: Float, color: Int) {
+        canvas.drawRect(left, top, right, bottom, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color; style = Paint.Style.FILL })
+    }
+
+    private fun drawLine(canvas: Canvas, x1: Float, y1: Float, x2: Float, y2: Float, color: Int, width: Float) {
+        canvas.drawLine(x1, y1, x2, y2, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color; strokeWidth = width })
+    }
+
+    private fun drawCircle(canvas: Canvas, cx: Float, cy: Float, r: Float, color: Int) {
+        canvas.drawCircle(cx, cy, r, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color; style = Paint.Style.FILL })
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // HELPERS — Paint
+    // ════════════════════════════════════════════════════════════
+
+    private fun makePaint(size: Float, color: Int, bold: Boolean = false, italic: Boolean = false): TextPaint {
+        return TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+            textSize = size * 1.33f
+            this.color = color
+            typeface = when {
+                bold && italic -> Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
+                bold -> Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+                italic -> Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
+                else -> Typeface.DEFAULT
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // HELPERS — Priorité
+    // ════════════════════════════════════════════════════════════
+
+    private fun couleurPourPriorite(p: PrioriteAction) = when (p) {
+        PrioriteAction.FAIBLE -> COLOR_PRIORITE_FAIBLE
+        PrioriteAction.MODEREE -> COLOR_PRIORITE_MODEREE
+        PrioriteAction.ELEVEE -> COLOR_PRIORITE_ELEVEE
+        PrioriteAction.URGENTE -> COLOR_PRIORITE_URGENTE
+    }
+
+    private fun libellePourPriorite(p: PrioriteAction) = when (p) {
+        PrioriteAction.FAIBLE -> "Priorit\u00e9 faible"
+        PrioriteAction.MODEREE -> "\u00c0 surveiller"
+        PrioriteAction.ELEVEE -> "Vigilance renforc\u00e9e"
+        PrioriteAction.URGENTE -> "Action rapide"
+    }
+
+    private fun aideAEnvisager(analyse: ResultatAnalyse) = when {
+        analyse.aDejaMordu -> "Comportementaliste rapidement"
+        analyse.prioriteAction == PrioriteAction.URGENTE -> "Professionnel rapidement"
+        analyse.prioriteAction == PrioriteAction.ELEVEE -> "Comportementaliste"
+        analyse.niveauSituation == NiveauSituation.SENSIBLE -> "Comportementaliste"
+        analyse.reactivite >= 70 || analyse.peur >= 70 -> "Comportementaliste"
+        analyse.impulsivite >= 70 || analyse.attachement >= 70 -> "\u00c9ducateur canin"
+        else -> "\u00c9ducateur canin si besoin"
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // QR Code
+    // ════════════════════════════════════════════════════════════
+
+    private fun generateQrCode(text: String, size: Int): Bitmap {
+        val bitMatrix = QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
+        for (x in 0 until size) {
+            for (y in 0 until size) {
+                bitmap.setPixel(x, y, if (bitMatrix[x, y]) COLOR_PRIMARY else COLOR_WHITE)
+            }
+        }
+        return bitmap
     }
 }

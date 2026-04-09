@@ -91,14 +91,14 @@ object QuestionnaireEngine {
         return when {
             first == Axe.PEUR && second == Axe.REACTIVITE -> "Explorateur sensible"
             first == Axe.ATTACHEMENT && second == Axe.PEUR -> "Cœur collé-serré"
-            first == Axe.ATTACHEMENT && second == Axe.REACTIVITE -> "Gardien fusionnel"
-            first == Axe.IMPULSIVITE && second == Axe.REACTIVITE -> "Éclair expressif"
-            first == Axe.IMPULSIVITE && second == Axe.PEUR -> "Vif sous tension"
-            first == Axe.REACTIVITE -> "Sentinelle expressive"
+            first == Axe.ATTACHEMENT && second == Axe.REACTIVITE -> "Très attaché"
+            first == Axe.IMPULSIVITE && second == Axe.REACTIVITE -> "Débordant d'énergie"
+            first == Axe.IMPULSIVITE && second == Axe.PEUR -> "Vif et sensible"
+            first == Axe.REACTIVITE -> "Chien très réactif"
             first == Axe.PEUR -> "Émotif vigilant"
-            first == Axe.ATTACHEMENT -> "Ultra attachant"
+            first == Axe.ATTACHEMENT -> "Fusionnel"
             first == Axe.IMPULSIVITE -> "Moteur sensible"
-            else -> "Profil nuancé"
+            else -> "Profil équilibré"
         }
     }
 
@@ -120,7 +120,7 @@ object QuestionnaireEngine {
             maxAxe <= 60 ->
                 "$nom présente quelques points de fragilité, sans que cela ne prenne toute la place."
             else ->
-                "$nom semble actuellement en difficulté dans certaines situations. Cette lecture reste indicative et gagnerait à être confrontée à l’observation réelle de son quotidien."
+                "$nom semble actuellement en difficulté dans certaines situations. Cette lecture reste indicative et gagnerait à être confrontée à l'observation réelle de son quotidien."
         }
     }
 
@@ -138,7 +138,7 @@ object QuestionnaireEngine {
             peur <= 30 && attachement <= 30 && impulsivite <= 30 && reactivite <= 30 ->
                 ProfilGlobal(
                     titre = "Profil globalement équilibré",
-                    resume = "Les réponses suggèrent un fonctionnement plutôt stable dans l’ensemble.",
+                    resume = "Les réponses suggèrent un fonctionnement plutôt stable dans l'ensemble.",
                     profilType = profilType,
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
@@ -183,7 +183,7 @@ object QuestionnaireEngine {
             impulsivite >= 60 && peur >= 60 ->
                 ProfilGlobal(
                     titre = "Sensibilité avec régulation difficile",
-                    resume = "Le fonctionnement évoque à la fois une sensibilité émotionnelle et une difficulté à retrouver rapidement l’équilibre.",
+                    resume = "Le fonctionnement évoque à la fois une sensibilité émotionnelle et une difficulté à retrouver rapidement l'équilibre.",
                     profilType = profilType,
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
@@ -192,7 +192,7 @@ object QuestionnaireEngine {
             reactivite >= 60 ->
                 ProfilGlobal(
                     titre = "Réactivité plus marquée",
-                    resume = "Le profil suggère une tendance à réagir fortement à certains éléments de l’environnement.",
+                    resume = "Le profil suggère une tendance à réagir fortement à certains éléments de l'environnement.",
                     profilType = profilType,
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
@@ -210,7 +210,7 @@ object QuestionnaireEngine {
             impulsivite >= 60 ->
                 ProfilGlobal(
                     titre = "Régulation plus difficile",
-                    resume = "Le profil évoque une difficulté dans la gestion de l’excitation et des retours au calme.",
+                    resume = "Le profil évoque une difficulté dans la gestion de l'excitation et des retours au calme.",
                     profilType = profilType,
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
@@ -228,7 +228,7 @@ object QuestionnaireEngine {
             else ->
                 ProfilGlobal(
                     titre = "Profil à nuancer",
-                    resume = "Les réponses font apparaître quelques points de vigilance, sans qu’un aspect ne domine clairement.",
+                    resume = "Les réponses font apparaître quelques points de vigilance, sans qu'un aspect ne domine clairement.",
                     profilType = profilType,
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
@@ -238,58 +238,26 @@ object QuestionnaireEngine {
 
     fun calculerContexte(reponsesChoix: Map<String, Int>): ContexteAnalyse {
         val temporalite = when (reponsesChoix["duree_probleme"]) {
-            0 -> 2
-            1 -> 1
-            2 -> 0
-            3 -> 0
-            else -> 0
+            0 -> 2; 1 -> 1; 2 -> 0; 3 -> 0; else -> 0
         }
-
         val evolution = when (reponsesChoix["evolution_probleme"]) {
-            0 -> 0
-            1 -> 1
-            2 -> 3
-            else -> 0
+            0 -> 0; 1 -> 1; 2 -> 3; else -> 0
         }
-
         val frequence = when (reponsesChoix["frequence_probleme"]) {
-            0 -> 0
-            1 -> 1
-            2 -> 2
-            3 -> 3
-            else -> 0
+            0 -> 0; 1 -> 1; 2 -> 2; 3 -> 3; else -> 0
         }
-
         val intensite = when (reponsesChoix["intensite_probleme"]) {
-            0 -> 0
-            1 -> 1
-            2 -> 3
-            3 -> 4
-            else -> 0
+            0 -> 0; 1 -> 1; 2 -> 3; 3 -> 4; else -> 0
         }
-
         val generalisation = when (reponsesChoix["generalisation_probleme"]) {
-            0 -> 0
-            1 -> 1
-            2 -> 2
-            else -> 0
+            0 -> 0; 1 -> 1; 2 -> 2; else -> 0
         }
-
         val changement = when (reponsesChoix["changement_recent"]) {
-            0 -> 0
-            1 -> 1
-            2 -> 3
-            else -> 0
+            0 -> 0; 1 -> 1; 2 -> 3; else -> 0
         }
-
         val physique = when (reponsesChoix["signe_physique"]) {
-            0 -> 0
-            1 -> 2
-            2 -> 4
-            3 -> 4
-            else -> 0
+            0 -> 0; 1 -> 2; 2 -> 4; 3 -> 4; else -> 0
         }
-
         val scoreContexte = temporalite + evolution + frequence + intensite + generalisation + changement + physique
 
         return ContexteAnalyse(
@@ -322,6 +290,7 @@ object QuestionnaireEngine {
         }
         val apparitionBrutale = reponsesChoix["apparition"] == 1
         val scoreMax = maxOf(peur, attachement, impulsivite, reactivite)
+        val maleEntier = reponsesChoix["sterilise"] == 1
 
         return when {
             critiqueDetecte -> NiveauVigilance.ELEVEE
@@ -331,6 +300,7 @@ object QuestionnaireEngine {
             nbAlertesForteReponse >= 2 -> NiveauVigilance.MODEREE
             scoreMax >= 70 -> NiveauVigilance.MODEREE
             contexte.scoreContexte >= 6 -> NiveauVigilance.MODEREE
+            maleEntier && reactivite >= 50 -> NiveauVigilance.MODEREE
             else -> NiveauVigilance.FAIBLE
         }
     }
@@ -361,51 +331,25 @@ object QuestionnaireEngine {
         }
     }
 
-    fun genererMessageSituation(
-        niveauSituation: NiveauSituation,
-        nomChien: String
-    ): String {
+    fun genererMessageSituation(niveauSituation: NiveauSituation, nomChien: String): String {
         val nom = nomChienAffiche(nomChien)
         return when (niveauSituation) {
-            NiveauSituation.STABLE ->
-                "À ce stade, la situation semble plutôt stable pour $nom."
-            NiveauSituation.A_TRAVAILLER ->
-                "La situation mérite probablement d’être travaillée de manière progressive pour $nom afin d’éviter qu’elle ne prenne davantage de place."
-            NiveauSituation.SENSIBLE ->
-                "La situation paraît plus sensible pour $nom et justifie une attention particulière."
+            NiveauSituation.STABLE -> "À ce stade, la situation semble plutôt stable pour $nom."
+            NiveauSituation.A_TRAVAILLER -> "La situation mérite probablement d'être travaillée de manière progressive pour $nom afin d'éviter qu'elle ne prenne davantage de place."
+            NiveauSituation.SENSIBLE -> "La situation paraît plus sensible pour $nom et justifie une attention particulière."
         }
     }
 
-    fun genererRaisonSituation(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse
-    ): String {
+    fun genererRaisonSituation(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse): String {
         val raisons = mutableListOf<String>()
-
-        if (reponsesChoix["duree_probleme"] == 0) {
-            raisons += "Le caractère très récent du comportement invite à une vigilance particulière."
-        }
-        if (reponsesChoix["evolution_probleme"] == 2) {
-            raisons += "Le fait que cela semble s’aggraver peut indiquer que le problème prend plus de place."
-        }
-        if (reponsesChoix["frequence_probleme"] == 2 || reponsesChoix["frequence_probleme"] == 3) {
-            raisons += "La fréquence rapportée suggère un comportement qui revient régulièrement."
-        }
-        if (reponsesChoix["intensite_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) {
-            raisons += "L’intensité décrite fait penser à une difficulté réelle lorsqu’elle apparaît."
-        }
-        if (reponsesChoix["generalisation_probleme"] == 2) {
-            raisons += "Le fait que cela déborde dans de nombreuses situations suggère un impact plus large sur le quotidien."
-        }
-        if (reponsesChoix["changement_recent"] == 2) {
-            raisons += "Un changement important récent peut avoir fragilisé l’équilibre habituel."
-        }
-        if (contexte.physique >= 4) {
-            raisons += "Des signes physiques ou une gêne possible invitent à la prudence."
-        }
-
-        return raisons.firstOrNull()
-            ?: "L’ensemble des réponses invite surtout à avancer progressivement et à remettre les comportements dans leur contexte réel."
+        if (reponsesChoix["duree_probleme"] == 0) raisons += "Le caractère très récent du comportement invite à une vigilance particulière."
+        if (reponsesChoix["evolution_probleme"] == 2) raisons += "Le fait que cela semble s'aggraver peut indiquer que le problème prend plus de place."
+        if (reponsesChoix["frequence_probleme"] == 2 || reponsesChoix["frequence_probleme"] == 3) raisons += "La fréquence rapportée suggère un comportement qui revient régulièrement."
+        if (reponsesChoix["intensite_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) raisons += "L'intensité décrite fait penser à une difficulté réelle lorsqu'elle apparaît."
+        if (reponsesChoix["generalisation_probleme"] == 2) raisons += "Le fait que cela déborde dans de nombreuses situations suggère un impact plus large sur le quotidien."
+        if (reponsesChoix["changement_recent"] == 2) raisons += "Un changement important récent peut avoir fragilisé l'équilibre habituel."
+        if (contexte.physique >= 4) raisons += "Des signes physiques ou une gêne possible invitent à la prudence."
+        return raisons.firstOrNull() ?: "L'ensemble des réponses invite surtout à avancer progressivement et à remettre les comportements dans leur contexte réel."
     }
 
     fun genererConseilsPratiquesPersonnalises(
@@ -417,33 +361,17 @@ object QuestionnaireEngine {
         reactivite: Int
     ): List<String> {
         val scoreMax = maxOf(peur, attachement, impulsivite, reactivite)
+        if (scoreMax == 0) return listOf("Continuer l'observation du quotidien et maintenir les repères déjà en place.")
 
-        if (scoreMax == 0) {
-            return listOf(
-                "Continuer l’observation du quotidien et maintenir les repères déjà en place."
-            )
-        }
-
-        val scores = listOf(
-            Axe.PEUR to peur,
-            Axe.ATTACHEMENT to attachement,
-            Axe.IMPULSIVITE to impulsivite,
-            Axe.REACTIVITE to reactivite
-        )
-
-        val axesDominants = scores
-            .filter { it.second == scoreMax }
-            .map { it.first }
-
+        val scores = listOf(Axe.PEUR to peur, Axe.ATTACHEMENT to attachement, Axe.IMPULSIVITE to impulsivite, Axe.REACTIVITE to reactivite)
+        val axesDominants = scores.filter { it.second == scoreMax }.map { it.first }
         val axePrincipal = when {
             Axe.REACTIVITE in axesDominants -> Axe.REACTIVITE
             Axe.IMPULSIVITE in axesDominants -> Axe.IMPULSIVITE
             Axe.PEUR in axesDominants -> Axe.PEUR
             else -> Axe.ATTACHEMENT
         }
-
         val axesSecondaires = axesDominants.filter { it != axePrincipal }
-
         val conseils = mutableListOf<String>()
 
         if (axesDominants.size > 1) {
@@ -451,11 +379,11 @@ object QuestionnaireEngine {
                 when (it) {
                     Axe.PEUR -> "la sensibilité émotionnelle"
                     Axe.ATTACHEMENT -> "le besoin de proximité"
-                    Axe.IMPULSIVITE -> "la régulation de l’excitation"
-                    Axe.REACTIVITE -> "la réactivité à l’environnement"
+                    Axe.IMPULSIVITE -> "la régulation de l'excitation"
+                    Axe.REACTIVITE -> "la réactivité à l'environnement"
                 }
             }
-            conseils += "Plusieurs dimensions semblent ressortir conjointement : $texteAxes. Une approche progressive, un axe après l’autre, paraît préférable."
+            conseils += "Plusieurs dimensions semblent ressortir conjointement : $texteAxes. Une approche progressive, un axe après l'autre, paraît préférable."
         }
 
         axesSecondaires.forEach { axe ->
@@ -467,15 +395,17 @@ object QuestionnaireEngine {
             }
         }
 
+        if (reponsesChoix["sterilise"] == 1 && reactivite >= 50) {
+            conseils += "Chez un mâle entier, la réactivité peut être amplifiée par les hormones. Un avis vétérinaire sur la stérilisation peut valoir la peine d'être discuté."
+        }
+        if (reponsesChoix["sterilise"] == 2 && (peur >= 50 || impulsivite >= 50)) {
+            conseils += "Chez une femelle entière, certains comportements peuvent varier selon le cycle. Observer si les comportements s'intensifient à certaines périodes peut donner des repères utiles."
+        }
+
         return conseils.distinct().take(4)
     }
 
-    fun determinerProblemesImportants(
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int
-    ): List<Axe> {
+    fun determinerProblemesImportants(peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): List<Axe> {
         val seuil = 70
         val resultats = mutableListOf<Axe>()
         if (peur >= seuil) resultats.add(Axe.PEUR)
@@ -485,67 +415,29 @@ object QuestionnaireEngine {
         return resultats
     }
 
-    fun explicationProbleme(
-        axe: Axe,
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int
-    ): String {
+    fun explicationProbleme(axe: Axe, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): String {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
-
-        if (maxAxe <= 30) {
-            return "Les éléments recueillis ne mettent pas en évidence de difficulté comportementale marquée à ce stade.\n\nLe fonctionnement observé semble globalement adapté, sous réserve du contexte réel de vie."
-        }
-
+        if (maxAxe <= 30) return "Les éléments recueillis ne mettent pas en évidence de difficulté comportementale marquée à ce stade.\n\nLe fonctionnement observé semble globalement adapté, sous réserve du contexte réel de vie."
         return when (axe) {
-            Axe.PEUR ->
-                "Les réactions observées semblent s’inscrire dans une sensibilité émotionnelle relativement élevée.\n\nDans ce type de fonctionnement, certains stimuli ou changements peuvent être perçus comme plus intenses ou difficiles à gérer.\n\nLes comportements associés peuvent alors correspondre à des tentatives d’adaptation face à un inconfort."
-
-            Axe.ATTACHEMENT ->
-                "Les éléments recueillis suggèrent un besoin de proximité relativement important.\n\nDans ce type de fonctionnement, l’autonomie émotionnelle peut être encore fragile, ce qui peut rendre certaines séparations ou absences plus difficiles à vivre."
-
-            Axe.IMPULSIVITE ->
-                "Les réponses évoquent une difficulté possible dans la régulation de l’excitation.\n\nIl ne s’agit généralement pas d’un manque de volonté, mais plutôt d’un seuil de montée émotionnelle rapidement atteint, avec un retour au calme plus lent."
-
-            Axe.REACTIVITE ->
-                "Les éléments recueillis suggèrent une réactivité marquée face à certains stimuli.\n\nCe type de réponse peut apparaître lorsque le chien se sent en tension, incertain ou dépassé dans certaines situations."
+            Axe.PEUR -> "Les réactions observées semblent s'inscrire dans une sensibilité émotionnelle relativement élevée.\n\nDans ce type de fonctionnement, certains stimuli ou changements peuvent être perçus comme plus intenses ou difficiles à gérer.\n\nLes comportements associés peuvent alors correspondre à des tentatives d'adaptation face à un inconfort."
+            Axe.ATTACHEMENT -> "Les éléments recueillis suggèrent un besoin de proximité relativement important.\n\nDans ce type de fonctionnement, l'autonomie émotionnelle peut être encore fragile, ce qui peut rendre certaines séparations ou absences plus difficiles à vivre."
+            Axe.IMPULSIVITE -> "Les réponses évoquent une difficulté possible dans la régulation de l'excitation.\n\nIl ne s'agit généralement pas d'un manque de volonté, mais plutôt d'un seuil de montée émotionnelle rapidement atteint, avec un retour au calme plus lent."
+            Axe.REACTIVITE -> "Les éléments recueillis suggèrent une réactivité marquée face à certains stimuli.\n\nCe type de réponse peut apparaître lorsque le chien se sent en tension, incertain ou dépassé dans certaines situations."
         }
     }
 
-    fun conseilPrincipal(
-        axe: Axe,
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int
-    ): String {
+    fun conseilPrincipal(axe: Axe, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): String {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
-
-        if (maxAxe <= 30) {
-            return "À ce stade, aucun axe de travail prioritaire ne se dégage clairement.\n\nL’objectif peut simplement être de maintenir un cadre stable, cohérent et prévisible."
-        }
-
+        if (maxAxe <= 30) return "À ce stade, aucun axe de travail prioritaire ne se dégage clairement.\n\nL'objectif peut simplement être de maintenir un cadre stable, cohérent et prévisible."
         return when (axe) {
-            Axe.ATTACHEMENT ->
-                "Une première piste consiste à travailler progressivement les moments de séparation, en restant sur des durées très courtes et maîtrisées.\n\nL’objectif est de renforcer la capacité du chien à rester apaisé sans dépendre constamment de la présence humaine."
-
-            Axe.PEUR ->
-                "Il est généralement pertinent de respecter les seuils de tolérance du chien.\n\nTravailler à distance des éléments déclencheurs, dans des conditions calmes, permet souvent de favoriser une évolution progressive."
-
-            Axe.REACTIVITE ->
-                "Une approche progressive basée sur la gestion de la distance et la réduction de la pression environnementale est souvent recommandée.\n\nL’objectif est de maintenir le chien dans une zone où il reste encore capable de traiter l’information."
-
-            Axe.IMPULSIVITE ->
-                "Structurer les interactions avec des temps courts et des pauses régulières peut aider à améliorer la régulation.\n\nLe travail consiste surtout à favoriser des retours au calme fréquents et prévisibles."
+            Axe.ATTACHEMENT -> "Une première piste consiste à travailler progressivement les moments de séparation, en restant sur des durées très courtes et maîtrisées.\n\nL'objectif est de renforcer la capacité du chien à rester apaisé sans dépendre constamment de la présence humaine."
+            Axe.PEUR -> "Il est généralement pertinent de respecter les seuils de tolérance du chien.\n\nTravailler à distance des éléments déclencheurs, dans des conditions calmes, permet souvent de favoriser une évolution progressive."
+            Axe.REACTIVITE -> "Une approche progressive basée sur la gestion de la distance et la réduction de la pression environnementale est souvent recommandée.\n\nL'objectif est de maintenir le chien dans une zone où il reste encore capable de traiter l'information."
+            Axe.IMPULSIVITE -> "Structurer les interactions avec des temps courts et des pauses régulières peut aider à améliorer la régulation.\n\nLe travail consiste surtout à favoriser des retours au calme fréquents et prévisibles."
         }
     }
 
-    fun genererPlanAction(
-        axe: Axe,
-        reponsesChoix: Map<String, Int>,
-        nomChien: String
-    ): PlanAction {
+    fun genererPlanAction(axe: Axe, reponsesChoix: Map<String, Int>, nomChien: String): PlanAction {
         val aFaire = mutableListOf<String>()
         val aEviter = mutableListOf<String>()
         val aObserver = mutableListOf<String>()
@@ -553,40 +445,37 @@ object QuestionnaireEngine {
         when (axe) {
             Axe.ATTACHEMENT -> {
                 aFaire += "Réduire la charge émotionnelle autour des départs et des retours."
-                aFaire += "Proposer progressivement de petits moments d’autonomie dans des situations faciles."
+                aFaire += "Proposer progressivement de petits moments d'autonomie dans des situations faciles."
                 aFaire += "Commencer par des absences très courtes et maîtrisées."
                 aEviter += "Les rituels de départ ou de retrouvailles très marqués."
-                aEviter += "Les absences trop longues ou trop difficiles d’emblée."
-                aEviter += "Les réactions émotionnelles face aux manifestations liées à l’absence."
+                aEviter += "Les absences trop longues ou trop difficiles d'emblée."
+                aEviter += "Les réactions émotionnelles face aux manifestations liées à l'absence."
                 aObserver += "Le moment précis où la tension apparaît."
                 aObserver += "La capacité du chien à se poser seul dans les moments neutres."
-                aObserver += "L’évolution lorsque les interactions deviennent plus prévisibles."
+                aObserver += "L'évolution lorsque les interactions deviennent plus prévisibles."
             }
-
             Axe.PEUR -> {
                 aFaire += "Travailler à distance suffisante pour que le chien reste encore calme."
                 aFaire += "Laisser le chien observer sans le contraindre."
                 aFaire += "Créer des expériences positives dans des contextes maîtrisés."
-                aEviter += "Forcer le chien à affronter ce qui l’inquiète."
+                aEviter += "Forcer le chien à affronter ce qui l'inquiète."
                 aEviter += "Réduire trop vite la distance."
                 aEviter += "Maintenir le chien dans une situation où il est déjà en difficulté."
                 aObserver += "La distance à laquelle la tension apparaît."
                 aObserver += "Les signaux précoces de stress."
-                aObserver += "Les contextes dans lesquels il reste à l’aise."
+                aObserver += "Les contextes dans lesquels il reste à l'aise."
             }
-
             Axe.IMPULSIVITE -> {
                 aFaire += "Structurer les interactions avec des séquences courtes et des pauses."
-                aFaire += "Interrompre calmement les situations où l’excitation monte trop."
+                aFaire += "Interrompre calmement les situations où l'excitation monte trop."
                 aFaire += "Valoriser davantage les moments de calme."
                 aEviter += "Les interactions trop longues ou trop stimulantes."
-                aEviter += "Répondre à l’excitation par plus d’excitation."
-                aEviter += "Attendre le débordement complet avant d’agir."
+                aEviter += "Répondre à l'excitation par plus d'excitation."
+                aEviter += "Attendre le débordement complet avant d'agir."
                 aObserver += "La rapidité de montée en excitation."
                 aObserver += "Le temps nécessaire pour retrouver le calme."
                 aObserver += "Les situations qui déclenchent le plus vite les débordements."
             }
-
             Axe.REACTIVITE -> {
                 aFaire += "Augmenter la distance avec les déclencheurs pour rester dans une zone gérable."
                 aFaire += "Choisir des environnements plus faciles."
@@ -600,13 +489,8 @@ object QuestionnaireEngine {
             }
         }
 
-        if (reponsesChoix["evolution_probleme"] == 2) {
-            aObserver += "Surveiller si les comportements continuent de s’intensifier dans les prochains jours."
-        }
-
-        if (reponsesChoix["signe_physique"] == 2 || reponsesChoix["signe_physique"] == 3) {
-            aFaire += "Prévoir un avis vétérinaire pour écarter une cause physique associée."
-        }
+        if (reponsesChoix["evolution_probleme"] == 2) aObserver += "Surveiller si les comportements continuent de s'intensifier dans les prochains jours."
+        if (reponsesChoix["signe_physique"] == 2 || reponsesChoix["signe_physique"] == 3) aFaire += "Prévoir un avis vétérinaire pour écarter une cause physique associée."
 
         return PlanAction(
             aFaire = aFaire.distinct().take(3),
@@ -615,315 +499,144 @@ object QuestionnaireEngine {
         )
     }
 
-    fun genererMessageAide(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse,
-        niveauSituation: NiveauSituation,
-        nomChien: String
-    ): String? {
+    fun genererMessageAide(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, niveauSituation: NiveauSituation, nomChien: String): String? {
         val nom = nomChienAffiche(nomChien)
-
         return when {
-            reponsesChoix["a_deja_mordu"] == 1 ->
-                "Le fait qu’il y ait déjà eu morsure justifie de ne pas rester seul avec cette situation. Un accompagnement professionnel individualisé est recommandé pour $nom."
-
-            contexte.physique >= 4 ->
-                "Certains éléments font penser qu’une gêne, une douleur ou une composante physique pourrait participer au problème. Un avis vétérinaire est recommandé pour $nom."
-
-            reponsesChoix["apparition"] == 1 ->
-                "Lorsque des comportements apparaissent brutalement, il est prudent d’écarter d’abord une cause médicale ou un facteur déclenchant récent. Un point vétérinaire peut être utile pour $nom."
-
-            niveauSituation == NiveauSituation.SENSIBLE ->
-                "Au vu des réponses, la situation mérite un regard professionnel afin d’éviter qu’elle ne se fixe ou ne s’aggrave."
-
+            reponsesChoix["a_deja_mordu"] == 1 -> "Le fait qu'il y ait déjà eu morsure justifie de ne pas rester seul avec cette situation. Un accompagnement professionnel individualisé est recommandé pour $nom."
+            contexte.physique >= 4 -> "Certains éléments font penser qu'une gêne, une douleur ou une composante physique pourrait participer au problème. Un avis vétérinaire est recommandé pour $nom."
+            reponsesChoix["apparition"] == 1 -> "Lorsque des comportements apparaissent brutalement, il est prudent d'écarter d'abord une cause médicale ou un facteur déclenchant récent. Un point vétérinaire peut être utile pour $nom."
+            niveauSituation == NiveauSituation.SENSIBLE -> "Au vu des réponses, la situation mérite un regard professionnel afin d'éviter qu'elle ne se fixe ou ne s'aggrave."
             else -> null
         }
     }
 
-    fun detecterFacteursAggravants(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse,
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int
-    ): List<String> {
+    fun detecterFacteursAggravants(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): List<String> {
         val facteurs = mutableListOf<String>()
-
         if (reponsesChoix["apparition"] == 1) facteurs += "Apparition brutale"
         if (reponsesChoix["evolution_probleme"] == 2) facteurs += "Comportement en aggravation"
         if (reponsesChoix["intensite_probleme"] == 3) facteurs += "Intensité très forte"
         if (reponsesChoix["generalisation_probleme"] == 2) facteurs += "Présence dans de nombreuses situations"
         if (contexte.physique >= 4) facteurs += "Suspicion de gêne ou cause physique"
         if (maxOf(peur, attachement, impulsivite, reactivite) >= 75) facteurs += "Niveau élevé sur au moins un axe"
-
+        if (reponsesChoix["sterilise"] == 1 && reactivite >= 50) facteurs += "Mâle entier avec réactivité marquée"
         return facteurs.distinct()
     }
 
-    fun detecterFacteursProtecteurs(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse
-    ): List<String> {
+    fun detecterFacteursProtecteurs(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse): List<String> {
         val facteurs = mutableListOf<String>()
-
         if (reponsesChoix["evolution_probleme"] == 0) facteurs += "Une amélioration semble déjà présente"
         if (reponsesChoix["frequence_probleme"] == 0) facteurs += "Le comportement reste peu fréquent"
-        if (reponsesChoix["intensite_probleme"] == 0 || reponsesChoix["intensite_probleme"] == 1) {
-            facteurs += "L’intensité reste encore contenue"
-        }
+        if (reponsesChoix["intensite_probleme"] == 0 || reponsesChoix["intensite_probleme"] == 1) facteurs += "L'intensité reste encore contenue"
         if (reponsesChoix["generalisation_probleme"] == 0) facteurs += "Le problème semble limité à des contextes précis"
         if (contexte.scoreContexte <= 3) facteurs += "Le contexte global ne suggère pas une situation fortement dégradée"
-
+        if (reponsesChoix["sterilise"] == 0) facteurs += "Chien stérilisé — facteur stabilisant possible"
         return facteurs.distinct()
     }
 
-    fun detecterHypothesePrincipale(
-        reponsesChoix: Map<String, Int>,
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int,
-        contexte: ContexteAnalyse
-    ): String {
+    fun detecterHypothesePrincipale(reponsesChoix: Map<String, Int>, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int, contexte: ContexteAnalyse): String {
         return when {
-            contexte.physique >= 4 ->
-                "Les éléments recueillis invitent d’abord à écarter une composante physique avant d’aller plus loin dans l’interprétation comportementale."
-
-            attachement >= 60 &&
-                    (reponsesChoix["support_absences"] == 2 || reponsesChoix["pendant_absence"] == 2) ->
-                "Les réponses peuvent évoquer une difficulté autour de la gestion de la séparation et de l’absence.\n\nCela reste à interpréter avec prudence sans observation du contexte réel."
-
-            peur >= 60 && reactivite >= 60 ->
-                "Les éléments recueillis suggèrent une sensibilité émotionnelle associée à des réactions marquées face à l’environnement.\n\nCette combinaison peut indiquer un fonctionnement où certains contextes deviennent rapidement difficiles à gérer."
-
-            impulsivite >= 60 && (reponsesChoix["jeu_comportement"] == 2 || reponsesChoix["calmer_apres_excitation"] == 2) ->
-                "Les réponses orientent vers une difficulté possible dans la régulation émotionnelle, avec des montées en excitation rapides et un retour au calme plus complexe."
-
-            reactivite >= 60 && reponsesChoix["reaction_chiens"] == 2 ->
-                "Les réponses peuvent évoquer une réactivité importante dans les interactions avec les autres chiens. Cette lecture demande toutefois à être confirmée en situation réelle."
-
-            reactivite >= 60 && reponsesChoix["reaction_inconnus"] == 2 ->
-                "Les réponses peuvent évoquer une réactivité importante face aux personnes inconnues. Le sens exact de cette réaction nécessite généralement une lecture plus fine du contexte."
-
-            peur >= 60 ->
-                "Les réponses suggèrent une sensibilité émotionnelle importante.\n\nCertains environnements ou situations peuvent être perçus comme plus difficiles à tolérer."
-
-            attachement >= 60 ->
-                "Le profil suggère surtout un besoin de proximité important, avec une autonomie émotionnelle qui paraît encore fragile dans certaines situations."
-
-            impulsivite >= 60 ->
-                "Les réponses orientent vers une difficulté possible dans la régulation émotionnelle, avec des montées rapides en excitation et un retour au calme plus complexe."
-
-            reactivite >= 60 ->
-                "Les éléments recueillis peuvent correspondre à une réactivité accrue face à certains stimuli.\n\nCela nécessite généralement une lecture fine du contexte pour être confirmé."
-
-            else ->
-                "Aucune hypothèse dominante ne se dégage clairement à partir des réponses.\n\nPlusieurs facteurs peuvent être impliqués."
+            contexte.physique >= 4 -> "Les éléments recueillis invitent d'abord à écarter une composante physique avant d'aller plus loin dans l'interprétation comportementale."
+            attachement >= 60 && (reponsesChoix["support_absences"] == 2 || reponsesChoix["pendant_absence"] == 2) -> "Les réponses peuvent évoquer une difficulté autour de la gestion de la séparation et de l'absence.\n\nCela reste à interpréter avec prudence sans observation du contexte réel."
+            peur >= 60 && reactivite >= 60 -> "Les éléments recueillis suggèrent une sensibilité émotionnelle associée à des réactions marquées face à l'environnement.\n\nCette combinaison peut indiquer un fonctionnement où certains contextes deviennent rapidement difficiles à gérer."
+            impulsivite >= 60 && (reponsesChoix["jeu_comportement"] == 2 || reponsesChoix["calmer_apres_excitation"] == 2) -> "Les réponses orientent vers une difficulté possible dans la régulation émotionnelle, avec des montées en excitation rapides et un retour au calme plus complexe."
+            reactivite >= 60 && reponsesChoix["reaction_chiens"] == 2 -> "Les réponses peuvent évoquer une réactivité importante dans les interactions avec les autres chiens. Cette lecture demande toutefois à être confirmée en situation réelle."
+            reactivite >= 60 && reponsesChoix["reaction_inconnus"] == 2 -> "Les réponses peuvent évoquer une réactivité importante face aux personnes inconnues. Le sens exact de cette réaction nécessite généralement une lecture plus fine du contexte."
+            peur >= 60 -> "Les réponses suggèrent une sensibilité émotionnelle importante.\n\nCertains environnements ou situations peuvent être perçus comme plus difficiles à tolérer."
+            attachement >= 60 -> "Le profil suggère surtout un besoin de proximité important, avec une autonomie émotionnelle qui paraît encore fragile dans certaines situations."
+            impulsivite >= 60 -> "Les réponses orientent vers une difficulté possible dans la régulation émotionnelle, avec des montées rapides en excitation et un retour au calme plus complexe."
+            reactivite >= 60 -> "Les éléments recueillis peuvent correspondre à une réactivité accrue face à certains stimuli.\n\nCela nécessite généralement une lecture fine du contexte pour être confirmé."
+            else -> "Aucune hypothèse dominante ne se dégage clairement à partir des réponses.\n\nPlusieurs facteurs peuvent être impliqués."
         }
     }
 
-    fun determinerPrioriteAction(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse,
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int
-    ): PrioriteAction {
+    fun determinerPrioriteAction(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): PrioriteAction {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
-
         return when {
             reponsesChoix["a_deja_mordu"] == 1 -> PrioriteAction.URGENTE
             contexte.physique >= 4 -> PrioriteAction.URGENTE
             reponsesChoix["apparition"] == 1 && reponsesChoix["intensite_probleme"] == 3 -> PrioriteAction.URGENTE
-
-            reponsesChoix["evolution_probleme"] == 2 &&
-                    (reponsesChoix["generalisation_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) ->
-                PrioriteAction.ELEVEE
-
+            reponsesChoix["evolution_probleme"] == 2 && (reponsesChoix["generalisation_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) -> PrioriteAction.ELEVEE
             contexte.scoreContexte >= 10 -> PrioriteAction.ELEVEE
             maxAxe >= 75 -> PrioriteAction.ELEVEE
-
             contexte.scoreContexte >= 5 -> PrioriteAction.MODEREE
             maxAxe >= 55 -> PrioriteAction.MODEREE
-
             else -> PrioriteAction.FAIBLE
         }
     }
 
-    fun construirePrioriteImmediate(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse,
-        priorite: PrioriteAction,
-        niveauSituation: NiveauSituation,
-        nomChien: String
-    ): PrioriteImmediate {
+    fun construirePrioriteImmediate(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, priorite: PrioriteAction, niveauSituation: NiveauSituation, nomChien: String): PrioriteImmediate {
         val nom = nomChienAffiche(nomChien)
-
         return when {
             reponsesChoix["a_deja_mordu"] == 1 -> PrioriteImmediate(
                 niveau = PrioriteAction.URGENTE,
                 titre = "Priorité immédiate : sécuriser et se faire accompagner",
                 message = "Comme il y a déjà eu morsure, la situation ne doit pas être banalisée pour $nom.",
-                actionsImmediates = listOf(
-                    "Éviter les situations à risque ou les confrontations.",
-                    "Protéger les interactions sensibles du quotidien.",
-                    "Demander rapidement l’aide d’un professionnel du comportement."
-                )
+                actionsImmediates = listOf("Éviter les situations à risque ou les confrontations.", "Protéger les interactions sensibles du quotidien.", "Demander rapidement l'aide d'un professionnel du comportement.")
             )
-
             contexte.physique >= 4 -> PrioriteImmediate(
                 niveau = PrioriteAction.URGENTE,
                 titre = "Priorité immédiate : écarter une cause physique",
                 message = "Des signes physiques ou une gêne possible sont signalés chez $nom. La piste vétérinaire passe avant toute interprétation comportementale trop poussée.",
-                actionsImmediates = listOf(
-                    "Prendre un avis vétérinaire rapidement.",
-                    "Éviter les sollicitations ou situations difficiles en attendant.",
-                    "Observer si le comportement change avec l’inconfort ou la manipulation."
-                )
+                actionsImmediates = listOf("Prendre un avis vétérinaire rapidement.", "Éviter les sollicitations ou situations difficiles en attendant.", "Observer si le comportement change avec l'inconfort ou la manipulation.")
             )
-
             reponsesChoix["apparition"] == 1 && reponsesChoix["intensite_probleme"] == 3 -> PrioriteImmediate(
                 niveau = PrioriteAction.URGENTE,
                 titre = "Priorité immédiate : ne pas attendre",
                 message = "Le comportement semble à la fois brutalement apparu et très intense pour $nom.",
-                actionsImmediates = listOf(
-                    "Réduire les situations qui déclenchent le problème.",
-                    "Demander rapidement un avis professionnel.",
-                    "Vérifier s’il existe un facteur récent ou médical associé."
-                )
+                actionsImmediates = listOf("Réduire les situations qui déclenchent le problème.", "Demander rapidement un avis professionnel.", "Vérifier s'il existe un facteur récent ou médical associé.")
             )
-
             priorite == PrioriteAction.ELEVEE || niveauSituation == NiveauSituation.SENSIBLE -> PrioriteImmediate(
                 niveau = PrioriteAction.ELEVEE,
                 titre = "Priorité immédiate : agir sans tarder",
                 message = "La situation semble suffisamment marquée pour justifier une action rapide et structurée pour $nom.",
-                actionsImmediates = listOf(
-                    "Alléger les contextes les plus difficiles.",
-                    "Commencer par sécuriser et observer avant de trop stimuler.",
-                    "Envisager un accompagnement professionnel si cela persiste ou s’aggrave."
-                )
+                actionsImmediates = listOf("Alléger les contextes les plus difficiles.", "Commencer par sécuriser et observer avant de trop stimuler.", "Envisager un accompagnement professionnel si cela persiste ou s'aggrave.")
             )
-
             priorite == PrioriteAction.MODEREE -> PrioriteImmediate(
                 niveau = PrioriteAction.MODEREE,
                 titre = "Priorité immédiate : avancer progressivement",
-                message = "La situation mérite d’être prise au sérieux, sans urgence maximale à ce stade, pour $nom.",
-                actionsImmediates = listOf(
-                    "Commencer un travail progressif sur les situations difficiles.",
-                    "Observer fréquence, intensité et contexte pendant quelques jours.",
-                    "Éviter d’augmenter la difficulté trop vite."
-                )
+                message = "La situation mérite d'être prise au sérieux, sans urgence maximale à ce stade, pour $nom.",
+                actionsImmediates = listOf("Commencer un travail progressif sur les situations difficiles.", "Observer fréquence, intensité et contexte pendant quelques jours.", "Éviter d'augmenter la difficulté trop vite.")
             )
-
             else -> PrioriteImmediate(
                 niveau = PrioriteAction.FAIBLE,
                 titre = "Priorité immédiate : surveiller calmement",
                 message = "Rien ne ressort comme urgent à ce stade pour $nom, mais quelques repères peuvent aider à rester attentif.",
-                actionsImmediates = listOf(
-                    "Continuer l’observation du quotidien.",
-                    "Maintenir un cadre stable et prévisible.",
-                    "Reconsidérer la situation si elle devient plus fréquente ou plus intense."
-                )
+                actionsImmediates = listOf("Continuer l'observation du quotidien.", "Maintenir un cadre stable et prévisible.", "Reconsidérer la situation si elle devient plus fréquente ou plus intense.")
             )
         }
     }
 
-    fun construireExplicationResultat(
-        reponsesChoix: Map<String, Int>,
-        contexte: ContexteAnalyse,
-        peur: Int,
-        attachement: Int,
-        impulsivite: Int,
-        reactivite: Int
-    ): ExplicationResultat {
+    fun construireExplicationResultat(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): ExplicationResultat {
         val raisons = mutableListOf<String>()
-
-        if (reponsesChoix["evolution_probleme"] == 2) {
-            raisons += "Le comportement semble s’aggraver."
-        }
-        if (reponsesChoix["frequence_probleme"] == 2 || reponsesChoix["frequence_probleme"] == 3) {
-            raisons += "Le comportement paraît revenir fréquemment."
-        }
-        if (reponsesChoix["intensite_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) {
-            raisons += "L’intensité décrite paraît importante."
-        }
-        if (reponsesChoix["generalisation_probleme"] == 2) {
-            raisons += "Le problème semble déborder dans de nombreuses situations."
-        }
-        if (contexte.physique >= 4) {
-            raisons += "Des signes physiques ou une gêne possible sont signalés."
-        }
-        if (reponsesChoix["apparition"] == 1) {
-            raisons += "L’apparition semble brutale."
-        }
-        if (maxOf(peur, attachement, impulsivite, reactivite) >= 70) {
-            raisons += "Au moins un axe ressort de façon marquée."
-        }
-
-        if (raisons.isEmpty()) {
-            raisons += "Les réponses suggèrent surtout quelques points de vigilance à replacer dans le contexte réel."
-        }
-
+        if (reponsesChoix["evolution_probleme"] == 2) raisons += "Le comportement semble s'aggraver."
+        if (reponsesChoix["frequence_probleme"] == 2 || reponsesChoix["frequence_probleme"] == 3) raisons += "Le comportement paraît revenir fréquemment."
+        if (reponsesChoix["intensite_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) raisons += "L'intensité décrite paraît importante."
+        if (reponsesChoix["generalisation_probleme"] == 2) raisons += "Le problème semble déborder dans de nombreuses situations."
+        if (contexte.physique >= 4) raisons += "Des signes physiques ou une gêne possible sont signalés."
+        if (reponsesChoix["apparition"] == 1) raisons += "L'apparition semble brutale."
+        if (maxOf(peur, attachement, impulsivite, reactivite) >= 70) raisons += "Au moins un axe ressort de façon marquée."
+        if (raisons.isEmpty()) raisons += "Les réponses suggèrent surtout quelques points de vigilance à replacer dans le contexte réel."
         return ExplicationResultat(
             raisonsPrincipales = raisons.take(3),
-            facteursAggravants = detecterFacteursAggravants(
-                reponsesChoix = reponsesChoix,
-                contexte = contexte,
-                peur = peur,
-                attachement = attachement,
-                impulsivite = impulsivite,
-                reactivite = reactivite
-            ),
-            facteursProtecteurs = detecterFacteursProtecteurs(
-                reponsesChoix = reponsesChoix,
-                contexte = contexte
-            )
+            facteursAggravants = detecterFacteursAggravants(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite),
+            facteursProtecteurs = detecterFacteursProtecteurs(reponsesChoix, contexte)
         )
     }
 
-    fun genererSyntheseAvancee(
-        nom: String,
-        hypothese: String,
-        priorite: PrioriteAction,
-        aggravants: List<String>,
-        protecteurs: List<String>
-    ): String {
+    fun genererSyntheseAvancee(nom: String, hypothese: String, priorite: PrioriteAction, aggravants: List<String>, protecteurs: List<String>): String {
         val intro = when (priorite) {
-            PrioriteAction.FAIBLE ->
-                "$nom présente un fonctionnement globalement stable avec quelques points de vigilance à garder à l’œil."
-            PrioriteAction.MODEREE ->
-                "$nom présente une difficulté réelle qui mérite une approche progressive et cohérente."
-            PrioriteAction.ELEVEE ->
-                "$nom semble actuellement en difficulté sur un plan suffisamment marqué pour nécessiter une attention active."
-            PrioriteAction.URGENTE ->
-                "$nom présente des éléments qui justifient une attention rapide."
+            PrioriteAction.FAIBLE -> "$nom présente un fonctionnement globalement stable avec quelques points de vigilance à garder à l'œil."
+            PrioriteAction.MODEREE -> "$nom présente une difficulté réelle qui mérite une approche progressive et cohérente."
+            PrioriteAction.ELEVEE -> "$nom semble actuellement en difficulté sur un plan suffisamment marqué pour nécessiter une attention active."
+            PrioriteAction.URGENTE -> "$nom présente des éléments qui justifient une attention rapide."
         }
-
         val hypotheseTexte = "Hypothèse de lecture : $hypothese"
-
-        val aggr = if (aggravants.isNotEmpty()) {
-            "Les éléments qui majorent possiblement la situation sont : ${aggravants.joinToString(", ")}."
-        } else {
-            ""
-        }
-
-        val prot = if (protecteurs.isNotEmpty()) {
-            "Les éléments plutôt favorables à ce stade sont : ${protecteurs.joinToString(", ")}."
-        } else {
-            ""
-        }
-
-        return listOf(intro, hypotheseTexte, aggr, prot)
-            .filter { it.isNotBlank() }
-            .joinToString("\n\n")
+        val aggr = if (aggravants.isNotEmpty()) "Les éléments qui majorent possiblement la situation sont : ${aggravants.joinToString(", ")}." else ""
+        val prot = if (protecteurs.isNotEmpty()) "Les éléments plutôt favorables à ce stade sont : ${protecteurs.joinToString(", ")}." else ""
+        return listOf(intro, hypotheseTexte, aggr, prot).filter { it.isNotBlank() }.joinToString("\n\n")
     }
 
-    fun calculerResultat(
-        questions: List<Question>,
-        reponsesTexte: Map<String, String>,
-        reponsesChoix: Map<String, Int>
-    ): ResultatAnalyse {
+    fun calculerResultat(questions: List<Question>, reponsesTexte: Map<String, String>, reponsesChoix: Map<String, Int>): ResultatAnalyse {
         val peur = calculerPourcentageAxe(Axe.PEUR, questions, reponsesChoix)
         val attachement = calculerPourcentageAxe(Axe.ATTACHEMENT, questions, reponsesChoix)
         val impulsivite = calculerPourcentageAxe(Axe.IMPULSIVITE, questions, reponsesChoix)
@@ -934,183 +647,43 @@ object QuestionnaireEngine {
         val niveauImpulsivite = calculerNiveauAxe(impulsivite)
         val niveauReactivite = calculerNiveauAxe(reactivite)
 
-        val profil = genererProfilGlobal(
-            nomChien = reponsesTexte["nom_chien"].orEmpty(),
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite
-        )
-
+        val profil = genererProfilGlobal(reponsesTexte["nom_chien"].orEmpty(), peur, attachement, impulsivite, reactivite)
         val contexte = calculerContexte(reponsesChoix)
-
-        val vigilance = calculerNiveauVigilance(
-            questions = questions,
-            reponsesChoix = reponsesChoix,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite,
-            contexte = contexte
-        )
-
-        val niveauSituation = calculerNiveauSituation(
-            reponsesChoix = reponsesChoix,
-            contexte = contexte,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite
-        )
-
-        val conseilsPratiques = genererConseilsPratiquesPersonnalises(
-            nomChien = reponsesTexte["nom_chien"].orEmpty(),
-            reponsesChoix = reponsesChoix,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite
-        )
-
+        val vigilance = calculerNiveauVigilance(questions, reponsesChoix, peur, attachement, impulsivite, reactivite, contexte)
+        val niveauSituation = calculerNiveauSituation(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
+        val conseilsPratiques = genererConseilsPratiquesPersonnalises(reponsesTexte["nom_chien"].orEmpty(), reponsesChoix, peur, attachement, impulsivite, reactivite)
         val problemePrincipal = determinerProblemePrincipal(peur, attachement, impulsivite, reactivite)
         val problemesImportants = determinerProblemesImportants(peur, attachement, impulsivite, reactivite)
-
-        val planAction = genererPlanAction(
-            axe = problemePrincipal,
-            reponsesChoix = reponsesChoix,
-            nomChien = reponsesTexte["nom_chien"].orEmpty()
-        )
-
-        val hypothesePrincipale = detecterHypothesePrincipale(
-            reponsesChoix = reponsesChoix,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite,
-            contexte = contexte
-        )
-
-        val prioriteAction = determinerPrioriteAction(
-            reponsesChoix = reponsesChoix,
-            contexte = contexte,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite
-        )
-
-        val facteursAggravants = detecterFacteursAggravants(
-            reponsesChoix = reponsesChoix,
-            contexte = contexte,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite
-        )
-
-        val facteursProtecteurs = detecterFacteursProtecteurs(
-            reponsesChoix = reponsesChoix,
-            contexte = contexte
-        )
-
-        val prioriteImmediate = construirePrioriteImmediate(
-            reponsesChoix = reponsesChoix,
-            contexte = contexte,
-            priorite = prioriteAction,
-            niveauSituation = niveauSituation,
-            nomChien = reponsesTexte["nom_chien"].orEmpty()
-        )
-
-        val explicationResultat = construireExplicationResultat(
-            reponsesChoix = reponsesChoix,
-            contexte = contexte,
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite
-        )
-
-        val syntheseAvancee = genererSyntheseAvancee(
-            nom = nomChienAffiche(reponsesTexte["nom_chien"].orEmpty()),
-            hypothese = hypothesePrincipale,
-            priorite = prioriteAction,
-            aggravants = facteursAggravants,
-            protecteurs = facteursProtecteurs
-        )
+        val planAction = genererPlanAction(problemePrincipal, reponsesChoix, reponsesTexte["nom_chien"].orEmpty())
+        val hypothesePrincipale = detecterHypothesePrincipale(reponsesChoix, peur, attachement, impulsivite, reactivite, contexte)
+        val prioriteAction = determinerPrioriteAction(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
+        val facteursAggravants = detecterFacteursAggravants(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
+        val facteursProtecteurs = detecterFacteursProtecteurs(reponsesChoix, contexte)
+        val prioriteImmediate = construirePrioriteImmediate(reponsesChoix, contexte, prioriteAction, niveauSituation, reponsesTexte["nom_chien"].orEmpty())
+        val explicationResultat = construireExplicationResultat(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
+        val syntheseAvancee = genererSyntheseAvancee(nomChienAffiche(reponsesTexte["nom_chien"].orEmpty()), hypothesePrincipale, prioriteAction, facteursAggravants, facteursProtecteurs)
 
         return ResultatAnalyse(
-            peur = peur,
-            attachement = attachement,
-            impulsivite = impulsivite,
-            reactivite = reactivite,
-
-            niveauPeur = niveauPeur,
-            niveauAttachement = niveauAttachement,
-            niveauImpulsivite = niveauImpulsivite,
-            niveauReactivite = niveauReactivite,
-
-            profil = profil,
-            vigilance = vigilance,
-            niveauSituation = niveauSituation,
-            contexte = contexte,
-            problemePrincipal = problemePrincipal,
-            problemesImportants = problemesImportants,
-
-            explicationPrincipale = explicationProbleme(
-                problemePrincipal,
-                peur,
-                attachement,
-                impulsivite,
-                reactivite
-            ),
-
-            conseilPrincipal = conseilPrincipal(
-                problemePrincipal,
-                peur,
-                attachement,
-                impulsivite,
-                reactivite
-            ),
-
-            conseilsPratiques = conseilsPratiques,
-            planAction = planAction,
-
-            messageSituation = genererMessageSituation(
-                niveauSituation,
-                reponsesTexte["nom_chien"].orEmpty()
-            ),
-
+            peur = peur, attachement = attachement, impulsivite = impulsivite, reactivite = reactivite,
+            niveauPeur = niveauPeur, niveauAttachement = niveauAttachement, niveauImpulsivite = niveauImpulsivite, niveauReactivite = niveauReactivite,
+            profil = profil, vigilance = vigilance, niveauSituation = niveauSituation, contexte = contexte,
+            problemePrincipal = problemePrincipal, problemesImportants = problemesImportants,
+            explicationPrincipale = explicationProbleme(problemePrincipal, peur, attachement, impulsivite, reactivite),
+            conseilPrincipal = conseilPrincipal(problemePrincipal, peur, attachement, impulsivite, reactivite),
+            conseilsPratiques = conseilsPratiques, planAction = planAction,
+            messageSituation = genererMessageSituation(niveauSituation, reponsesTexte["nom_chien"].orEmpty()),
             raisonSituation = genererRaisonSituation(reponsesChoix, contexte),
-
-            messageAide = genererMessageAide(
-                reponsesChoix = reponsesChoix,
-                contexte = contexte,
-                niveauSituation = niveauSituation,
-                nomChien = reponsesTexte["nom_chien"].orEmpty()
-            ),
-
+            messageAide = genererMessageAide(reponsesChoix, contexte, niveauSituation, reponsesTexte["nom_chien"].orEmpty()),
             apparitionBrutale = reponsesChoix["apparition"] == 1,
             aDejaMordu = reponsesChoix["a_deja_mordu"] == 1,
-
-            hypothesePrincipale = hypothesePrincipale,
-            prioriteAction = prioriteAction,
-            prioriteImmediate = prioriteImmediate,
-            explicationResultat = explicationResultat,
-
-            facteursAggravants = facteursAggravants,
-            facteursProtecteurs = facteursProtecteurs,
+            hypothesePrincipale = hypothesePrincipale, prioriteAction = prioriteAction,
+            prioriteImmediate = prioriteImmediate, explicationResultat = explicationResultat,
+            facteursAggravants = facteursAggravants, facteursProtecteurs = facteursProtecteurs,
             syntheseAvancee = syntheseAvancee
         )
     }
 
-    /**
-     * Helper UI minimal pour éviter d'afficher certaines questions hors contexte.
-     * Aucun impact sur le moteur d'analyse si tu ne l'utilises pas.
-     */
-    fun doitAfficherQuestion(
-        questionId: String,
-        reponsesChoix: Map<String, Int>
-    ): Boolean {
+    fun doitAfficherQuestion(questionId: String, reponsesChoix: Map<String, Int>): Boolean {
         return when (questionId) {
             "si_non_quand" -> {
                 val proprete = reponsesChoix["proprete_maison"]
@@ -1120,72 +693,35 @@ object QuestionnaireEngine {
         }
     }
 
-    /**
-     * Helper UI simple pour afficher un titre de section.
-     */
     fun titreSectionPourQuestion(questionId: String): String {
         return when (questionId) {
-            "nom_chien", "age", "sexe", "sterilise" ->
-                "Informations générales"
-
-            "peur_stimuli", "adaptation_changements", "comportement_exterieur", "reaction_peur" ->
-                "Sensibilité et peur"
-
-            "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise", "proprete_maison", "si_non_quand" ->
-                "Attachement et séparation"
-
-            "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" ->
-                "Excitation et impulsivité"
-
-            "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "defense_ressources" ->
-                "Réactivité"
-
-            "apparition", "situation_principale", "duree_probleme", "evolution_probleme", "frequence_probleme", "intensite_probleme", "generalisation_probleme", "changement_recent", "signe_physique" ->
-                "Contexte actuel"
-
+            "nom_chien", "age", "sexe", "sterilise" -> "Informations générales"
+            "peur_stimuli", "adaptation_changements", "comportement_exterieur", "reaction_peur" -> "Sensibilité et peur"
+            "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise", "proprete_maison", "si_non_quand" -> "Attachement et séparation"
+            "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" -> "Excitation et impulsivité"
+            "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "defense_ressources" -> "Réactivité"
+            "apparition", "situation_principale", "duree_probleme", "evolution_probleme", "frequence_probleme", "intensite_probleme", "generalisation_probleme", "changement_recent", "signe_physique" -> "Contexte actuel"
             else -> "Questionnaire"
         }
     }
 
-    /**
-     * Helper UI simple pour afficher une petite aide sous la question.
-     */
     fun aideQuestion(questionId: String): String? {
         return when (questionId) {
-            "nom_chien" ->
-                null
-            "peur_stimuli" ->
-                null
-            "adaptation_changements" ->
-                "Pensez aux changements d’habitudes, de lieu, de rythme ou d’environnement."
-            "comportement_exterieur" ->
-                "Répondez en pensant surtout aux promenades et sorties habituelles."
-            "reaction_peur" ->
-                "Choisissez la réaction la plus fréquente quand votre chien est inquiet."
-            "support_absences" ->
-                "Pensez au moment où vous partez et au temps où votre chien reste seul."
-            "pendant_absence" ->
-                "Répondez selon ce que vous observez ou ce que l’on vous rapporte."
-            "autre_personne_apaise" ->
-                "Par exemple un autre membre du foyer."
-            "si_non_quand" ->
-                "Cette question sert seulement si votre chien n’est pas toujours propre."
-            "calmer_apres_excitation" ->
-                "Après le jeu, une sortie, une visite ou un moment stimulant."
-            "jeu_comportement" ->
-                "Par exemple s’il mordille fort, saute, déborde ou a du mal à s’arrêter."
-            "reaction_inconnus" ->
-                "Par exemple : aboiements, évitement, tension, grognements."
-            "reaction_chiens" ->
-                "Par exemple : tension, aboiements, charge, évitement ou agitation."
-            "a_deja_mordu" ->
-                "Même une morsure ponctuelle compte."
-            "intensite_probleme" ->
-                "Choisissez l’intensité la plus proche de ce que vous observez en général."
-            "generalisation_probleme" ->
-                "Autrement dit : dans peu de contextes ou dans presque toute la vie quotidienne."
-            "signe_physique" ->
-                "Même un doute peut être utile à signaler."
+            "adaptation_changements" -> "Pensez aux changements d'habitudes, de lieu, de rythme ou d'environnement."
+            "comportement_exterieur" -> "Répondez en pensant surtout aux promenades et sorties habituelles."
+            "reaction_peur" -> "Choisissez la réaction la plus fréquente quand votre chien est inquiet."
+            "support_absences" -> "Pensez au moment où vous partez et au temps où votre chien reste seul."
+            "pendant_absence" -> "Répondez selon ce que vous observez ou ce que l'on vous rapporte."
+            "autre_personne_apaise" -> "Par exemple un autre membre du foyer."
+            "si_non_quand" -> "Cette question sert seulement si votre chien n'est pas toujours propre."
+            "calmer_apres_excitation" -> "Après le jeu, une sortie, une visite ou un moment stimulant."
+            "jeu_comportement" -> "Par exemple s'il mordille fort, saute, déborde ou a du mal à s'arrêter."
+            "reaction_inconnus" -> "Par exemple : aboiements, évitement, tension, grognements."
+            "reaction_chiens" -> "Par exemple : tension, aboiements, charge, évitement ou agitation."
+            "a_deja_mordu" -> "Même une morsure ponctuelle compte."
+            "intensite_probleme" -> "Choisissez l'intensité la plus proche de ce que vous observez en général."
+            "generalisation_probleme" -> "Autrement dit : dans peu de contextes ou dans presque toute la vie quotidienne."
+            "signe_physique" -> "Même un doute peut être utile à signaler."
             else -> null
         }
     }
@@ -1195,219 +731,112 @@ fun questionsApplication(): List<Question> {
     return listOf(
         QuestionTexte("nom_chien", "Quel est le nom de votre chien ?"),
 
-        QuestionChoix(
-            "age",
-            "Quel âge a votre chien ?",
-            listOf("Moins d’1 an", "Entre 1 et 3 ans", "Entre 4 et 7 ans", "8 ans et +")
-        ),
-        QuestionChoix(
-            "sexe",
-            "Votre chien est :",
-            listOf("Un mâle", "Une femelle")
-        ),
-        QuestionChoix(
-            "sterilise",
-            "Votre chien est-il stérilisé ?",
-            listOf("Oui", "Non")
-        ),
+        QuestionChoix("age", "Quel âge a votre chien ?",
+            listOf("Moins d'1 an", "Entre 1 et 3 ans", "Entre 4 et 7 ans", "8 ans et +")),
 
-        QuestionChoix(
-            "peur_stimuli",
-            "Votre chien montre-t-il de la peur face à certains stimuli ?",
+        QuestionChoix("sexe", "Votre chien est :",
+            listOf("Un mâle", "Une femelle")),
+
+        QuestionChoix("sterilise", "Votre chien est-il stérilisé ?",
+            listOf("Oui", "Non, c'est un mâle entier", "Non, c'est une femelle entière")),
+
+        QuestionChoix("peur_stimuli", "Votre chien montre-t-il de la peur face à certains stimuli ?",
             listOf("Jamais", "Parfois", "Souvent"),
-            axe = Axe.PEUR,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "adaptation_changements",
-            "Votre chien a-t-il du mal à s’adapter aux changements ?",
+            axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("adaptation_changements", "Votre chien a-t-il du mal à s'adapter aux changements ?",
             listOf("Non", "Un peu", "Oui"),
-            axe = Axe.PEUR,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "comportement_exterieur",
-            "En promenade ou à l’extérieur, votre chien est plutôt :",
+            axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("comportement_exterieur", "En promenade ou à l'extérieur, votre chien est plutôt :",
             listOf("Calme et détendu", "Excité / difficile à canaliser", "Craintif / en évitement"),
-            axe = Axe.PEUR,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "reaction_peur",
-            "Quand votre chien a peur, il réagit plutôt comment ?",
+            axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("reaction_peur", "Quand votre chien a peur, il réagit plutôt comment ?",
             listOf("Il récupère vite", "Il se cache / fuit", "Il panique ou devient agressif"),
-            axe = Axe.PEUR,
-            scoreParOption = listOf(0, 1, 4),
-            signalAlerte = true
-        ),
+            axe = Axe.PEUR, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
 
-        QuestionChoix(
-            "support_absences",
-            "Comment votre chien vit-il vos absences ?",
+        QuestionChoix("support_absences", "Comment votre chien vit-il vos absences ?",
             listOf("Bien", "Moyennement", "Difficilement"),
-            axe = Axe.ATTACHEMENT,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "pendant_absence",
-            "Pendant vos absences, votre chien :",
-            listOf("Reste calme", "Peut vocaliser ou s’agiter", "Détruit / aboie / panique"),
-            axe = Axe.ATTACHEMENT,
-            scoreParOption = listOf(0, 1, 4),
-            signalAlerte = true
-        ),
-        QuestionChoix(
-            "suit_partout",
-            "Votre chien vous suit-il partout dans la maison ?",
-            listOf("Non", "Parfois", "Toujours"),
-            axe = Axe.ATTACHEMENT,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "autre_personne_apaise",
-            "La présence d’une autre personne suffit-elle à l’apaiser ?",
-            listOf("Oui", "Non", "Je ne sais pas"),
-            axe = Axe.ATTACHEMENT,
-            scoreParOption = listOf(0, 2, 0)
-        ),
-        QuestionChoix(
-            "proprete_maison",
-            "Votre chien est-il propre à la maison ?",
+            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("pendant_absence", "Pendant vos absences, votre chien :",
+            listOf("Reste calme", "Peut vocaliser ou s'agiter", "Détruit / aboie / panique"),
+            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
+
+        QuestionChoix("suit_partout", "Votre chien vous suit-il partout dans la maison ?",
+            listOf("Non", "Parfois", "Il ne me quitte pratiquement pas"),
+            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("autre_personne_apaise", "La présence d'une autre personne suffit-elle à l'apaiser ?",
+            listOf("Oui", "Il n'est vraiment apaisé qu'avec moi", "Je ne sais pas"),
+            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 2, 0)),
+
+        QuestionChoix("proprete_maison", "Votre chien est-il propre à la maison ?",
             listOf("Oui", "Non", "Parfois"),
-            axe = Axe.ATTACHEMENT,
-            scoreParOption = listOf(0, 2, 1)
-        ),
-        QuestionChoix(
-            "si_non_quand",
-            "Si votre chien n’est pas toujours propre, dans quelles situations cela arrive-t-il surtout ?",
-            listOf("Lors de vos absences", "En votre présence", "La nuit", "De manière aléatoire")
-        ),
+            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 2, 1)),
 
-        QuestionChoix(
-            "calmer_apres_excitation",
-            "Votre chien a-t-il du mal à se calmer après un moment excitant ?",
+        QuestionChoix("si_non_quand", "Si votre chien n'est pas toujours propre, dans quelles situations cela arrive-t-il surtout ?",
+            listOf("Lors de vos absences", "En votre présence", "La nuit", "De manière aléatoire")),
+
+        QuestionChoix("calmer_apres_excitation", "Votre chien a-t-il du mal à se calmer après un moment excitant ?",
             listOf("Non", "Parfois", "Oui"),
-            axe = Axe.IMPULSIVITE,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "jeu_comportement",
-            "Quand il joue, votre chien :",
-            listOf("Reste contrôlé", "Peut beaucoup s’exciter", "Devient brutal / fait mal"),
-            axe = Axe.IMPULSIVITE,
-            scoreParOption = listOf(0, 1, 4),
-            signalAlerte = true
-        ),
-        QuestionChoix(
-            "vole_objets",
-            "Votre chien vole-t-il de la nourriture ou des objets ?",
-            listOf("Non", "Parfois", "Souvent"),
-            axe = Axe.IMPULSIVITE,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "poursuite_mouvement",
-            "Votre chien poursuit-il facilement ce qui bouge ?",
-            listOf("Non", "Parfois", "Souvent"),
-            axe = Axe.IMPULSIVITE,
-            scoreParOption = listOf(0, 1, 2)
-        ),
+            axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 2)),
 
-        QuestionChoix(
-            "reaction_inconnus",
-            "Votre chien réagit-il difficilement aux personnes inconnues ?",
+        QuestionChoix("jeu_comportement", "Quand il joue, votre chien :",
+            listOf("Reste contrôlé", "Peut beaucoup s'exciter", "Les jeux deviennent difficiles à contrôler"),
+            axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
+
+        QuestionChoix("vole_objets", "Votre chien vole-t-il de la nourriture ou des objets ?",
             listOf("Non", "Parfois", "Souvent"),
-            axe = Axe.REACTIVITE,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "reaction_chiens",
-            "Votre chien réagit-il difficilement aux autres chiens ?",
+            axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("poursuite_mouvement", "Votre chien poursuit-il facilement ce qui bouge ?",
             listOf("Non", "Parfois", "Souvent"),
-            axe = Axe.REACTIVITE,
-            scoreParOption = listOf(0, 1, 2)
-        ),
-        QuestionChoix(
-            "a_deja_mordu",
-            "Votre chien a-t-il déjà mordu ?",
+            axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("reaction_inconnus", "Votre chien réagit-il difficilement aux personnes inconnues ?",
+            listOf("Non", "Parfois", "Souvent"),
+            axe = Axe.REACTIVITE, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("reaction_chiens", "Votre chien réagit-il difficilement aux autres chiens ?",
+            listOf("Non", "Parfois", "Souvent"),
+            axe = Axe.REACTIVITE, scoreParOption = listOf(0, 1, 2)),
+
+        QuestionChoix("a_deja_mordu", "Votre chien a-t-il déjà mordu ?",
             listOf("Non", "Oui"),
-            axe = Axe.REACTIVITE,
-            scoreParOption = listOf(0, 4),
-            poids = 2,
-            signalCritique = true
-        ),
-        QuestionChoix(
-            "defense_ressources",
-            "Votre chien défend-il sa nourriture, ses jouets, son couchage ou certaines ressources ?",
-            listOf("Non", "Parfois", "Oui"),
-            axe = Axe.REACTIVITE,
-            scoreParOption = listOf(0, 2, 4),
-            signalAlerte = true
-        ),
+            axe = Axe.REACTIVITE, scoreParOption = listOf(0, 4), poids = 2, signalCritique = true),
 
-        QuestionChoix(
-            "apparition",
-            "Ces comportements sont apparus :",
-            listOf("Progressivement", "Brutalement", "Je ne sais pas")
-        ),
-        QuestionChoix(
-            "situation_principale",
-            "Ils apparaissent principalement :",
-            listOf(
-                "Dans beaucoup de situations",
-                "Surtout en votre absence",
-                "Surtout à l’extérieur",
-                "Surtout en votre présence"
-            )
-        ),
-        QuestionChoix(
-            "duree_probleme",
-            "Depuis combien de temps observez-vous ce comportement ?",
-            listOf("Moins d’1 semaine", "1 à 4 semaines", "Plusieurs mois", "Depuis toujours")
-        ),
-        QuestionChoix(
-            "evolution_probleme",
-            "Ce comportement :",
-            listOf("S’améliore", "Reste stable", "S’aggrave")
-        ),
-        QuestionChoix(
-            "frequence_probleme",
-            "À quelle fréquence cela se produit-il ?",
-            listOf("Rarement", "Quelques fois par semaine", "Tous les jours", "Plusieurs fois par jour")
-        ),
-        QuestionChoix(
-            "intensite_probleme",
-            "Quand cela arrive, c’est plutôt :",
-            listOf(
-                "Léger (gérable facilement)",
-                "Moyen (gênant)",
-                "Fort (difficile à gérer)",
-                "Très intense (perte de contrôle / dangereux)"
-            )
-        ),
-        QuestionChoix(
-            "generalisation_probleme",
-            "Cela arrive surtout :",
-            listOf("Dans une situation précise", "Dans plusieurs situations", "Presque tout le temps")
-        ),
-        QuestionChoix(
-            "changement_recent",
-            "Y a-t-il eu récemment un changement important dans sa vie ?",
-            listOf(
-                "Aucun changement",
-                "Un changement léger",
-                "Un changement important (déménagement, bébé, séparation...)"
-            )
-        ),
-        QuestionChoix(
-            "signe_physique",
-            "Avez-vous remarqué quelque chose sur le plan physique ?",
-            listOf(
-                "Rien de particulier",
-                "Fatigue inhabituelle",
-                "Douleur / gêne possible",
-                "Changement physique notable"
-            )
-        )
+        QuestionChoix("defense_ressources",
+            "Votre chien grogne-t-il ou devient-il tendu quand on s'approche de sa gamelle, de ses jouets ou de son couchage ?",
+            listOf("Non, jamais", "Parfois, dans certaines situations", "Oui, c'est fréquent"),
+            axe = Axe.REACTIVITE, scoreParOption = listOf(0, 2, 4), signalAlerte = true),
+
+        QuestionChoix("apparition", "Le comportement qui vous préoccupe est apparu comment ?",
+            listOf("Progressivement, ça s'est installé petit à petit", "Du jour au lendemain, sans raison apparente", "Je ne sais pas vraiment")),
+
+        QuestionChoix("situation_principale", "Il apparaît principalement :",
+            listOf("Dans beaucoup de situations", "Surtout en votre absence", "Surtout à l'extérieur", "Surtout en votre présence")),
+
+        QuestionChoix("duree_probleme", "Depuis combien de temps observez-vous ce comportement ?",
+            listOf("Moins d'1 semaine", "1 à 4 semaines", "Plusieurs mois", "Depuis toujours")),
+
+        QuestionChoix("evolution_probleme", "Ce comportement :",
+            listOf("S'améliore", "Reste stable", "S'aggrave")),
+
+        QuestionChoix("frequence_probleme", "À quelle fréquence cela se produit-il ?",
+            listOf("Rarement", "Quelques fois par semaine", "Tous les jours", "Plusieurs fois par jour")),
+
+        QuestionChoix("intensite_probleme", "Quand cela arrive, c'est plutôt :",
+            listOf("Léger (gérable facilement)", "Moyen (gênant)", "Fort (difficile à gérer)", "Très intense (perte de contrôle / dangereux)")),
+
+        QuestionChoix("generalisation_probleme", "Le comportement qui vous préoccupe arrive plutôt :",
+            listOf("Dans une situation bien précise", "Dans plusieurs situations différentes", "Un peu partout, dans beaucoup de moments du quotidien")),
+
+        QuestionChoix("changement_recent", "Y a-t-il eu récemment un changement important dans sa vie ?",
+            listOf("Aucun changement", "Un changement léger", "Un changement important (déménagement, bébé, séparation...)")),
+
+        QuestionChoix("signe_physique", "Avez-vous remarqué un changement physique chez votre chien ces derniers temps ?",
+            listOf("Non, rien de particulier", "Oui, il semble plus fatigué qu'avant", "Oui, il semble avoir mal ou être gêné dans ses mouvements", "Oui, autre chose a changé physiquement"))
     )
 }
