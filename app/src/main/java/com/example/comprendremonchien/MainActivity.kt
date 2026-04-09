@@ -32,16 +32,11 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.content.FileProvider
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.comprendremonchien.FeedbackScreen
-import com.example.comprendremonchien.HistoriqueDetailScreen
-import com.example.comprendremonchien.HistoriqueManager
-import com.example.comprendremonchien.HistoriqueScreen
-import com.example.comprendremonchien.OnboardingScreen
-import com.example.comprendremonchien.PremiumTopBarWithActions
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -94,6 +89,7 @@ fun screenFromStorage(value: String): AppScreen = when {
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             ComprendreMonChienTheme {
@@ -123,7 +119,6 @@ fun ComprendreMonChienApp() {
     val reponsesTexte = remember { mutableStateMapOf<String, String>() }
     val reponsesChoix = remember { mutableStateMapOf<String, Int>() }
 
-    // Historique
     val bilans by HistoriqueManager.getBilans(context).collectAsState(initial = emptyList())
 
     fun saveState() {
@@ -194,7 +189,6 @@ fun ComprendreMonChienApp() {
         else if (indexQuestion > questionsVisibles.lastIndex) indexQuestion = questionsVisibles.lastIndex
     }
 
-    // ── Envoi email feedback ──────────────────────────────────────────────────
     fun envoyerFeedbackEmail(categorie: String, ecran: String, message: String, version: String) {
         val sujet = "[Comprendre mon chien] $categorie — $ecran"
         val corps = """
@@ -286,10 +280,8 @@ Envoyé depuis l'application Comprendre mon chien
                     }
                 } else null
 
-                // Actions dans la TopBar selon l'écran
                 val actions: @Composable () -> Unit = {
                     when (screen) {
-                        // Historique accessible depuis l'accueil
                         AppScreen.Accueil -> {
                             if (bilans.isNotEmpty()) {
                                 IconButton(onClick = {
@@ -304,7 +296,6 @@ Envoyé depuis l'application Comprendre mon chien
                                 }
                             }
                         }
-                        // Bouton feedback sur tous les écrans sauf Feedback lui-même et Chargement
                         AppScreen.Chargement, AppScreen.Feedback, AppScreen.Onboarding -> Unit
                         else -> {
                             IconButton(onClick = {
@@ -403,7 +394,6 @@ Envoyé depuis l'application Comprendre mon chien
                         questions, reponsesTexte, reponsesChoix
                     )
 
-                    // Auto-sauvegarde dans l'historique
                     LaunchedEffect(Unit) {
                         HistoriqueManager.sauvegarderBilan(
                             context,
@@ -482,13 +472,8 @@ Envoyé depuis l'application Comprendre mon chien
                         ecranActuel = screenAvantFeedback.toStorageValue(),
                         onEnvoyer = { categorie, ecran, message ->
                             val version = try {
-                                context.packageManager.getPackageInfo(
-                                    context.packageName,
-                                    0
-                                ).versionName ?: "?"
-                            } catch (e: Exception) {
-                                "?"
-                            }
+                                context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "?"
+                            } catch (e: Exception) { "?" }
                             envoyerFeedbackEmail(categorie, ecran, message, version)
                         },
                         onRetour = { screen = screenAvantFeedback }

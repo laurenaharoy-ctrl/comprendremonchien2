@@ -5,16 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.comprendremonchien"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.comprendremonchien"
-        minSdk = 24
-        targetSdk = 36
+        minSdk = 28
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -44,7 +40,9 @@ android {
 dependencies {
 
     implementation("androidx.datastore:datastore-preferences:1.1.7")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.google.zxing:core:3.5.3")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

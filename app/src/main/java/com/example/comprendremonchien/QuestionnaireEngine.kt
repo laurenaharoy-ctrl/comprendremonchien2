@@ -730,7 +730,7 @@ object QuestionnaireEngine {
     fun aideQuestion(questionId: String): String? {
         return when (questionId) {
             "race_categorie" -> "Choisissez la famille qui ressemble le plus à votre chien. Pour un croisé, choisissez la race dominante ou la dernière option."
-            "race_precise" -> "Facultatif — si vous connaissez la race exacte, elle sera mentionnée dans votre bilan."
+            "race_precise" -> "Indiquez la race exacte pour personnaliser davantage votre bilan."
             "adaptation_changements" -> "Pensez aux changements d'habitudes, de lieu, de rythme ou d'environnement."
             "comportement_exterieur" -> "Répondez en pensant surtout aux promenades et sorties habituelles."
             "reaction_peur" -> "Choisissez la réaction la plus fréquente quand votre chien est inquiet."
@@ -771,7 +771,7 @@ fun questionsApplication(): List<Question> {
             )
         ),
 
-        QuestionTexte("race_precise", "Quelle est la race précise de votre chien ? (facultatif — laissez vide si vous ne savez pas)"),
+        QuestionTexte("race_precise", "Quelle est la race précise de votre chien ?"),
 
         QuestionChoix("age", "Quel âge a votre chien ?",
             listOf("Moins d'1 an", "Entre 1 et 3 ans", "Entre 4 et 7 ans", "8 ans et +")),
@@ -782,7 +782,7 @@ fun questionsApplication(): List<Question> {
         QuestionChoix("sterilise", "Votre chien est-il stérilisé ?",
             listOf("Oui", "Non, c'est un mâle entier", "Non, c'est une femelle entière")),
 
-        QuestionChoix("peur_stimuli", "Votre chien montre-t-il de la peur face à certains stimuli ?",
+        QuestionChoix("peur_stimuli", "Votre chien montre-t-il de la peur face à certaines situations ? (bruits forts, inconnus, véhicules, aspirateur...)",
             listOf("Jamais", "Parfois", "Souvent"),
             axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
 

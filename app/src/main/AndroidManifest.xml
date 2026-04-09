@@ -26,10 +26,9 @@
             android:name="com.example.comprendremonchien.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Comprendremonchien">
+            android:theme="@style/Theme.Comprendremonchien.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
