@@ -580,8 +580,6 @@ fun ResultatScreen(
                 }
             }
 
-            SimpleRadarCard(analyse = analyse)
-
             PremiumCard(centered = true) {
                 EditorialKicker("Ce que ressent probablement ${nomChienAffiche(nomChien)}", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
@@ -647,17 +645,23 @@ fun ResultatScreen(
                 }
             }
 
-            analyse.messageAide?.let { message ->
+            if (analyse.messageAide != null || analyse.aDejaMordu) {
                 PremiumCard(centered = true) {
                     EditorialKicker("Quand demander de l'aide", centered = true)
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(message, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold)
+                    if (analyse.aDejaMordu) {
+                        Text(
+                            "Une morsure a été signalée — un accompagnement professionnel est recommandé pour évaluer la situation.",
+                            textAlign = TextAlign.Center,
+                            color = PremiumPalette.PrioriteModere,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        if (analyse.messageAide != null) Spacer(modifier = Modifier.height(10.dp))
+                    }
+                    analyse.messageAide?.let { message ->
+                        Text(message, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold)
+                    }
                 }
-            }
-
-            // ── MODIFICATION : encart morsure déplacé ici, après les conseils ──
-            if (analyse.aDejaMordu) {
-                AlerteMorsureCard(nomChienAffiche(nomChien))
             }
 
             PremiumCard(centered = true) {
@@ -672,8 +676,36 @@ fun ResultatScreen(
                 Text(phraseFin(nomChien), textAlign = TextAlign.Center)
             }
 
-            // ── MODIFICATION : boutons d'action déplacés à la fin ──
+            // ── MODIFICATION : boutons d'action ──
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // ── Recommencer : isolé, discret, tout en bas ──
+            Spacer(modifier = Modifier.height(8.dp))
+            androidx.compose.material3.Divider(
+                color = PremiumPalette.Border,
+                thickness = 0.5.dp,
+                modifier = Modifier.padding(horizontal = 40.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextButton(
+                onClick = onRecommencer,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    Icons.Rounded.Refresh,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    "Recommencer depuis le début",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -747,11 +779,7 @@ fun ActionButtonsGrid(onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -
             ActionButton(text = "Partager", icon = Icons.Rounded.Share, primary = true, modifier = Modifier.weight(1f), onClick = onShare)
             ActionButton(text = "Export PDF", icon = Icons.Rounded.PictureAsPdf, primary = true, modifier = Modifier.weight(1f), onClick = onExportPdf)
         }
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            ActionButton(text = "Copier", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.weight(1f), onClick = onCopy)
-            // ── MODIFICATION : "Recommencer" retiré d'ici, déplacé tout en bas ──
-            ActionButton(text = "Copier résumé", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.weight(1f), onClick = onCopy)
-        }
+        ActionButton(text = "Copier le résumé", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.fillMaxWidth(), onClick = onCopy)
     }
 }
 
@@ -914,14 +942,55 @@ fun FacteursCard(analyse: ResultatAnalyse) {
 @Composable
 fun DictionnaireInfoScreen(modifier: Modifier = Modifier, onOpenFiche: (String) -> Unit) {
     val fiches = remember { comportementEntries() }
+    var recherche by remember { mutableStateOf("") }
+    val fichesFiltrees = remember(recherche) {
+        if (recherche.isBlank()) fiches
+        else fiches.filter {
+            it.titre.contains(recherche, ignoreCase = true) ||
+                    it.resume.contains(recherche, ignoreCase = true)
+        }
+    }
+
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             PremiumCard(centered = true) {
-                EditorialKicker("Dictionnaire comportemental", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Repères pour mieux lire le langage du chien", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Choisissez une fiche pour ouvrir une explication détaillée.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                EditorialKicker("Dictionnaire comportemental", centered = true)
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = "Repères pour mieux lire le langage du chien", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(14.dp))
+                OutlinedTextField(
+                    value = recherche,
+                    onValueChange = { recherche = it },
+                    placeholder = { Text("Rechercher une fiche...") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = PremiumPalette.Primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        cursorColor = PremiumPalette.Primary,
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                    )
+                )
             }
-            fiches.forEach { fiche -> ComportementListItem(entry = fiche, onClick = { onOpenFiche(fiche.id) }) }
+
+            if (fichesFiltrees.isEmpty()) {
+                PremiumCard(centered = true) {
+                    Text(
+                        text = "Aucune fiche ne correspond à \"$recherche\".",
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            } else {
+                fichesFiltrees.forEach { fiche ->
+                    ComportementListItem(entry = fiche, onClick = { onOpenFiche(fiche.id) })
+                }
+            }
+
             PremiumCard(centered = true) {
                 EditorialKicker("Important", centered = true); Spacer(modifier = Modifier.height(10.dp))
                 Text(text = "Ces fiches donnent des repères de lecture. Elles ne remplacent pas l'avis d'un professionnel.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)

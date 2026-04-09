@@ -207,6 +207,7 @@ fun OnboardingScreen(
 
 @Composable
 fun OnboardingSlideContent(slide: OnboardingSlide) {
+    val hasFeatures = slide.features.isNotEmpty()
     Column(
         modifier = Modifier.Companion
             .fillMaxSize()
@@ -214,10 +215,11 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
         horizontalAlignment = Alignment.Companion.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // ── Illustration ──────────────────────────────────────────────────────
+        // ── Illustration — plus petite si features présentes ──────────────────
+        val illustrationSize = if (hasFeatures) 130.dp else 200.dp
         Box(
             modifier = Modifier.Companion
-                .size(200.dp)
+                .size(illustrationSize)
                 .clip(CircleShape)
                 .background(
                     Brush.Companion.radialGradient(
@@ -230,13 +232,18 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
             contentAlignment = Alignment.Companion.Center
         ) {
             when (slide.illustrationType) {
-                IllustrationType.CHIEN_ASSIS -> ChienIllustration()
+                IllustrationType.CHIEN_ASSIS -> androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_accueil),
+                    contentDescription = "Logo Comprendre mon chien",
+                    modifier = Modifier.Companion.fillMaxSize().padding(16.dp),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                )
                 IllustrationType.QUATRE_AXES -> QuatreAxesIllustration()
                 IllustrationType.BILAN_COMPLET -> BilanIllustration()
             }
         }
 
-        Spacer(modifier = Modifier.Companion.height(36.dp))
+        Spacer(modifier = Modifier.Companion.height(if (hasFeatures) 16.dp else 36.dp))
 
         // ── Kicker ────────────────────────────────────────────────────────────
         Text(
@@ -248,33 +255,33 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
             textAlign = TextAlign.Companion.Center
         )
 
-        Spacer(modifier = Modifier.Companion.height(10.dp))
+        Spacer(modifier = Modifier.Companion.height(8.dp))
 
         // ── Titre ─────────────────────────────────────────────────────────────
         Text(
             text = slide.titre,
-            style = MaterialTheme.typography.headlineMedium,
+            style = if (hasFeatures) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Companion.ExtraBold,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Companion.Center,
-            lineHeight = 32.sp
+            lineHeight = 28.sp
         )
 
-        Spacer(modifier = Modifier.Companion.height(14.dp))
+        Spacer(modifier = Modifier.Companion.height(8.dp))
 
         // ── Description ───────────────────────────────────────────────────────
         Text(
             text = slide.description,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Companion.Center,
-            lineHeight = 24.sp
+            lineHeight = 22.sp
         )
 
         // ── Features ──────────────────────────────────────────────────────────
-        if (slide.features.isNotEmpty()) {
-            Spacer(modifier = Modifier.Companion.height(22.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        if (hasFeatures) {
+            Spacer(modifier = Modifier.Companion.height(14.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 slide.features.forEach { (icon, label) ->
                     Row(
                         verticalAlignment = Alignment.Companion.CenterVertically,
@@ -283,11 +290,11 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(14.dp))
                             .background(PremiumPalette.PaperSoft.copy(alpha = 0.7f))
-                            .padding(horizontal = 16.dp, vertical = 10.dp)
+                            .padding(horizontal = 14.dp, vertical = 8.dp)
                     ) {
                         Box(
                             modifier = Modifier.Companion
-                                .size(34.dp)
+                                .size(30.dp)
                                 .clip(CircleShape)
                                 .background(PremiumPalette.Primary.copy(alpha = 0.10f)),
                             contentAlignment = Alignment.Companion.Center
@@ -296,12 +303,12 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
                                 icon,
                                 contentDescription = null,
                                 tint = PremiumPalette.Primary,
-                                modifier = Modifier.Companion.size(18.dp)
+                                modifier = Modifier.Companion.size(16.dp)
                             )
                         }
                         Text(
                             label,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Companion.Medium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -604,36 +611,35 @@ fun AccueilIllustrationCard() {
         ) {
             Box(
                 modifier = Modifier.Companion
-                    .size(110.dp)
-                    .clip(CircleShape)
-                    .background(
-                        Brush.Companion.radialGradient(
-                            listOf(
-                                PremiumPalette.Accent.copy(alpha = 0.25f),
-                                PremiumPalette.PaperWarm.copy(alpha = 0.6f)
-                            )
-                        )
-                    ),
+                    .fillMaxWidth()
+                    .height(160.dp),
                 contentAlignment = Alignment.Companion.Center
             ) {
-                ChienIllustration()
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_accueil),
+                    contentDescription = "Logo Comprendre mon chien",
+                    modifier = Modifier.Companion
+                        .fillMaxWidth()
+                        .height(160.dp),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                )
             }
 
             Spacer(modifier = Modifier.Companion.height(14.dp))
 
             Text(
                 text = "Comprendre mon chien",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Companion.ExtraBold,
                 color = PremiumPalette.Primary,
                 textAlign = TextAlign.Companion.Center
             )
 
-            Spacer(modifier = Modifier.Companion.height(6.dp))
+            Spacer(modifier = Modifier.Companion.height(10.dp))
 
             Text(
-                text = "Bilan émotionnel • Conseils personnalisés • Export PDF",
-                style = MaterialTheme.typography.bodySmall,
+                text = "Bienvenue",
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Companion.Center
             )

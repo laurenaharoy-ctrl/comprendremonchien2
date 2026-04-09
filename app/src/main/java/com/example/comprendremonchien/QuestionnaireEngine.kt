@@ -143,7 +143,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             peur >= 60 && reactivite >= 60 ->
                 ProfilGlobal(
                     titre = "Sensibilité émotionnelle et réactivité marquées",
@@ -152,7 +151,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             attachement >= 60 && peur >= 60 ->
                 ProfilGlobal(
                     titre = "Besoin de proximité avec fragilité émotionnelle",
@@ -161,7 +159,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             attachement >= 60 && reactivite >= 60 ->
                 ProfilGlobal(
                     titre = "Proximité importante avec réactions intenses",
@@ -170,7 +167,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             impulsivite >= 60 && reactivite >= 60 ->
                 ProfilGlobal(
                     titre = "Réactions rapides avec difficulté de contrôle",
@@ -179,7 +175,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             impulsivite >= 60 && peur >= 60 ->
                 ProfilGlobal(
                     titre = "Sensibilité avec régulation difficile",
@@ -188,7 +183,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             reactivite >= 60 ->
                 ProfilGlobal(
                     titre = "Réactivité plus marquée",
@@ -197,7 +191,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             attachement >= 60 ->
                 ProfilGlobal(
                     titre = "Besoin de proximité plus important",
@@ -206,7 +199,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             impulsivite >= 60 ->
                 ProfilGlobal(
                     titre = "Régulation plus difficile",
@@ -215,7 +207,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             peur >= 60 ->
                 ProfilGlobal(
                     titre = "Sensibilité émotionnelle plus marquée",
@@ -224,7 +215,6 @@ object QuestionnaireEngine {
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
                 )
-
             else ->
                 ProfilGlobal(
                     titre = "Profil à nuancer",
@@ -290,6 +280,7 @@ object QuestionnaireEngine {
         }
         val apparitionBrutale = reponsesChoix["apparition"] == 1
         val scoreMax = maxOf(peur, attachement, impulsivite, reactivite)
+        // ── MODIFICATION : sterilise == 1 = mâle entier (inchangé) ──
         val maleEntier = reponsesChoix["sterilise"] == 1
 
         return when {
@@ -395,6 +386,7 @@ object QuestionnaireEngine {
             }
         }
 
+        // ── sterilise == 1 = mâle entier, sterilise == 2 = femelle entière ──
         if (reponsesChoix["sterilise"] == 1 && reactivite >= 50) {
             conseils += "Chez un mâle entier, la réactivité peut être amplifiée par les hormones. Un avis vétérinaire sur la stérilisation peut valoir la peine d'être discuté."
         }
@@ -636,7 +628,6 @@ object QuestionnaireEngine {
         return listOf(intro, hypotheseTexte, aggr, prot).filter { it.isNotBlank() }.joinToString("\n\n")
     }
 
-    // ── Liste des catégories de races (même ordre que dans questionsApplication) ──
     private val listeCategoriesRaces = listOf(
         "Chiens de berger & troupeau",
         "Retrievers & Spaniels",
@@ -676,10 +667,10 @@ object QuestionnaireEngine {
         val explicationResultat = construireExplicationResultat(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
         val syntheseAvancee = genererSyntheseAvancee(nomChienAffiche(reponsesTexte["nom_chien"].orEmpty()), hypothesePrincipale, prioriteAction, facteursAggravants, facteursProtecteurs)
 
-        // ── Race ──────────────────────────────────────────────────────────────
         val raceCategorieIndex = reponsesChoix["race_categorie"]
         val raceCategorieTexte = raceCategorieIndex?.let { listeCategoriesRaces.getOrNull(it) }
-        val racePreciseTexte = reponsesTexte["race_precise"]?.trim()?.ifBlank { null }
+        // ── MODIFICATION : race_precise supprimée du questionnaire ──
+        val racePreciseTexte = null
 
         return ResultatAnalyse(
             peur = peur, attachement = attachement, impulsivite = impulsivite, reactivite = reactivite,
@@ -717,7 +708,7 @@ object QuestionnaireEngine {
     fun titreSectionPourQuestion(questionId: String): String {
         return when (questionId) {
             "nom_chien", "age", "sexe", "sterilise" -> "Informations générales"
-            "race_categorie", "race_precise" -> "Votre chien"
+            "race_categorie" -> "Votre chien"
             "peur_stimuli", "adaptation_changements", "comportement_exterieur", "reaction_peur" -> "Sensibilité et peur"
             "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise", "proprete_maison", "si_non_quand" -> "Attachement et séparation"
             "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" -> "Excitation et impulsivité"
@@ -729,8 +720,7 @@ object QuestionnaireEngine {
 
     fun aideQuestion(questionId: String): String? {
         return when (questionId) {
-            "race_categorie" -> "Choisissez la famille qui ressemble le plus à votre chien. Pour un croisé, choisissez la race dominante ou la dernière option."
-            "race_precise" -> "Indiquez la race exacte pour personnaliser davantage votre bilan."
+            "race_categorie" -> "Choisissez la famille qui ressemble le plus à votre chien. Pour un croisé, choisissez la dernière option."
             "adaptation_changements" -> "Pensez aux changements d'habitudes, de lieu, de rythme ou d'environnement."
             "comportement_exterieur" -> "Répondez en pensant surtout aux promenades et sorties habituelles."
             "reaction_peur" -> "Choisissez la réaction la plus fréquente quand votre chien est inquiet."
@@ -755,6 +745,7 @@ fun questionsApplication(): List<Question> {
     return listOf(
         QuestionTexte("nom_chien", "Quel est le nom de votre chien ?"),
 
+        // ── MODIFICATION : race_precise supprimée ──
         QuestionChoix(
             "race_categorie",
             "À quelle famille de races appartient votre chien ?",
@@ -771,16 +762,15 @@ fun questionsApplication(): List<Question> {
             )
         ),
 
-        QuestionTexte("race_precise", "Quelle est la race précise de votre chien ?"),
-
         QuestionChoix("age", "Quel âge a votre chien ?",
             listOf("Moins d'1 an", "Entre 1 et 3 ans", "Entre 4 et 7 ans", "8 ans et +")),
 
         QuestionChoix("sexe", "Votre chien est :",
             listOf("Un mâle", "Une femelle")),
 
+        // ── MODIFICATION : options stérilisation reformulées ──
         QuestionChoix("sterilise", "Votre chien est-il stérilisé ?",
-            listOf("Oui", "Non, c'est un mâle entier", "Non, c'est une femelle entière")),
+            listOf("Oui, il est stérilisé", "Non, c'est un mâle entier", "Non, c'est une femelle entière")),
 
         QuestionChoix("peur_stimuli", "Votre chien montre-t-il de la peur face à certaines situations ? (bruits forts, inconnus, véhicules, aspirateur...)",
             listOf("Jamais", "Parfois", "Souvent"),
@@ -854,7 +844,7 @@ fun questionsApplication(): List<Question> {
             listOf("Non, jamais", "Parfois, dans certaines situations", "Oui, c'est fréquent"),
             axe = Axe.REACTIVITE, scoreParOption = listOf(0, 2, 4), signalAlerte = true),
 
-        QuestionChoix("apparition", "Le comportement qui vous préoccupe est apparu comment ?",
+        QuestionChoix("apparition", "Le comportement qui vous préoccupe est apparu :",
             listOf("Progressivement, ça s'est installé petit à petit", "Du jour au lendemain, sans raison apparente", "Je ne sais pas vraiment")),
 
         QuestionChoix("situation_principale", "Il apparaît principalement :",
@@ -870,10 +860,10 @@ fun questionsApplication(): List<Question> {
             listOf("Rarement", "Quelques fois par semaine", "Tous les jours", "Plusieurs fois par jour")),
 
         QuestionChoix("intensite_probleme", "Quand cela arrive, c'est plutôt :",
-            listOf("Léger (gérable facilement)", "Moyen (gênant)", "Fort (difficile à gérer)", "Très intense (perte de contrôle / dangereux)")),
+            listOf("Gérable facilement", "Gênant", "Difficile à gérer", "Perte de contrôle / dangereux")),
 
         QuestionChoix("generalisation_probleme", "Le comportement qui vous préoccupe arrive plutôt :",
-            listOf("Dans une situation bien précise", "Dans plusieurs situations différentes", "Un peu partout, dans beaucoup de moments du quotidien")),
+            listOf("Dans une situation bien précise", "Dans plusieurs situations différentes", "Dans la plupart des situations")),
 
         QuestionChoix("changement_recent", "Y a-t-il eu récemment un changement important dans sa vie ?",
             listOf("Aucun changement", "Un changement léger", "Un changement important (déménagement, bébé, séparation...)")),

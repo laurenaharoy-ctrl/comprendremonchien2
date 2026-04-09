@@ -44,6 +44,10 @@ object PdfExporter {
     private val COLOR_PRIORITE_ELEVEE_BG = Color.parseColor("#F2E0D6")
     private val COLOR_PRIORITE_URGENTE_BG = Color.parseColor("#EDD8D0")
 
+    // ── Couleur sobre pour la mention morsure ──
+    private val COLOR_MORSURE_TEXTE = Color.parseColor("#B8845A")
+    private val COLOR_MORSURE_BG = Color.parseColor("#F5E8DC")
+
     // ─── Dimensions ─────────────────────────────────────────────
     private const val PAGE_W = 595
     private const val PAGE_H = 842
@@ -75,7 +79,7 @@ object PdfExporter {
     }
 
     // ════════════════════════════════════════════════════════════
-    // PAGE 1 — Couverture inspirée de la couverture du livre
+    // PAGE 1 — Couverture
     // ════════════════════════════════════════════════════════════
     private fun dessinePage1(
         document: PdfDocument, nom: String, date: String,
@@ -85,44 +89,36 @@ object PdfExporter {
         val canvas = page.canvas
         var y: Float
 
-        // ── Bandeau en-tête fond crème ───────────────────────────
         val headerHeight = 190f
         drawRect(canvas, 0f, 0f, PAGE_W.toFloat(), headerHeight, COLOR_WARM_BG)
 
-        // Ligne décorative top
         drawLine(canvas, MARGIN, 26f, PAGE_W - MARGIN, 26f, COLOR_ACCENT, 0.8f)
 
-        // "Comprendre mon chien" centré en italique
         val appTitlePaint = makePaint(11f, COLOR_INK_SOFT, italic = true)
         val appTitle = "Comprendre mon chien"
         val appTitleW = appTitlePaint.measureText(appTitle)
         canvas.drawText(appTitle, (PAGE_W - appTitleW) / 2f, 44f, appTitlePaint)
 
-        // Tirets décoratives + point central (comme la couverture)
         val centerX = PAGE_W / 2f
         drawLine(canvas, centerX - 70f, 54f, centerX - 10f, 54f, COLOR_ACCENT, 0.8f)
         drawLine(canvas, centerX + 10f, 54f, centerX + 70f, 54f, COLOR_ACCENT, 0.8f)
         drawCircle(canvas, centerX, 54f, 2f, COLOR_ACCENT)
 
-        // Date en haut à droite
         val datePaint = makePaint(9f, COLOR_INK_SOFT)
         canvas.drawText(date, PAGE_W - MARGIN - datePaint.measureText(date), 44f, datePaint)
 
-        // ✅ Nom du chien centré — drawText direct pour éviter le bug de découpage
         val nomPaint = makePaint(34f, COLOR_PRIMARY, bold = true)
         val nomW = nomPaint.measureText(nom)
         canvas.drawText(nom, (PAGE_W - nomW) / 2f, 96f, nomPaint)
 
-        // Sous-titre "Bilan comportemental" centré en italique
+        // ── MODIFICATION : "Bilan comportemental" → "Bilan émotionnel" ──
         val sousTitrePaint = makePaint(12f, COLOR_INK_SOFT, italic = true)
-        val sousTitre = "Bilan comportemental"
+        val sousTitre = "Bilan émotionnel"
         val sousTitreW = sousTitrePaint.measureText(sousTitre)
         canvas.drawText(sousTitre, (PAGE_W - sousTitreW) / 2f, 118f, sousTitrePaint)
 
-        // Ligne séparatrice élégante
         drawLine(canvas, MARGIN + 40f, 130f, PAGE_W - MARGIN - 40f, 130f, COLOR_BORDER, 0.8f)
 
-        // ✅ Badge priorité centré — drawText direct
         val badgeText = libellePriorite.uppercase(Locale.getDefault())
         val badgePaint = makePaint(9f, COLOR_WHITE, bold = true)
         val badgeTextW = badgePaint.measureText(badgeText)
@@ -131,10 +127,6 @@ object PdfExporter {
         drawRoundRect(canvas, badgeLeft, 140f, badgeLeft + badgeW, 162f, 11f, couleurPriorite)
         canvas.drawText(badgeText, (PAGE_W - badgeTextW) / 2f, 155f, badgePaint)
 
-        // ✅ Phrase humaine — StaticLayout centré (texte long, pas de problème)
-        val phraseH = measureStaticTextHeight(
-            analyse.profil.phraseHumaine, CONTENT_W.toInt(), makePaint(11f, COLOR_INK, italic = true)
-        )
         drawStaticText(
             canvas, analyse.profil.phraseHumaine,
             MARGIN, 170f, CONTENT_W.toInt(),
@@ -144,11 +136,9 @@ object PdfExporter {
 
         y = headerHeight + 20f
 
-        // Ligne séparatrice
         drawLine(canvas, MARGIN, y, PAGE_W - MARGIN, y, COLOR_BORDER, 0.5f)
         y += 24f
 
-        // ── Grille "En un coup d'œil" ────────────────────────────
         drawSectionTitle(canvas, y, "En un coup d\u2019\u0153il")
         y += 48f
 
@@ -162,7 +152,6 @@ object PdfExporter {
         y = drawInfoGrid(canvas, y, gridItems)
         y += 20f
 
-        // ── Phrase situation ─────────────────────────────────────
         val situationH = measureStaticTextHeight(
             analyse.messageSituation, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_INK)
         ) + 32f
@@ -311,13 +300,13 @@ object PdfExporter {
             y += 12f
         }
 
-        // ✅ Alerte morsure en rouge-orangé
+        // ── MODIFICATION : morsure sobre, orange doux, sans alarmisme ──
         if (analyse.aDejaMordu && y < CONTENT_BOTTOM - 40f) {
-            val morsuText = "Il y a d\u00e9j\u00e0 eu morsure. Il vaut mieux ne pas banaliser la situation et se faire accompagner par un professionnel du comportement."
-            val morsuH = measureStaticTextHeight(morsuText, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_PRIORITE_URGENTE, bold = true)) + 32f
+            val morsuText = "Une morsure a \u00e9t\u00e9 signal\u00e9e lors de ce bilan. Un accompagnement professionnel est recommand\u00e9 pour \u00e9valuer la situation et s\u00e9curiser le quotidien."
+            val morsuH = measureStaticTextHeight(morsuText, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_MORSURE_TEXTE, bold = true)) + 32f
             if (y + morsuH < CONTENT_BOTTOM) {
-                drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + morsuH, COLOR_PRIORITE_URGENTE_BG, COLOR_PRIORITE_URGENTE, 14f)
-                drawStaticText(canvas, morsuText, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_PRIORITE_URGENTE, bold = true))
+                drawCard(canvas, MARGIN, y, PAGE_W - MARGIN, y + morsuH, COLOR_MORSURE_BG, COLOR_MORSURE_TEXTE, 14f)
+                drawStaticText(canvas, morsuText, MARGIN + 16f, y + 16f, (CONTENT_W - 32f).toInt(), makePaint(11f, COLOR_MORSURE_TEXTE, bold = true))
                 y += morsuH + 10f
             }
         }
@@ -388,7 +377,6 @@ object PdfExporter {
             }
         }
 
-        // ✅ Footer QR ancré en bas de page — position fixe
         dessineFooterAvecQr(canvas)
         document.finishPage(page)
     }
@@ -407,7 +395,6 @@ object PdfExporter {
     private fun drawPageHeader(canvas: Canvas, title: String) {
         drawRect(canvas, 0f, 0f, PAGE_W.toFloat(), MARGIN + 28f, COLOR_WARM_BG)
         drawLine(canvas, 0f, MARGIN + 28f, PAGE_W.toFloat(), MARGIN + 28f, COLOR_BORDER, 0.5f)
-        // ✅ StaticLayout pour titre avec accents
         drawStaticText(canvas, title, MARGIN, MARGIN + 6f, (CONTENT_W / 2).toInt(), makePaint(9f, COLOR_INK_SOFT, bold = true))
         val appLabel = "Comprendre mon chien"
         val appLabelPaint = makePaint(9f, COLOR_INK_SOFT, italic = true)
@@ -415,7 +402,6 @@ object PdfExporter {
     }
 
     private fun drawSectionTitle(canvas: Canvas, y: Float, title: String) {
-        // ✅ StaticLayout pour accents
         drawStaticText(canvas, title, MARGIN, y, CONTENT_W.toInt(), makePaint(13f, COLOR_PRIMARY, bold = true))
         drawLine(canvas, MARGIN, y + 22f, PAGE_W - MARGIN, y + 22f, COLOR_BORDER, 0.6f)
     }
@@ -425,7 +411,6 @@ object PdfExporter {
         val fillRatio = (score / 100f).coerceIn(0f, 1f)
         val barH = 7f
 
-        // ✅ StaticLayout pour label avec accents
         drawStaticText(canvas, label, MARGIN, y, (CONTENT_W * 0.6f).toInt(), makePaint(10.5f, COLOR_INK))
         val niveauPaint = makePaint(10.5f, COLOR_PRIMARY_SOFT, bold = true)
         canvas.drawText(libelleNiveau, PAGE_W - MARGIN - niveauPaint.measureText(libelleNiveau), y + 13f, niveauPaint)
@@ -463,7 +448,6 @@ object PdfExporter {
             row.forEachIndexed { index, (label, value) ->
                 val left = MARGIN + index * (cardW + colGap)
                 drawCard(canvas, left, y, left + cardW, y + cardH, COLOR_WARM_BG, COLOR_BORDER, 12f)
-                // ✅ StaticLayout pour label avec accents
                 drawStaticText(canvas, label.uppercase(Locale.getDefault()), left + 12f, y + 4f, (cardW - 24f).toInt(), makePaint(8f, COLOR_INK_SOFT, bold = true))
                 val valueLayout = makeStaticLayout(value, (cardW - 24f).toInt(), makePaint(11f, COLOR_PRIMARY, bold = true))
                 canvas.save()
@@ -479,13 +463,13 @@ object PdfExporter {
     private fun dessineFooter(canvas: Canvas, pageNum: Int) {
         val footerY = PAGE_H - MARGIN - 14f
         drawLine(canvas, MARGIN, footerY - 10f, PAGE_W - MARGIN, footerY - 10f, COLOR_BORDER, 0.5f)
-        canvas.drawText("Comprendre mon chien  \u2022  Bilan comportemental indicatif", MARGIN, footerY, makePaint(8f, COLOR_INK_SOFT))
+        // ── MODIFICATION : "Bilan comportemental" → "Bilan émotionnel" dans le footer ──
+        canvas.drawText("Comprendre mon chien  \u2022  Bilan \u00e9motionnel indicatif", MARGIN, footerY, makePaint(8f, COLOR_INK_SOFT))
         val pageLabel = "Page $pageNum / 4"
         val pagePaint = makePaint(8f, COLOR_INK_SOFT)
         canvas.drawText(pageLabel, PAGE_W - MARGIN - pagePaint.measureText(pageLabel), footerY, pagePaint)
     }
 
-    // ✅ Footer QR en position fixe en bas
     private fun dessineFooterAvecQr(canvas: Canvas) {
         val footerTop = PAGE_H - MARGIN - 90f
         drawCard(canvas, MARGIN, footerTop, PAGE_W - MARGIN, PAGE_H - MARGIN + 2f, COLOR_WARM_BG, COLOR_BORDER, 14f)
@@ -599,7 +583,7 @@ object PdfExporter {
     }
 
     private fun aideAEnvisager(analyse: ResultatAnalyse) = when {
-        analyse.aDejaMordu -> "Comportementaliste rapidement"
+        analyse.aDejaMordu -> "Comportementaliste recommandé"
         analyse.prioriteAction == PrioriteAction.URGENTE -> "Professionnel rapidement"
         analyse.prioriteAction == PrioriteAction.ELEVEE -> "Comportementaliste"
         analyse.niveauSituation == NiveauSituation.SENSIBLE -> "Comportementaliste"
