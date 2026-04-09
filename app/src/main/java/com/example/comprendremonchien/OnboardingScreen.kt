@@ -81,7 +81,7 @@ enum class IllustrationType {
 val onboardingSlides = listOf(
     OnboardingSlide(
         kicker = "Bienvenue",
-        titre = "Mieux comprendre votre chien",
+        titre = "Comprendre mon chien",
         description = "Cette application vous aide à décoder les comportements de votre chien et à obtenir des pistes concrètes adaptées à son profil unique.",
         illustrationType = IllustrationType.CHIEN_ASSIS
     ),
@@ -100,10 +100,10 @@ val onboardingSlides = listOf(
     OnboardingSlide(
         kicker = "Ce que vous obtenez",
         titre = "Un bilan personnalisé complet",
-        description = "À la fin du questionnaire, vous recevez une analyse détaillée avec des conseils concrets, un plan d'action et un PDF à partager avec votre vétérinaire.",
+        description = "À la fin du questionnaire, vous recevez un bilan émotionnel détaillé avec des conseils concrets, un plan d'action et un PDF à partager avec votre vétérinaire.",
         illustrationType = IllustrationType.BILAN_COMPLET,
         features = listOf(
-            Icons.Rounded.CheckCircle to "Analyse comportementale",
+            Icons.Rounded.CheckCircle to "Bilan émotionnel",
             Icons.Rounded.PictureAsPdf to "Export PDF 4 pages",
             Icons.Rounded.History to "Historique des bilans"
         )
@@ -327,21 +327,17 @@ fun ChienIllustration() {
             Stroke(width = 3.5f, cap = StrokeCap.Companion.Round, join = StrokeJoin.Companion.Round)
 
         translate(w * 0.5f, h * 0.5f) {
-            // Corps (ellipse)
             drawOval(
                 color = accent.copy(alpha = 0.35f),
                 topLeft = Offset(-28f, -10f),
                 size = Size(56f, 44f)
             )
-            // Corps contour
             drawOval(
                 color = soft,
                 topLeft = Offset(-28f, -10f),
                 size = Size(56f, 44f),
                 style = stroke
             )
-
-            // Tête (cercle)
             drawCircle(
                 color = accent.copy(alpha = 0.35f),
                 radius = 22f,
@@ -353,8 +349,6 @@ fun ChienIllustration() {
                 center = Offset(0f, -38f),
                 style = stroke
             )
-
-            // Oreilles gauche
             val oreilleGauche = Path().apply {
                 moveTo(-14f, -52f)
                 cubicTo(-24f, -68f, -36f, -62f, -28f, -48f)
@@ -362,8 +356,6 @@ fun ChienIllustration() {
             }
             drawPath(oreilleGauche, color = soft.copy(alpha = 0.5f))
             drawPath(oreilleGauche, color = primary, style = stroke)
-
-            // Oreille droite
             val oreilleDroite = Path().apply {
                 moveTo(14f, -52f)
                 cubicTo(24f, -68f, 36f, -62f, 28f, -48f)
@@ -371,22 +363,15 @@ fun ChienIllustration() {
             }
             drawPath(oreilleDroite, color = soft.copy(alpha = 0.5f))
             drawPath(oreilleDroite, color = primary, style = stroke)
-
-            // Yeux
             drawCircle(color = ink, radius = 3.5f, center = Offset(-8f, -40f))
             drawCircle(color = ink, radius = 3.5f, center = Offset(8f, -40f))
-            // Reflets yeux
             drawCircle(color = Color.Companion.White, radius = 1.2f, center = Offset(-6.5f, -41.5f))
             drawCircle(color = Color.Companion.White, radius = 1.2f, center = Offset(9.5f, -41.5f))
-
-            // Truffe
             drawOval(
                 color = ink,
                 topLeft = Offset(-5f, -31f),
                 size = Size(10f, 7f)
             )
-
-            // Sourire
             val sourire = Path().apply {
                 moveTo(-6f, -24f)
                 cubicTo(-3f, -20f, 3f, -20f, 6f, -24f)
@@ -396,8 +381,6 @@ fun ChienIllustration() {
                 color = primary,
                 style = Stroke(width = 2.5f, cap = StrokeCap.Companion.Round)
             )
-
-            // Queue
             val queue = Path().apply {
                 moveTo(28f, 4f)
                 cubicTo(44f, -8f, 52f, 4f, 44f, 14f)
@@ -407,8 +390,6 @@ fun ChienIllustration() {
                 color = soft,
                 style = Stroke(width = 4f, cap = StrokeCap.Companion.Round)
             )
-
-            // Pattes avant
             drawRoundRect(
                 color = soft.copy(alpha = 0.5f),
                 topLeft = Offset(-22f, 26f),
@@ -435,14 +416,11 @@ fun ChienIllustration() {
                 cornerRadius = CornerRadius(6f),
                 style = stroke
             )
-
-            // Coeur au dessus
             drawCircle(
                 color = PremiumPalette.PrioriteElevee.copy(alpha = 0.15f),
                 radius = 10f,
                 center = Offset(30f, -52f)
             )
-            // Mini coeur simplifié
             drawCircle(
                 color = PremiumPalette.PrioriteElevee,
                 radius = 4f,
@@ -464,9 +442,7 @@ fun QuatreAxesIllustration() {
         val cx = size.width / 2f
         val cy = size.height / 2f
         val r = size.width * 0.38f
-        val stroke = Stroke(width = 2.5f, cap = StrokeCap.Companion.Round)
 
-        // Cercles de fond
         listOf(0.33f, 0.66f, 1f).forEach { ratio ->
             drawCircle(
                 color = accent.copy(alpha = 0.15f),
@@ -476,12 +452,9 @@ fun QuatreAxesIllustration() {
             )
         }
 
-        // Axes
         val angles = listOf(270f, 0f, 90f, 180f)
-        val valeurs = listOf(0.75f, 0.55f, 0.80f, 0.45f) // valeurs illustratives
-        val labels = listOf("Sensibilité", "Attachement", "Impulsivité", "Réactivité")
+        val valeurs = listOf(0.75f, 0.55f, 0.80f, 0.45f)
 
-        // Lignes des axes
         angles.forEach { angle ->
             val rad = Math.toRadians(angle.toDouble())
             drawLine(
@@ -495,7 +468,6 @@ fun QuatreAxesIllustration() {
             )
         }
 
-        // Polygone des valeurs
         val points = angles.mapIndexed { i, angle ->
             val rad = Math.toRadians(angle.toDouble())
             Offset(
@@ -518,14 +490,10 @@ fun QuatreAxesIllustration() {
                 join = StrokeJoin.Companion.Round
             )
         )
-
-        // Points aux sommets
         points.forEach { pt ->
             drawCircle(color = primary, radius = 5f, center = pt)
             drawCircle(color = Color.Companion.White, radius = 2.5f, center = pt)
         }
-
-        // Centre
         drawCircle(color = soft, radius = 5f, center = Offset(cx, cy))
     }
 }
@@ -543,16 +511,13 @@ fun BilanIllustration() {
         val h = size.height
         val stroke = Stroke(width = 2f, cap = StrokeCap.Companion.Round)
 
-        // Page principale (légèrement inclinée)
         translate(w * 0.5f, h * 0.5f) {
-            // Ombre page arrière
             drawRoundRect(
                 color = border,
                 topLeft = Offset(-28f, -36f),
                 size = Size(60f, 76f),
                 cornerRadius = CornerRadius(8f)
             )
-            // Page principale
             drawRoundRect(
                 color = Color.Companion.White,
                 topLeft = Offset(-32f, -40f),
@@ -566,16 +531,12 @@ fun BilanIllustration() {
                 cornerRadius = CornerRadius(8f),
                 style = stroke
             )
-
-            // Bandeau terracotta en haut
             drawRoundRect(
                 color = primary.copy(alpha = 0.85f),
                 topLeft = Offset(-32f, -40f),
                 size = Size(60f, 18f),
                 cornerRadius = CornerRadius(8f)
             )
-
-            // Lignes de texte simulées
             listOf(-14f, -4f, 6f, 16f).forEachIndexed { i, y ->
                 val w2 = if (i % 2 == 0) 44f else 32f
                 drawRoundRect(
@@ -585,8 +546,6 @@ fun BilanIllustration() {
                     cornerRadius = CornerRadius(2f)
                 )
             }
-
-            // Mini barre de score
             drawRoundRect(
                 color = border,
                 topLeft = Offset(-24f, 26f),
@@ -599,14 +558,11 @@ fun BilanIllustration() {
                 size = Size(30f, 5f),
                 cornerRadius = CornerRadius(3f)
             )
-
-            // Badge check vert-terracotta
             drawCircle(
                 color = primary,
                 radius = 14f,
                 center = Offset(22f, 28f)
             )
-            // Check simplifié
             val check = Path().apply {
                 moveTo(15f, 28f)
                 lineTo(20f, 34f)
@@ -646,7 +602,6 @@ fun AccueilIllustrationCard() {
                 .padding(horizontal = 20.dp, vertical = 20.dp),
             horizontalAlignment = Alignment.Companion.CenterHorizontally
         ) {
-            // Illustration chien + cercle décoratif
             Box(
                 modifier = Modifier.Companion
                     .size(110.dp)
@@ -677,7 +632,7 @@ fun AccueilIllustrationCard() {
             Spacer(modifier = Modifier.Companion.height(6.dp))
 
             Text(
-                text = "Analyse comportementale • Conseils personnalisés • Export PDF",
+                text = "Bilan émotionnel • Conseils personnalisés • Export PDF",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Companion.Center

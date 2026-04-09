@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Feedback
 import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -51,7 +52,6 @@ private val Context.dataStore by preferencesDataStore(name = "comprendre_mon_chi
 sealed interface AppScreen {
     data object Accueil : AppScreen
     data object Onboarding : AppScreen
-    data object Introduction : AppScreen
     data object Questionnaire : AppScreen
     data object Chargement : AppScreen
     data object Resultat : AppScreen
@@ -61,12 +61,12 @@ sealed interface AppScreen {
     data object Feedback : AppScreen
     data object Historique : AppScreen
     data class HistoriqueDetail(val bilanId: String) : AppScreen
+    data object Parametres : AppScreen
 }
 
 fun AppScreen.toStorageValue(): String = when (this) {
     AppScreen.Accueil -> "accueil"
     AppScreen.Onboarding -> "accueil"
-    AppScreen.Introduction -> "introduction"
     AppScreen.Questionnaire -> "questionnaire"
     AppScreen.Chargement -> "questionnaire"
     AppScreen.Resultat -> "resultat"
@@ -76,10 +76,10 @@ fun AppScreen.toStorageValue(): String = when (this) {
     AppScreen.Feedback -> "accueil"
     AppScreen.Historique -> "historique"
     is AppScreen.HistoriqueDetail -> "historique"
+    AppScreen.Parametres -> "accueil"
 }
 
 fun screenFromStorage(value: String): AppScreen = when {
-    value == "introduction" -> AppScreen.Introduction
     value == "questionnaire" -> AppScreen.Questionnaire
     value == "resultat" -> AppScreen.Resultat
     value == "dictionnaire" -> AppScreen.Dictionnaire
@@ -203,6 +203,14 @@ fun ComprendreMonChienApp() {
         }
     }
 
+    fun reinitialiserOnboarding() {
+        scope.launch {
+            context.dataStore.edit { prefs ->
+                prefs.remove(stringPreferencesKey("onboarding_done"))
+            }
+        }
+    }
+
     val questionsVisibles = remember(reponsesChoix.toMap()) {
         questions.filter { questionDoitEtreAffichee(it, reponsesChoix) }
     }
@@ -244,10 +252,9 @@ Envoyé depuis l'application Comprendre mon chien
 
     BackHandler(enabled = screen != AppScreen.Accueil && screen != AppScreen.Onboarding) {
         when (screen) {
-            AppScreen.Introduction -> screen = AppScreen.Accueil
             AppScreen.Questionnaire -> {
                 if (indexQuestion > 0) { indexQuestion--; saveState() }
-                else { screen = AppScreen.Introduction; saveState() }
+                else { screen = AppScreen.Accueil; saveState() }
             }
             AppScreen.Chargement -> { screen = AppScreen.Questionnaire; saveState() }
             AppScreen.Resultat -> { screen = AppScreen.Questionnaire; saveState() }
@@ -257,6 +264,7 @@ Envoyé depuis l'application Comprendre mon chien
             AppScreen.Feedback -> { screen = screenAvantFeedback }
             AppScreen.Historique -> { screen = AppScreen.Accueil; saveState() }
             is AppScreen.HistoriqueDetail -> { screen = AppScreen.Historique }
+            AppScreen.Parametres -> { screen = AppScreen.Accueil }
             AppScreen.Accueil, AppScreen.Onboarding -> Unit
         }
     }
@@ -268,7 +276,6 @@ Envoyé depuis l'application Comprendre mon chien
                 val titreEcran = when (screen) {
                     AppScreen.Accueil -> "Comprendre mon chien"
                     AppScreen.Onboarding -> ""
-                    AppScreen.Introduction -> "Avant de commencer"
                     AppScreen.Questionnaire -> "Questionnaire"
                     AppScreen.Chargement -> "Analyse"
                     AppScreen.Resultat -> "Résultat"
@@ -281,15 +288,15 @@ Envoyé depuis l'application Comprendre mon chien
                     AppScreen.Feedback -> "Signalement"
                     AppScreen.Historique -> "Historique des bilans"
                     is AppScreen.HistoriqueDetail -> "Détail du bilan"
+                    AppScreen.Parametres -> "Paramètres"
                 }
 
                 val onBack: (() -> Unit)? = if (screen != AppScreen.Accueil && screen != AppScreen.Chargement) {
                     {
                         when (screen) {
-                            AppScreen.Introduction -> screen = AppScreen.Accueil
                             AppScreen.Questionnaire -> {
                                 if (indexQuestion > 0) indexQuestion--
-                                else screen = AppScreen.Introduction
+                                else screen = AppScreen.Accueil
                                 saveState()
                             }
                             AppScreen.Resultat -> { screen = AppScreen.Questionnaire; saveState() }
@@ -299,6 +306,7 @@ Envoyé depuis l'application Comprendre mon chien
                             AppScreen.Feedback -> screen = screenAvantFeedback
                             AppScreen.Historique -> { screen = AppScreen.Accueil; saveState() }
                             is AppScreen.HistoriqueDetail -> screen = AppScreen.Historique
+                            AppScreen.Parametres -> screen = AppScreen.Accueil
                             else -> Unit
                         }
                     }
@@ -319,8 +327,15 @@ Envoyé depuis l'application Comprendre mon chien
                                     )
                                 }
                             }
+                            IconButton(onClick = { screen = AppScreen.Parametres }) {
+                                Icon(
+                                    Icons.Rounded.Settings,
+                                    contentDescription = "Paramètres",
+                                    tint = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
+                                )
+                            }
                         }
-                        AppScreen.Chargement, AppScreen.Feedback, AppScreen.Onboarding -> Unit
+                        AppScreen.Chargement, AppScreen.Feedback, AppScreen.Onboarding, AppScreen.Parametres -> Unit
                         else -> {
                             IconButton(onClick = {
                                 screenAvantFeedback = screen
@@ -363,16 +378,6 @@ Envoyé depuis l'application Comprendre mon chien
                     AccueilScreen(
                         modifier = Modifier.padding(padding),
                         hasSavedProgress = hasSavedProgress,
-                        onCommencer = { screen = AppScreen.Introduction },
-                        onReprendre = { screen = AppScreen.Questionnaire; saveState() },
-                        onDictionnaire = { screen = AppScreen.Dictionnaire; saveState() },
-                        onAlimentation = { screen = AppScreen.Alimentation; saveState() }
-                    )
-                }
-
-                AppScreen.Introduction -> {
-                    IntroductionScreen(
-                        modifier = Modifier.padding(padding),
                         onCommencer = {
                             reponsesTexte.clear()
                             reponsesChoix.clear()
@@ -380,7 +385,10 @@ Envoyé depuis l'application Comprendre mon chien
                             screen = AppScreen.Questionnaire
                             clearSavedState()
                             saveState()
-                        }
+                        },
+                        onReprendre = { screen = AppScreen.Questionnaire; saveState() },
+                        onDictionnaire = { screen = AppScreen.Dictionnaire; saveState() },
+                        onAlimentation = { screen = AppScreen.Alimentation; saveState() }
                     )
                 }
 
@@ -395,6 +403,7 @@ Envoyé depuis l'application Comprendre mon chien
                             total = questionsVisibles.size,
                             valeurTexte = reponsesTexte[question.id].orEmpty(),
                             choixSelectionne = reponsesChoix[question.id],
+                            nomChien = reponsesTexte["nom_chien"].orEmpty(),
                             onValeurChangee = { reponsesTexte[question.id] = it; saveState() },
                             onChoixSelectionne = { reponsesChoix[question.id] = it; saveState() },
                             onSuivant = {
@@ -534,6 +543,16 @@ Envoyé depuis l'application Comprendre mon chien
                             }
                         )
                     }
+                }
+
+                AppScreen.Parametres -> {
+                    ParametresScreen(
+                        modifier = Modifier.padding(padding),
+                        onRevoirOnboarding = {
+                            reinitialiserOnboarding()
+                            screen = AppScreen.Onboarding
+                        }
+                    )
                 }
             }
         }

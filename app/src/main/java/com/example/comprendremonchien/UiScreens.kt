@@ -1,11 +1,9 @@
 package com.example.comprendremonchien
 
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -46,6 +44,7 @@ import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Pets
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -66,11 +65,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -79,11 +76,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import kotlinx.coroutines.delay
 
 private val LightColors = lightColorScheme(
@@ -366,15 +370,17 @@ fun AccueilScreen(modifier: Modifier = Modifier, hasSavedProgress: Boolean, onCo
             AccueilIllustrationCard()
             PrimaryGlowButton(text = "Démarrer le bilan", onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
             SecondaryPremiumButton(text = "Dictionnaire", onClick = onDictionnaire, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
-            SecondaryPremiumButton(text = "Alimentation", onClick = onAlimentation, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
+            SecondaryPremiumButton(text = "Alimentation", onClick = onAlimentation, leading = { Icon(Icons.Rounded.Star, contentDescription = null) })
             if (hasSavedProgress) {
                 SecondaryPremiumButton(text = "Reprendre le questionnaire", onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
             }
-            Text(text = "Choisissez directement l'espace qui vous intéresse.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.padding(horizontal = 6.dp))
         }
     }
 }
 
+// ── MODIFICATION : suppression de l'écran Introduction ──
+// IntroductionScreen n'est plus utilisé dans la navigation.
+// Il est conservé ici au cas où, mais n'est jamais appelé.
 @Composable
 fun IntroductionScreen(modifier: Modifier = Modifier, onCommencer: () -> Unit) {
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 8.dp)) {
@@ -393,27 +399,42 @@ fun IntroductionScreen(modifier: Modifier = Modifier, onCommencer: () -> Unit) {
                 Bullet("Sa gestion de l'excitation"); Spacer(modifier = Modifier.height(8.dp))
                 Bullet("Sa réactivité à l'environnement")
             }
-            PremiumCard(centered = true) {
-                EditorialKicker("Comment répondre", centered = true)
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(text = "Il n'y a pas de bonne ou mauvaise réponse. Répondez en pensant au quotidien réel de votre chien, pas à la situation idéale.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
-            }
-            PremiumCard(centered = true) {
-                EditorialKicker("Ce que vous obtiendrez", centered = true)
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(text = "Un début de pistes concrètes personnalisées pour mieux comprendre et aider votre chien au quotidien — et si besoin, un bilan à partager avec votre vétérinaire.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
             Spacer(modifier = Modifier.height(4.dp))
-            PrimaryGlowButton(text = "Commencer l'analyse", onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
+            PrimaryGlowButton(text = "Commencer", onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
 @Composable
-fun QuestionnaireScreen(modifier: Modifier = Modifier, question: Question, progress: Float, numero: Int, total: Int, valeurTexte: String, choixSelectionne: Int?, onValeurChangee: (String) -> Unit, onChoixSelectionne: (Int) -> Unit, onSuivant: () -> Unit) {
+fun QuestionnaireScreen(
+    modifier: Modifier = Modifier,
+    question: Question,
+    progress: Float,
+    numero: Int,
+    total: Int,
+    nomChien: String = "",
+    valeurTexte: String,
+    choixSelectionne: Int?,
+    onValeurChangee: (String) -> Unit,
+    onChoixSelectionne: (Int) -> Unit,
+    onSuivant: () -> Unit
+) {
     val titreSection = QuestionnaireEngine.titreSectionPourQuestion(question.id)
-    val boutonActif = when (question) { is QuestionTexte -> valeurTexte.isNotBlank(); is QuestionChoix -> choixSelectionne != null }
+    val boutonActif = when (question) {
+        is QuestionTexte -> valeurTexte.isNotBlank()
+        is QuestionChoix -> choixSelectionne != null
+    }
+
+    // Remplace "Votre chien" / "votre chien" par le prénom dès qu'il est connu
+    val prenom = nomChien.trim().ifBlank { "" }
+    fun titrePersonnalise(titre: String): String {
+        if (prenom.isBlank()) return titre
+        return titre
+            .replace("Votre chien", prenom)
+            .replace("votre chien", prenom)
+    }
+
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(insets = WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
             PremiumCard {
@@ -435,24 +456,47 @@ fun QuestionnaireScreen(modifier: Modifier = Modifier, question: Question, progr
                         PremiumCard {
                             AccentChip("Réponse libre")
                             Spacer(modifier = Modifier.height(16.dp))
-                            Text(text = question.titre, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onSurface)
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(text = "Une information simple pour personnaliser le bilan.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            // ── MODIFICATION : titre personnalisé, phrase redondante supprimée ──
+                            Text(
+                                text = titrePersonnalise(question.titre),
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
                             Spacer(modifier = Modifier.height(18.dp))
-                            OutlinedTextField(value = valeurTexte, onValueChange = onValeurChangee, label = { Text("Votre réponse") }, placeholder = { Text("Ex. Rocky") }, singleLine = true, keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words), modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp),
-                                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PremiumPalette.Primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline, focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
+                            OutlinedTextField(
+                                value = valeurTexte,
+                                onValueChange = onValeurChangee,
+                                label = { Text("Votre réponse") },
+                                placeholder = { Text("Ex. Rocky") },
+                                singleLine = true,
+                                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(20.dp),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = PremiumPalette.Primary,
+                                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                                    cursorColor = PremiumPalette.Primary,
+                                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                    unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                                )
+                            )
                         }
                     }
                     is QuestionChoix -> {
                         PremiumCard {
                             AccentChip("Choix unique")
                             Spacer(modifier = Modifier.height(16.dp))
-                            Text(text = question.titre, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onSurface)
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(text = "Choisissez la réponse qui ressemble le plus à votre quotidien.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            // ── MODIFICATION : titre personnalisé, phrase générique supprimée ──
+                            Text(
+                                text = titrePersonnalise(question.titre),
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
                             val aide = QuestionnaireEngine.aideQuestion(question.id)
                             if (aide != null) {
-                                Spacer(modifier = Modifier.height(6.dp))
+                                Spacer(modifier = Modifier.height(8.dp))
                                 Text(text = aide, style = MaterialTheme.typography.bodySmall, color = PremiumPalette.PrimarySoft, fontWeight = FontWeight.Medium)
                             }
                             Spacer(modifier = Modifier.height(18.dp))
@@ -509,8 +553,6 @@ fun ResultatScreen(
         maxWidth = 780
     ) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-
-            if (analyse.aDejaMordu) AlerteMorsureCard(nomChienAffiche(nomChien))
 
             PremiumCard(centered = true) {
                 EditorialKicker("Votre bilan", centered = true)
@@ -582,8 +624,6 @@ fun ResultatScreen(
                 Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
             }
 
-            ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
-
             HighlightAdviceCard(title = "Première piste concrète", advice = analyse.conseilPrincipal)
 
             PremiumCard(centered = true) {
@@ -615,6 +655,11 @@ fun ResultatScreen(
                 }
             }
 
+            // ── MODIFICATION : encart morsure déplacé ici, après les conseils ──
+            if (analyse.aDejaMordu) {
+                AlerteMorsureCard(nomChienAffiche(nomChien))
+            }
+
             PremiumCard(centered = true) {
                 EditorialKicker("Important", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
@@ -627,7 +672,9 @@ fun ResultatScreen(
                 Text(phraseFin(nomChien), textAlign = TextAlign.Center)
             }
 
-            TextButton(onClick = onRecommencer, modifier = Modifier.fillMaxWidth()) { Text("Recommencer depuis le début") }
+            // ── MODIFICATION : boutons d'action déplacés à la fin ──
+            ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
+
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -702,7 +749,8 @@ fun ActionButtonsGrid(onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             ActionButton(text = "Copier", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.weight(1f), onClick = onCopy)
-            ActionButton(text = "Recommencer", icon = Icons.Rounded.Refresh, primary = false, modifier = Modifier.weight(1f), onClick = onRecommencer)
+            // ── MODIFICATION : "Recommencer" retiré d'ici, déplacé tout en bas ──
+            ActionButton(text = "Copier résumé", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.weight(1f), onClick = onCopy)
         }
     }
 }
@@ -745,7 +793,8 @@ fun RaceCard(raceCategorie: String?, racePrecise: String?) {
     val nomAffiche = when { !racePrecise.isNullOrBlank() -> racePrecise; !raceCategorie.isNullOrBlank() -> raceCategorie; else -> return }
 
     PremiumCard(centered = true) {
-        EditorialKicker("Votre race et ce bilan", centered = true)
+        // ── MODIFICATION : titre reformulé ──
+        EditorialKicker("Profil de race", centered = true)
         Spacer(modifier = Modifier.height(10.dp))
         Text(nomAffiche, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
         if (!raceCategorie.isNullOrBlank() && !racePrecise.isNullOrBlank()) {
@@ -1007,6 +1056,93 @@ fun DictionnaireListItem(entry: DictionnaireEntry, onClick: () -> Unit) {
             }
             Spacer(modifier = Modifier.width(12.dp))
             Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+    }
+}
+
+@Composable
+fun ParametresScreen(
+    modifier: Modifier = Modifier,
+    onRevoirOnboarding: () -> Unit
+) {
+    val context = LocalContext.current
+    val version = remember {
+        try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
+        } catch (e: Exception) { "1.0" }
+    }
+
+    EditorialContainer(
+        modifier = modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            PremiumCard(centered = true) {
+                EditorialKicker("Paramètres", centered = true)
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    "Comprendre mon chien",
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                AccentChip("Version $version")
+            }
+
+            PremiumCard {
+                EditorialKicker("Tutoriel")
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    "Revoir la présentation de l'application depuis le début.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(14.dp))
+                SecondaryPremiumButton(
+                    text = "Revoir l'introduction",
+                    onClick = onRevoirOnboarding,
+                    leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) }
+                )
+            }
+
+            PremiumCard {
+                EditorialKicker("Confidentialité")
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    "Cette application ne collecte aucune donnée personnelle. Les bilans sont stockés uniquement sur votre appareil. Les notifications sont locales et ne transitent par aucun serveur.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(14.dp))
+                SecondaryPremiumButton(
+                    text = "Politique de confidentialité",
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://laurenaharoy-ctrl.github.io/comprendremonchien/confidentialite.html"))
+                        context.startActivity(intent)
+                    },
+                    leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) }
+                )
+            }
+
+            PremiumCard(centered = true) {
+                EditorialKicker("À propos", centered = true)
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    "Développée avec soin pour aider les maîtres à mieux comprendre leur chien et réduire les abandons liés à des comportements mal interprétés.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
