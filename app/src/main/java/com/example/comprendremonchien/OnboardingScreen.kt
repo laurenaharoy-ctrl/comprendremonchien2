@@ -215,6 +215,19 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
         horizontalAlignment = Alignment.Companion.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        // ── Titre en premier si pas de features ───────────────────────────────
+        if (!hasFeatures) {
+            Text(
+                text = slide.titre,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Companion.ExtraBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Companion.Center,
+                lineHeight = 28.sp
+            )
+            Spacer(modifier = Modifier.Companion.height(16.dp))
+        }
+
         // ── Illustration — plus petite si features présentes ──────────────────
         val illustrationSize = if (hasFeatures) 130.dp else 200.dp
         Box(
@@ -243,7 +256,7 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
             }
         }
 
-        Spacer(modifier = Modifier.Companion.height(if (hasFeatures) 16.dp else 36.dp))
+        Spacer(modifier = Modifier.Companion.height(if (hasFeatures) 16.dp else 20.dp))
 
         // ── Kicker ────────────────────────────────────────────────────────────
         Text(
@@ -257,17 +270,18 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
 
         Spacer(modifier = Modifier.Companion.height(8.dp))
 
-        // ── Titre ─────────────────────────────────────────────────────────────
-        Text(
-            text = slide.titre,
-            style = if (hasFeatures) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Companion.ExtraBold,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Companion.Center,
-            lineHeight = 28.sp
-        )
-
-        Spacer(modifier = Modifier.Companion.height(8.dp))
+        // ── Titre (seulement si features présentes) ───────────────────────────
+        if (hasFeatures) {
+            Text(
+                text = slide.titre,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Companion.ExtraBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Companion.Center,
+                lineHeight = 28.sp
+            )
+            Spacer(modifier = Modifier.Companion.height(8.dp))
+        }
 
         // ── Description ───────────────────────────────────────────────────────
         Text(
@@ -609,6 +623,16 @@ fun AccueilIllustrationCard() {
                 .padding(horizontal = 20.dp, vertical = 20.dp),
             horizontalAlignment = Alignment.Companion.CenterHorizontally
         ) {
+            Text(
+                text = "Comprendre mon chien",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Companion.ExtraBold,
+                color = PremiumPalette.Primary,
+                textAlign = TextAlign.Companion.Center
+            )
+
+            Spacer(modifier = Modifier.Companion.height(14.dp))
+
             Box(
                 modifier = Modifier.Companion
                     .fillMaxWidth()
@@ -624,16 +648,6 @@ fun AccueilIllustrationCard() {
                     contentScale = androidx.compose.ui.layout.ContentScale.Fit
                 )
             }
-
-            Spacer(modifier = Modifier.Companion.height(14.dp))
-
-            Text(
-                text = "Comprendre mon chien",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Companion.ExtraBold,
-                color = PremiumPalette.Primary,
-                textAlign = TextAlign.Companion.Center
-            )
 
             Spacer(modifier = Modifier.Companion.height(10.dp))
 

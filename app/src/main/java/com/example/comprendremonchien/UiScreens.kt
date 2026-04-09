@@ -546,7 +546,9 @@ fun ResultatScreen(
     onShare: () -> Unit,
     onCopy: () -> Unit,
     onExportPdf: () -> Unit,
-    onRecommencer: () -> Unit
+    onRecommencer: () -> Unit,
+    onOpenFiche: (String) -> Unit = {},
+    onOpenAlimentation: () -> Unit = {}
 ) {
     EditorialContainer(
         modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp),
@@ -670,6 +672,13 @@ fun ResultatScreen(
                 Text("Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             }
 
+            FichesRecommandeesCard(
+                analyse = analyse,
+                nomChien = nomChienAffiche(nomChien),
+                onOpenFiche = onOpenFiche,
+                onOpenAlimentation = onOpenAlimentation
+            )
+
             PremiumCard(centered = true) {
                 EditorialKicker("À retenir", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
@@ -769,6 +778,137 @@ fun QuatreAxesGrid(analyse: ResultatAnalyse) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun FichesRecommandeesCard(
+    analyse: ResultatAnalyse,
+    nomChien: String,
+    onOpenFiche: (String) -> Unit,
+    onOpenAlimentation: () -> Unit
+) {
+    val fichesBehavior = recommanderFichesComportement(analyse)
+    val fichesAlim = recommanderFichesAlimentation(analyse)
+    if (fichesBehavior.isEmpty() && fichesAlim.isEmpty()) return
+
+    PremiumCard(centered = false) {
+        EditorialKicker("Pour aller plus loin avec $nomChien", centered = false)
+        Spacer(modifier = Modifier.height(14.dp))
+
+        if (fichesBehavior.isNotEmpty()) {
+            Text(
+                "Fiches comportementales",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = PremiumPalette.PrimarySoft
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            fichesBehavior.forEach { (ficheId, titre) ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onOpenFiche(ficheId) }
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6))
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        titre,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Icon(
+                        androidx.compose.material.icons.Icons.Rounded.ChevronRight,
+                        contentDescription = null,
+                        tint = PremiumPalette.PrimarySoft,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+        }
+
+        if (fichesAlim.isNotEmpty()) {
+            if (fichesBehavior.isNotEmpty()) Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                "Repères alimentation",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = PremiumPalette.PrimarySoft
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onOpenAlimentation() }
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6))
+                    .padding(horizontal = 14.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    fichesAlim.forEach { titre ->
+                        Text(
+                            titre,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        if (titre != fichesAlim.last()) Spacer(modifier = Modifier.height(4.dp))
+                    }
+                }
+                Icon(
+                    androidx.compose.material.icons.Icons.Rounded.ChevronRight,
+                    contentDescription = null,
+                    tint = PremiumPalette.PrimarySoft,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        }
+    }
+}
+
+fun recommanderFichesComportement(analyse: ResultatAnalyse): List<Pair<String, String>> {
+    val fiches = mutableListOf<Pair<String, String>>()
+    val maxAxe = maxOf(analyse.peur, analyse.attachement, analyse.impulsivite, analyse.reactivite)
+    if (maxAxe < 30) return emptyList()
+
+    when (analyse.problemePrincipal) {
+        Axe.PEUR -> {
+            fiches += "corps-fige" to "Corps figé"
+            fiches += "oreilles-arriere" to "Oreilles plaquées en arrière"
+            fiches += "queue-basse" to "Queue basse ou rentrée"
+            fiches += "baillement" to "Bâillement hors fatigue"
+        }
+        Axe.ATTACHEMENT -> {
+            fiches += "suit-humain" to "Suit son humain partout"
+            fiches += "destruction-absence" to "Destructions en absence"
+            fiches += "aboiement-frustration" to "Aboiement de frustration"
+        }
+        Axe.IMPULSIVITE -> {
+            fiches += "haletement" to "Halètement sans effort"
+            fiches += "appel-au-jeu" to "Posture d'invitation au jeu"
+            fiches += "secouement" to "Secouement du corps"
+        }
+        Axe.REACTIVITE -> {
+            fiches += "grognement" to "Grognement"
+            fiches += "corps-fige" to "Corps figé"
+            fiches += "aboiement-alerte" to "Aboiement d'alerte"
+            fiches += "approche-arc" to "Approche en arc de cercle"
+        }
+    }
+    return fiches.take(3)
+}
+
+fun recommanderFichesAlimentation(analyse: ResultatAnalyse): List<String> {
+    return if (analyse.contexte.physique >= 2) {
+        listOf("Que faire si mon chien a mangé quelque chose de douteux ?", "Quels signes doivent alerter après ingestion ?")
+    } else {
+        listOf("Peut-on donner des fruits ou légumes ?", "Friandises : utile ou risqué ?")
     }
 }
 

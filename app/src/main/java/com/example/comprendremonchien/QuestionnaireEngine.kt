@@ -701,6 +701,12 @@ object QuestionnaireEngine {
                 val proprete = reponsesChoix["proprete_maison"]
                 proprete == 1 || proprete == 2
             }
+            // ── Si "pas vraiment de problème" → on saute toute la section contexte ──
+            "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
+            "frequence_probleme", "intensite_probleme", "generalisation_probleme",
+            "changement_recent", "signe_physique" -> {
+                reponsesChoix["a_un_probleme"] == 0
+            }
             else -> true
         }
     }
@@ -713,6 +719,7 @@ object QuestionnaireEngine {
             "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise", "proprete_maison", "si_non_quand" -> "Attachement et séparation"
             "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" -> "Excitation et impulsivité"
             "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "defense_ressources" -> "Réactivité"
+            "a_un_probleme" -> "Pour aller plus loin"
             "apparition", "situation_principale", "duree_probleme", "evolution_probleme", "frequence_probleme", "intensite_probleme", "generalisation_probleme", "changement_recent", "signe_physique" -> "Contexte actuel"
             else -> "Questionnaire"
         }
@@ -843,6 +850,13 @@ fun questionsApplication(): List<Question> {
             "Votre chien grogne-t-il ou devient-il tendu quand on s'approche de sa gamelle, de ses jouets ou de son couchage ?",
             listOf("Non, jamais", "Parfois, dans certaines situations", "Oui, c'est fréquent"),
             axe = Axe.REACTIVITE, scoreParOption = listOf(0, 2, 4), signalAlerte = true),
+
+        // ── Question filtre — saute la section contexte si pas de problème ──
+        QuestionChoix(
+            "a_un_probleme",
+            "Y a-t-il un comportement particulier qui vous préoccupe en ce moment ?",
+            listOf("Oui, j'aimerais comprendre", "Pas vraiment, tout va bien")
+        ),
 
         QuestionChoix("apparition", "Le comportement qui vous préoccupe est apparu :",
             listOf("Progressivement, ça s'est installé petit à petit", "Du jour au lendemain, sans raison apparente", "Je ne sais pas vraiment")),

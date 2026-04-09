@@ -477,6 +477,14 @@ Envoyé depuis l'application Comprendre mon chien
                             indexQuestion = 0
                             screen = AppScreen.Accueil
                             clearSavedState()
+                        },
+                        onOpenFiche = { ficheId ->
+                            screen = AppScreen.DictionnaireDetail(ficheId)
+                            saveState()
+                        },
+                        onOpenAlimentation = {
+                            screen = AppScreen.Alimentation
+                            saveState()
                         }
                     )
                 }
