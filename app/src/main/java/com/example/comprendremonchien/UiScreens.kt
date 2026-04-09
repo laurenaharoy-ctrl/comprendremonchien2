@@ -1,4 +1,4 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -120,29 +120,22 @@ object PremiumPalette {
     val Primary = Color(0xFF8E4A2D)
     val PrimarySoft = Color(0xFFB86A4A)
     val Accent = Color(0xFFD9A58F)
-
     val Paper = Color(0xFFF4EFE8)
     val PaperSoft = Color(0xFFF8F4EE)
     val PaperWarm = Color(0xFFF1E7DE)
-
     val Ink = Color(0xFF33231D)
     val InkSoft = Color(0xFF75584C)
     val InkMuted = Color(0xFFA2897C)
-
     val Border = Color(0xFFE0D2C6)
     val Warning = Color(0xFF8E4A2D)
-
     val PrioriteFaible = Color(0xFF9E8572)
     val PrioriteModere = Color(0xFFB8845A)
     val PrioriteElevee = Color(0xFF8E4A2D)
     val PrioriteUrgente = Color(0xFF6B2D1A)
-
     val PrioriteFaibleBg = Color(0xFFF4EDE6)
     val PrioriteModereBg = Color(0xFFF5E8DC)
     val PrioriteEleveeBg = Color(0xFFF2E0D6)
     val PrioriteUrgenteBg = Color(0xFFEDD8D0)
-
-    // Alerte morsure
     val MorsureBg = Color(0xFF3D1209)
     val MorsureBorder = Color(0xFF8E2A10)
     val MorsuText = Color(0xFFFFF0EC)
@@ -182,38 +175,38 @@ fun dictionnaireEntries(): List<DictionnaireEntry> {
         DictionnaireEntry(DictionnaireCategorie.INGESTION, "Que faire si mon chien a mangé quelque chose de douteux ?", "La meilleure réaction, c'est le calme et la rapidité, pas l'improvisation.", "Si votre chien a mangé un aliment suspect ou inhabituel, il faut d'abord éviter les remèdes maison improvisés. L'essentiel est de repérer ce qu'il a mangé, en quelle quantité approximative, quand cela s'est produit et comment il se comporte ensuite. En cas de doute, surtout s'il s'agit d'un aliment connu pour être problématique ou si des symptômes apparaissent, il faut contacter rapidement un vétérinaire."),
         DictionnaireEntry(DictionnaireCategorie.INGESTION, "Quels signes doivent alerter après ingestion ?", "Quand le corps tire l'alarme, il vaut mieux écouter tout de suite.", "Il faut être particulièrement attentif à des vomissements répétés, une diarrhée importante, un abattement, une agitation inhabituelle, des tremblements, une douleur, une gêne respiratoire ou tout changement brutal de comportement. En présence de ces signes, il est préférable de demander rapidement un avis vétérinaire."),
         DictionnaireEntry(DictionnaireCategorie.INGESTION, "Faut-il attendre pour voir si ça passe ?", "Parfois attendre rassure, parfois attendre complique.", "Quand l'aliment ingéré est potentiellement dangereux ou quand le chien présente déjà des symptômes, il vaut mieux ne pas temporiser. À l'inverse, pour un petit écart sans signe clinique, l'observation peut parfois suffire, mais la prudence reste la meilleure boussole. En cas d'hésitation, il est plus sûr de demander conseil."),
-        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Pourquoi mon chien mange de l'herbe ?", "Un comportement fréquent, souvent banal, mais à surveiller s'il devient répétitif.", "Manger de l'herbe peut avoir plusieurs explications. Certains chiens le font occasionnellement sans que cela soit inquiétant. Cela peut être lié à une habitude, à de l'exploration, à une gêne digestive légère ou simplement à un comportement opportuniste. Si cela devient très fréquent, s'accompagne de vomissements, d'un inconfort digestif, d'abattement ou d'un changement brutal de comportement, mieux vaut demander un avis vétérinaire."),
-        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien vomit, est-ce toujours grave ?", "Un vomissement isolé n'a pas le même poids qu'une série en cascade.", "Un vomissement ponctuel peut parfois rester sans gravité apparente, mais des vomissements répétés, associés à de la douleur, de l'abattement, une diarrhée, un refus de boire ou un comportement inhabituel doivent pousser à demander un avis vétérinaire. Ce qui compte, ce n'est pas seulement le symptôme, mais aussi sa fréquence, son intensité et l'état général du chien."),
-        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Comment comprendre des selles anormales ?", "Les selles racontent souvent une petite histoire digestive.", "Des selles plus molles, plus fréquentes, inhabituelles en couleur ou accompagnées d'inconfort peuvent refléter une difficulté digestive, un changement alimentaire trop rapide, un aliment mal toléré ou autre chose. Si cela dure, revient souvent ou s'accompagne d'autres symptômes, il faut faire le point avec un vétérinaire."),
-        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien mange trop vite", "Avaler ses repas comme une fusée mérite parfois un petit ajustement.", "Certains chiens mangent très vite par excitation, habitude ou compétition passée. Cela peut favoriser l'inconfort digestif ou les régurgitations. Fractionner la ration, utiliser une gamelle adaptée ou ralentir la prise alimentaire peut aider. Si cela s'aggrave ou s'accompagne de troubles digestifs, un avis vétérinaire reste pertinent."),
-        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien réclame tout le temps à manger", "La demande peut venir de l'habitude, de l'ennui ou d'une ration mal adaptée.", "Un chien qui réclame souvent ne manque pas forcément de nourriture. La demande peut être liée à l'habitude, à l'ennui, à des friandises trop fréquentes, à une ration inadaptée ou à des horaires irréguliers. Si cette faim paraît excessive, récente ou accompagnée d'autres changements, il peut être utile de vérifier qu'il n'existe pas une cause médicale ou nutritionnelle.")
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Pourquoi mon chien mange de l'herbe ?", "Un comportement fréquent, souvent banal, mais à surveiller s'il devient répétitif.", "Manger de l'herbe peut avoir plusieurs explications. Certains chiens le font occasionnellement sans que cela soit inquiétant. Si cela devient très fréquent ou s'accompagne de vomissements ou d'abattement, mieux vaut demander un avis vétérinaire."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien vomit, est-ce toujours grave ?", "Un vomissement isolé n'a pas le même poids qu'une série en cascade.", "Un vomissement ponctuel peut parfois rester sans gravité apparente, mais des vomissements répétés, associés à de la douleur, de l'abattement, une diarrhée, un refus de boire ou un comportement inhabituel doivent pousser à demander un avis vétérinaire."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Comment comprendre des selles anormales ?", "Les selles racontent souvent une petite histoire digestive.", "Des selles plus molles, plus fréquentes, inhabituelles en couleur ou accompagnées d'inconfort peuvent refléter une difficulté digestive. Si cela dure ou s'accompagne d'autres symptômes, il faut faire le point avec un vétérinaire."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien mange trop vite", "Avaler ses repas comme une fusée mérite parfois un petit ajustement.", "Certains chiens mangent très vite par excitation ou habitude. Cela peut favoriser l'inconfort digestif. Fractionner la ration ou utiliser une gamelle adaptée peut aider."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien réclame tout le temps à manger", "La demande peut venir de l'habitude, de l'ennui ou d'une ration mal adaptée.", "Un chien qui réclame souvent ne manque pas forcément de nourriture. La demande peut être liée à l'habitude, à l'ennui, à des friandises trop fréquentes ou à des horaires irréguliers.")
     )
 }
 
 fun comportementEntries(): List<ComportementEntry> {
     return listOf(
-        ComportementEntry("queue-remue", "Queue qui remue", "Pas toujours synonyme de joie, il faut lire tout le corps.", "Un chien qui remue la queue n'est pas automatiquement heureux. La queue indique surtout un état d'activation émotionnelle. Une queue souple avec un corps détendu évoque souvent une émotion positive. Une queue rapide sur un corps raide peut au contraire signaler de la tension, de l'excitation ou de la vigilance.", "Observer l'ensemble du corps avant d'interagir : oreilles, regard, posture, respiration et mobilité.", "Penser que la queue qui bouge autorise forcément le contact."),
-        ComportementEntry("queue-basse", "Queue basse ou rentrée", "Signal fréquent d'inquiétude ou de malaise.", "Quand la queue descend très bas ou se replie sous le ventre, le chien peut être impressionné, stressé ou en retrait. Cela apparaît souvent face à un inconnu, un bruit fort, une situation nouvelle ou une interaction trop insistante.", "Laisser de l'espace, adoucir l'approche et réduire la pression.", "Forcer le chien à avancer, saluer ou rester dans une situation qui le gêne."),
-        ComportementEntry("baillement", "Bâillement hors fatigue", "Souvent un signal d'apaisement ou de tension légère.", "Le chien peut bâiller quand il n'est pas fatigué. C'est parfois une manière de réguler son émotion dans une situation confuse, trop intense ou un peu inconfortable.", "Ralentir, faire une pause, simplifier l'exercice ou l'interaction.", "Réduire ce signal à de la simple fatigue."),
-        ComportementEntry("leche-truffe", "Lèchement rapide de truffe", "Petit signal discret de tension ou d'apaisement.", "Ce coup de langue rapide apparaît souvent quand le chien essaie de se calmer ou d'apaiser l'échange. Il est fréquent lors d'approches frontales, de gestes brusques ou de caresses non demandées.", "Se mettre légèrement de côté et laisser davantage d'initiative au chien.", "Continuer à insister physiquement ou verbalement."),
-        ComportementEntry("tourne-tete", "Tourner la tête", "Le chien cherche souvent à éviter la pression.", "Tourner la tête est une façon polie de rendre l'échange moins direct. C'est un signal fréquent face à un regard fixe, une main tendue trop vite ou une proximité subie.", "Adoucir sa posture et diminuer la pression sociale.", "Interpréter cela comme de l'ignorance ou un refus d'obéir."),
-        ComportementEntry("oreilles-arriere", "Oreilles plaquées en arrière", "Signal à lire avec le reste du corps.", "Des oreilles en arrière peuvent accompagner la peur, l'inconfort ou une émotion intense. Avec un corps bas et tendu, ce signal évoque souvent un malaise réel.", "Lire la posture globale et donner du temps au chien.", "Analyser un seul signal sans tenir compte du contexte."),
-        ComportementEntry("corps-fige", "Corps figé", "Signal important, souvent juste avant une réaction.", "Le figement est un arrêt du mouvement. Le chien suspend son comportement car il évalue la situation. Ce signal mérite d'être respecté, car il peut précéder une fuite, un grognement ou une défense plus nette.", "Interrompre l'approche et augmenter la distance.", "Continuer à toucher ou à approcher un chien figé."),
-        ComportementEntry("grognement", "Grognement", "Avertissement utile et précieux.", "Le grognement est une communication claire qui dit que le chien n'est pas à l'aise. Punir ce signal n'aide pas. Cela masque l'alarme sans traiter le problème de fond.", "Arrêter la source d'inconfort et analyser calmement la situation.", "Punir, défier ou provoquer le chien."),
-        ComportementEntry("montre-dents", "Montrer les dents", "Le niveau d'alerte devient plus élevé.", "Quand le chien montre les dents, il exprime une limite très claire. Ce signal apparaît souvent quand l'inconfort est important ou quand les signaux plus subtils ont été ignorés.", "Créer immédiatement de la distance sans gestes brusques.", "Chercher le rapport de force."),
-        ComportementEntry("aplati-sol", "Se coucher ventre au sol", "Peut traduire peur, inhibition ou repli.", "Un chien qui s'aplatit essaie souvent de se faire discret dans une situation qu'il vit mal. Cela se voit chez des chiens sensibles, impressionnés ou dépassés.", "Rendre la situation plus prévisible et plus calme.", "Tirer sur la laisse pour le faire avancer."),
-        ComportementEntry("sur-le-dos", "Se mettre sur le dos", "Pas toujours une invitation aux caresses.", "Cette posture peut parfois accompagner un vrai moment de détente, mais elle peut aussi exprimer de la vulnérabilité ou une tentative d'apaisement. Le contexte et la souplesse du corps sont essentiels.", "Observer avant de toucher, surtout si le chien paraît tendu.", "Caresser automatiquement le ventre."),
-        ComportementEntry("patte-levee", "Patte avant levée", "Souvent associée à l'hésitation ou à l'analyse.", "Une patte levée peut montrer que le chien observe, hésite ou évalue la situation. Il n'est pas totalement relâché, même s'il n'est pas forcément en peur.", "Lui laisser du temps pour comprendre.", "Prendre ce signal uniquement pour une posture mignonne."),
-        ComportementEntry("secouement", "Secouement du corps", "Façon fréquente d'évacuer une tension.", "Le chien peut se secouer après une rencontre, une émotion forte ou une petite contrainte. C'est souvent une bonne façon de relâcher la pression.", "Laisser ce moment de relâchement exister.", "Réenchaîner immédiatement sur quelque chose de trop intense."),
-        ComportementEntry("haletement", "Halètement sans effort", "Peut révéler stress, chaleur ou inconfort.", "Le halètement n'est pas toujours lié à l'exercice. Il peut aussi accompagner la chaleur, une tension émotionnelle, une douleur ou un inconfort général.", "Vérifier le contexte et surveiller si cela se répète.", "Attribuer automatiquement cela à de la simple excitation."),
-        ComportementEntry("aboiement-alerte", "Aboiement d'alerte", "Le chien signale une présence ou un changement.", "Face à un bruit, une arrivée ou un mouvement inhabituel, le chien peut aboyer pour prévenir. Ce n'est pas forcément de l'agressivité. Il annonce quelque chose qu'il juge important.", "Rester calme puis rediriger vers un comportement plus posé.", "Crier en retour."),
-        ComportementEntry("aboiement-frustration", "Aboiement de frustration", "Le chien gère mal l'attente ou la privation d'accès.", "Quand une porte reste fermée, qu'un congénère est inaccessible ou qu'une activité attendue tarde, certains chiens aboient par frustration. C'est souvent un trop-plein émotionnel.", "Travailler l'attente progressivement et valoriser le calme.", "Multiplier les ordres quand le chien déborde déjà."),
-        ComportementEntry("approche-arc", "Approche en arc de cercle", "Code social poli chez le chien.", "Les chiens équilibrés évitent souvent l'approche frontale. Ils contournent légèrement, ralentissent et gèrent mieux la distance. C'est une rencontre plus confortable.", "Respecter les approches indirectes, surtout entre chiens.", "Forcer des rencontres frontales, laisse tendue."),
-        ComportementEntry("renifle-sol", "Renifler le sol soudainement", "Peut aider le chien à faire baisser la pression.", "Renifler n'est pas toujours un manque d'attention. Cela peut être un moyen de décompression dans une situation socialement ou émotionnellement chargée.", "Laisser ce sas de décompression exister.", "Tirer immédiatement sur la laisse pour récupérer l'attention."),
-        ComportementEntry("appel-au-jeu", "Posture d'invitation au jeu", "Avant-main basse, arrière-train relevé, gestes souples.", "La révérence de jeu sert à indiquer une intention ludique. Elle cadre l'interaction et dit en quelque sorte que ce qui suit doit rester dans un registre de jeu.", "Vérifier que l'autre partenaire répond avec plaisir et que l'échange reste équilibré.", "Confondre agitation brusque et vrai jeu partagé."),
-        ComportementEntry("suit-humain", "Suit son humain partout", "Peut être banal ou signaler une dépendance.", "Certains chiens suivent par habitude sociale. D'autres montrent un attachement plus anxieux, avec difficulté à supporter la séparation ou le manque de contrôle.", "Observer les réactions lors des absences courtes et renforcer l'autonomie progressivement.", "Voir ce comportement uniquement comme une preuve d'amour."),
-        ComportementEntry("destruction-absence", "Destructions en absence", "Souvent liées au stress, à l'ennui ou à la solitude.", "Un chien qui détruit quand il est seul n'agit pas par vengeance. Il peut chercher à s'occuper, à évacuer une tension ou à exprimer une difficulté émotionnelle plus profonde.", "Revoir la gestion de l'absence et enrichir l'environnement.", "Punir après coup."),
-        ComportementEntry("hypervigilance", "Hypervigilance", "Le chien semble constamment sur le qui-vive.", "Un chien hypervigilant surveille beaucoup son environnement, réagit vite aux sons, mouvements ou changements, et a du mal à redescendre. Cela peut user tout son équilibre émotionnel.", "Augmenter la prévisibilité, les temps calmes et la sécurité du quotidien.", "Le saturer de stimulations pour l'habituer trop vite.")
+        ComportementEntry("queue-remue", "Queue qui remue", "Pas toujours synonyme de joie, il faut lire tout le corps.", "Un chien qui remue la queue n'est pas automatiquement heureux. La queue indique surtout un état d'activation émotionnelle.", "Observer l'ensemble du corps avant d'interagir.", "Penser que la queue qui bouge autorise forcément le contact."),
+        ComportementEntry("queue-basse", "Queue basse ou rentrée", "Signal fréquent d'inquiétude ou de malaise.", "Quand la queue descend très bas ou se replie sous le ventre, le chien peut être impressionné, stressé ou en retrait.", "Laisser de l'espace, adoucir l'approche et réduire la pression.", "Forcer le chien à avancer, saluer ou rester dans une situation qui le gêne."),
+        ComportementEntry("baillement", "Bâillement hors fatigue", "Souvent un signal d'apaisement ou de tension légère.", "Le chien peut bâiller quand il n'est pas fatigué. C'est parfois une manière de réguler son émotion.", "Ralentir, faire une pause, simplifier l'exercice ou l'interaction.", "Réduire ce signal à de la simple fatigue."),
+        ComportementEntry("leche-truffe", "Lèchement rapide de truffe", "Petit signal discret de tension ou d'apaisement.", "Ce coup de langue rapide apparaît souvent quand le chien essaie de se calmer ou d'apaiser l'échange.", "Se mettre légèrement de côté et laisser davantage d'initiative au chien.", "Continuer à insister physiquement ou verbalement."),
+        ComportementEntry("tourne-tete", "Tourner la tête", "Le chien cherche souvent à éviter la pression.", "Tourner la tête est une façon polie de rendre l'échange moins direct.", "Adoucir sa posture et diminuer la pression sociale.", "Interpréter cela comme de l'ignorance ou un refus d'obéir."),
+        ComportementEntry("oreilles-arriere", "Oreilles plaquées en arrière", "Signal à lire avec le reste du corps.", "Des oreilles en arrière peuvent accompagner la peur, l'inconfort ou une émotion intense.", "Lire la posture globale et donner du temps au chien.", "Analyser un seul signal sans tenir compte du contexte."),
+        ComportementEntry("corps-fige", "Corps figé", "Signal important, souvent juste avant une réaction.", "Le figement est un arrêt du mouvement. Le chien suspend son comportement car il évalue la situation.", "Interrompre l'approche et augmenter la distance.", "Continuer à toucher ou à approcher un chien figé."),
+        ComportementEntry("grognement", "Grognement", "Avertissement utile et précieux.", "Le grognement est une communication claire qui dit que le chien n'est pas à l'aise. Punir ce signal n'aide pas.", "Arrêter la source d'inconfort et analyser calmement la situation.", "Punir, défier ou provoquer le chien."),
+        ComportementEntry("montre-dents", "Montrer les dents", "Le niveau d'alerte devient plus élevé.", "Quand le chien montre les dents, il exprime une limite très claire.", "Créer immédiatement de la distance sans gestes brusques.", "Chercher le rapport de force."),
+        ComportementEntry("aplati-sol", "Se coucher ventre au sol", "Peut traduire peur, inhibition ou repli.", "Un chien qui s'aplatit essaie souvent de se faire discret dans une situation qu'il vit mal.", "Rendre la situation plus prévisible et plus calme.", "Tirer sur la laisse pour le faire avancer."),
+        ComportementEntry("sur-le-dos", "Se mettre sur le dos", "Pas toujours une invitation aux caresses.", "Cette posture peut exprimer de la vulnérabilité ou une tentative d'apaisement.", "Observer avant de toucher, surtout si le chien paraît tendu.", "Caresser automatiquement le ventre."),
+        ComportementEntry("patte-levee", "Patte avant levée", "Souvent associée à l'hésitation ou à l'analyse.", "Une patte levée peut montrer que le chien observe, hésite ou évalue la situation.", "Lui laisser du temps pour comprendre.", "Prendre ce signal uniquement pour une posture mignonne."),
+        ComportementEntry("secouement", "Secouement du corps", "Façon fréquente d'évacuer une tension.", "Le chien peut se secouer après une rencontre ou une émotion forte.", "Laisser ce moment de relâchement exister.", "Réenchaîner immédiatement sur quelque chose de trop intense."),
+        ComportementEntry("haletement", "Halètement sans effort", "Peut révéler stress, chaleur ou inconfort.", "Le halètement n'est pas toujours lié à l'exercice. Il peut accompagner une tension émotionnelle.", "Vérifier le contexte et surveiller si cela se répète.", "Attribuer automatiquement cela à de la simple excitation."),
+        ComportementEntry("aboiement-alerte", "Aboiement d'alerte", "Le chien signale une présence ou un changement.", "Face à un bruit ou une arrivée inhabituelle, le chien peut aboyer pour prévenir.", "Rester calme puis rediriger vers un comportement plus posé.", "Crier en retour."),
+        ComportementEntry("aboiement-frustration", "Aboiement de frustration", "Le chien gère mal l'attente ou la privation d'accès.", "Quand une porte reste fermée ou qu'une activité attendue tarde, certains chiens aboient par frustration.", "Travailler l'attente progressivement et valoriser le calme.", "Multiplier les ordres quand le chien déborde déjà."),
+        ComportementEntry("approche-arc", "Approche en arc de cercle", "Code social poli chez le chien.", "Les chiens équilibrés évitent souvent l'approche frontale. Ils contournent légèrement et gèrent mieux la distance.", "Respecter les approches indirectes, surtout entre chiens.", "Forcer des rencontres frontales, laisse tendue."),
+        ComportementEntry("renifle-sol", "Renifler le sol soudainement", "Peut aider le chien à faire baisser la pression.", "Renifler peut être un moyen de décompression dans une situation émotionnellement chargée.", "Laisser ce sas de décompression exister.", "Tirer immédiatement sur la laisse pour récupérer l'attention."),
+        ComportementEntry("appel-au-jeu", "Posture d'invitation au jeu", "Avant-main basse, arrière-train relevé, gestes souples.", "La révérence de jeu sert à indiquer une intention ludique.", "Vérifier que l'autre partenaire répond avec plaisir.", "Confondre agitation brusque et vrai jeu partagé."),
+        ComportementEntry("suit-humain", "Suit son humain partout", "Peut être banal ou signaler une dépendance.", "Certains chiens suivent par habitude sociale. D'autres montrent un attachement plus anxieux.", "Observer les réactions lors des absences courtes.", "Voir ce comportement uniquement comme une preuve d'amour."),
+        ComportementEntry("destruction-absence", "Destructions en absence", "Souvent liées au stress, à l'ennui ou à la solitude.", "Un chien qui détruit quand il est seul n'agit pas par vengeance.", "Revoir la gestion de l'absence et enrichir l'environnement.", "Punir après coup."),
+        ComportementEntry("hypervigilance", "Hypervigilance", "Le chien semble constamment sur le qui-vive.", "Un chien hypervigilant surveille beaucoup son environnement et réagit vite aux changements.", "Augmenter la prévisibilité, les temps calmes et la sécurité du quotidien.", "Le saturer de stimulations pour l'habituer trop vite.")
     )
 }
 
@@ -239,7 +232,6 @@ fun ComprendreMonChienTheme(content: @Composable () -> Unit) {
 fun AppBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
     val brush = if (isSystemInDarkTheme()) Brush.verticalGradient(listOf(Color(0xFF241B17), Color(0xFF1D1613), Color(0xFF171210)))
     else Brush.verticalGradient(listOf(Color(0xFFF8F4EE), Color(0xFFF4EFE8), Color(0xFFF1E7DE)))
-
     Box(modifier = modifier.fillMaxSize().background(brush)) {
         Box(modifier = Modifier.fillMaxSize().graphicsLayer(alpha = 0.08f).background(Brush.radialGradient(colors = listOf(Color.White, Color.Transparent))))
         content()
@@ -344,18 +336,15 @@ fun ChargementMinimal() {
 fun ChargementAnalyseScreen(modifier: Modifier = Modifier, onTermine: () -> Unit) {
     val messages = listOf("Analyse en cours...", "Lecture du profil de votre chien...", "Préparation de votre bilan...")
     var messageIndex by remember { mutableIntStateOf(0) }
-
     LaunchedEffect(Unit) {
         repeat(messages.size) { messageIndex = it; delay(700) }
         delay(400)
         onTermine()
     }
-
     val infiniteTransition = rememberInfiniteTransition(label = "dots")
     val dot1Alpha by infiniteTransition.animateFloat(initialValue = 0.3f, targetValue = 1f, animationSpec = infiniteRepeatable(tween(600, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "d1")
     val dot2Alpha by infiniteTransition.animateFloat(initialValue = 0.3f, targetValue = 1f, animationSpec = infiniteRepeatable(tween(600, delayMillis = 200, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "d2")
     val dot3Alpha by infiniteTransition.animateFloat(initialValue = 0.3f, targetValue = 1f, animationSpec = infiniteRepeatable(tween(600, delayMillis = 400, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "d3")
-
     AppBackground {
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(28.dp)) {
@@ -412,7 +401,7 @@ fun IntroductionScreen(modifier: Modifier = Modifier, onCommencer: () -> Unit) {
             PremiumCard(centered = true) {
                 EditorialKicker("Ce que vous obtiendrez", centered = true)
                 Spacer(modifier = Modifier.height(12.dp))
-                Text(text = "Un début de pistes concrètes personnalisées pour mieux comprendre et aider votre chien au quotidien — et si besoin, un bilan à partager avec votre vétérinaire, éducateur canin ou comportementaliste.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(text = "Un début de pistes concrètes personnalisées pour mieux comprendre et aider votre chien au quotidien — et si besoin, un bilan à partager avec votre vétérinaire.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Spacer(modifier = Modifier.height(4.dp))
             PrimaryGlowButton(text = "Commencer l'analyse", onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
@@ -425,7 +414,6 @@ fun IntroductionScreen(modifier: Modifier = Modifier, onCommencer: () -> Unit) {
 fun QuestionnaireScreen(modifier: Modifier = Modifier, question: Question, progress: Float, numero: Int, total: Int, valeurTexte: String, choixSelectionne: Int?, onValeurChangee: (String) -> Unit, onChoixSelectionne: (Int) -> Unit, onSuivant: () -> Unit) {
     val titreSection = QuestionnaireEngine.titreSectionPourQuestion(question.id)
     val boutonActif = when (question) { is QuestionTexte -> valeurTexte.isNotBlank(); is QuestionChoix -> choixSelectionne != null }
-
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(insets = WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
             PremiumCard {
@@ -440,9 +428,7 @@ fun QuestionnaireScreen(modifier: Modifier = Modifier, question: Question, progr
                     Box(modifier = Modifier.fillMaxWidth(animatedProgress).height(10.dp).background(Brush.horizontalGradient(listOf(PremiumPalette.Primary, PremiumPalette.PrimarySoft)), RoundedCornerShape(999.dp)))
                 }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
             Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 when (question) {
                     is QuestionTexte -> {
@@ -478,9 +464,7 @@ fun QuestionnaireScreen(modifier: Modifier = Modifier, question: Question, progr
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(12.dp))
-
             Column {
                 PrimaryGlowButton(text = "Continuer", onClick = onSuivant, enabled = boutonActif)
                 if (!boutonActif) {
@@ -510,10 +494,6 @@ fun ChoiceRow(text: String, selected: Boolean, onClick: () -> Unit) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// RÉSULTAT SCREEN — Version améliorée (8 points)
-// ═══════════════════════════════════════════════════════════
-
 @Composable
 fun ResultatScreen(
     modifier: Modifier = Modifier,
@@ -525,110 +505,61 @@ fun ResultatScreen(
     onRecommencer: () -> Unit
 ) {
     EditorialContainer(
-        modifier = modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.navigationBars)
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+        modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp),
         maxWidth = 780
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
-            // ── 1. ALERTE MORSURE — priorité absolue, tout en haut ──────────
-            if (analyse.aDejaMordu) {
-                AlerteMorsureCard(nomChienAffiche(nomChien))
-            }
+            if (analyse.aDejaMordu) AlerteMorsureCard(nomChienAffiche(nomChien))
 
-            // ── 2. VOTRE BILAN ───────────────────────────────────────────────
             PremiumCard(centered = true) {
                 EditorialKicker("Votre bilan", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    "Bilan pour ${nomChienAffiche(nomChien)}",
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
-                )
+                Text("Bilan pour ${nomChienAffiche(nomChien)}", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(8.dp))
                 AccentChip(analyse.profil.profilType)
             }
 
-            // ── 4. LECTURE PRINCIPALE + badge priorité ───────────────────────
+            if (!analyse.raceCategorie.isNullOrBlank() || !analyse.racePrecise.isNullOrBlank()) {
+                RaceCard(raceCategorie = analyse.raceCategorie, racePrecise = analyse.racePrecise)
+            }
+
             PremiumCard(centered = true) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     EditorialKicker("Lecture principale", centered = true)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        analyse.hypothesePrincipale,
-                        style = MaterialTheme.typography.headlineSmall,
-                        textAlign = TextAlign.Center
-                    )
+                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
                     Spacer(modifier = Modifier.height(12.dp))
                     val couleur = couleurPriorite(analyse.prioriteAction)
                     val couleurFond = couleurFondPriorite(analyse.prioriteAction)
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(999.dp))
-                            .background(couleurFond)
-                            .padding(horizontal = 14.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            "Priorité : ${textePrioriteAction(analyse.prioriteAction)}",
-                            color = couleur,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                    Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFond).padding(horizontal = 14.dp, vertical = 8.dp)) {
+                        Text("Priorité : ${textePrioriteAction(analyse.prioriteAction)}", color = couleur, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
 
             SimpleRadarCard(analyse = analyse)
 
-            // ── 6. CE QUE RESSENT VOTRE CHIEN (fusionné avec Lecture générale) ──
             PremiumCard(centered = true) {
                 EditorialKicker("Ce que ressent probablement ${nomChienAffiche(nomChien)}", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
-                // Phrase humaine du profil (remplace "Lecture générale" + "Ce que ressent")
-                Text(
-                    analyse.profil.phraseHumaine,
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center
-                )
+                Text(analyse.profil.phraseHumaine, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(14.dp))
-                // Résumé émotionnel
-                Text(
-                    resumeEmotionnel(analyse.problemePrincipal),
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center,
-                    color = PremiumPalette.Primary
-                )
+                Text(resumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    intentionChien(analyse.problemePrincipal),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                Text(intentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    besoinPrincipal(analyse.problemePrincipal),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text(besoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
-            // ── 7. EN UN COUP D'ŒIL (4 axes en chips, pas de phrase vague) ──
             PremiumCard(centered = true) {
                 EditorialKicker("En un coup d'œil", centered = true)
                 Spacer(modifier = Modifier.height(14.dp))
                 QuatreAxesGrid(analyse = analyse)
             }
 
-            // Facteurs
             FacteursCard(analyse = analyse)
 
-            // ── Niveau de situation ──────────────────────────────────────────
             PremiumCard(centered = true) {
                 EditorialKicker("Niveau de situation", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
@@ -639,27 +570,19 @@ fun ResultatScreen(
                 Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
-            // ── Faut-il s'inquiéter ──────────────────────────────────────────
             PremiumCard(centered = true) {
                 EditorialKicker("Faut-il s'inquiéter ?", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(texteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center)
             }
 
-            // ── Ce qui se passe probablement ────────────────────────────────
             PremiumCard(centered = true) {
                 EditorialKicker("Ce qui se passe probablement", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
             }
 
-            // ── 8. BOUTONS D'ACTION remontés, 2×2 — ancre "Partager" ────────
-            ActionButtonsGrid(
-                onShare = onShare,
-                onCopy = onCopy,
-                onExportPdf = onExportPdf,
-                onRecommencer = onRecommencer
-            )
+            ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
 
             HighlightAdviceCard(title = "Première piste concrète", advice = analyse.conseilPrincipal)
 
@@ -684,7 +607,6 @@ fun ResultatScreen(
                 }
             }
 
-            // ── Message aide ─────────────────────────────────────────────────
             analyse.messageAide?.let { message ->
                 PremiumCard(centered = true) {
                     EditorialKicker("Quand demander de l'aide", centered = true)
@@ -693,98 +615,45 @@ fun ResultatScreen(
                 }
             }
 
-            // ── Important ────────────────────────────────────────────────────
             PremiumCard(centered = true) {
                 EditorialKicker("Important", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    "Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.",
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                Text("Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             }
 
-            // ── À retenir ─────────────────────────────────────────────────────
             PremiumCard(centered = true) {
                 EditorialKicker("À retenir", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(phraseFin(nomChien), textAlign = TextAlign.Center)
             }
 
-            // ── Boutons bas de page (recommencer) ────────────────────────────
-            TextButton(onClick = onRecommencer, modifier = Modifier.fillMaxWidth()) {
-                Text("Recommencer depuis le début")
-            }
+            TextButton(onClick = onRecommencer, modifier = Modifier.fillMaxWidth()) { Text("Recommencer depuis le début") }
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
-// ── Alerte morsure — card dédiée bien visible ────────────────────────────────
 @Composable
 fun AlerteMorsureCard(nomChien: String) {
     val isDark = isSystemInDarkTheme()
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isDark) Color(0xFF3D1209) else Color(0xFFFFF0EC)
-        ),
+        modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF3D1209) else Color(0xFFFFF0EC)),
         border = BorderStroke(2.dp, PremiumPalette.MorsureBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(22.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Icon(
-                    Icons.Rounded.Warning,
-                    contentDescription = null,
-                    tint = PremiumPalette.PrioriteUrgente,
-                    modifier = Modifier.size(22.dp)
-                )
-                Text(
-                    "ATTENTION — MORSURE SIGNALÉE",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = PremiumPalette.PrioriteUrgente,
-                    textAlign = TextAlign.Center
-                )
-                Icon(
-                    Icons.Rounded.Warning,
-                    contentDescription = null,
-                    tint = PremiumPalette.PrioriteUrgente,
-                    modifier = Modifier.size(22.dp)
-                )
+        Column(modifier = Modifier.padding(22.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Icon(Icons.Rounded.Warning, contentDescription = null, tint = PremiumPalette.PrioriteUrgente, modifier = Modifier.size(22.dp))
+                Text("ATTENTION — MORSURE SIGNALÉE", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.ExtraBold, color = PremiumPalette.PrioriteUrgente, textAlign = TextAlign.Center)
+                Icon(Icons.Rounded.Warning, contentDescription = null, tint = PremiumPalette.PrioriteUrgente, modifier = Modifier.size(22.dp))
             }
             Spacer(modifier = Modifier.height(14.dp))
-            Text(
-                text = "Il y a déjà eu morsure chez $nomChien. Cette situation ne doit pas être banalisée.",
-                style = MaterialTheme.typography.titleMedium,
-                color = PremiumPalette.PrioriteUrgente,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
-            )
+            Text(text = "Il y a déjà eu morsure chez $nomChien. Cette situation ne doit pas être banalisée.", style = MaterialTheme.typography.titleMedium, color = PremiumPalette.PrioriteUrgente, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = "Un accompagnement par un professionnel du comportement est fortement recommandé — pas uniquement pour corriger le comportement, mais pour comprendre ce qui se passe et sécuriser le quotidien.",
-                color = if (isDark) Color(0xFFFFCFC5) else Color(0xFF5C1A0A),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Text(text = "Un accompagnement par un professionnel du comportement est fortement recommandé — pas uniquement pour corriger le comportement, mais pour comprendre ce qui se passe et sécuriser le quotidien.", color = if (isDark) Color(0xFFFFCFC5) else Color(0xFF5C1A0A), textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(16.dp))
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(14.dp))
-                    .background(if (isDark) Color(0xFF5C1A0A) else Color(0xFFFFDDD6))
-                    .padding(14.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Column(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(if (isDark) Color(0xFF5C1A0A) else Color(0xFFFFDDD6)).padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 BulletAlerte("Éviter les situations où une morsure a déjà eu lieu.")
                 BulletAlerte("Ne pas punir — cela augmente le risque de morsure future.")
                 BulletAlerte("Consulter un comportementaliste ou vétérinaire comportementaliste.")
@@ -796,89 +665,26 @@ fun AlerteMorsureCard(nomChien: String) {
 @Composable
 fun BulletAlerte(text: String) {
     Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Box(
-            modifier = Modifier
-                .padding(top = 6.dp)
-                .size(6.dp)
-                .background(PremiumPalette.PrioriteUrgente, CircleShape)
-        )
-        Text(
-            text,
-            color = PremiumPalette.PrioriteUrgente,
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.weight(1f)
-        )
+        Box(modifier = Modifier.padding(top = 6.dp).size(6.dp).background(PremiumPalette.PrioriteUrgente, CircleShape))
+        Text(text, color = PremiumPalette.PrioriteUrgente, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
     }
 }
 
-// ── Grille 4 axes (remplace la phrase vague "En un coup d'œil") ──────────────
 @Composable
 fun QuatreAxesGrid(analyse: ResultatAnalyse) {
-    val axes = listOf(
-        Triple("Sensibilité", analyse.niveauPeur, analyse.peur),
-        Triple("Attachement", analyse.niveauAttachement, analyse.attachement),
-        Triple("Impulsivité", analyse.niveauImpulsivite, analyse.impulsivite),
-        Triple("Réactivité", analyse.niveauReactivite, analyse.reactivite)
-    )
+    val axes = listOf(Triple("Sensibilité", analyse.niveauPeur, analyse.peur), Triple("Attachement", analyse.niveauAttachement, analyse.attachement), Triple("Impulsivité", analyse.niveauImpulsivite, analyse.impulsivite), Triple("Réactivité", analyse.niveauReactivite, analyse.reactivite))
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         axes.chunked(2).forEach { row ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 row.forEach { (label, niveau, score) ->
-                    val couleurNiveau = when (niveau) {
-                        NiveauAxe.PEU_MARQUE -> PremiumPalette.PrioriteFaible
-                        NiveauAxe.A_SURVEILLER -> PremiumPalette.PrioriteModere
-                        NiveauAxe.MARQUE -> PremiumPalette.PrioriteElevee
-                        NiveauAxe.TRES_MARQUE -> PremiumPalette.PrioriteUrgente
-                    }
-                    val fondNiveau = when (niveau) {
-                        NiveauAxe.PEU_MARQUE -> PremiumPalette.PrioriteFaibleBg
-                        NiveauAxe.A_SURVEILLER -> PremiumPalette.PrioriteModereBg
-                        NiveauAxe.MARQUE -> PremiumPalette.PrioriteEleveeBg
-                        NiveauAxe.TRES_MARQUE -> PremiumPalette.PrioriteUrgenteBg
-                    }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else fondNiveau)
-                            .border(1.dp, couleurNiveau.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
-                            .padding(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        Text(
-                            label,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            QuestionnaireEngine.libelleNiveauAxe(niveau),
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = couleurNiveau,
-                            textAlign = TextAlign.Center
-                        )
-                        // Mini barre
+                    val couleurNiveau = when (niveau) { NiveauAxe.PEU_MARQUE -> PremiumPalette.PrioriteFaible; NiveauAxe.A_SURVEILLER -> PremiumPalette.PrioriteModere; NiveauAxe.MARQUE -> PremiumPalette.PrioriteElevee; NiveauAxe.TRES_MARQUE -> PremiumPalette.PrioriteUrgente }
+                    val fondNiveau = when (niveau) { NiveauAxe.PEU_MARQUE -> PremiumPalette.PrioriteFaibleBg; NiveauAxe.A_SURVEILLER -> PremiumPalette.PrioriteModereBg; NiveauAxe.MARQUE -> PremiumPalette.PrioriteEleveeBg; NiveauAxe.TRES_MARQUE -> PremiumPalette.PrioriteUrgenteBg }
+                    Column(modifier = Modifier.weight(1f).clip(RoundedCornerShape(16.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else fondNiveau).border(1.dp, couleurNiveau.copy(alpha = 0.3f), RoundedCornerShape(16.dp)).padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+                        Text(QuestionnaireEngine.libelleNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = couleurNiveau, textAlign = TextAlign.Center)
                         val animated by animateFloatAsState((score / 100f).coerceIn(0f, 1f), label = "axe_$label")
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(999.dp))
-                                .background(couleurNiveau.copy(alpha = 0.2f))
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth(animated)
-                                    .height(5.dp)
-                                    .clip(RoundedCornerShape(999.dp))
-                                    .background(couleurNiveau)
-                            )
+                        Box(modifier = Modifier.fillMaxWidth().height(5.dp).clip(RoundedCornerShape(999.dp)).background(couleurNiveau.copy(alpha = 0.2f))) {
+                            Box(modifier = Modifier.fillMaxWidth(animated).height(5.dp).clip(RoundedCornerShape(999.dp)).background(couleurNiveau))
                         }
                     }
                 }
@@ -887,116 +693,90 @@ fun QuatreAxesGrid(analyse: ResultatAnalyse) {
     }
 }
 
-// ── Boutons d'action en grille 2×2 ──────────────────────────────────────────
 @Composable
-fun ActionButtonsGrid(
-    onShare: () -> Unit,
-    onCopy: () -> Unit,
-    onExportPdf: () -> Unit,
-    onRecommencer: () -> Unit
-) {
+fun ActionButtonsGrid(onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -> Unit, onRecommencer: () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        // Ligne 1 — actions principales
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            ActionButton(
-                text = "Partager",
-                icon = Icons.Rounded.Share,
-                primary = true,
-                modifier = Modifier.weight(1f),
-                onClick = onShare
-            )
-            ActionButton(
-                text = "Export PDF",
-                icon = Icons.Rounded.PictureAsPdf,
-                primary = true,
-                modifier = Modifier.weight(1f),
-                onClick = onExportPdf
-            )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            ActionButton(text = "Partager", icon = Icons.Rounded.Share, primary = true, modifier = Modifier.weight(1f), onClick = onShare)
+            ActionButton(text = "Export PDF", icon = Icons.Rounded.PictureAsPdf, primary = true, modifier = Modifier.weight(1f), onClick = onExportPdf)
         }
-        // Ligne 2 — actions secondaires
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            ActionButton(
-                text = "Copier",
-                icon = Icons.Rounded.ContentCopy,
-                primary = false,
-                modifier = Modifier.weight(1f),
-                onClick = onCopy
-            )
-            ActionButton(
-                text = "Recommencer",
-                icon = Icons.Rounded.Refresh,
-                primary = false,
-                modifier = Modifier.weight(1f),
-                onClick = onRecommencer
-            )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            ActionButton(text = "Copier", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.weight(1f), onClick = onCopy)
+            ActionButton(text = "Recommencer", icon = Icons.Rounded.Refresh, primary = false, modifier = Modifier.weight(1f), onClick = onRecommencer)
         }
     }
 }
 
 @Composable
-fun ActionButton(
-    text: String,
-    icon: ImageVector,
-    primary: Boolean,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier.height(52.dp),
-        shape = RoundedCornerShape(18.dp),
-        colors = if (primary) {
-            ButtonDefaults.buttonColors(
-                containerColor = PremiumPalette.Primary,
-                contentColor = Color.White
-            )
-        } else {
-            ButtonDefaults.buttonColors(
-                containerColor = if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFF0E5DC),
-                contentColor = MaterialTheme.colorScheme.onSurface
-            )
-        }
+fun ActionButton(text: String, icon: ImageVector, primary: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Button(onClick = onClick, modifier = modifier.height(52.dp), shape = RoundedCornerShape(18.dp),
+        colors = if (primary) ButtonDefaults.buttonColors(containerColor = PremiumPalette.Primary, contentColor = Color.White)
+        else ButtonDefaults.buttonColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFF0E5DC), contentColor = MaterialTheme.colorScheme.onSurface)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Icon(icon, contentDescription = null, modifier = Modifier.size(18.dp))
             Text(text, style = MaterialTheme.typography.labelLarge)
         }
     }
 }
 
-// ── Helper couleurs priorité ─────────────────────────────────────────────────
 fun couleurPriorite(p: PrioriteAction) = when (p) {
-    PrioriteAction.FAIBLE -> PremiumPalette.PrioriteFaible
-    PrioriteAction.MODEREE -> PremiumPalette.PrioriteModere
-    PrioriteAction.ELEVEE -> PremiumPalette.PrioriteElevee
-    PrioriteAction.URGENTE -> PremiumPalette.PrioriteUrgente
+    PrioriteAction.FAIBLE -> PremiumPalette.PrioriteFaible; PrioriteAction.MODEREE -> PremiumPalette.PrioriteModere
+    PrioriteAction.ELEVEE -> PremiumPalette.PrioriteElevee; PrioriteAction.URGENTE -> PremiumPalette.PrioriteUrgente
 }
 
 fun couleurFondPriorite(p: PrioriteAction) = when (p) {
-    PrioriteAction.FAIBLE -> PremiumPalette.PrioriteFaibleBg
-    PrioriteAction.MODEREE -> PremiumPalette.PrioriteModereBg
-    PrioriteAction.ELEVEE -> PremiumPalette.PrioriteEleveeBg
-    PrioriteAction.URGENTE -> PremiumPalette.PrioriteUrgenteBg
+    PrioriteAction.FAIBLE -> PremiumPalette.PrioriteFaibleBg; PrioriteAction.MODEREE -> PremiumPalette.PrioriteModereBg
+    PrioriteAction.ELEVEE -> PremiumPalette.PrioriteEleveeBg; PrioriteAction.URGENTE -> PremiumPalette.PrioriteUrgenteBg
 }
 
-// ═══════════════════════════════════════════════════════════
-// COMPOSANTS COMMUNS RÉSULTAT
-// ═══════════════════════════════════════════════════════════
+@Composable
+fun RaceCard(raceCategorie: String?, racePrecise: String?) {
+    val categorieId = when (raceCategorie) {
+        "Chiens de berger & troupeau" -> "bergers"; "Retrievers & Spaniels" -> "retrievers"
+        "Terriers" -> "terriers"; "Molosses & Dogues" -> "molosses"
+        "Chiens nordiques & primitifs" -> "nordiques"; "Lévriers & Races de course" -> "levriers"
+        "Races naines & compagnie" -> "nains"; "Chiens de chasse & pisteurs" -> "chasse"
+        else -> "croise"
+    }
+    val categorie = categoriesRaces.firstOrNull { it.id == categorieId }
+    val nuance = if (!racePrecise.isNullOrBlank()) getNuanceAnalyse(racePrecise) ?: categorie?.nuanceAnalyse else categorie?.nuanceAnalyse
+    val predispositions = if (!racePrecise.isNullOrBlank()) getPredispositions(racePrecise).ifEmpty { categorie?.predispositions ?: emptyList() } else categorie?.predispositions ?: emptyList()
+    val nomAffiche = when { !racePrecise.isNullOrBlank() -> racePrecise; !raceCategorie.isNullOrBlank() -> raceCategorie; else -> return }
+
+    PremiumCard(centered = true) {
+        EditorialKicker("Votre race et ce bilan", centered = true)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(nomAffiche, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
+        if (!raceCategorie.isNullOrBlank() && !racePrecise.isNullOrBlank()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(raceCategorie, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+        }
+        if (predispositions.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(14.dp))
+            Text("Prédispositions fréquentes dans cette famille", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(8.dp))
+            predispositions.forEach { pred ->
+                Row(modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) {
+                    Box(modifier = Modifier.padding(top = 7.dp).size(6.dp).background(PremiumPalette.Accent, CircleShape))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(pred, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 500.dp))
+                }
+            }
+        }
+        if (!nuance.isNullOrBlank()) {
+            Spacer(modifier = Modifier.height(14.dp))
+            Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6)).padding(14.dp)) {
+                Text(nuance, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center)
+            }
+        }
+    }
+}
 
 @Composable
 fun HighlightAdviceCard(title: String, advice: String) {
     val backgroundBrush = if (isSystemInDarkTheme()) Brush.verticalGradient(listOf(Color(0xFF3A2A23), Color(0xFF2A1F1A)))
     else Brush.verticalGradient(listOf(Color(0xFFF3E4DA), Color(0xFFECD8CB)))
-
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(30.dp), colors = CardDefaults.cardColors(containerColor = Color.Transparent), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF6A4D41) else Color(0xFFD8B9A7))) {
         Column(modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 26.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             AccentChip("Le point d'appui principal")
@@ -1059,10 +839,10 @@ fun SimpleRadarCard(analyse: ResultatAnalyse) {
     PremiumCard(centered = true) {
         EditorialKicker("Carte du profil", centered = true)
         Spacer(modifier = Modifier.height(14.dp))
-        ScoreLine("Sensibilité / peur", analyse.peur, centered = false); Spacer(modifier = Modifier.height(14.dp))
-        ScoreLine("Attachement / dépendance", analyse.attachement, centered = false); Spacer(modifier = Modifier.height(14.dp))
-        ScoreLine("Impulsivité / contrôle", analyse.impulsivite, centered = false); Spacer(modifier = Modifier.height(14.dp))
-        ScoreLine("Réactivité", analyse.reactivite, centered = false)
+        ScoreLine("Sensibilité / peur", analyse.peur); Spacer(modifier = Modifier.height(14.dp))
+        ScoreLine("Attachement / dépendance", analyse.attachement); Spacer(modifier = Modifier.height(14.dp))
+        ScoreLine("Impulsivité / contrôle", analyse.impulsivite); Spacer(modifier = Modifier.height(14.dp))
+        ScoreLine("Réactivité", analyse.reactivite)
     }
 }
 
@@ -1082,10 +862,6 @@ fun FacteursCard(analyse: ResultatAnalyse) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// DICTIONNAIRE COMPORTEMENTAL
-// ═══════════════════════════════════════════════════════════
-
 @Composable
 fun DictionnaireInfoScreen(modifier: Modifier = Modifier, onOpenFiche: (String) -> Unit) {
     val fiches = remember { comportementEntries() }
@@ -1094,12 +870,12 @@ fun DictionnaireInfoScreen(modifier: Modifier = Modifier, onOpenFiche: (String) 
             PremiumCard(centered = true) {
                 EditorialKicker("Dictionnaire comportemental", centered = true); Spacer(modifier = Modifier.height(10.dp))
                 Text(text = "Repères pour mieux lire le langage du chien", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Choisissez une fiche pour ouvrir une explication détaillée. Le contenu alimentation reste séparé dans le bouton « Alimentation ».", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(text = "Choisissez une fiche pour ouvrir une explication détaillée.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             fiches.forEach { fiche -> ComportementListItem(entry = fiche, onClick = { onOpenFiche(fiche.id) }) }
             PremiumCard(centered = true) {
                 EditorialKicker("Important", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Ces fiches donnent des repères de lecture. Elles n'évaluent pas à elles seules une situation et ne remplacent pas l'avis d'un professionnel si le chien présente des réactions préoccupantes.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = "Ces fiches donnent des repères de lecture. Elles ne remplacent pas l'avis d'un professionnel.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             }
         }
     }
@@ -1123,7 +899,7 @@ fun DictionnaireDetailScreen(modifier: Modifier = Modifier, ficheId: String) {
                 PremiumCard { EditorialKicker("À éviter"); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.aEviter) }
                 PremiumCard(centered = true) {
                     EditorialKicker("Rappel", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Un comportement isolé ne suffit pas toujours à conclure. Le contexte, l'environnement, l'historique du chien et l'ensemble du langage corporel comptent autant que le signal lui-même.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(text = "Un comportement isolé ne suffit pas toujours à conclure. Le contexte et l'ensemble du langage corporel comptent autant.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -1143,10 +919,6 @@ fun ComportementListItem(entry: ComportementEntry, onClick: () -> Unit) {
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════
-// DICTIONNAIRE ALIMENTATION
-// ═══════════════════════════════════════════════════════════
 
 @Composable
 fun DictionnaireScreen(modifier: Modifier = Modifier) {
@@ -1168,7 +940,7 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
                     }
                     PremiumCard(centered = true) {
                         EditorialKicker("Rappel", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                        Text(text = "En cas de symptômes, de douleur, d'ingestion douteuse ou de changement brutal, il faut privilégier un avis vétérinaire.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                        Text(text = "En cas de symptômes ou d'ingestion douteuse, il faut privilégier un avis vétérinaire.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
                 selectedCategoryState.value != null -> {
@@ -1186,19 +958,18 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
                     PremiumCard(centered = true) {
                         EditorialKicker("Repères alimentation", centered = true); Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Dictionnaire", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
-                        Text(text = "Choisissez une rubrique pour accéder plus vite aux bons repères du quotidien.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(text = "Choisissez une rubrique pour accéder aux bons repères du quotidien.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     PremiumCard {
                         EditorialKicker("À retenir d'abord"); Spacer(modifier = Modifier.height(12.dp))
                         Bullet("Tout changement alimentaire doit être progressif."); Spacer(modifier = Modifier.height(8.dp))
                         Bullet("Même un aliment banal pour l'humain peut être inadapté pour le chien."); Spacer(modifier = Modifier.height(8.dp))
-                        Bullet("En cas d'ingestion suspecte ou de symptômes, la prudence passe avant l'attente."); Spacer(modifier = Modifier.height(8.dp))
-                        Bullet("Vomissements répétés, douleur, abattement ou diarrhée importante justifient un avis vétérinaire.")
+                        Bullet("En cas d'ingestion suspecte ou de symptômes, la prudence passe avant l'attente.")
                     }
                     categories.forEach { categorie -> DictionnaireCategoryButton(categorie = categorie, onClick = { selectedCategoryState.value = categorie }) }
                     PremiumCard(centered = true) {
                         EditorialKicker("Important", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                        Text(text = "Ce dictionnaire donne des repères généraux. Il ne remplace pas un vétérinaire, surtout en cas de doute, d'ingestion inhabituelle, de douleur ou de symptômes digestifs.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                        Text(text = "Ce dictionnaire donne des repères généraux. Il ne remplace pas un vétérinaire.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
             }

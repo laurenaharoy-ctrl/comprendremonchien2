@@ -1,4 +1,4 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import kotlin.math.roundToInt
 
@@ -636,6 +636,19 @@ object QuestionnaireEngine {
         return listOf(intro, hypotheseTexte, aggr, prot).filter { it.isNotBlank() }.joinToString("\n\n")
     }
 
+    // ── Liste des catégories de races (même ordre que dans questionsApplication) ──
+    private val listeCategoriesRaces = listOf(
+        "Chiens de berger & troupeau",
+        "Retrievers & Spaniels",
+        "Terriers",
+        "Molosses & Dogues",
+        "Chiens nordiques & primitifs",
+        "Lévriers & Races de course",
+        "Races naines & compagnie",
+        "Chiens de chasse & pisteurs",
+        "Croisé / Bâtard / Race inconnue"
+    )
+
     fun calculerResultat(questions: List<Question>, reponsesTexte: Map<String, String>, reponsesChoix: Map<String, Int>): ResultatAnalyse {
         val peur = calculerPourcentageAxe(Axe.PEUR, questions, reponsesChoix)
         val attachement = calculerPourcentageAxe(Axe.ATTACHEMENT, questions, reponsesChoix)
@@ -663,9 +676,15 @@ object QuestionnaireEngine {
         val explicationResultat = construireExplicationResultat(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
         val syntheseAvancee = genererSyntheseAvancee(nomChienAffiche(reponsesTexte["nom_chien"].orEmpty()), hypothesePrincipale, prioriteAction, facteursAggravants, facteursProtecteurs)
 
+        // ── Race ──────────────────────────────────────────────────────────────
+        val raceCategorieIndex = reponsesChoix["race_categorie"]
+        val raceCategorieTexte = raceCategorieIndex?.let { listeCategoriesRaces.getOrNull(it) }
+        val racePreciseTexte = reponsesTexte["race_precise"]?.trim()?.ifBlank { null }
+
         return ResultatAnalyse(
             peur = peur, attachement = attachement, impulsivite = impulsivite, reactivite = reactivite,
-            niveauPeur = niveauPeur, niveauAttachement = niveauAttachement, niveauImpulsivite = niveauImpulsivite, niveauReactivite = niveauReactivite,
+            niveauPeur = niveauPeur, niveauAttachement = niveauAttachement,
+            niveauImpulsivite = niveauImpulsivite, niveauReactivite = niveauReactivite,
             profil = profil, vigilance = vigilance, niveauSituation = niveauSituation, contexte = contexte,
             problemePrincipal = problemePrincipal, problemesImportants = problemesImportants,
             explicationPrincipale = explicationProbleme(problemePrincipal, peur, attachement, impulsivite, reactivite),
@@ -679,7 +698,9 @@ object QuestionnaireEngine {
             hypothesePrincipale = hypothesePrincipale, prioriteAction = prioriteAction,
             prioriteImmediate = prioriteImmediate, explicationResultat = explicationResultat,
             facteursAggravants = facteursAggravants, facteursProtecteurs = facteursProtecteurs,
-            syntheseAvancee = syntheseAvancee
+            syntheseAvancee = syntheseAvancee,
+            raceCategorie = raceCategorieTexte,
+            racePrecise = racePreciseTexte
         )
     }
 
@@ -696,6 +717,7 @@ object QuestionnaireEngine {
     fun titreSectionPourQuestion(questionId: String): String {
         return when (questionId) {
             "nom_chien", "age", "sexe", "sterilise" -> "Informations générales"
+            "race_categorie", "race_precise" -> "Votre chien"
             "peur_stimuli", "adaptation_changements", "comportement_exterieur", "reaction_peur" -> "Sensibilité et peur"
             "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise", "proprete_maison", "si_non_quand" -> "Attachement et séparation"
             "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" -> "Excitation et impulsivité"
@@ -707,6 +729,8 @@ object QuestionnaireEngine {
 
     fun aideQuestion(questionId: String): String? {
         return when (questionId) {
+            "race_categorie" -> "Choisissez la famille qui ressemble le plus à votre chien. Pour un croisé, choisissez la race dominante ou la dernière option."
+            "race_precise" -> "Facultatif — si vous connaissez la race exacte, elle sera mentionnée dans votre bilan."
             "adaptation_changements" -> "Pensez aux changements d'habitudes, de lieu, de rythme ou d'environnement."
             "comportement_exterieur" -> "Répondez en pensant surtout aux promenades et sorties habituelles."
             "reaction_peur" -> "Choisissez la réaction la plus fréquente quand votre chien est inquiet."
@@ -730,6 +754,24 @@ object QuestionnaireEngine {
 fun questionsApplication(): List<Question> {
     return listOf(
         QuestionTexte("nom_chien", "Quel est le nom de votre chien ?"),
+
+        QuestionChoix(
+            "race_categorie",
+            "À quelle famille de races appartient votre chien ?",
+            listOf(
+                "Chiens de berger & troupeau",
+                "Retrievers & Spaniels",
+                "Terriers",
+                "Molosses & Dogues",
+                "Chiens nordiques & primitifs",
+                "Lévriers & Races de course",
+                "Races naines & compagnie",
+                "Chiens de chasse & pisteurs",
+                "Croisé / Bâtard / Race inconnue"
+            )
+        ),
+
+        QuestionTexte("race_precise", "Quelle est la race précise de votre chien ? (facultatif — laissez vide si vous ne savez pas)"),
 
         QuestionChoix("age", "Quel âge a votre chien ?",
             listOf("Moins d'1 an", "Entre 1 et 3 ans", "Entre 4 et 7 ans", "8 ans et +")),

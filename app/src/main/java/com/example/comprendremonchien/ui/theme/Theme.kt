@@ -1,4 +1,4 @@
-package com.example.comprendremonchien.ui.theme
+package com.example.comprendremonchien
 
 import android.app.Activity
 import android.os.Build

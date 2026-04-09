@@ -23,7 +23,7 @@
         </provider>
 
         <activity
-            android:name="com.example.comprendremonchien2.MainActivity"
+            android:name="com.example.comprendremonchien.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Comprendremonchien">

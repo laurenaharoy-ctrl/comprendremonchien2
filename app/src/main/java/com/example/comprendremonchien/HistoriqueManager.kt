@@ -1,9 +1,13 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.comprendremonchien.NiveauSituation
+import com.example.comprendremonchien.PrioriteAction
+import com.example.comprendremonchien.ResultatAnalyse
+import com.example.comprendremonchien.nomChienAffiche
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.json.JSONArray

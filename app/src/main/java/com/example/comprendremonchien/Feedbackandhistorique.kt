@@ -1,6 +1,7 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import androidx.compose.animation.animateColorAsState
+import com.example.comprendremonchien.PrioriteAction
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -60,7 +61,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -151,7 +151,6 @@ fun FeedbackScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             if (envoye) {
-                // ── Confirmation envoi ────────────────────────────────────────
                 PremiumCard(centered = true) {
                     Box(
                         modifier = Modifier
@@ -183,7 +182,6 @@ fun FeedbackScreen(
                     PrimaryGlowButton(text = "Retour", onClick = onRetour)
                 }
             } else {
-                // ── En-tête ───────────────────────────────────────────────────
                 PremiumCard(centered = true) {
                     EditorialKicker("Signalement", centered = true)
                     Spacer(modifier = Modifier.height(10.dp))
@@ -200,7 +198,6 @@ fun FeedbackScreen(
                     )
                 }
 
-                // ── Choix de catégorie ────────────────────────────────────────
                 PremiumCard {
                     EditorialKicker("Type de signalement")
                     Spacer(modifier = Modifier.height(12.dp))
@@ -266,7 +263,6 @@ fun FeedbackScreen(
                     }
                 }
 
-                // ── Écran concerné ────────────────────────────────────────────
                 PremiumCard {
                     EditorialKicker("Écran concerné")
                     Spacer(modifier = Modifier.height(12.dp))
@@ -314,7 +310,6 @@ fun FeedbackScreen(
                     }
                 }
 
-                // ── Message libre ─────────────────────────────────────────────
                 PremiumCard {
                     EditorialKicker("Description")
                     Spacer(modifier = Modifier.height(4.dp))
@@ -353,7 +348,6 @@ fun FeedbackScreen(
                     }
                 }
 
-                // ── Bouton envoi ──────────────────────────────────────────────
                 PrimaryGlowButton(
                     text = "Envoyer le signalement",
                     onClick = {
@@ -392,7 +386,6 @@ fun FeedbackScreen(
                     )
                 }
 
-                // ── Confidentialité ───────────────────────────────────────────
                 PremiumCard(centered = true) {
                     EditorialKicker("Confidentialité", centered = true)
                     Spacer(modifier = Modifier.height(8.dp))
@@ -411,7 +404,7 @@ fun FeedbackScreen(
 }
 
 // ═══════════════════════════════════════════════════════════
-// HISTORIQUE SCREEN — Liste des bilans
+// HISTORIQUE SCREEN
 // ═══════════════════════════════════════════════════════════
 
 @Composable
@@ -452,7 +445,6 @@ fun HistoriqueScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            // ── En-tête ───────────────────────────────────────────────────────
             PremiumCard(centered = true) {
                 Box(
                     modifier = Modifier
@@ -510,9 +502,7 @@ fun HistoriqueScreen(
                 Spacer(modifier = Modifier.height(4.dp))
                 Button(
                     onClick = { showConfirmSupprimerTout = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isSystemInDarkTheme()) Color(0xFF3D1209)
@@ -520,11 +510,7 @@ fun HistoriqueScreen(
                         contentColor = PremiumPalette.PrioriteUrgente
                     )
                 ) {
-                    Icon(
-                        Icons.Rounded.DeleteSweep,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
+                    Icon(Icons.Rounded.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Supprimer tout l'historique", fontWeight = FontWeight.SemiBold)
                 }
@@ -569,19 +555,15 @@ fun BilanHistoriqueItem(
     }
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onOuvrir),
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onOuvrir),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17)
-            else PremiumPalette.PaperSoft
+            containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft
         ),
         border = BorderStroke(
             1.dp,
             if (bilan.aDejaMordu) PremiumPalette.MorsureBorder
-            else if (isSystemInDarkTheme()) Color(0xFF56433B)
-            else PremiumPalette.Border
+            else if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border
         )
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
@@ -591,142 +573,48 @@ fun BilanHistoriqueItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        bilan.nomChien,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Text(bilan.nomChien, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        bilan.date,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Text(bilan.date, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     if (bilan.aDejaMordu) {
-                        Icon(
-                            Icons.Rounded.Warning,
-                            contentDescription = "Morsure signalée",
-                            tint = PremiumPalette.PrioriteUrgente,
-                            modifier = Modifier.size(18.dp)
-                        )
+                        Icon(Icons.Rounded.Warning, contentDescription = "Morsure signalée", tint = PremiumPalette.PrioriteUrgente, modifier = Modifier.size(18.dp))
                     }
-                    IconButton(
-                        onClick = { showConfirm = true },
-                        modifier = Modifier.size(34.dp)
-                    ) {
-                        Icon(
-                            Icons.Rounded.Delete,
-                            contentDescription = "Supprimer",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(18.dp)
-                        )
+                    IconButton(onClick = { showConfirm = true }, modifier = Modifier.size(34.dp)) {
+                        Icon(Icons.Rounded.Delete, contentDescription = "Supprimer", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(999.dp))
-                        .background(
-                            if (isSystemInDarkTheme()) Color(0xFF342923)
-                            else Color(0xFFF0E5DC)
-                        )
-                        .padding(horizontal = 10.dp, vertical = 5.dp)
-                ) {
-                    Text(
-                        bilan.profilType,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFF0E5DC)).padding(horizontal = 10.dp, vertical = 5.dp)) {
+                    Text(bilan.profilType, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(999.dp))
-                        .background(couleurPriorite.copy(alpha = 0.12f))
-                        .padding(horizontal = 10.dp, vertical = 5.dp)
-                ) {
-                    Text(
-                        textePrioriteAction(priorite),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = couleurPriorite,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurPriorite.copy(alpha = 0.12f)).padding(horizontal = 10.dp, vertical = 5.dp)) {
+                    Text(textePrioriteAction(priorite), style = MaterialTheme.typography.labelSmall, color = couleurPriorite, fontWeight = FontWeight.SemiBold)
                 }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-
-            QuatreAxesMini(
-                peur = bilan.peur,
-                attachement = bilan.attachement,
-                impulsivite = bilan.impulsivite,
-                reactivite = bilan.reactivite
-            )
+            QuatreAxesMini(peur = bilan.peur, attachement = bilan.attachement, impulsivite = bilan.impulsivite, reactivite = bilan.reactivite)
         }
     }
 }
 
 @Composable
 fun QuatreAxesMini(peur: Int, attachement: Int, impulsivite: Int, reactivite: Int) {
-    val axes = listOf(
-        "Sensibilité" to peur,
-        "Attachement" to attachement,
-        "Impulsivité" to impulsivite,
-        "Réactivité" to reactivite
-    )
+    val axes = listOf("Sensibilité" to peur, "Attachement" to attachement, "Impulsivité" to impulsivite, "Réactivité" to reactivite)
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         axes.forEach { (label, score) ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    label,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.width(72.dp)
-                )
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(5.dp)
-                        .clip(RoundedCornerShape(999.dp))
-                        .background(
-                            if (isSystemInDarkTheme()) Color(0xFF342923)
-                            else Color(0xFFE9DED5)
-                        )
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth((score / 100f).coerceIn(0f, 1f))
-                            .height(5.dp)
-                            .clip(RoundedCornerShape(999.dp))
-                            .background(PremiumPalette.PrimarySoft)
-                    )
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(72.dp))
+                Box(modifier = Modifier.weight(1f).height(5.dp).clip(RoundedCornerShape(999.dp)).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFE9DED5))) {
+                    Box(modifier = Modifier.fillMaxWidth((score / 100f).coerceIn(0f, 1f)).height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft))
                 }
-                Text(
-                    QuestionnaireEngine.libelleNiveauAxe(
-                        QuestionnaireEngine.calculerNiveauAxe(score)
-                    ),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = PremiumPalette.PrimarySoft,
-                    modifier = Modifier.width(76.dp),
-                    textAlign = TextAlign.End
-                )
+                Text(QuestionnaireEngine.libelleNiveauAxe(QuestionnaireEngine.calculerNiveauAxe(score)), style = MaterialTheme.typography.labelSmall, color = PremiumPalette.PrimarySoft, modifier = Modifier.width(76.dp), textAlign = TextAlign.End)
             }
         }
     }
@@ -776,25 +664,14 @@ fun HistoriqueDetailScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (bilan.aDejaMordu) {
-                AlerteMorsureCard(bilan.nomChien)
-            }
+            if (bilan.aDejaMordu) AlerteMorsureCard(bilan.nomChien)
 
             PremiumCard(centered = true) {
                 EditorialKicker("Bilan sauvegardé", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    bilan.nomChien,
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
-                )
+                Text(bilan.nomChien, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    bilan.date,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center
-                )
+                Text(bilan.date, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(10.dp))
                 AccentChip(bilan.profilType)
             }
@@ -802,43 +679,18 @@ fun HistoriqueDetailScreen(
             PremiumCard(centered = true) {
                 EditorialKicker("Synthèse", centered = true)
                 Spacer(modifier = Modifier.height(12.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
-                ) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)) {
                     val couleur = when (priorite) {
                         PrioriteAction.FAIBLE -> PremiumPalette.PrioriteFaible
                         PrioriteAction.MODEREE -> PremiumPalette.PrioriteModere
                         PrioriteAction.ELEVEE -> PremiumPalette.PrioriteElevee
                         PrioriteAction.URGENTE -> PremiumPalette.PrioriteUrgente
                     }
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(999.dp))
-                            .background(couleur.copy(alpha = 0.12f))
-                            .padding(horizontal = 14.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            "Priorité : ${textePrioriteAction(priorite)}",
-                            color = couleur,
-                            fontWeight = FontWeight.SemiBold,
-                            style = MaterialTheme.typography.labelLarge
-                        )
+                    Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleur.copy(alpha = 0.12f)).padding(horizontal = 14.dp, vertical = 8.dp)) {
+                        Text("Priorité : ${textePrioriteAction(priorite)}", color = couleur, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelLarge)
                     }
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(999.dp))
-                            .background(
-                                if (isSystemInDarkTheme()) Color(0xFF342923)
-                                else Color(0xFFF0E5DC)
-                            )
-                            .padding(horizontal = 14.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            texteNiveauSituation(situation),
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFF0E5DC)).padding(horizontal = 14.dp, vertical = 8.dp)) {
+                        Text(texteNiveauSituation(situation), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -846,62 +698,37 @@ fun HistoriqueDetailScreen(
             PremiumCard(centered = true) {
                 EditorialKicker("Carte du profil", centered = true)
                 Spacer(modifier = Modifier.height(14.dp))
-                QuatreAxesMini(
-                    peur = bilan.peur,
-                    attachement = bilan.attachement,
-                    impulsivite = bilan.impulsivite,
-                    reactivite = bilan.reactivite
-                )
+                QuatreAxesMini(peur = bilan.peur, attachement = bilan.attachement, impulsivite = bilan.impulsivite, reactivite = bilan.reactivite)
             }
 
             PremiumCard(centered = true) {
                 EditorialKicker("Lecture principale", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    bilan.hypothesePrincipale,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Text(bilan.hypothesePrincipale, textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyLarge)
             }
 
             PremiumCard(centered = true) {
                 EditorialKicker("Première piste concrète", centered = true)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    bilan.conseilPrincipal,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                Text(bilan.conseilPrincipal, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             }
 
             PremiumCard(centered = true) {
                 EditorialKicker("Rappel", centered = true)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "Ce bilan est un enregistrement indicatif. La situation de votre chien peut avoir évolué depuis.",
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodySmall
-                )
+                Text("Ce bilan est un enregistrement indicatif. La situation de votre chien peut avoir évolué depuis.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
             }
 
             Button(
                 onClick = { showConfirm = true },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
+                modifier = Modifier.fillMaxWidth().height(48.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isSystemInDarkTheme()) Color(0xFF3D1209)
-                    else Color(0xFFFFF0EC),
+                    containerColor = if (isSystemInDarkTheme()) Color(0xFF3D1209) else Color(0xFFFFF0EC),
                     contentColor = PremiumPalette.PrioriteUrgente
                 )
             ) {
-                Icon(
-                    Icons.Rounded.Delete,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
+                Icon(Icons.Rounded.Delete, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Supprimer ce bilan", fontWeight = FontWeight.SemiBold)
             }

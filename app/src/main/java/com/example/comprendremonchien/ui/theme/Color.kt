@@ -1,4 +1,4 @@
-package com.example.comprendremonchien.ui.theme
+package com.example.comprendremonchien
 
 import androidx.compose.ui.graphics.Color
 

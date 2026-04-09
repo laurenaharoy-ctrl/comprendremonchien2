@@ -1,4 +1,4 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import android.content.Context
 import android.graphics.Bitmap

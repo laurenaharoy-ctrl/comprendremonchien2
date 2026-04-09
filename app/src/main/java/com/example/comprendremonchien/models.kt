@@ -1,4 +1,4 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 enum class Axe { PEUR, ATTACHEMENT, IMPULSIVITE, REACTIVITE }
 
@@ -13,7 +13,6 @@ enum class PrioriteAction {
     URGENTE
 }
 
-// 🔥 NOUVEAU
 enum class NiveauAxe {
     PEU_MARQUE,
     A_SURVEILLER,
@@ -67,14 +66,12 @@ data class PlanAction(
     val aObserver: List<String>
 )
 
-// 🔥 NOUVEAU
 data class ExplicationResultat(
     val raisonsPrincipales: List<String>,
     val facteursAggravants: List<String>,
     val facteursProtecteurs: List<String>
 )
 
-// 🔥 NOUVEAU
 data class PrioriteImmediate(
     val niveau: PrioriteAction,
     val titre: String,
@@ -88,7 +85,6 @@ data class ResultatAnalyse(
     val impulsivite: Int,
     val reactivite: Int,
 
-    // 🔥 NOUVEAU
     val niveauPeur: NiveauAxe,
     val niveauAttachement: NiveauAxe,
     val niveauImpulsivite: NiveauAxe,
@@ -116,13 +112,16 @@ data class ResultatAnalyse(
     val hypothesePrincipale: String,
     val prioriteAction: PrioriteAction,
 
-    // 🔥 NOUVEAU
     val prioriteImmediate: PrioriteImmediate,
     val explicationResultat: ExplicationResultat,
 
     val facteursAggravants: List<String>,
     val facteursProtecteurs: List<String>,
-    val syntheseAvancee: String
+    val syntheseAvancee: String,
+
+    // ── NOUVEAU : Race ────────────────────────────────────────────────────────
+    val raceCategorie: String? = null,
+    val racePrecise: String? = null
 )
 
 data class SavedQuestionnaireState(
@@ -161,7 +160,7 @@ fun texteVigilance(niveau: NiveauVigilance, nomChien: String = ""): String {
         NiveauVigilance.MODEREE ->
             "Quelques éléments méritent une attention particulière pour $nom."
         NiveauVigilance.ELEVEE ->
-            "Certaines réponses invitent à ne pas laisser la situation s’installer seule pour $nom."
+            "Certaines réponses invitent à ne pas laisser la situation s'installer seule pour $nom."
     }
 }
 
@@ -212,5 +211,5 @@ fun besoinPrincipal(axe: Axe): String = when (axe) {
 
 fun phraseFin(nomChien: String = ""): String {
     val nom = nomChienAffiche(nomChien)
-    return "Chaque chien est unique. Ce bilan donne des repères pour $nom, mais l’observation du quotidien reste essentielle."
+    return "Chaque chien est unique. Ce bilan donne des repères pour $nom, mais l'observation du quotidien reste essentielle."
 }

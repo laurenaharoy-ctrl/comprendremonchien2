@@ -1,4 +1,4 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import android.content.Context
 import android.content.Intent
@@ -36,6 +36,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.comprendremonchien.FeedbackScreen
+import com.example.comprendremonchien.HistoriqueDetailScreen
+import com.example.comprendremonchien.HistoriqueManager
+import com.example.comprendremonchien.HistoriqueScreen
+import com.example.comprendremonchien.OnboardingScreen
+import com.example.comprendremonchien.PremiumTopBarWithActions
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -476,8 +482,13 @@ Envoyé depuis l'application Comprendre mon chien
                         ecranActuel = screenAvantFeedback.toStorageValue(),
                         onEnvoyer = { categorie, ecran, message ->
                             val version = try {
-                                context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "?"
-                            } catch (e: Exception) { "?" }
+                                context.packageManager.getPackageInfo(
+                                    context.packageName,
+                                    0
+                                ).versionName ?: "?"
+                            } catch (e: Exception) {
+                                "?"
+                            }
                             envoyerFeedbackEmail(categorie, ecran, message, version)
                         },
                         onRetour = { screen = screenAvantFeedback }

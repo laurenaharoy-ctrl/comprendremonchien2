@@ -1,10 +1,14 @@
-package com.example.comprendremonchien2
+package com.example.comprendremonchien
 
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,25 +33,28 @@ import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.EmojiNature
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.History
-import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Pets
+import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Psychology
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -56,10 +63,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-
-// ═══════════════════════════════════════════════════════════
-// DONNÉES DES SLIDES
-// ═══════════════════════════════════════════════════════════
 
 data class OnboardingSlide(
     val kicker: String,
@@ -107,10 +110,6 @@ val onboardingSlides = listOf(
     )
 )
 
-// ═══════════════════════════════════════════════════════════
-// ÉCRAN ONBOARDING PRINCIPAL
-// ═══════════════════════════════════════════════════════════
-
 @Composable
 fun OnboardingScreen(
     onTermine: () -> Unit
@@ -120,16 +119,16 @@ fun OnboardingScreen(
 
     AppBackground {
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.navigationBars)
+                .windowInsetsPadding(WindowInsets.Companion.navigationBars)
         ) {
             // ── Bouton Passer ─────────────────────────────────────────────────
             Box(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                contentAlignment = Alignment.CenterEnd
+                contentAlignment = Alignment.Companion.CenterEnd
             ) {
                 TextButton(onClick = onTermine) {
                     Text(
@@ -143,17 +142,17 @@ fun OnboardingScreen(
             // ── Pager ─────────────────────────────────────────────────────────
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.Companion.weight(1f)
             ) { page ->
                 OnboardingSlideContent(slide = onboardingSlides[page])
             }
 
             // ── Indicateurs + bouton ──────────────────────────────────────────
             Column(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Companion.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 // Points indicateurs
@@ -166,7 +165,7 @@ fun OnboardingScreen(
                             label = "dot_$index"
                         )
                         Box(
-                            modifier = Modifier
+                            modifier = Modifier.Companion
                                 .height(8.dp)
                                 .width(width.dp)
                                 .clip(CircleShape)
@@ -192,7 +191,13 @@ fun OnboardingScreen(
                         }
                     },
                     leading = if (estDernierSlide) {
-                        { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) }
+                        {
+                            Icon(
+                                Icons.Rounded.Pets,
+                                contentDescription = null,
+                                tint = Color.Companion.White
+                            )
+                        }
                     } else null
                 )
             }
@@ -200,33 +205,29 @@ fun OnboardingScreen(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// CONTENU D'UN SLIDE
-// ═══════════════════════════════════════════════════════════
-
 @Composable
 fun OnboardingSlideContent(slide: OnboardingSlide) {
     Column(
-        modifier = Modifier
+        modifier = Modifier.Companion
             .fillMaxSize()
             .padding(horizontal = 28.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Companion.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         // ── Illustration ──────────────────────────────────────────────────────
         Box(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .size(200.dp)
                 .clip(CircleShape)
                 .background(
-                    Brush.radialGradient(
+                    Brush.Companion.radialGradient(
                         listOf(
                             PremiumPalette.PaperWarm,
                             PremiumPalette.Paper
                         )
                     )
                 ),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Companion.Center
         ) {
             when (slide.illustrationType) {
                 IllustrationType.CHIEN_ASSIS -> ChienIllustration()
@@ -235,73 +236,73 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
             }
         }
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.Companion.height(36.dp))
 
         // ── Kicker ────────────────────────────────────────────────────────────
         Text(
             text = slide.kicker.uppercase(),
             style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Companion.Bold,
             color = PremiumPalette.PrimarySoft,
             letterSpacing = 2.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Companion.Center
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.Companion.height(10.dp))
 
         // ── Titre ─────────────────────────────────────────────────────────────
         Text(
             text = slide.titre,
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.ExtraBold,
+            fontWeight = FontWeight.Companion.ExtraBold,
             color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Companion.Center,
             lineHeight = 32.sp
         )
 
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.Companion.height(14.dp))
 
         // ── Description ───────────────────────────────────────────────────────
         Text(
             text = slide.description,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Companion.Center,
             lineHeight = 24.sp
         )
 
         // ── Features ──────────────────────────────────────────────────────────
         if (slide.features.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(22.dp))
+            Spacer(modifier = Modifier.Companion.height(22.dp))
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 slide.features.forEach { (icon, label) ->
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.Companion.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(14.dp))
                             .background(PremiumPalette.PaperSoft.copy(alpha = 0.7f))
                             .padding(horizontal = 16.dp, vertical = 10.dp)
                     ) {
                         Box(
-                            modifier = Modifier
+                            modifier = Modifier.Companion
                                 .size(34.dp)
                                 .clip(CircleShape)
                                 .background(PremiumPalette.Primary.copy(alpha = 0.10f)),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Companion.Center
                         ) {
                             Icon(
                                 icon,
                                 contentDescription = null,
                                 tint = PremiumPalette.Primary,
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier.Companion.size(18.dp)
                             )
                         }
                         Text(
                             label,
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Medium,
+                            fontWeight = FontWeight.Companion.Medium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -311,10 +312,6 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// ILLUSTRATIONS CANVAS
-// ═══════════════════════════════════════════════════════════
-
 // ── Slide 1 : Chien assis stylisé ────────────────────────────────────────────
 @Composable
 fun ChienIllustration() {
@@ -323,23 +320,24 @@ fun ChienIllustration() {
     val accent = PremiumPalette.Accent
     val ink = PremiumPalette.Ink
 
-    Canvas(modifier = Modifier.size(140.dp)) {
+    Canvas(modifier = Modifier.Companion.size(140.dp)) {
         val w = size.width
         val h = size.height
-        val stroke = Stroke(width = 3.5f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        val stroke =
+            Stroke(width = 3.5f, cap = StrokeCap.Companion.Round, join = StrokeJoin.Companion.Round)
 
         translate(w * 0.5f, h * 0.5f) {
             // Corps (ellipse)
             drawOval(
                 color = accent.copy(alpha = 0.35f),
-                topLeft = androidx.compose.ui.geometry.Offset(-28f, -10f),
-                size = androidx.compose.ui.geometry.Size(56f, 44f)
+                topLeft = Offset(-28f, -10f),
+                size = Size(56f, 44f)
             )
             // Corps contour
             drawOval(
                 color = soft,
-                topLeft = androidx.compose.ui.geometry.Offset(-28f, -10f),
-                size = androidx.compose.ui.geometry.Size(56f, 44f),
+                topLeft = Offset(-28f, -10f),
+                size = Size(56f, 44f),
                 style = stroke
             )
 
@@ -347,12 +345,12 @@ fun ChienIllustration() {
             drawCircle(
                 color = accent.copy(alpha = 0.35f),
                 radius = 22f,
-                center = androidx.compose.ui.geometry.Offset(0f, -38f)
+                center = Offset(0f, -38f)
             )
             drawCircle(
                 color = primary,
                 radius = 22f,
-                center = androidx.compose.ui.geometry.Offset(0f, -38f),
+                center = Offset(0f, -38f),
                 style = stroke
             )
 
@@ -375,17 +373,17 @@ fun ChienIllustration() {
             drawPath(oreilleDroite, color = primary, style = stroke)
 
             // Yeux
-            drawCircle(color = ink, radius = 3.5f, center = androidx.compose.ui.geometry.Offset(-8f, -40f))
-            drawCircle(color = ink, radius = 3.5f, center = androidx.compose.ui.geometry.Offset(8f, -40f))
+            drawCircle(color = ink, radius = 3.5f, center = Offset(-8f, -40f))
+            drawCircle(color = ink, radius = 3.5f, center = Offset(8f, -40f))
             // Reflets yeux
-            drawCircle(color = Color.White, radius = 1.2f, center = androidx.compose.ui.geometry.Offset(-6.5f, -41.5f))
-            drawCircle(color = Color.White, radius = 1.2f, center = androidx.compose.ui.geometry.Offset(9.5f, -41.5f))
+            drawCircle(color = Color.Companion.White, radius = 1.2f, center = Offset(-6.5f, -41.5f))
+            drawCircle(color = Color.Companion.White, radius = 1.2f, center = Offset(9.5f, -41.5f))
 
             // Truffe
             drawOval(
                 color = ink,
-                topLeft = androidx.compose.ui.geometry.Offset(-5f, -31f),
-                size = androidx.compose.ui.geometry.Size(10f, 7f)
+                topLeft = Offset(-5f, -31f),
+                size = Size(10f, 7f)
             )
 
             // Sourire
@@ -393,40 +391,48 @@ fun ChienIllustration() {
                 moveTo(-6f, -24f)
                 cubicTo(-3f, -20f, 3f, -20f, 6f, -24f)
             }
-            drawPath(sourire, color = primary, style = Stroke(width = 2.5f, cap = StrokeCap.Round))
+            drawPath(
+                sourire,
+                color = primary,
+                style = Stroke(width = 2.5f, cap = StrokeCap.Companion.Round)
+            )
 
             // Queue
             val queue = Path().apply {
                 moveTo(28f, 4f)
                 cubicTo(44f, -8f, 52f, 4f, 44f, 14f)
             }
-            drawPath(queue, color = soft, style = Stroke(width = 4f, cap = StrokeCap.Round))
+            drawPath(
+                queue,
+                color = soft,
+                style = Stroke(width = 4f, cap = StrokeCap.Companion.Round)
+            )
 
             // Pattes avant
             drawRoundRect(
                 color = soft.copy(alpha = 0.5f),
-                topLeft = androidx.compose.ui.geometry.Offset(-22f, 26f),
-                size = androidx.compose.ui.geometry.Size(12f, 18f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f)
+                topLeft = Offset(-22f, 26f),
+                size = Size(12f, 18f),
+                cornerRadius = CornerRadius(6f)
             )
             drawRoundRect(
                 color = primary,
-                topLeft = androidx.compose.ui.geometry.Offset(-22f, 26f),
-                size = androidx.compose.ui.geometry.Size(12f, 18f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f),
+                topLeft = Offset(-22f, 26f),
+                size = Size(12f, 18f),
+                cornerRadius = CornerRadius(6f),
                 style = stroke
             )
             drawRoundRect(
                 color = soft.copy(alpha = 0.5f),
-                topLeft = androidx.compose.ui.geometry.Offset(10f, 26f),
-                size = androidx.compose.ui.geometry.Size(12f, 18f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f)
+                topLeft = Offset(10f, 26f),
+                size = Size(12f, 18f),
+                cornerRadius = CornerRadius(6f)
             )
             drawRoundRect(
                 color = primary,
-                topLeft = androidx.compose.ui.geometry.Offset(10f, 26f),
-                size = androidx.compose.ui.geometry.Size(12f, 18f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f),
+                topLeft = Offset(10f, 26f),
+                size = Size(12f, 18f),
+                cornerRadius = CornerRadius(6f),
                 style = stroke
             )
 
@@ -434,13 +440,13 @@ fun ChienIllustration() {
             drawCircle(
                 color = PremiumPalette.PrioriteElevee.copy(alpha = 0.15f),
                 radius = 10f,
-                center = androidx.compose.ui.geometry.Offset(30f, -52f)
+                center = Offset(30f, -52f)
             )
             // Mini coeur simplifié
             drawCircle(
                 color = PremiumPalette.PrioriteElevee,
                 radius = 4f,
-                center = androidx.compose.ui.geometry.Offset(30f, -54f),
+                center = Offset(30f, -54f),
                 style = Stroke(width = 2f)
             )
         }
@@ -454,18 +460,18 @@ fun QuatreAxesIllustration() {
     val soft = PremiumPalette.PrimarySoft
     val accent = PremiumPalette.Accent
 
-    Canvas(modifier = Modifier.size(140.dp)) {
+    Canvas(modifier = Modifier.Companion.size(140.dp)) {
         val cx = size.width / 2f
         val cy = size.height / 2f
         val r = size.width * 0.38f
-        val stroke = Stroke(width = 2.5f, cap = StrokeCap.Round)
+        val stroke = Stroke(width = 2.5f, cap = StrokeCap.Companion.Round)
 
         // Cercles de fond
         listOf(0.33f, 0.66f, 1f).forEach { ratio ->
             drawCircle(
                 color = accent.copy(alpha = 0.15f),
                 radius = r * ratio,
-                center = androidx.compose.ui.geometry.Offset(cx, cy),
+                center = Offset(cx, cy),
                 style = Stroke(width = 1f)
             )
         }
@@ -480,8 +486,8 @@ fun QuatreAxesIllustration() {
             val rad = Math.toRadians(angle.toDouble())
             drawLine(
                 color = accent.copy(alpha = 0.4f),
-                start = androidx.compose.ui.geometry.Offset(cx, cy),
-                end = androidx.compose.ui.geometry.Offset(
+                start = Offset(cx, cy),
+                end = Offset(
                     cx + (r * Math.cos(rad)).toFloat(),
                     cy + (r * Math.sin(rad)).toFloat()
                 ),
@@ -492,7 +498,7 @@ fun QuatreAxesIllustration() {
         // Polygone des valeurs
         val points = angles.mapIndexed { i, angle ->
             val rad = Math.toRadians(angle.toDouble())
-            androidx.compose.ui.geometry.Offset(
+            Offset(
                 cx + (r * valeurs[i] * Math.cos(rad)).toFloat(),
                 cy + (r * valeurs[i] * Math.sin(rad)).toFloat()
             )
@@ -503,16 +509,24 @@ fun QuatreAxesIllustration() {
             close()
         }
         drawPath(path, color = primary.copy(alpha = 0.20f))
-        drawPath(path, color = primary, style = Stroke(width = 2.5f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+        drawPath(
+            path,
+            color = primary,
+            style = Stroke(
+                width = 2.5f,
+                cap = StrokeCap.Companion.Round,
+                join = StrokeJoin.Companion.Round
+            )
+        )
 
         // Points aux sommets
         points.forEach { pt ->
             drawCircle(color = primary, radius = 5f, center = pt)
-            drawCircle(color = Color.White, radius = 2.5f, center = pt)
+            drawCircle(color = Color.Companion.White, radius = 2.5f, center = pt)
         }
 
         // Centre
-        drawCircle(color = soft, radius = 5f, center = androidx.compose.ui.geometry.Offset(cx, cy))
+        drawCircle(color = soft, radius = 5f, center = Offset(cx, cy))
     }
 }
 
@@ -524,41 +538,41 @@ fun BilanIllustration() {
     val accent = PremiumPalette.Accent
     val border = PremiumPalette.Border
 
-    Canvas(modifier = Modifier.size(140.dp)) {
+    Canvas(modifier = Modifier.Companion.size(140.dp)) {
         val w = size.width
         val h = size.height
-        val stroke = Stroke(width = 2f, cap = StrokeCap.Round)
+        val stroke = Stroke(width = 2f, cap = StrokeCap.Companion.Round)
 
         // Page principale (légèrement inclinée)
         translate(w * 0.5f, h * 0.5f) {
             // Ombre page arrière
             drawRoundRect(
                 color = border,
-                topLeft = androidx.compose.ui.geometry.Offset(-28f, -36f),
-                size = androidx.compose.ui.geometry.Size(60f, 76f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(8f)
+                topLeft = Offset(-28f, -36f),
+                size = Size(60f, 76f),
+                cornerRadius = CornerRadius(8f)
             )
             // Page principale
             drawRoundRect(
-                color = Color.White,
-                topLeft = androidx.compose.ui.geometry.Offset(-32f, -40f),
-                size = androidx.compose.ui.geometry.Size(60f, 76f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(8f)
+                color = Color.Companion.White,
+                topLeft = Offset(-32f, -40f),
+                size = Size(60f, 76f),
+                cornerRadius = CornerRadius(8f)
             )
             drawRoundRect(
                 color = border,
-                topLeft = androidx.compose.ui.geometry.Offset(-32f, -40f),
-                size = androidx.compose.ui.geometry.Size(60f, 76f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(8f),
+                topLeft = Offset(-32f, -40f),
+                size = Size(60f, 76f),
+                cornerRadius = CornerRadius(8f),
                 style = stroke
             )
 
             // Bandeau terracotta en haut
             drawRoundRect(
                 color = primary.copy(alpha = 0.85f),
-                topLeft = androidx.compose.ui.geometry.Offset(-32f, -40f),
-                size = androidx.compose.ui.geometry.Size(60f, 18f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(8f)
+                topLeft = Offset(-32f, -40f),
+                size = Size(60f, 18f),
+                cornerRadius = CornerRadius(8f)
             )
 
             // Lignes de texte simulées
@@ -566,31 +580,31 @@ fun BilanIllustration() {
                 val w2 = if (i % 2 == 0) 44f else 32f
                 drawRoundRect(
                     color = accent.copy(alpha = 0.4f),
-                    topLeft = androidx.compose.ui.geometry.Offset(-24f, y),
-                    size = androidx.compose.ui.geometry.Size(w2, 4f),
-                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(2f)
+                    topLeft = Offset(-24f, y),
+                    size = Size(w2, 4f),
+                    cornerRadius = CornerRadius(2f)
                 )
             }
 
             // Mini barre de score
             drawRoundRect(
                 color = border,
-                topLeft = androidx.compose.ui.geometry.Offset(-24f, 26f),
-                size = androidx.compose.ui.geometry.Size(44f, 5f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f)
+                topLeft = Offset(-24f, 26f),
+                size = Size(44f, 5f),
+                cornerRadius = CornerRadius(3f)
             )
             drawRoundRect(
                 color = soft,
-                topLeft = androidx.compose.ui.geometry.Offset(-24f, 26f),
-                size = androidx.compose.ui.geometry.Size(30f, 5f),
-                cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f)
+                topLeft = Offset(-24f, 26f),
+                size = Size(30f, 5f),
+                cornerRadius = CornerRadius(3f)
             )
 
             // Badge check vert-terracotta
             drawCircle(
                 color = primary,
                 radius = 14f,
-                center = androidx.compose.ui.geometry.Offset(22f, 28f)
+                center = Offset(22f, 28f)
             )
             // Check simplifié
             val check = Path().apply {
@@ -598,71 +612,75 @@ fun BilanIllustration() {
                 lineTo(20f, 34f)
                 lineTo(30f, 22f)
             }
-            drawPath(check, color = Color.White, style = Stroke(width = 3f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+            drawPath(
+                check,
+                color = Color.Companion.White,
+                style = Stroke(
+                    width = 3f,
+                    cap = StrokeCap.Companion.Round,
+                    join = StrokeJoin.Companion.Round
+                )
+            )
         }
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// ILLUSTRATION D'ACCUEIL (remplace BookCoverCard)
-// ═══════════════════════════════════════════════════════════
-
 @Composable
 fun AccueilIllustrationCard() {
-    val isDark = androidx.compose.foundation.isSystemInDarkTheme()
-    androidx.compose.material3.Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(28.dp),
-        colors = androidx.compose.material3.CardDefaults.cardColors(
+    val isDark = isSystemInDarkTheme()
+    Card(
+        modifier = Modifier.Companion.fillMaxWidth(),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
+        colors = CardDefaults.cardColors(
             containerColor = if (isDark) Color(0xFF231B17) else PremiumPalette.PaperSoft
         ),
-        border = androidx.compose.foundation.BorderStroke(
+        border = BorderStroke(
             1.dp,
             if (isDark) Color(0xFF56433B) else PremiumPalette.Border
         ),
-        elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 0.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
         ) {
             // Illustration chien + cercle décoratif
             Box(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .size(110.dp)
                     .clip(CircleShape)
                     .background(
-                        Brush.radialGradient(
+                        Brush.Companion.radialGradient(
                             listOf(
                                 PremiumPalette.Accent.copy(alpha = 0.25f),
                                 PremiumPalette.PaperWarm.copy(alpha = 0.6f)
                             )
                         )
                     ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Companion.Center
             ) {
                 ChienIllustration()
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.Companion.height(14.dp))
 
             Text(
                 text = "Comprendre mon chien",
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.ExtraBold,
+                fontWeight = FontWeight.Companion.ExtraBold,
                 color = PremiumPalette.Primary,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Companion.Center
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.Companion.height(6.dp))
 
             Text(
                 text = "Analyse comportementale • Conseils personnalisés • Export PDF",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Companion.Center
             )
         }
     }
