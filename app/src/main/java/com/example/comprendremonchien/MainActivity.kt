@@ -37,9 +37,14 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
 private val Context.dataStore by preferencesDataStore(name = "comprendre_mon_chien_state")
 
@@ -85,6 +90,25 @@ fun screenFromStorage(value: String): AppScreen = when {
     value == "alimentation" -> AppScreen.Alimentation
     value == "historique" -> AppScreen.Historique
     else -> AppScreen.Accueil
+}
+
+fun programmerRappelBilan(context: Context, nomChien: String) {
+    val data = Data.Builder()
+        .putString("nom_chien", nomChien)
+        .build()
+
+    val rappel = OneTimeWorkRequestBuilder<RappelWorker>()
+        .setInitialDelay(30, TimeUnit.DAYS)
+        .setInputData(data)
+        .addTag("rappel_bilan")
+        .build()
+
+    WorkManager.getInstance(context)
+        .enqueueUniqueWork(
+            "rappel_bilan",
+            ExistingWorkPolicy.REPLACE,
+            rappel
+        )
 }
 
 class MainActivity : ComponentActivity() {
@@ -400,6 +424,7 @@ Envoyé depuis l'application Comprendre mon chien
                             reponsesTexte["nom_chien"].orEmpty(),
                             analyse
                         )
+                        programmerRappelBilan(context, reponsesTexte["nom_chien"].orEmpty())
                     }
 
                     val textePartage = construireTextePartageBilan(
