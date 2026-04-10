@@ -251,8 +251,18 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
                     modifier = Modifier.Companion.fillMaxSize().padding(16.dp),
                     contentScale = androidx.compose.ui.layout.ContentScale.Fit
                 )
-                IllustrationType.QUATRE_AXES -> QuatreAxesIllustration()
-                IllustrationType.BILAN_COMPLET -> BilanIllustration()
+                IllustrationType.QUATRE_AXES -> androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_accueil),
+                    contentDescription = "Logo Comprendre mon chien",
+                    modifier = Modifier.Companion.fillMaxSize().padding(16.dp),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                )
+                IllustrationType.BILAN_COMPLET -> androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_accueil),
+                    contentDescription = "Logo Comprendre mon chien",
+                    modifier = Modifier.Companion.fillMaxSize().padding(16.dp),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                )
             }
         }
 

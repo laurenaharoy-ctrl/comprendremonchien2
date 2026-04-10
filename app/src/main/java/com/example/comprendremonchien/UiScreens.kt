@@ -426,15 +426,6 @@ fun QuestionnaireScreen(
         is QuestionChoix -> choixSelectionne != null
     }
 
-    // Remplace "Votre chien" / "votre chien" par le prénom dès qu'il est connu
-    val prenom = nomChien.trim().ifBlank { "" }
-    fun titrePersonnalise(titre: String): String {
-        if (prenom.isBlank()) return titre
-        return titre
-            .replace("Votre chien", prenom)
-            .replace("votre chien", prenom)
-    }
-
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(insets = WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
             PremiumCard {
@@ -456,9 +447,8 @@ fun QuestionnaireScreen(
                         PremiumCard {
                             AccentChip("Réponse libre")
                             Spacer(modifier = Modifier.height(16.dp))
-                            // ── MODIFICATION : titre personnalisé, phrase redondante supprimée ──
                             Text(
-                                text = titrePersonnalise(question.titre),
+                                text = question.titre,
                                 style = MaterialTheme.typography.headlineSmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -488,9 +478,8 @@ fun QuestionnaireScreen(
                         PremiumCard {
                             AccentChip("Choix unique")
                             Spacer(modifier = Modifier.height(16.dp))
-                            // ── MODIFICATION : titre personnalisé, phrase générique supprimée ──
                             Text(
-                                text = titrePersonnalise(question.titre),
+                                text = question.titre,
                                 style = MaterialTheme.typography.headlineSmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -658,10 +647,10 @@ fun ResultatScreen(
                             color = PremiumPalette.PrioriteModere,
                             fontWeight = FontWeight.SemiBold
                         )
-                        if (analyse.messageAide != null) Spacer(modifier = Modifier.height(10.dp))
-                    }
-                    analyse.messageAide?.let { message ->
-                        Text(message, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold)
+                    } else {
+                        analyse.messageAide?.let { message ->
+                            Text(message, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold)
+                        }
                     }
                 }
             }

@@ -210,7 +210,7 @@ object QuestionnaireEngine {
             peur >= 60 ->
                 ProfilGlobal(
                     titre = "Sensibilité émotionnelle plus marquée",
-                    resume = "Les réponses suggèrent une sensibilité plus importante à certains changements ou stimuli.",
+                    resume = "Les réponses suggèrent une sensibilité plus importante à certains changements ou situations.",
                     profilType = profilType,
                     scoreGlobal = scoreGlobal,
                     phraseHumaine = phraseHumaineProfil(nomChien, scoreGlobal, profilType, peur, attachement, impulsivite, reactivite)
@@ -411,10 +411,10 @@ object QuestionnaireEngine {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
         if (maxAxe <= 30) return "Les éléments recueillis ne mettent pas en évidence de difficulté comportementale marquée à ce stade.\n\nLe fonctionnement observé semble globalement adapté, sous réserve du contexte réel de vie."
         return when (axe) {
-            Axe.PEUR -> "Les réactions observées semblent s'inscrire dans une sensibilité émotionnelle relativement élevée.\n\nDans ce type de fonctionnement, certains stimuli ou changements peuvent être perçus comme plus intenses ou difficiles à gérer.\n\nLes comportements associés peuvent alors correspondre à des tentatives d'adaptation face à un inconfort."
+            Axe.PEUR -> "Les réactions observées semblent s'inscrire dans une sensibilité émotionnelle relativement élevée.\n\nDans ce type de fonctionnement, certains changements ou situations peuvent être perçus comme plus intenses ou difficiles à gérer.\n\nLes comportements associés peuvent alors correspondre à des tentatives d'adaptation face à un inconfort."
             Axe.ATTACHEMENT -> "Les éléments recueillis suggèrent un besoin de proximité relativement important.\n\nDans ce type de fonctionnement, l'autonomie émotionnelle peut être encore fragile, ce qui peut rendre certaines séparations ou absences plus difficiles à vivre."
             Axe.IMPULSIVITE -> "Les réponses évoquent une difficulté possible dans la régulation de l'excitation.\n\nIl ne s'agit généralement pas d'un manque de volonté, mais plutôt d'un seuil de montée émotionnelle rapidement atteint, avec un retour au calme plus lent."
-            Axe.REACTIVITE -> "Les éléments recueillis suggèrent une réactivité marquée face à certains stimuli.\n\nCe type de réponse peut apparaître lorsque le chien se sent en tension, incertain ou dépassé dans certaines situations."
+            Axe.REACTIVITE -> "Les éléments recueillis suggèrent une réactivité marquée face à certains éléments de son environnement.\n\nCe type de réponse peut apparaître lorsque le chien se sent en tension, incertain ou dépassé dans certaines situations."
         }
     }
 
@@ -536,7 +536,7 @@ object QuestionnaireEngine {
             peur >= 60 -> "Les réponses suggèrent une sensibilité émotionnelle importante.\n\nCertains environnements ou situations peuvent être perçus comme plus difficiles à tolérer."
             attachement >= 60 -> "Le profil suggère surtout un besoin de proximité important, avec une autonomie émotionnelle qui paraît encore fragile dans certaines situations."
             impulsivite >= 60 -> "Les réponses orientent vers une difficulté possible dans la régulation émotionnelle, avec des montées rapides en excitation et un retour au calme plus complexe."
-            reactivite >= 60 -> "Les éléments recueillis peuvent correspondre à une réactivité accrue face à certains stimuli.\n\nCela nécessite généralement une lecture fine du contexte pour être confirmé."
+            reactivite >= 60 -> "Les éléments recueillis peuvent correspondre à une réactivité accrue face à certains éléments de son environnement.\n\nCela nécessite généralement une lecture fine du contexte pour être confirmé."
             else -> "Aucune hypothèse dominante ne se dégage clairement à partir des réponses.\n\nPlusieurs facteurs peuvent être impliqués."
         }
     }
@@ -701,11 +701,11 @@ object QuestionnaireEngine {
                 val proprete = reponsesChoix["proprete_maison"]
                 proprete == 1 || proprete == 2
             }
-            // ── Si "pas vraiment de problème" → on saute toute la section contexte ──
+            // ── Si "Non, tout va bien" → on saute toute la section contexte ──
             "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
             "frequence_probleme", "intensite_probleme", "generalisation_probleme",
             "changement_recent", "signe_physique" -> {
-                reponsesChoix["a_un_probleme"] == 0
+                reponsesChoix["a_un_probleme"] != 1
             }
             else -> true
         }
@@ -855,7 +855,7 @@ fun questionsApplication(): List<Question> {
         QuestionChoix(
             "a_un_probleme",
             "Y a-t-il un comportement particulier qui vous préoccupe en ce moment ?",
-            listOf("Oui, j'aimerais comprendre", "Pas vraiment, tout va bien")
+            listOf("Oui, j'aimerais comprendre", "Non, tout va bien")
         ),
 
         QuestionChoix("apparition", "Le comportement qui vous préoccupe est apparu :",

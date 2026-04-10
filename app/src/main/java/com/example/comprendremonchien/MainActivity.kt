@@ -274,7 +274,7 @@ Envoyé depuis l'application Comprendre mon chien
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 val titreEcran = when (screen) {
-                    AppScreen.Accueil -> "Comprendre mon chien"
+                    AppScreen.Accueil -> ""
                     AppScreen.Onboarding -> ""
                     AppScreen.Questionnaire -> "Questionnaire"
                     AppScreen.Chargement -> "Analyse"
