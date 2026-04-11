@@ -1322,7 +1322,7 @@ fun ParametresScreen(
                     text = "Politique de confidentialité",
                     onClick = {
                         val intent = Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://laurenaharoy-ctrl.github.io/comprendremonchien/confidentialite.html"))
+                            Uri.parse("https://laurenaharoy-ctrl.github.io/comprendremonchien2/confidentialite.html"))
                         context.startActivity(intent)
                     },
                     leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) }
