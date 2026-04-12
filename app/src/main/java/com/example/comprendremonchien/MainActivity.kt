@@ -38,14 +38,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.work.Data
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.util.concurrent.TimeUnit
 
 private val Context.dataStore by preferencesDataStore(name = "comprendre_mon_chien_state")
 
@@ -90,25 +85,6 @@ fun screenFromStorage(value: String): AppScreen = when {
     value == "alimentation" -> AppScreen.Alimentation
     value == "historique" -> AppScreen.Historique
     else -> AppScreen.Accueil
-}
-
-fun programmerRappelBilan(context: Context, nomChien: String) {
-    val data = Data.Builder()
-        .putString("nom_chien", nomChien)
-        .build()
-
-    val rappel = OneTimeWorkRequestBuilder<RappelWorker>()
-        .setInitialDelay(30, TimeUnit.DAYS)
-        .setInputData(data)
-        .addTag("rappel_bilan")
-        .build()
-
-    WorkManager.getInstance(context)
-        .enqueueUniqueWork(
-            "rappel_bilan",
-            ExistingWorkPolicy.REPLACE,
-            rappel
-        )
 }
 
 class MainActivity : ComponentActivity() {
@@ -433,7 +409,6 @@ Envoyé depuis l'application Comprendre mon chien
                             reponsesTexte["nom_chien"].orEmpty(),
                             analyse
                         )
-                        programmerRappelBilan(context, reponsesTexte["nom_chien"].orEmpty())
                     }
 
                     val textePartage = construireTextePartageBilan(
@@ -569,7 +544,12 @@ Envoyé depuis l'application Comprendre mon chien
 
 fun questionDoitEtreAffichee(question: Question, reponsesChoix: Map<String, Int>): Boolean {
     return when (question.id) {
+        // Question propreté hors litière → seulement si réponse non (index 1 ou 2)
         "si_non_quand" -> { val r = reponsesChoix["proprete_maison"]; r == 1 || r == 2 }
+        // Questions de contexte → seulement si problème signalé (index 0 = oui)
+        "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
+        "frequence_probleme", "intensite_probleme", "generalisation_probleme",
+        "changement_recent", "signe_physique" -> reponsesChoix["a_un_probleme"] != 1
         else -> true
     }
 }
@@ -577,7 +557,7 @@ fun questionDoitEtreAffichee(question: Question, reponsesChoix: Map<String, Int>
 fun construireTextePartageBilan(nomChien: String, analyse: ResultatAnalyse): String {
     val nom = nomChienAffiche(nomChien)
     return """
-Bilan pour $nom
+Bilan émotionnel pour $nom
 
 Hypothèse :
 ${analyse.hypothesePrincipale}
