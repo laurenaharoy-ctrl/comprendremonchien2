@@ -119,9 +119,12 @@ data class ResultatAnalyse(
     val facteursProtecteurs: List<String>,
     val syntheseAvancee: String,
 
-    // ── NOUVEAU : Race ────────────────────────────────────────────────────────
+    // ── Race ─────────────────────────────────────────────────────────────────
     val raceCategorie: String? = null,
-    val racePrecise: String? = null
+    val racePrecise: String? = null,
+
+    // ── NOUVEAU : Origines possibles ──────────────────────────────────────────
+    val originesPossibles: String = ""
 )
 
 data class SavedQuestionnaireState(

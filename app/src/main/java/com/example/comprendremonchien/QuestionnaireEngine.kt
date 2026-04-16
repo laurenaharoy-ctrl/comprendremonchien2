@@ -396,6 +396,58 @@ object QuestionnaireEngine {
         return listOf(intro, "Hypothèse de lecture : $hypothese", aggr, prot).filter { it.isNotBlank() }.joinToString("\n\n")
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // ORIGINES POSSIBLES
+    // ═══════════════════════════════════════════════════════════
+
+    fun genererOriginesPossibles(
+        nomChien: String,
+        axe: Axe,
+        peur: Int,
+        attachement: Int,
+        impulsivite: Int,
+        reactivite: Int,
+        reponsesChoix: Map<String, Int>
+    ): String {
+        val nom = nomChienAffiche(nomChien)
+        val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
+        if (maxAxe <= 30) return "$nom semble évoluer dans un équilibre global satisfaisant. Aucune origine comportementale particulière ne ressort à ce stade."
+
+        return when (axe) {
+            Axe.PEUR -> buildString {
+                append("La sensibilité émotionnelle de $nom peut avoir plusieurs origines. ")
+                append("Une socialisation précoce limitée — peu d'expositions variées pendant les premières semaines de vie — est souvent impliquée. ")
+                append("Des expériences négatives passées, même ponctuelles, peuvent aussi laisser une empreinte durable sur la façon dont un chien perçoit son environnement. ")
+                if (estMaleEntier(reponsesChoix)) append("Chez un mâle entier, le niveau hormonal peut parfois amplifier la vigilance et les réactions de prudence. ")
+                if (reponsesChoix["age"] == 0) append("À moins d'un an, la sensibilité est souvent plus marquée : le chien est encore en train de construire ses repères. ")
+                append("Dans certains cas, une prédisposition génétique joue également un rôle, indépendamment du vécu.")
+            }
+            Axe.ATTACHEMENT -> buildString {
+                append("Le besoin de proximité important de $nom peut s'expliquer de plusieurs façons. ")
+                append("Un sevrage trop précoce ou une séparation difficile dans les premières semaines de vie peut fragiliser la construction de l'autonomie émotionnelle. ")
+                append("Un environnement très fusionnel — où le chien a rarement été exposé à des moments seul — peut aussi renforcer ce besoin. ")
+                if (reponsesChoix["suit_partout"] == 2) append("Le fait de suivre constamment son humain peut être à la fois un symptôme et un facteur qui entretient cette dépendance relationnelle. ")
+                append("Ce type de fonctionnement n'est pas une question de caractère ou de caprice : il reflète souvent une vraie difficulté à trouver un appui interne quand la présence rassurante n'est pas là.")
+            }
+            Axe.IMPULSIVITE -> buildString {
+                append("La difficulté de $nom à réguler son excitation peut avoir plusieurs origines. ")
+                append("Certains chiens ont un seuil d'activation naturellement bas : ils montent vite en intensité et redescendent plus lentement, quelle que soit l'éducation reçue. ")
+                if (reponsesChoix["race_categorie"]?.let { it == 0 || it == 5 || it == 7 } == true) append("Certaines familles de races ont été sélectionnées pour un niveau d'énergie et de réactivité élevé, ce qui peut peser sur la régulation émotionnelle. ")
+                append("Un manque de structure dans les interactions quotidiennes — jeux trop longs, trop intenses, sans pauses — peut aussi entretenir ce mode de fonctionnement. ")
+                if (reponsesChoix["age"] == 0 || reponsesChoix["age"] == 1) append("À un jeune âge, le contrôle inhibiteur est encore en développement : une certaine impulsivité est souvent normale avant 2-3 ans. ")
+                append("L'impulsivité n'est généralement pas un manque de volonté ou d'intelligence, mais une difficulté à freiner une montée émotionnelle déjà enclenchée.")
+            }
+            Axe.REACTIVITE -> buildString {
+                append("La réactivité de $nom peut s'expliquer par une combinaison de facteurs. ")
+                append("Une socialisation incomplète — peu de rencontres avec d'autres chiens, des personnes variées ou des environnements différents pendant les périodes sensibles — est souvent en cause. ")
+                if (reponsesChoix["a_deja_mordu"] == 1) append("Le fait qu'il y ait déjà eu morsure peut indiquer que la réactivité a franchi un seuil important, parfois associé à une histoire de confrontations mal vécues. ")
+                if (estMaleEntier(reponsesChoix)) append("Chez un mâle entier, les interactions avec d'autres mâles peuvent être plus tendues en raison de l'influence hormonale. ")
+                append("Des expériences négatives répétées face à certains déclencheurs peuvent aussi avoir conduit le chien à anticiper la menace et à réagir de manière préventive. ")
+                append("Dans certains cas, la réactivité est aussi une façon de gérer une distance de sécurité quand le chien se sent dépassé.")
+            }
+        }
+    }
+
     private val listeCategoriesRaces = listOf(
         "Chiens de berger & troupeau", "Retrievers & Spaniels", "Terriers",
         "Molosses & Dogues", "Chiens nordiques & primitifs", "Lévriers & Races de course",
@@ -420,6 +472,12 @@ object QuestionnaireEngine {
         val prioriteImmediate = construirePrioriteImmediate(reponsesChoix, contexte, prioriteAction, niveauSituation, reponsesTexte["nom_chien"].orEmpty())
         val explicationResultat = construireExplicationResultat(reponsesChoix, contexte, peur, attachement, impulsivite, reactivite)
         val syntheseAvancee = genererSyntheseAvancee(nomChienAffiche(reponsesTexte["nom_chien"].orEmpty()), hypothesePrincipale, prioriteAction, facteursAggravants, facteursProtecteurs)
+        val originesPossibles = genererOriginesPossibles(
+            reponsesTexte["nom_chien"].orEmpty(),
+            problemePrincipal,
+            peur, attachement, impulsivite, reactivite,
+            reponsesChoix
+        )
         val raceCategorieTexte = reponsesChoix["race_categorie"]?.let { listeCategoriesRaces.getOrNull(it) }
         return ResultatAnalyse(
             peur = peur, attachement = attachement, impulsivite = impulsivite, reactivite = reactivite,
@@ -439,7 +497,8 @@ object QuestionnaireEngine {
             hypothesePrincipale = hypothesePrincipale, prioriteAction = prioriteAction,
             prioriteImmediate = prioriteImmediate, explicationResultat = explicationResultat,
             facteursAggravants = facteursAggravants, facteursProtecteurs = facteursProtecteurs,
-            syntheseAvancee = syntheseAvancee, raceCategorie = raceCategorieTexte, racePrecise = null
+            syntheseAvancee = syntheseAvancee, raceCategorie = raceCategorieTexte, racePrecise = null,
+            originesPossibles = originesPossibles
         )
     }
 
