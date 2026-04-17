@@ -25,7 +25,7 @@
         </provider>
 
         <activity
-            android:name="com.example.comprendremonchien.MainActivity"
+            android:name="com.laurena.comprendremonchien.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Comprendremonchien.Splash">

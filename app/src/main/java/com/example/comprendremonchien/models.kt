@@ -1,4 +1,4 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 enum class Axe { PEUR, ATTACHEMENT, IMPULSIVITE, REACTIVITE }
 

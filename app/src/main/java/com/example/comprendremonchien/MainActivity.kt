@@ -1,4 +1,4 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 import android.content.Context
 import android.content.Intent

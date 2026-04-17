@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.comprendremonchien"
+    namespace = "com.laurena.comprendremonchien"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.comprendremonchien"
+        applicationId = "com.laurena.comprendremonchien"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -17,9 +17,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("release/comprendremonchien.jks")
+            storePassword = "191011"
+            keyAlias = "comprendremonchien"
+            keyPassword = "191011"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

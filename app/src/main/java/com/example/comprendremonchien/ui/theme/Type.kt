@@ -1,4 +1,4 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

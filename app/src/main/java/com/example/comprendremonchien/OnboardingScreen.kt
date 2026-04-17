@@ -1,7 +1,8 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.getValue
+import com.laurena.comprendremonchien.R
 import androidx.compose.runtime.setValue
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

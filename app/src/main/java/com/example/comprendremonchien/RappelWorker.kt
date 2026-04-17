@@ -1,4 +1,4 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.laurena.comprendremonchien.R
 
 class RappelWorker(
     context: Context,

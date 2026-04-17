@@ -1,7 +1,7 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 import androidx.compose.animation.animateColorAsState
-import com.example.comprendremonchien.PrioriteAction
+import com.laurena.comprendremonchien.PrioriteAction
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

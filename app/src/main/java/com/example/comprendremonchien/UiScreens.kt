@@ -1,4 +1,4 @@
-package com.example.comprendremonchien
+package com.laurena.comprendremonchien
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.getValue
