@@ -8,7 +8,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.laurena.comprendremonchien"
+        applicationId = "com.laurena.understandingmydog"
         minSdk = 28
         targetSdk = 35
         versionCode = 2
