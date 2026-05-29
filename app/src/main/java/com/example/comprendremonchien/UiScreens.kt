@@ -134,16 +134,31 @@ object PremiumPalette {
 }
 
 enum class DictionnaireCategorie(val titre: String) {
-    DANGEREUX("Aliments dangereux"),
-    AUTORISES("Aliments autorisés"),
-    INGESTION("Que faire en cas d'ingestion"),
-    DIGESTION("Digestion / herbe / vomissements / selles")
+    DANGEREUX(if (isEnglish()) "Dangerous foods" else "Aliments dangereux"),
+    AUTORISES(if (isEnglish()) "Permitted foods" else "Aliments autorisés"),
+    INGESTION(if (isEnglish()) "What to do after ingestion" else "Que faire en cas d'ingestion"),
+    DIGESTION(if (isEnglish()) "Digestion / grass / vomiting / stools" else "Digestion / herbe / vomissements / selles")
 }
 
 data class DictionnaireEntry(val categorie: DictionnaireCategorie, val titre: String, val resume: String, val contenu: String)
 data class ComportementEntry(val id: String, val titre: String, val resume: String, val explication: String, val queFaire: String, val aEviter: String)
 
-fun dictionnaireEntries(): List<DictionnaireEntry> = listOf(
+fun dictionnaireEntries(): List<DictionnaireEntry> = if (isEnglish()) listOf(
+    DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "Which foods should be absolutely avoided?", "Some human foods can be genuinely problematic for dogs.", "As a precaution, avoid foods known to cause problems such as chocolate, onion, garlic, certain grapes, alcohol, cooked bones, as well as very fatty, very salty or heavily seasoned foods. In case of suspicious ingestion, especially if the dog seems unwell, do not wait if unusual symptoms appear."),
+    DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "Are table scraps risky?", "The little table bonus can quickly become a false friend.", "It is better to avoid table scraps that are too rich, too salty, too fatty or highly processed. Even if the dog enjoys them, they can unbalance his diet, encourage digestive problems, encourage begging and make mealtimes less stable day to day."),
+    DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "Why should cooked bones be avoided?", "A cooked bone can become a silent little disaster.", "Cooked bones can break into sharper fragments and cause digestive or mechanical problems. To stay safe, it is better to avoid them. If ingestion is followed by pain, vomiting, discomfort or unusual behaviour, seek veterinary advice."),
+    DictionnaireEntry(DictionnaireCategorie.AUTORISES, "Can fruit or vegetables be given?", "Sometimes yes, but not as an open buffet.", "Some fruits and vegetables can be offered in small quantities, depending on their nature and the dog's tolerance. The general idea is to stay cautious, avoid foods known to cause problems and not upset the main diet. If in doubt about a specific food, it is better to check before giving."),
+    DictionnaireEntry(DictionnaireCategorie.AUTORISES, "Treats: useful or risky?", "Very useful in training, less fun when they go beyond the framework.", "Treats can be useful if they remain consistent with the overall diet and are given in small quantities. The risk appears when they become too numerous, too rich or given without a framework."),
+    DictionnaireEntry(DictionnaireCategorie.AUTORISES, "How to change kibble?", "Too quick a change can turn the stomach into a washing machine drum.", "A food change should be made gradually over several days. Start by mixing a small amount of the new food with the old, then gradually increase the proportion of the new one."),
+    DictionnaireEntry(DictionnaireCategorie.INGESTION, "What to do if my dog ate something doubtful?", "The best reaction is calmness and speed, not improvisation.", "If your dog has eaten a suspicious or unusual food, first avoid improvised home remedies. If in doubt, especially if it is a food known to be problematic or if symptoms appear, contact a vet quickly."),
+    DictionnaireEntry(DictionnaireCategorie.INGESTION, "Which signs should raise concern after ingestion?", "When the body sounds the alarm, it is best to listen straight away.", "Be particularly alert to repeated vomiting, significant diarrhoea, lethargy, unusual agitation, trembling, pain, discomfort, breathing difficulties or any sudden change in behaviour."),
+    DictionnaireEntry(DictionnaireCategorie.INGESTION, "Should you wait to see if it passes?", "Sometimes waiting is reassuring, sometimes waiting complicates things.", "When the ingested food is potentially dangerous or when the dog already shows symptoms, it is better not to wait. If in doubt, it is safer to seek advice."),
+    DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Why does my dog eat grass?", "A frequent behaviour, often harmless, but worth watching if it becomes repetitive.", "Eating grass can have several explanations. Some dogs do it occasionally without it being worrying. If it becomes very frequent or is accompanied by vomiting or lethargy, it is better to seek veterinary advice."),
+    DictionnaireEntry(DictionnaireCategorie.DIGESTION, "My dog is vomiting — is it always serious?", "An isolated vomit does not carry the same weight as a cascade of them.", "An occasional vomit can sometimes remain of no apparent concern, but repeated vomiting associated with pain, lethargy, diarrhoea, refusal to drink or unusual behaviour should prompt a vet consultation."),
+    DictionnaireEntry(DictionnaireCategorie.DIGESTION, "How to understand abnormal stools?", "Stools often tell a small digestive story.", "Looser, more frequent stools, unusual in colour or accompanied by discomfort may reflect a digestive difficulty. If this persists or is accompanied by other symptoms, a vet check-up is needed."),
+    DictionnaireEntry(DictionnaireCategorie.DIGESTION, "My dog eats too fast", "Swallowing meals like a rocket sometimes deserves a small adjustment.", "Some dogs eat very fast out of excitement or habit. This can encourage digestive discomfort. Splitting the portion or using an appropriate bowl can help."),
+    DictionnaireEntry(DictionnaireCategorie.DIGESTION, "My dog always begs for food", "The demand can come from habit, boredom or a poorly adapted diet.", "A dog that often begs is not necessarily lacking food. The demand may be linked to habit, boredom, too frequent treats or irregular mealtimes.")
+) else listOf(
     DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "Quels aliments éviter absolument ?", "Certains aliments humains peuvent être franchement problématiques pour le chien.", "Par prudence, il faut éviter les aliments connus pour poser problème comme le chocolat, l'oignon, l'ail, certains raisins, l'alcool, les os cuits ainsi que les aliments très gras, très salés ou fortement assaisonnés. En cas d'ingestion suspecte, surtout si le chien semble mal, il ne faut pas attendre si des symptômes inhabituels apparaissent."),
     DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "Les restes de table sont-ils risqués ?", "Le petit bonus de table peut vite devenir un faux ami.", "Mieux vaut éviter les restes de table trop riches, trop salés, trop gras ou très transformés. Même si le chien les apprécie, ils peuvent déséquilibrer sa ration, favoriser des troubles digestifs, encourager la mendicité et rendre les repas moins stables au quotidien."),
     DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "Pourquoi faut-il éviter les os cuits ?", "Un os cuit peut devenir une petite catastrophe silencieuse.", "Les os cuits peuvent se casser en fragments plus coupants et poser des problèmes digestifs ou mécaniques. Pour rester prudent, il vaut mieux les éviter. En cas d'ingestion suivie de douleur, vomissements, gêne ou comportement inhabituel, il faut demander un avis vétérinaire."),
@@ -160,7 +175,30 @@ fun dictionnaireEntries(): List<DictionnaireEntry> = listOf(
     DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mon chien réclame tout le temps à manger", "La demande peut venir de l'habitude, de l'ennui ou d'une ration mal adaptée.", "Un chien qui réclame souvent ne manque pas forcément de nourriture. La demande peut être liée à l'habitude, à l'ennui, à des friandises trop fréquentes ou à des horaires irréguliers.")
 )
 
-fun comportementEntries(): List<ComportementEntry> = listOf(
+fun comportementEntries(): List<ComportementEntry> = if (isEnglish()) listOf(
+    ComportementEntry("queue-remue", "Wagging tail", "Not always a sign of joy — read the whole body.", "A wagging tail does not automatically mean the dog is happy. The tail mainly indicates a state of emotional activation.", "Observe the whole body before interacting.", "Assuming a wagging tail automatically allows contact."),
+    ComportementEntry("queue-basse", "Low or tucked tail", "A frequent signal of worry or discomfort.", "When the tail drops very low or tucks under the belly, the dog may be intimidated, stressed or withdrawing.", "Give space, soften the approach and reduce pressure.", "Forcing the dog to advance, greet or stay in a situation that bothers him."),
+    ComportementEntry("baillement", "Yawning outside tiredness", "Often a calming signal or mild tension.", "The dog may yawn when not tired. It is sometimes a way to regulate emotion.", "Slow down, take a break, simplify the exercise or interaction.", "Reducing this signal to simple fatigue."),
+    ComportementEntry("leche-truffe", "Quick nose lick", "A subtle signal of tension or appeasement.", "This quick tongue flick often appears when the dog tries to calm himself or ease the exchange.", "Move slightly sideways and give the dog more initiative.", "Continuing to insist physically or verbally."),
+    ComportementEntry("tourne-tete", "Turning the head away", "The dog is often trying to avoid pressure.", "Turning the head is a polite way to make the exchange less direct.", "Soften your posture and reduce social pressure.", "Interpreting this as ignoring or refusing to obey."),
+    ComportementEntry("oreilles-arriere", "Ears pinned back", "A signal to read with the rest of the body.", "Ears back can accompany fear, discomfort or intense emotion.", "Read the overall posture and give the dog time.", "Analysing a single signal without considering context."),
+    ComportementEntry("corps-fige", "Frozen body", "An important signal, often just before a reaction.", "Freezing is a stop of movement. The dog suspends his behaviour because he is assessing the situation.", "Interrupt the approach and increase distance.", "Continuing to touch or approach a frozen dog."),
+    ComportementEntry("grognement", "Growling", "A useful and precious warning.", "A growl is clear communication saying the dog is not comfortable. Punishing this signal does not help.", "Stop the source of discomfort and calmly assess the situation.", "Punishing, challenging or provoking the dog."),
+    ComportementEntry("montre-dents", "Showing teeth", "The alert level becomes higher.", "When the dog shows his teeth, he is expressing a very clear boundary.", "Create distance immediately without sudden movements.", "Looking for a power struggle."),
+    ComportementEntry("aplati-sol", "Lying belly on the floor", "Can express fear, inhibition or withdrawal.", "A dog that flattens himself is often trying to be discreet in a situation he is experiencing badly.", "Make the situation more predictable and calm.", "Pulling on the lead to make him move forward."),
+    ComportementEntry("sur-le-dos", "Rolling onto his back", "Not always an invitation for stroking.", "This posture can express vulnerability or an attempt at appeasement.", "Observe before touching, especially if the dog seems tense.", "Automatically stroking the belly."),
+    ComportementEntry("patte-levee", "Raised front paw", "Often associated with hesitation or analysis.", "A raised paw can show that the dog is observing, hesitating or assessing the situation.", "Give him time to understand.", "Taking this signal only as a cute posture."),
+    ComportementEntry("secouement", "Body shake", "A frequent way to release tension.", "The dog may shake after a meeting or a strong emotion.", "Let this moment of release happen.", "Immediately chaining on to something too intense."),
+    ComportementEntry("haletement", "Panting without effort", "Can reveal stress, heat or discomfort.", "Panting is not always linked to exercise. It can accompany emotional tension.", "Check the context and watch if it repeats.", "Automatically attributing this to simple excitement."),
+    ComportementEntry("aboiement-alerte", "Alert barking", "The dog is signalling a presence or change.", "Faced with an unusual noise or arrival, the dog may bark to warn.", "Stay calm then redirect towards a calmer behaviour.", "Shouting back."),
+    ComportementEntry("aboiement-frustration", "Frustration barking", "The dog is struggling with waiting or restricted access.", "When a door stays closed or an expected activity is delayed, some dogs bark out of frustration.", "Work on waiting progressively and reward calm.", "Multiplying commands when the dog is already overflowing."),
+    ComportementEntry("approche-arc", "Arced approach", "A polite social code for dogs.", "Balanced dogs often avoid frontal approaches. They arc slightly and manage distance better.", "Respect indirect approaches, especially between dogs.", "Forcing frontal meetings with a taut lead."),
+    ComportementEntry("renifle-sol", "Suddenly sniffing the ground", "Can help the dog reduce pressure.", "Sniffing can be a way to decompress in an emotionally charged situation.", "Let this decompression space exist.", "Immediately pulling on the lead to regain attention."),
+    ComportementEntry("appel-au-jeu", "Play bow", "Front end low, rear end raised, loose movements.", "The play bow signals a playful intention.", "Check that the other partner responds with pleasure.", "Confusing sudden agitation with real shared play."),
+    ComportementEntry("suit-humain", "Follows his owner everywhere", "Can be normal or signal dependency.", "Some dogs follow out of social habit. Others show a more anxious attachment.", "Observe reactions during short absences.", "Seeing this behaviour only as proof of love."),
+    ComportementEntry("destruction-absence", "Destruction during absences", "Often linked to stress, boredom or loneliness.", "A dog that destroys when alone is not acting out of revenge.", "Review absence management and enrich the environment.", "Punishing after the fact."),
+    ComportementEntry("hypervigilance", "Hypervigilance", "The dog seems constantly on alert.", "A hypervigilant dog watches his environment a lot and reacts quickly to changes.", "Increase predictability, calm times and daily security.", "Overwhelming him with stimulation to habituate him too quickly.")
+) else listOf(
     ComportementEntry("queue-remue", "Queue qui remue", "Pas toujours synonyme de joie, il faut lire tout le corps.", "Un chien qui remue la queue n'est pas automatiquement heureux. La queue indique surtout un état d'activation émotionnelle.", "Observer l'ensemble du corps avant d'interagir.", "Penser que la queue qui bouge autorise forcément le contact."),
     ComportementEntry("queue-basse", "Queue basse ou rentrée", "Signal fréquent d'inquiétude ou de malaise.", "Quand la queue descend très bas ou se replie sous le ventre, le chien peut être impressionné, stressé ou en retrait.", "Laisser de l'espace, adoucir l'approche et réduire la pression.", "Forcer le chien à avancer, saluer ou rester dans une situation qui le gêne."),
     ComportementEntry("baillement", "Bâillement hors fatigue", "Souvent un signal d'apaisement ou de tension légère.", "Le chien peut bâiller quand il n'est pas fatigué. C'est parfois une manière de réguler son émotion.", "Ralentir, faire une pause, simplifier l'exercice ou l'interaction.", "Réduire ce signal à de la simple fatigue."),
@@ -284,7 +322,7 @@ fun SecondaryPremiumButton(text: String, onClick: () -> Unit, modifier: Modifier
 fun PremiumTopBar(title: String, onBack: (() -> Unit)?) {
     CenterAlignedTopAppBar(
         title = { Text(title, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.titleLarge) },
-        navigationIcon = { if (onBack != null) IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Retour", tint = MaterialTheme.colorScheme.onBackground) } },
+        navigationIcon = { if (onBack != null) IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = strContentDescRetour(), tint = MaterialTheme.colorScheme.onBackground) } },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
     )
 }
@@ -296,7 +334,7 @@ fun ChargementMinimal() {
 
 @Composable
 fun ChargementAnalyseScreen(modifier: Modifier = Modifier, onTermine: () -> Unit) {
-    val messages = listOf("Analyse en cours...", "Lecture du profil de votre chien...", "Préparation de votre bilan...")
+    val messages = strChargementMessages()
     var messageIndex by remember { mutableIntStateOf(0) }
     LaunchedEffect(Unit) { repeat(messages.size) { messageIndex = it; delay(700) }; delay(400); onTermine() }
     val infiniteTransition = rememberInfiniteTransition(label = "dots")
@@ -322,10 +360,10 @@ fun AccueilScreen(modifier: Modifier = Modifier, hasSavedProgress: Boolean, onCo
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 8.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
             AccueilIllustrationCard()
-            PrimaryGlowButton(text = "Démarrer le bilan", onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
-            SecondaryPremiumButton(text = "Dictionnaire", onClick = onDictionnaire, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
-            SecondaryPremiumButton(text = "Alimentation", onClick = onAlimentation, leading = { Icon(Icons.Rounded.Star, contentDescription = null) })
-            if (hasSavedProgress) SecondaryPremiumButton(text = "Reprendre le questionnaire", onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
+            PrimaryGlowButton(text = strBtnDemarrerBilan(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
+            SecondaryPremiumButton(text = strBtnDictionnaire(), onClick = onDictionnaire, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
+            SecondaryPremiumButton(text = strBtnAlimentation(), onClick = onAlimentation, leading = { Icon(Icons.Rounded.Star, contentDescription = null) })
+            if (hasSavedProgress) SecondaryPremiumButton(text = strBtnReprendre(), onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
         }
     }
 }
@@ -336,18 +374,18 @@ fun IntroductionScreen(modifier: Modifier = Modifier, onCommencer: () -> Unit) {
         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(8.dp))
             PremiumCard(centered = true) {
-                EditorialKicker("Avant de commencer", centered = true); Spacer(modifier = Modifier.height(12.dp))
-                Text("Ce questionnaire vous prendra environ 5 minutes.", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+                EditorialKicker(strIntroKicker(), centered = true); Spacer(modifier = Modifier.height(12.dp))
+                Text(strIntroDuree(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
             }
             PremiumCard {
-                EditorialKicker("Ce que vous allez explorer"); Spacer(modifier = Modifier.height(14.dp))
-                Bullet("Sa sensibilité émotionnelle"); Spacer(modifier = Modifier.height(8.dp))
-                Bullet("Son besoin d'attachement"); Spacer(modifier = Modifier.height(8.dp))
-                Bullet("Sa gestion de l'excitation"); Spacer(modifier = Modifier.height(8.dp))
-                Bullet("Sa réactivité à l'environnement")
+                EditorialKicker(strIntroExplorerKicker()); Spacer(modifier = Modifier.height(14.dp))
+                Bullet(strIntroExplorer1()); Spacer(modifier = Modifier.height(8.dp))
+                Bullet(strIntroExplorer2()); Spacer(modifier = Modifier.height(8.dp))
+                Bullet(strIntroExplorer3()); Spacer(modifier = Modifier.height(8.dp))
+                Bullet(strIntroExplorer4())
             }
             Spacer(modifier = Modifier.height(4.dp))
-            PrimaryGlowButton(text = "Commencer", onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
+            PrimaryGlowButton(text = strBtnCommencer(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -360,7 +398,7 @@ fun QuestionnaireScreen(
     choixSelectionne: Int?, onValeurChangee: (String) -> Unit,
     onChoixSelectionne: (Int) -> Unit, onSuivant: () -> Unit
 ) {
-    val titreSection = QuestionnaireEngine.titreSectionPourQuestion(question.id)
+    val titreSection = strTitreSection(question.id)
     val boutonActif = when (question) { is QuestionTexte -> valeurTexte.isNotBlank(); is QuestionChoix -> choixSelectionne != null }
 
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
@@ -368,7 +406,7 @@ fun QuestionnaireScreen(
             PremiumCard {
                 SectionChip(titreSection)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text("$numero sur $total", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
+                Text("$numero ${if (isEnglish()) "of" else "sur"} $total", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
                 Spacer(modifier = Modifier.height(12.dp))
                 val animatedProgress by animateFloatAsState(progress.coerceIn(0f, 1f), label = "progress")
                 Box(modifier = Modifier.fillMaxWidth().height(10.dp).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFE9DED5), RoundedCornerShape(999.dp))) {
@@ -384,7 +422,8 @@ fun QuestionnaireScreen(
                             Spacer(modifier = Modifier.height(18.dp))
                             OutlinedTextField(
                                 value = valeurTexte, onValueChange = onValeurChangee,
-                                label = { Text("Votre réponse") }, placeholder = { Text("Ex. Rocky") },
+                                label = { Text(strQuestionReponseLabel()) },
+                                placeholder = { Text(strQuestionReponsePlaceholder()) },
                                 singleLine = true, keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
                                 modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp),
                                 colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PremiumPalette.Primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline, focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface)
@@ -407,10 +446,10 @@ fun QuestionnaireScreen(
             }
             Spacer(modifier = Modifier.height(12.dp))
             Column {
-                PrimaryGlowButton(text = "Continuer", onClick = onSuivant, enabled = boutonActif)
+                PrimaryGlowButton(text = strBtnContinuer(), onClick = onSuivant, enabled = boutonActif)
                 if (!boutonActif) {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(when (question) { is QuestionTexte -> "Saisissez une réponse pour continuer"; is QuestionChoix -> "Choisissez une réponse pour continuer" }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                    Text(when (question) { is QuestionTexte -> strQuestionHintTexte(); is QuestionChoix -> strQuestionHintChoix() }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
                 }
             }
         }
@@ -438,69 +477,79 @@ fun ResultatScreen(
     onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -> Unit,
     onRecommencer: () -> Unit, onOpenFiche: (String) -> Unit = {}, onOpenAlimentation: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             PremiumCard(centered = true) {
-                EditorialKicker("Votre bilan", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text("Bilan pour ${nomChienAffiche(nomChien)}", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp))
+                EditorialKicker(strResultatKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                Text(strResultatTitreBilan(nomChienAffiche(nomChien)), style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp))
                 AccentChip(analyse.profil.profilType)
             }
             if (!analyse.raceCategorie.isNullOrBlank() || !analyse.racePrecise.isNullOrBlank()) RaceCard(raceCategorie = analyse.raceCategorie, racePrecise = analyse.racePrecise)
             PremiumCard(centered = true) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    EditorialKicker("Lecture principale", centered = true); Spacer(modifier = Modifier.height(8.dp))
+                    EditorialKicker(strResultatLecturePrincipale(), centered = true); Spacer(modifier = Modifier.height(8.dp))
                     Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
                     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFondPriorite(analyse.prioriteAction)).padding(horizontal = 14.dp, vertical = 8.dp)) {
-                        Text("Priorité : ${textePrioriteAction(analyse.prioriteAction)}", color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
+                        Text(strResultatPriorite(strPrioriteAction(analyse.prioriteAction)), color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
             PremiumCard(centered = true) {
-                EditorialKicker("Ce que ressent probablement ${nomChienAffiche(nomChien)}", centered = true); Spacer(modifier = Modifier.height(10.dp))
+                EditorialKicker(strResultatRessent(nomChienAffiche(nomChien)), centered = true); Spacer(modifier = Modifier.height(10.dp))
                 Text(analyse.profil.phraseHumaine, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-                Text(resumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
-                Text(intentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
-                Text(besoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(strResumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
+                Text(strIntentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
+                Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            PremiumCard(centered = true) { EditorialKicker("En un coup d'œil", centered = true); Spacer(modifier = Modifier.height(14.dp)); QuatreAxesGrid(analyse = analyse) }
+            PremiumCard(centered = true) { EditorialKicker(strResultatCoupOeil(), centered = true); Spacer(modifier = Modifier.height(14.dp)); QuatreAxesGrid(analyse = analyse) }
             FacteursCard(analyse = analyse)
             PremiumCard(centered = true) {
-                EditorialKicker("Niveau de situation", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                AccentChip(texteNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(14.dp))
+                EditorialKicker(strResultatNiveauSituation(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(14.dp))
                 Text(analyse.messageSituation, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
                 Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            PremiumCard(centered = true) { EditorialKicker("Faut-il s'inquiéter ?", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(texteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center) }
-            PremiumCard(centered = true) { EditorialKicker("Ce qui se passe probablement", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(analyse.explicationPrincipale, textAlign = TextAlign.Center) }
-            HighlightAdviceCard(title = "Première piste concrète", advice = analyse.conseilPrincipal)
-
-            // ═══════════════════════════════════════════════════════════
-            // CARTE : POURQUOI EST-IL COMME ÇA ?
-            // ═══════════════════════════════════════════════════════════
+            PremiumCard(centered = true) { EditorialKicker(strResultatInquieter(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center) }
+            PremiumCard(centered = true) { EditorialKicker(strResultatSePasse(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(analyse.explicationPrincipale, textAlign = TextAlign.Center) }
+            HighlightAdviceCard(title = strResultatLevierPrincipal(), advice = analyse.conseilPrincipal)
             OriginesPossiblesCard(origines = analyse.originesPossibles)
-
             PremiumCard(centered = true) {
-                EditorialKicker("Les 3 prochains jours", centered = true); Spacer(modifier = Modifier.height(14.dp))
-                SubsectionTitle("À faire"); Spacer(modifier = Modifier.height(8.dp))
+                EditorialKicker(strResultat3Jours(), centered = true); Spacer(modifier = Modifier.height(14.dp))
+                SubsectionTitle(strResultatAFaire()); Spacer(modifier = Modifier.height(8.dp))
                 analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle("À éviter"); Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAEviter()); Spacer(modifier = Modifier.height(8.dp))
                 analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle("À observer"); Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAObserver()); Spacer(modifier = Modifier.height(8.dp))
                 analyse.planAction.aObserver.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
             }
             if (analyse.conseilsPratiques.isNotEmpty()) {
-                PremiumCard(centered = true) { EditorialKicker("Conseils complémentaires", centered = true); Spacer(modifier = Modifier.height(12.dp)); analyse.conseilsPratiques.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
+                PremiumCard(centered = true) { EditorialKicker(strResultatConseilsComplementaires(), centered = true); Spacer(modifier = Modifier.height(12.dp)); analyse.conseilsPratiques.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
             }
             if (analyse.messageAide != null || analyse.aDejaMordu) {
                 PremiumCard(centered = true) {
-                    EditorialKicker("Quand demander de l'aide", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    if (analyse.aDejaMordu) Text("Une morsure a été signalée — un accompagnement professionnel est recommandé.", textAlign = TextAlign.Center, color = PremiumPalette.PrioriteModere, fontWeight = FontWeight.SemiBold)
+                    EditorialKicker(strResultatQuandAide(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                    if (analyse.aDejaMordu) Text(strResultatMorsurePro(), textAlign = TextAlign.Center, color = PremiumPalette.PrioriteModere, fontWeight = FontWeight.SemiBold)
                     else analyse.messageAide?.let { Text(it, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold) }
                 }
             }
-            PremiumCard(centered = true) { EditorialKicker("Important", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.", textAlign = TextAlign.Center) }
+            PremiumCard(centered = true) { EditorialKicker(strResultatImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strResultatDisclaimer(), textAlign = TextAlign.Center) }
             FichesRecommandeesCard(analyse = analyse, nomChien = nomChienAffiche(nomChien), onOpenFiche = onOpenFiche, onOpenAlimentation = onOpenAlimentation)
-            PremiumCard(centered = true) { EditorialKicker("À retenir", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(phraseFin(nomChien), textAlign = TextAlign.Center) }
+            PremiumCard(centered = true) { EditorialKicker(strResultatARetenir(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strPhraseFin(nomChien), textAlign = TextAlign.Center) }
+            PremiumCard(centered = true) {
+                EditorialKicker(strResultatLeLivre(), centered = true)
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(strResultatAllerPlusLoinLivre(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(modifier = Modifier.height(14.dp))
+                PrimaryGlowButton(
+                    text = strBtnVoirLivres(),
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(if (isEnglish()) "https://understanding-my-dog.carrd.co" else "https://comprendre-mon-chien.carrd.co"))
+                        context.startActivity(intent)
+                    },
+                    leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null, tint = Color.White) }
+                )
+            }
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
             Spacer(modifier = Modifier.height(8.dp))
             androidx.compose.material3.HorizontalDivider(color = PremiumPalette.Border, thickness = 0.5.dp, modifier = Modifier.padding(horizontal = 40.dp))
@@ -508,16 +557,12 @@ fun ResultatScreen(
             TextButton(onClick = onRecommencer, modifier = Modifier.fillMaxWidth()) {
                 Icon(Icons.Rounded.Refresh, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Recommencer depuis le début", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(strBtnRecommencer(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════
-// CARTE ORIGINES POSSIBLES
-// ═══════════════════════════════════════════════════════════
 
 @Composable
 fun OriginesPossiblesCard(origines: String) {
@@ -526,25 +571,16 @@ fun OriginesPossiblesCard(origines: String) {
     else
         Brush.verticalGradient(listOf(Color(0xFFF5EBE0), Color(0xFFEEE0D2)))
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(28.dp),
+        modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF5A4035) else Color(0xFFD4B8A8))
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AccentChip("Comprendre pour mieux agir")
+        Column(modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            AccentChip(strResultatComprendreAgir())
             Spacer(modifier = Modifier.height(14.dp))
-            EditorialKicker("Pourquoi est-il comme ça ?", centered = true)
+            EditorialKicker(strResultatPourquoi(), centered = true)
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                origines,
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            Text(origines, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
         }
     }
 }
@@ -556,20 +592,25 @@ fun AlerteMorsureCard(nomChien: String) {
         Column(modifier = Modifier.padding(22.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Icon(Icons.Rounded.Warning, contentDescription = null, tint = PremiumPalette.PrioriteUrgente, modifier = Modifier.size(22.dp))
-                Text("ATTENTION — MORSURE SIGNALÉE", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.ExtraBold, color = PremiumPalette.PrioriteUrgente, textAlign = TextAlign.Center)
+                Text(strMorsureTitre(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.ExtraBold, color = PremiumPalette.PrioriteUrgente, textAlign = TextAlign.Center)
                 Icon(Icons.Rounded.Warning, contentDescription = null, tint = PremiumPalette.PrioriteUrgente, modifier = Modifier.size(22.dp))
             }
             Spacer(modifier = Modifier.height(14.dp))
-            Text("Il y a déjà eu morsure chez $nomChien. Cette situation ne doit pas être banalisée.", style = MaterialTheme.typography.titleMedium, color = PremiumPalette.PrioriteUrgente, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold)
+            Text(strMorsuTexte(nomChien), style = MaterialTheme.typography.titleMedium, color = PremiumPalette.PrioriteUrgente, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(12.dp))
-            Text("Un accompagnement par un professionnel du comportement est fortement recommandé.", color = if (isDark) Color(0xFFFFCFC5) else Color(0xFF5C1A0A), textAlign = TextAlign.Center)
+            Text(strMorsuConseil(), color = if (isDark) Color(0xFFFFCFC5) else Color(0xFF5C1A0A), textAlign = TextAlign.Center)
         }
     }
 }
 
 @Composable
 fun QuatreAxesGrid(analyse: ResultatAnalyse) {
-    val axes = listOf(Triple("Sensibilité", analyse.niveauPeur, analyse.peur), Triple("Attachement", analyse.niveauAttachement, analyse.attachement), Triple("Impulsivité", analyse.niveauImpulsivite, analyse.impulsivite), Triple("Réactivité", analyse.niveauReactivite, analyse.reactivite))
+    val axes = listOf(
+        Triple(strLibelleAxe(Axe.PEUR), analyse.niveauPeur, analyse.peur),
+        Triple(strLibelleAxe(Axe.ATTACHEMENT), analyse.niveauAttachement, analyse.attachement),
+        Triple(strLibelleAxe(Axe.IMPULSIVITE), analyse.niveauImpulsivite, analyse.impulsivite),
+        Triple(strLibelleAxe(Axe.REACTIVITE), analyse.niveauReactivite, analyse.reactivite)
+    )
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         axes.chunked(2).forEach { row ->
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -579,7 +620,7 @@ fun QuatreAxesGrid(analyse: ResultatAnalyse) {
                     val animated by animateFloatAsState((score / 100f).coerceIn(0f, 1f), label = "axe_$label")
                     Column(modifier = Modifier.weight(1f).clip(RoundedCornerShape(16.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else fondNiveau).border(1.dp, couleurNiveau.copy(alpha = 0.3f), RoundedCornerShape(16.dp)).padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
-                        Text(QuestionnaireEngine.libelleNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = couleurNiveau, textAlign = TextAlign.Center)
+                        Text(strNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = couleurNiveau, textAlign = TextAlign.Center)
                         Box(modifier = Modifier.fillMaxWidth().height(5.dp).clip(RoundedCornerShape(999.dp)).background(couleurNiveau.copy(alpha = 0.2f))) {
                             Box(modifier = Modifier.fillMaxWidth(animated).height(5.dp).clip(RoundedCornerShape(999.dp)).background(couleurNiveau))
                         }
@@ -596,9 +637,9 @@ fun FichesRecommandeesCard(analyse: ResultatAnalyse, nomChien: String, onOpenFic
     val fichesAlim = recommanderFichesAlimentation(analyse)
     if (fichesBehavior.isEmpty() && fichesAlim.isEmpty()) return
     PremiumCard(centered = false) {
-        EditorialKicker("Pour aller plus loin avec $nomChien"); Spacer(modifier = Modifier.height(14.dp))
+        EditorialKicker(strResultatAllerPlusLoin(nomChien)); Spacer(modifier = Modifier.height(14.dp))
         if (fichesBehavior.isNotEmpty()) {
-            Text("Fiches comportementales", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.PrimarySoft); Spacer(modifier = Modifier.height(8.dp))
+            Text(strResultatFichesComportementales(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.PrimarySoft); Spacer(modifier = Modifier.height(8.dp))
             fichesBehavior.forEach { (ficheId, titre) ->
                 Row(modifier = Modifier.fillMaxWidth().clickable { onOpenFiche(ficheId) }.clip(RoundedCornerShape(12.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6)).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(titre, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, modifier = Modifier.weight(1f))
@@ -609,7 +650,7 @@ fun FichesRecommandeesCard(analyse: ResultatAnalyse, nomChien: String, onOpenFic
         }
         if (fichesAlim.isNotEmpty()) {
             if (fichesBehavior.isNotEmpty()) Spacer(modifier = Modifier.height(8.dp))
-            Text("Repères alimentation", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.PrimarySoft); Spacer(modifier = Modifier.height(8.dp))
+            Text(strResultatReperes(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.PrimarySoft); Spacer(modifier = Modifier.height(8.dp))
             Row(modifier = Modifier.fillMaxWidth().clickable { onOpenAlimentation() }.clip(RoundedCornerShape(12.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6)).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 Column(modifier = Modifier.weight(1f)) { fichesAlim.forEach { titre -> Text(titre, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface); if (titre != fichesAlim.last()) Spacer(modifier = Modifier.height(4.dp)) } }
                 Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft, modifier = Modifier.size(18.dp))
@@ -621,27 +662,31 @@ fun FichesRecommandeesCard(analyse: ResultatAnalyse, nomChien: String, onOpenFic
 fun recommanderFichesComportement(analyse: ResultatAnalyse): List<Pair<String, String>> {
     val maxAxe = maxOf(analyse.peur, analyse.attachement, analyse.impulsivite, analyse.reactivite)
     if (maxAxe < 30) return emptyList()
+    val entries = comportementEntries()
     return when (analyse.problemePrincipal) {
-        Axe.PEUR -> listOf("corps-fige" to "Corps figé", "oreilles-arriere" to "Oreilles plaquées en arrière", "queue-basse" to "Queue basse ou rentrée")
-        Axe.ATTACHEMENT -> listOf("suit-humain" to "Suit son humain partout", "destruction-absence" to "Destructions en absence", "aboiement-frustration" to "Aboiement de frustration")
-        Axe.IMPULSIVITE -> listOf("haletement" to "Halètement sans effort", "appel-au-jeu" to "Posture d'invitation au jeu", "secouement" to "Secouement du corps")
-        Axe.REACTIVITE -> listOf("grognement" to "Grognement", "corps-fige" to "Corps figé", "aboiement-alerte" to "Aboiement d'alerte")
-    }
+        Axe.PEUR -> listOf("corps-fige", "oreilles-arriere", "queue-basse")
+        Axe.ATTACHEMENT -> listOf("suit-humain", "destruction-absence", "aboiement-frustration")
+        Axe.IMPULSIVITE -> listOf("haletement", "appel-au-jeu", "secouement")
+        Axe.REACTIVITE -> listOf("grognement", "corps-fige", "aboiement-alerte")
+    }.mapNotNull { id -> entries.firstOrNull { it.id == id }?.let { id to it.titre } }
 }
 
 fun recommanderFichesAlimentation(analyse: ResultatAnalyse): List<String> {
-    return if (analyse.contexte.physique >= 2) listOf("Que faire si mon chien a mangé quelque chose de douteux ?", "Quels signes doivent alerter après ingestion ?")
-    else listOf("Peut-on donner des fruits ou légumes ?", "Friandises : utile ou risqué ?")
+    val entries = dictionnaireEntries()
+    return if (analyse.contexte.physique >= 2)
+        entries.filter { it.categorie == DictionnaireCategorie.INGESTION }.take(2).map { it.titre }
+    else
+        entries.filter { it.categorie == DictionnaireCategorie.AUTORISES }.take(2).map { it.titre }
 }
 
 @Composable
 fun ActionButtonsGrid(onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -> Unit, onRecommencer: () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            ActionButton(text = "Partager", icon = Icons.Rounded.Share, primary = true, modifier = Modifier.weight(1f), onClick = onShare)
-            ActionButton(text = "Export PDF", icon = Icons.Rounded.PictureAsPdf, primary = true, modifier = Modifier.weight(1f), onClick = onExportPdf)
+            ActionButton(text = strBtnPartager(), icon = Icons.Rounded.Share, primary = true, modifier = Modifier.weight(1f), onClick = onShare)
+            ActionButton(text = strBtnExportPdf(), icon = Icons.Rounded.PictureAsPdf, primary = true, modifier = Modifier.weight(1f), onClick = onExportPdf)
         }
-        ActionButton(text = "Copier le résumé", icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.fillMaxWidth(), onClick = onCopy)
+        ActionButton(text = strBtnCopierResume(), icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.fillMaxWidth(), onClick = onCopy)
     }
 }
 
@@ -669,11 +714,11 @@ fun RaceCard(raceCategorie: String?, racePrecise: String?) {
     val predispositions = if (!racePrecise.isNullOrBlank()) getPredispositions(racePrecise).ifEmpty { categorie?.predispositions ?: emptyList() } else categorie?.predispositions ?: emptyList()
     val nomAffiche = when { !racePrecise.isNullOrBlank() -> racePrecise; !raceCategorie.isNullOrBlank() -> raceCategorie; else -> return }
     PremiumCard(centered = true) {
-        EditorialKicker("Profil de race", centered = true); Spacer(modifier = Modifier.height(10.dp))
+        EditorialKicker(strResultatProfilRace(), centered = true); Spacer(modifier = Modifier.height(10.dp))
         Text(nomAffiche, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
         if (!raceCategorie.isNullOrBlank() && !racePrecise.isNullOrBlank()) { Spacer(modifier = Modifier.height(4.dp)); Text(raceCategorie, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
         if (predispositions.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(14.dp)); Text("Prédispositions fréquentes dans cette famille", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()); Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(14.dp)); Text(strResultatPredispositions(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()); Spacer(modifier = Modifier.height(8.dp))
             predispositions.forEach { pred -> Row(modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 7.dp).size(6.dp).background(PremiumPalette.Accent, CircleShape)); Spacer(modifier = Modifier.width(8.dp)); Text(pred, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 500.dp)) } }
         }
         if (!nuance.isNullOrBlank()) { Spacer(modifier = Modifier.height(14.dp)); Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6)).padding(14.dp)) { Text(nuance, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center) } }
@@ -685,10 +730,10 @@ fun HighlightAdviceCard(title: String, advice: String) {
     val backgroundBrush = if (isSystemInDarkTheme()) Brush.verticalGradient(listOf(Color(0xFF3A2A23), Color(0xFF2A1F1A))) else Brush.verticalGradient(listOf(Color(0xFFF3E4DA), Color(0xFFECD8CB)))
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(30.dp), colors = CardDefaults.cardColors(containerColor = Color.Transparent), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF6A4D41) else Color(0xFFD8B9A7))) {
         Column(modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 26.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            AccentChip("Le point d'appui principal"); Spacer(modifier = Modifier.height(14.dp))
+            AccentChip(strResultatPointAppui()); Spacer(modifier = Modifier.height(14.dp))
             Text(title, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
             Text(advice, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-            Text("C'est souvent ici que le changement commence à prendre forme.", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(strResultatChangement(), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -700,8 +745,8 @@ fun SubsectionTitle(text: String) { Text(text, style = MaterialTheme.typography.
 fun ScoreLine(label: String, value: Int, centered: Boolean = false) {
     val animated by animateFloatAsState((value / 100f).coerceIn(0f, 1f), label = "score")
     Column(horizontalAlignment = if (centered) Alignment.CenterHorizontally else Alignment.Start) {
-        if (centered) { Text(label, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp)); AccentChip(QuestionnaireEngine.libelleNiveauAxe(QuestionnaireEngine.calculerNiveauAxe(value))) }
-        else { Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(label, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.width(8.dp)); AccentChip(QuestionnaireEngine.libelleNiveauAxe(QuestionnaireEngine.calculerNiveauAxe(value))) } }
+        if (centered) { Text(label, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp)); AccentChip(strNiveauAxe(QuestionnaireEngine.calculerNiveauAxe(value))) }
+        else { Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(label, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.width(8.dp)); AccentChip(strNiveauAxe(QuestionnaireEngine.calculerNiveauAxe(value))) } }
         Spacer(modifier = Modifier.height(10.dp))
         Box(modifier = Modifier.fillMaxWidth().height(10.dp).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFE9DED5), RoundedCornerShape(999.dp))) {
             Box(modifier = Modifier.fillMaxWidth(animated).height(10.dp).background(Brush.horizontalGradient(listOf(PremiumPalette.Primary, PremiumPalette.PrimarySoft)), RoundedCornerShape(999.dp)))
@@ -722,9 +767,9 @@ fun Bullet(text: String, centered: Boolean = false) {
 fun FacteursCard(analyse: ResultatAnalyse) {
     if (analyse.facteursAggravants.isEmpty() && analyse.facteursProtecteurs.isEmpty()) return
     PremiumCard(centered = true) {
-        EditorialKicker("Facteurs repérés", centered = true)
-        if (analyse.facteursAggravants.isNotEmpty()) { Spacer(modifier = Modifier.height(12.dp)); SubsectionTitle("Ce qui peut aggraver"); Spacer(modifier = Modifier.height(8.dp)); analyse.facteursAggravants.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
-        if (analyse.facteursProtecteurs.isNotEmpty()) { Spacer(modifier = Modifier.height(12.dp)); SubsectionTitle("Ce qui protège"); Spacer(modifier = Modifier.height(8.dp)); analyse.facteursProtecteurs.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
+        EditorialKicker(strResultatFacteurs(), centered = true)
+        if (analyse.facteursAggravants.isNotEmpty()) { Spacer(modifier = Modifier.height(12.dp)); SubsectionTitle(if (isEnglish()) "What may make things worse" else "Ce qui peut aggraver"); Spacer(modifier = Modifier.height(8.dp)); analyse.facteursAggravants.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
+        if (analyse.facteursProtecteurs.isNotEmpty()) { Spacer(modifier = Modifier.height(12.dp)); SubsectionTitle(if (isEnglish()) "What is already helping" else "Ce qui protège"); Spacer(modifier = Modifier.height(8.dp)); analyse.facteursProtecteurs.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
     }
 }
 
@@ -736,13 +781,13 @@ fun DictionnaireInfoScreen(modifier: Modifier = Modifier, onOpenFiche: (String) 
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             PremiumCard(centered = true) {
-                EditorialKicker("Dictionnaire comportemental", centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text("Repères pour mieux lire le langage du chien", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-                OutlinedTextField(value = recherche, onValueChange = { recherche = it }, placeholder = { Text("Rechercher une fiche...") }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PremiumPalette.Primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline, focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
+                EditorialKicker(strDicoTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                Text(strDicoSousTitre(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
+                OutlinedTextField(value = recherche, onValueChange = { recherche = it }, placeholder = { Text(strDicoRecherchePlaceholder()) }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PremiumPalette.Primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline, focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
             }
-            if (fichesFiltrees.isEmpty()) PremiumCard(centered = true) { Text("Aucune fiche ne correspond à \"$recherche\".", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            if (fichesFiltrees.isEmpty()) PremiumCard(centered = true) { Text(strDicoAucunResultat(recherche), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             else fichesFiltrees.forEach { fiche -> ComportementListItem(entry = fiche, onClick = { onOpenFiche(fiche.id) }) }
-            PremiumCard(centered = true) { EditorialKicker("Important", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Ces fiches donnent des repères de lecture. Elles ne remplacent pas l'avis d'un professionnel.", textAlign = TextAlign.Center) }
+            PremiumCard(centered = true) { EditorialKicker(strDicoImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strDicoDisclaimer(), textAlign = TextAlign.Center) }
         }
     }
 }
@@ -752,13 +797,13 @@ fun DictionnaireDetailScreen(modifier: Modifier = Modifier, ficheId: String) {
     val fiche = remember(ficheId) { getComportementEntryById(ficheId) }
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            if (fiche == null) PremiumCard(centered = true) { Text("Fiche introuvable.", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center) }
+            if (fiche == null) PremiumCard(centered = true) { Text(strDicoFicheIntrouvable(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center) }
             else {
-                PremiumCard(centered = true) { EditorialKicker("Fiche comportementale", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.resume, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                PremiumCard { EditorialKicker("Explication"); Spacer(modifier = Modifier.height(12.dp)); Text(fiche.explication, style = MaterialTheme.typography.bodyLarge) }
-                PremiumCard { EditorialKicker("Que faire"); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.queFaire) }
-                PremiumCard { EditorialKicker("À éviter"); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.aEviter) }
-                PremiumCard(centered = true) { EditorialKicker("Rappel", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Un comportement isolé ne suffit pas toujours à conclure. Le contexte et l'ensemble du langage corporel comptent autant.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                PremiumCard(centered = true) { EditorialKicker(strDicoFicheKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.resume, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                PremiumCard { EditorialKicker(strDicoExplication()); Spacer(modifier = Modifier.height(12.dp)); Text(fiche.explication, style = MaterialTheme.typography.bodyLarge) }
+                PremiumCard { EditorialKicker(strDicoQueFaire()); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.queFaire) }
+                PremiumCard { EditorialKicker(strDicoAEviter()); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.aEviter) }
+                PremiumCard(centered = true) { EditorialKicker(strDicoRappelKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strDicoRappel(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
         }
     }
@@ -785,21 +830,21 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
             when {
                 selectedEntryState.value != null -> {
                     val entry = selectedEntryState.value!!
-                    PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton("Retour à la catégorie", onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
-                    PremiumCard(centered = true) { EditorialKicker("Rappel", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("En cas de symptômes ou d'ingestion douteuse, privilégiez un avis vétérinaire.", textAlign = TextAlign.Center) }
+                    PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton(strBtnRetourCategorie(), onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
+                    PremiumCard(centered = true) { EditorialKicker(if (isEnglish()) "Reminder" else "Rappel", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimRappel(), textAlign = TextAlign.Center) }
                 }
                 selectedCategoryState.value != null -> {
                     val categorie = selectedCategoryState.value!!
                     val items = entries.filter { it.categorie == categorie }
-                    PremiumCard(centered = true) { EditorialKicker("Alimentation", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(categorie.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center) }
+                    PremiumCard(centered = true) { EditorialKicker(strAlimTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(categorie.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center) }
                     items.forEach { entry -> DictionnaireListItem(entry = entry, onClick = { selectedEntryState.value = entry }) }
-                    SecondaryPremiumButton("Retour aux rubriques", onClick = { selectedCategoryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) })
+                    SecondaryPremiumButton(strBtnRetourRubriques(), onClick = { selectedCategoryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) })
                 }
                 else -> {
-                    PremiumCard(centered = true) { EditorialKicker("Alimentation du chien", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Repères pratiques pour nourrir votre chien sereinement.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                    PremiumCard { EditorialKicker("À retenir d'abord"); Spacer(modifier = Modifier.height(12.dp)); Bullet("Tout changement alimentaire doit être progressif."); Spacer(modifier = Modifier.height(8.dp)); Bullet("Même un aliment banal pour l'humain peut être inadapté pour le chien."); Spacer(modifier = Modifier.height(8.dp)); Bullet("En cas d'ingestion suspecte ou de symptômes, la prudence passe avant l'attente.") }
+                    PremiumCard(centered = true) { EditorialKicker(strAlimTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimSousTitre(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    PremiumCard { EditorialKicker(strAlimARetenirKicker()); Spacer(modifier = Modifier.height(12.dp)); Bullet(strAlimRetenir1()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir2()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir3()) }
                     categories.forEach { categorie -> DictionnaireCategoryButton(categorie = categorie, onClick = { selectedCategoryState.value = categorie }) }
-                    PremiumCard(centered = true) { EditorialKicker("Important", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Ce guide donne des repères généraux. Il ne remplace pas un vétérinaire.", textAlign = TextAlign.Center) }
+                    PremiumCard(centered = true) { EditorialKicker(strAlimImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimDisclaimer(), textAlign = TextAlign.Center) }
                 }
             }
         }
@@ -812,7 +857,12 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(categorie.titre, style = MaterialTheme.typography.titleLarge); Spacer(modifier = Modifier.height(6.dp))
-                Text(when (categorie) { DictionnaireCategorie.DANGEREUX -> "Les aliments à éviter pour ne pas faire d'erreur."; DictionnaireCategorie.AUTORISES -> "Les repères de base pour donner sans improviser."; DictionnaireCategorie.INGESTION -> "Les bons réflexes si le chien a avalé quelque chose."; DictionnaireCategorie.DIGESTION -> "Herbe, vomissements, selles et petits signaux digestifs." }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(when (categorie) {
+                    DictionnaireCategorie.DANGEREUX -> strAlimCatDangereuxDesc()
+                    DictionnaireCategorie.AUTORISES -> strAlimCatAutorisesDesc()
+                    DictionnaireCategorie.INGESTION -> strAlimCatIngestionDesc()
+                    DictionnaireCategorie.DIGESTION -> strAlimCatDigestionDesc()
+                }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
@@ -835,14 +885,14 @@ fun ParametresScreen(modifier: Modifier = Modifier, onRevoirOnboarding: () -> Un
     val version = remember { try { context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0" } catch (e: Exception) { "1.0" } }
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            PremiumCard(centered = true) { EditorialKicker("Paramètres", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Comprendre mon chien", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(6.dp)); AccentChip("Version $version") }
-            PremiumCard { EditorialKicker("Tutoriel"); Spacer(modifier = Modifier.height(12.dp)); Text("Revoir la présentation de l'application depuis le début.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(14.dp)); SecondaryPremiumButton("Revoir l'introduction", onClick = onRevoirOnboarding, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) }) }
+            PremiumCard(centered = true) { EditorialKicker(strParamsKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strParamsAppTitre(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(6.dp)); AccentChip(strParamsVersion(version)) }
+            PremiumCard { EditorialKicker(strParamsTutorielKicker()); Spacer(modifier = Modifier.height(12.dp)); Text(strParamsTutorielTexte(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(14.dp)); SecondaryPremiumButton(strBtnRevoirIntroduction(), onClick = onRevoirOnboarding, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) }) }
             PremiumCard {
-                EditorialKicker("Confidentialité"); Spacer(modifier = Modifier.height(12.dp))
-                Text("Cette application ne collecte aucune donnée personnelle. Les bilans sont stockés uniquement sur votre appareil. Les notifications sont locales.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(14.dp))
-                SecondaryPremiumButton("Politique de confidentialité", onClick = { val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://laurenaharoy-ctrl.github.io/comprendremonchien2/confidentialite.html")); context.startActivity(intent) }, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
+                EditorialKicker(strParamsConfidentialiteKicker()); Spacer(modifier = Modifier.height(12.dp))
+                Text(strParamsConfidentialiteTexte(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(14.dp))
+                SecondaryPremiumButton(strBtnPolitiqueConfidentialite(), onClick = { val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://laurenaharoy-ctrl.github.io/comprendremonchien2/confidentialite.html")); context.startActivity(intent) }, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
             }
-            PremiumCard(centered = true) { EditorialKicker("À propos", centered = true); Spacer(modifier = Modifier.height(10.dp)); Text("Développée avec soin pour aider les maîtres à mieux comprendre leur chien.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
+            PremiumCard(centered = true) { EditorialKicker(strParamsAProposKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strParamsAProposTexte(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
         }
     }
 }

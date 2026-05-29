@@ -40,11 +40,10 @@ object HistoriqueManager {
 
     private val HISTORIQUE_KEY = stringPreferencesKey("historique_bilans_json")
 
-    // ── Sauvegarder un bilan ─────────────────────────────────────────────────
     suspend fun sauvegarderBilan(context: Context, nomChien: String, analyse: ResultatAnalyse) {
         val bilan = BilanSauvegarde(
             id = UUID.randomUUID().toString(),
-            date = SimpleDateFormat("dd MMMM yyyy 'à' HH'h'mm", Locale.FRENCH).format(Date()),
+            date = SimpleDateFormat(strDateFormatHistorique(), Locale.getDefault()).format(Date()),
             dateTimestamp = System.currentTimeMillis(),
             nomChien = nomChienAffiche(nomChien),
             profilType = analyse.profil.profilType,
@@ -62,12 +61,11 @@ object HistoriqueManager {
         context.historiqueDataStore.edit { prefs ->
             val existingJson = prefs[HISTORIQUE_KEY] ?: "[]"
             val array = JSONArray(existingJson)
-            array.put(0, bilanToJson(bilan)) // Ajouter en tête de liste
+            array.put(0, bilanToJson(bilan))
             prefs[HISTORIQUE_KEY] = array.toString()
         }
     }
 
-    // ── Lire tous les bilans ──────────────────────────────────────────────────
     fun getBilans(context: Context): Flow<List<BilanSauvegarde>> {
         return context.historiqueDataStore.data.map { prefs ->
             val json = prefs[HISTORIQUE_KEY] ?: "[]"
@@ -75,7 +73,6 @@ object HistoriqueManager {
         }
     }
 
-    // ── Supprimer un bilan par ID ─────────────────────────────────────────────
     suspend fun supprimerBilan(context: Context, id: String) {
         context.historiqueDataStore.edit { prefs ->
             val existingJson = prefs[HISTORIQUE_KEY] ?: "[]"
@@ -83,22 +80,16 @@ object HistoriqueManager {
             val newArray = JSONArray()
             for (i in 0 until array.length()) {
                 val obj = array.getJSONObject(i)
-                if (obj.getString("id") != id) {
-                    newArray.put(obj)
-                }
+                if (obj.getString("id") != id) newArray.put(obj)
             }
             prefs[HISTORIQUE_KEY] = newArray.toString()
         }
     }
 
-    // ── Supprimer tous les bilans ─────────────────────────────────────────────
     suspend fun supprimerTout(context: Context) {
-        context.historiqueDataStore.edit { prefs ->
-            prefs[HISTORIQUE_KEY] = "[]"
-        }
+        context.historiqueDataStore.edit { prefs -> prefs[HISTORIQUE_KEY] = "[]" }
     }
 
-    // ── Helpers JSON ──────────────────────────────────────────────────────────
     private fun bilanToJson(bilan: BilanSauvegarde): JSONObject {
         return JSONObject().apply {
             put("id", bilan.id)
@@ -140,13 +131,10 @@ object HistoriqueManager {
                     aDejaMordu = obj.getBoolean("aDejaMordu")
                 )
             }
-        } catch (e: Exception) {
-            emptyList()
-        }
+        } catch (e: Exception) { emptyList() }
     }
 }
 
-// ── Extensions utiles ─────────────────────────────────────────────────────────
 fun BilanSauvegarde.prioriteActionEnum(): PrioriteAction =
     try { PrioriteAction.valueOf(prioriteAction) } catch (e: Exception) { PrioriteAction.FAIBLE }
 

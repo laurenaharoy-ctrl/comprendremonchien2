@@ -1,3 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">comprendremonchien</string>
+    <string name="app_name">Comprendre mon chien</string>
+
+    <!-- Navigation / Boutons généraux -->
+    <string name="btn_demarrer_bilan">Démarrer le bilan</string>
+    <string name="btn_reprendre">Reprendre le questionnaire</string>
+    <string name="btn_dictionnaire">Dictionnaire</string>
+    <string name="btn_alimentation">Alimentation</string>
+    <string name="btn_commencer">Commencer</string>
+    <string name="btn_continuer">Continuer</string>
+    <string name="btn_suivant">Suivant</string>
+    <string name="btn_retour">Retour</string>
+    <string name="btn_passer">Passer</string>
+    <string name="btn_partager">Partager</string>
+    <string name="btn_export_pdf">Export PDF</string>
+    <string name="btn_copier_resume">Copier le résumé</string>
+    <string name="btn_recommencer">Recommencer depuis le début</string>
+    <string name="btn_voir_livres">Voir mes livres</string>
+    <string name="btn_revoir_introduction">Revoir l\'introduction</string>
+    <string name="btn_politique_confidentialite">Politique de confidentialité</string>
+    <string name="btn_retour_rubriques">Retour aux rubriques</string>
+    <string name="btn_retour_categorie">Retour à la catégorie</string>
+    <string name="btn_supprimer">Supprimer</string>
+    <string name="btn_supprimer_tout">Supprimer tout l\'historique</string>
+    <string name="btn_supprimer_bilan">Supprimer ce bilan</string>
+    <string name="btn_annuler">Annuler</string>
+    <string name="btn_envoyer_signalement">Envoyer le signalement</string>
+
+    <!-- TopBar / Titres écrans -->
+    <string name="screen_questionnaire">Questionnaire</string>
+    <string name="screen_analyse">Analyse</string>
+    <string name="screen_resultat">Résultat</string>
+    <string name="screen_dictionnaire">Dictionnaire comportemental</string>
+    <string name="screen_fiche_comportementale">Fiche comportementale</string>
+    <string name="screen_alimentation">Alimentation</string>
+    <string name="screen_signalement">Signalement</string>
+    <string name="screen_historique">Historique des bilans</string>
+    <string name="screen_detail_bilan">Détail du bilan</string>
+    <string name="screen_parametres">Paramètres</string>
+
+    <!-- Accueil -->
+    <string name="accueil_titre">Comprendre mon chien</string>
+    <string name="accueil_bienvenue">Bienvenue</string>
+
+    <!-- Introduction -->
+    <string name="intro_kicker">Avant de commencer</string>
+    <string name="intro_duree">Ce questionnaire vous prendra environ 5 minutes.</string>
+    <string name="intro_explorer_kicker">Ce que vous allez explorer</string>
+    <string name="intro_explorer_1">Sa sensibilité émotionnelle</string>
+    <string name="intro_explorer_2">Son besoin d\'attachement</string>
+    <string name="intro_explorer_3">Sa gestion de l\'excitation</string>
+    <string name="intro_explorer_4">Sa réactivité à l\'environnement</string>
+
+    <!-- Questionnaire -->
+    <string name="question_reponse_label">Votre réponse</string>
+    <string name="question_reponse_placeholder">Ex. Rocky</string>
+    <string name="question_hint_texte">Saisissez une réponse pour continuer</string>
+    <string name="question_hint_choix">Choisissez une réponse pour continuer</string>
+
+    <!-- Chargement analyse -->
+    <string name="chargement_msg1">Analyse en cours…</string>
+    <string name="chargement_msg2">Lecture du profil de votre chien…</string>
+    <string name="chargement_msg3">Préparation de votre bilan…</string>
+
+    <!-- Résultat -->
+    <string name="resultat_kicker">Votre bilan</string>
+    <string name="resultat_titre_bilan">Bilan pour %1$s</string>
+    <string name="resultat_lecture_principale">Lecture principale</string>
+    <string name="resultat_priorite">Priorité : %1$s</string>
+    <string name="resultat_ressent">Ce que ressent probablement %1$s</string>
+    <string name="resultat_coup_oeil">En un coup d\'œil</string>
+    <string name="resultat_facteurs">Facteurs repérés</string>
+    <string name="resultat_niveau_situation">Niveau de situation</string>
+    <string name="resultat_inquieter">Faut-il s\'inquiéter ?</string>
+    <string name="resultat_se_passe">Ce qui se passe probablement</string>
+    <string name="resultat_levier_principal">Première piste concrète</string>
+    <string name="resultat_point_appui">Le point d\'appui principal</string>
+    <string name="resultat_pourquoi">Pourquoi est-il comme ça ?</string>
+    <string name="resultat_comprendre_agir">Comprendre pour mieux agir</string>
+    <string name="resultat_changement">C\'est souvent ici que le changement commence à prendre forme.</string>
+    <string name="resultat_3_jours">Les 3 prochains jours</string>
+    <string name="resultat_a_faire">À faire</string>
+    <string name="resultat_a_eviter">À éviter</string>
+    <string name="resultat_a_observer">À observer</string>
+    <string name="resultat_conseils_complementaires">Conseils complémentaires</string>
+    <string name="resultat_quand_aide">Quand demander de l\'aide</string>
+    <string name="resultat_morsure_pro">Une morsure a été signalée — un accompagnement professionnel est recommandé.</string>
+    <string name="resultat_important">Important</string>
+    <string name="resultat_disclaimer">Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.</string>
+    <string name="resultat_aller_plus_loin">Pour aller plus loin avec %1$s</string>
+    <string name="resultat_fiches_comportementales">Fiches comportementales</string>
+    <string name="resultat_reperes_alimentation">Repères alimentation</string>
+    <string name="resultat_a_retenir">À retenir</string>
+    <string name="resultat_le_livre">Le livre</string>
+    <string name="resultat_aller_plus_loin_livre">Si vous souhaitez aller plus loin</string>
+    <string name="resultat_copie">Copié</string>
+    <string name="resultat_profil_race">Profil de race</string>
+    <string name="resultat_predispositions">Prédispositions fréquentes dans cette famille</string>
+
+    <!-- Morsure -->
+    <string name="morsure_titre">ATTENTION — MORSURE SIGNALÉE</string>
+    <string name="morsure_texte">Il y a déjà eu morsure chez %1$s. Cette situation ne doit pas être banalisée.</string>
+    <string name="morsure_conseil">Un accompagnement par un professionnel du comportement est fortement recommandé.</string>
+
+    <!-- Dictionnaire comportemental -->
+    <string name="dico_titre">Dictionnaire comportemental</string>
+    <string name="dico_sous_titre">Repères pour mieux lire le langage du chien</string>
+    <string name="dico_recherche_placeholder">Rechercher une fiche…</string>
+    <string name="dico_aucun_resultat">Aucune fiche ne correspond à "%1$s".</string>
+    <string name="dico_important">Important</string>
+    <string name="dico_disclaimer">Ces fiches donnent des repères de lecture. Elles ne remplacent pas l\'avis d\'un professionnel.</string>
+    <string name="dico_rappel">Un comportement isolé ne suffit pas toujours à conclure. Le contexte et l\'ensemble du langage corporel comptent autant.</string>
+    <string name="dico_fiche_kicker">Fiche comportementale</string>
+    <string name="dico_explication">Explication</string>
+    <string name="dico_que_faire">Que faire</string>
+    <string name="dico_a_eviter">À éviter</string>
+    <string name="dico_rappel_kicker">Rappel</string>
+    <string name="dico_fiche_introuvable">Fiche introuvable.</string>
+
+    <!-- Alimentation -->
+    <string name="alim_titre">Alimentation du chien</string>
+    <string name="alim_sous_titre">Repères pratiques pour nourrir votre chien sereinement.</string>
+    <string name="alim_a_retenir_kicker">À retenir d\'abord</string>
+    <string name="alim_retenir_1">Tout changement alimentaire doit être progressif.</string>
+    <string name="alim_retenir_2">Même un aliment banal pour l\'humain peut être inadapté pour le chien.</string>
+    <string name="alim_retenir_3">En cas d\'ingestion suspecte ou de symptômes, la prudence passe avant l\'attente.</string>
+    <string name="alim_important">Important</string>
+    <string name="alim_disclaimer">Ce guide donne des repères généraux. Il ne remplace pas un vétérinaire.</string>
+    <string name="alim_rappel">En cas de symptômes ou d\'ingestion douteuse, privilégiez un avis vétérinaire.</string>
+    <string name="alim_cat_dangereux_desc">Les aliments à éviter pour ne pas faire d\'erreur.</string>
+    <string name="alim_cat_autorises_desc">Les repères de base pour donner sans improviser.</string>
+    <string name="alim_cat_ingestion_desc">Les bons réflexes si le chien a avalé quelque chose.</string>
+    <string name="alim_cat_digestion_desc">Herbe, vomissements, selles et petits signaux digestifs.</string>
+
+    <!-- Paramètres -->
+    <string name="params_kicker">Paramètres</string>
+    <string name="params_app_titre">Comprendre mon chien</string>
+    <string name="params_version">Version %1$s</string>
+    <string name="params_tutoriel_kicker">Tutoriel</string>
+    <string name="params_tutoriel_texte">Revoir la présentation de l\'application depuis le début.</string>
+    <string name="params_confidentialite_kicker">Confidentialité</string>
+    <string name="params_confidentialite_texte">Cette application ne collecte aucune donnée personnelle. Les bilans sont stockés uniquement sur votre appareil. Les notifications sont locales.</string>
+    <string name="params_a_propos_kicker">À propos</string>
+    <string name="params_a_propos_texte">Développée avec soin pour aider les maîtres à mieux comprendre leur chien.</string>
+
+    <!-- Historique -->
+    <string name="historique_titre">Historique des bilans</string>
+    <string name="historique_aucun">Aucun bilan sauvegardé pour l\'instant.</string>
+    <string name="historique_nb_bilans">%1$d bilan sauvegardé</string>
+    <string name="historique_nb_bilans_plural">%1$d bilans sauvegardés</string>
+    <string name="historique_vide_texte">Les bilans réalisés apparaîtront ici automatiquement après chaque questionnaire complété.</string>
+    <string name="historique_supprimer_titre">Supprimer ce bilan ?</string>
+    <string name="historique_supprimer_texte">Le bilan de %1$s du %2$s sera supprimé définitivement.</string>
+    <string name="historique_supprimer_tout_titre">Supprimer tout l\'historique ?</string>
+    <string name="historique_supprimer_tout_texte">Cette action est irréversible. Tous les bilans sauvegardés seront supprimés définitivement.</string>
+    <string name="historique_detail_kicker">Bilan sauvegardé</string>
+    <string name="historique_synthese">Synthèse</string>
+    <string name="historique_carte_profil">Carte du profil</string>
+    <string name="historique_lecture">Lecture principale</string>
+    <string name="historique_piste">Première piste concrète</string>
+    <string name="historique_rappel_kicker">Rappel</string>
+    <string name="historique_rappel_texte">Ce bilan est un enregistrement indicatif. La situation de votre chien peut avoir évolué depuis.</string>
+
+    <!-- Feedback -->
+    <string name="feedback_kicker">Signalement</string>
+    <string name="feedback_titre">Quelque chose ne va pas ?</string>
+    <string name="feedback_sous_titre">Votre retour est précieux. Décrivez le problème ou la suggestion et nous en tiendrons compte.</string>
+    <string name="feedback_type_kicker">Type de signalement</string>
+    <string name="feedback_ecran_kicker">Écran concerné</string>
+    <string name="feedback_description_kicker">Description</string>
+    <string name="feedback_description_texte">Décrivez le problème ou votre suggestion avec le plus de détails possible.</string>
+    <string name="feedback_placeholder">Ex. : Sur l\'écran résultat, le bouton Export PDF ne fonctionne pas…</string>
+    <string name="feedback_details_hint">Ajoutez quelques détails pour nous aider à comprendre.</string>
+    <string name="feedback_hint_envoyer">Choisissez une catégorie et rédigez un message pour envoyer.</string>
+    <string name="feedback_hint_categorie">Choisissez une catégorie</string>
+    <string name="feedback_hint_message">rédigez un message</string>
+    <string name="feedback_hint_et"> et </string>
+    <string name="feedback_hint_pour"> pour envoyer.</string>
+    <string name="feedback_confidentialite_kicker">Confidentialité</string>
+    <string name="feedback_confidentialite_texte">Votre signalement est envoyé par email directement depuis votre application. Aucune donnée personnelle n\'est collectée automatiquement.</string>
+    <string name="feedback_merci_titre">Merci pour votre retour !</string>
+    <string name="feedback_merci_texte">Votre message a bien été transmis. Il contribuera à améliorer l\'application.</string>
+    <string name="feedback_aucune_appli_email">Aucune application email trouvée sur cet appareil.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_passer">Passer</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_nom">Rappels bilan</string>
+    <string name="notif_channel_desc">Rappels pour refaire le bilan de votre chien</string>
+    <string name="notif_titre">Et si vous refaisiez le bilan ?</string>
+    <string name="notif_texte">Beaucoup de choses peuvent avoir évolué pour %1$s 🐾</string>
+
+    <!-- Texte partagé -->
+    <string name="partage_titre">Bilan émotionnel pour %1$s</string>
+    <string name="partage_hypothese">Hypothèse :</string>
+    <string name="partage_priorite">Priorité :</string>
+    <string name="partage_scores">Scores :</string>
+    <string name="partage_sensibilite">Sensibilité : %1$s</string>
+    <string name="partage_attachement">Attachement : %1$s</string>
+    <string name="partage_impulsivite">Impulsivité : %1$s</string>
+    <string name="partage_reactivite">Réactivité : %1$s</string>
+    <string name="partage_indicatif">⚠️ Bilan indicatif</string>
+
+    <!-- PDF -->
+    <string name="pdf_bilan_emotionnel">Bilan émotionnel</string>
+    <string name="pdf_footer">Comprendre mon chien  •  Bilan émotionnel indicatif</string>
+    <string name="pdf_page">Page %1$d / 4</string>
+    <string name="pdf_4axes">Les 4 dimensions</string>
+    <string name="pdf_hypothese">Hypothèse de lecture</string>
+    <string name="pdf_se_passe">Ce qui se passe probablement</string>
+    <string name="pdf_facteurs">Facteurs repérés</string>
+    <string name="pdf_aggravants">Ce qui peut aggraver</string>
+    <string name="pdf_protecteurs">Ce qui protège déjà</string>
+    <string name="pdf_plan_action">Plan d\'action pour %1$s</string>
+    <string name="pdf_levier">Premier levier utile</string>
+    <string name="pdf_prochains_jours">Les prochains jours</string>
+    <string name="pdf_conseils">Conseils complémentaires</string>
+    <string name="pdf_a_retenir">À retenir</string>
+    <string name="pdf_conclusion">Conclusion</string>
+    <string name="pdf_conclusion_texte">L\'objectif n\'est pas d\'étiqueter %1$s, mais d\'aider à mieux lire ce qui se passe et à avancer de manière plus adaptée, plus concrète et plus rassurante.</string>
+    <string name="pdf_disclaimer">Ce bilan est indicatif. Il ne remplace pas l\'avis d\'un vétérinaire ni d\'un professionnel du comportement animal. Il peut servir de base de discussion lors d\'une consultation.</string>
+    <string name="pdf_genere_auto">Document généré automatiquement</string>
+    <string name="pdf_retrouvez">Retrouvez l\'application pour suivre l\'évolution de votre chien.</string>
+    <string name="pdf_acceder">Accéder à l\'application — comprendremonchien.fr</string>
+    <string name="pdf_morsure_texte">Une morsure a été signalée lors de ce bilan. Un accompagnement professionnel est recommandé pour évaluer la situation et sécuriser le quotidien.</string>
+    <string name="pdf_en_un_coup">En un coup d\'œil</string>
+    <string name="pdf_axe_principal">Axe principal</string>
+    <string name="pdf_situation">Situation</string>
+    <string name="pdf_besoin">Besoin principal</string>
+    <string name="pdf_aide">Aide à envisager</string>
+    <string name="pdf_profil">Profil de %1$s</string>
+    <string name="pdf_aide_comportementaliste_rec">Comportementaliste recommandé</string>
+    <string name="pdf_aide_pro_rapide">Professionnel rapidement</string>
+    <string name="pdf_aide_comportementaliste">Comportementaliste</string>
+    <string name="pdf_aide_educateur">Éducateur canin</string>
+    <string name="pdf_aide_educateur_besoin">Éducateur canin si besoin</string>
+    <string name="pdf_recap_profil">%1$s présente surtout un profil %2$s.</string>
+    <string name="pdf_recap_situation">Situation : %1$s.</string>
+    <string name="pdf_recap_axe">Axe principal : %1$s.</string>
+
+    <!-- Priorités -->
+    <string name="priorite_faible">Faible</string>
+    <string name="priorite_moderee">Modérée</string>
+    <string name="priorite_elevee">Élevée</string>
+    <string name="priorite_urgente">Urgente</string>
+
+    <!-- Niveaux axes -->
+    <string name="niveau_peu_marque">Peu marqué</string>
+    <string name="niveau_a_surveiller">À surveiller</string>
+    <string name="niveau_marque">Marqué</string>
+    <string name="niveau_tres_marque">Très marqué</string>
+
+    <!-- Niveaux situation -->
+    <string name="situation_stable">Stable</string>
+    <string name="situation_a_travailler">À travailler</string>
+    <string name="situation_sensible">Sensible</string>
+
+    <!-- Libellés axes -->
+    <string name="axe_sensibilite">Sensibilité</string>
+    <string name="axe_attachement">Attachement</string>
+    <string name="axe_impulsivite">Impulsivité</string>
+    <string name="axe_reactivite">Réactivité</string>
+
+    <!-- Sections questionnaire -->
+    <string name="section_infos_generales">Informations générales</string>
+    <string name="section_votre_chien">Votre chien</string>
+    <string name="section_sensibilite">Sensibilité et peur</string>
+    <string name="section_attachement">Attachement et séparation</string>
+    <string name="section_excitation">Excitation et impulsivité</string>
+    <string name="section_reactivite">Réactivité</string>
+    <string name="section_aller_plus_loin">Pour aller plus loin</string>
+    <string name="section_contexte">Contexte actuel</string>
+
+    <!-- Ecrans feedback -->
+    <string name="feedback_ecran_accueil">Accueil</string>
+    <string name="feedback_ecran_intro">Introduction</string>
+    <string name="feedback_ecran_questionnaire">Questionnaire</string>
+    <string name="feedback_ecran_resultat">Résultat</string>
+    <string name="feedback_ecran_dico">Dictionnaire comportemental</string>
+    <string name="feedback_ecran_alim">Alimentation</string>
+    <string name="feedback_ecran_historique">Historique</string>
+    <string name="feedback_ecran_general">Général / Autre</string>
+
+    <!-- Catégories signalement -->
+    <string name="signalement_bug_label">Bug / Problème technique</string>
+    <string name="signalement_bug_desc">L\'appli plante, un bouton ne fonctionne pas, un écran est bloqué…</string>
+    <string name="signalement_contenu_label">Contenu incorrect</string>
+    <string name="signalement_contenu_desc">Une information semble erronée, un texte est incompréhensible…</string>
+    <string name="signalement_suggestion_label">Suggestion</string>
+    <string name="signalement_suggestion_desc">Une idée pour améliorer l\'appli ou ajouter une fonctionnalité…</string>
+    <string name="signalement_autre_label">Autre</string>
+    <string name="signalement_autre_desc">Tout ce qui ne rentre pas dans les catégories ci-dessus.</string>
+
+    <!-- Date historique -->
+    <string name="date_format_historique">dd MMMM yyyy \'à\' HH\'h\'mm</string>
+
+    <!-- Contenu partagé -->
+    <string name="content_description_retour">Retour</string>
+    <string name="content_description_historique">Historique des bilans</string>
+    <string name="content_description_parametres">Paramètres</string>
+    <string name="content_description_signalement">Signaler un problème</string>
+    <string name="content_description_morsure">Morsure signalée</string>
+    <string name="content_description_supprimer">Supprimer</string>
+    <string name="content_description_logo">Logo Comprendre mon chien</string>
+
+    <!-- Choisir app partage -->
+    <string name="partage_chooser">Partager</string>
+    <string name="partage_pdf_chooser">Partager PDF</string>
+    <string name="signalement_chooser">Envoyer le signalement</string>
 </resources>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Understanding My Dog</string>
+
+    <!-- Navigation / General buttons -->
+    <string name="btn_demarrer_bilan">Start the assessment</string>
+    <string name="btn_reprendre">Resume the questionnaire</string>
+    <string name="btn_dictionnaire">Dictionary</string>
+    <string name="btn_alimentation">Feeding</string>
+    <string name="btn_commencer">Get started</string>
+    <string name="btn_continuer">Continue</string>
+    <string name="btn_suivant">Next</string>
+    <string name="btn_retour">Back</string>
+    <string name="btn_passer">Skip</string>
+    <string name="btn_partager">Share</string>
+    <string name="btn_export_pdf">Export PDF</string>
+    <string name="btn_copier_resume">Copy summary</string>
+    <string name="btn_recommencer">Start over</string>
+    <string name="btn_voir_livres">See my books</string>
+    <string name="btn_revoir_introduction">Review the introduction</string>
+    <string name="btn_politique_confidentialite">Privacy policy</string>
+    <string name="btn_retour_rubriques">Back to categories</string>
+    <string name="btn_retour_categorie">Back to category</string>
+    <string name="btn_supprimer">Delete</string>
+    <string name="btn_supprimer_tout">Delete all history</string>
+    <string name="btn_supprimer_bilan">Delete this assessment</string>
+    <string name="btn_annuler">Cancel</string>
+    <string name="btn_envoyer_signalement">Send report</string>
+
+    <!-- TopBar / Screen titles -->
+    <string name="screen_questionnaire">Questionnaire</string>
+    <string name="screen_analyse">Analysis</string>
+    <string name="screen_resultat">Results</string>
+    <string name="screen_dictionnaire">Behaviour dictionary</string>
+    <string name="screen_fiche_comportementale">Behaviour fact sheet</string>
+    <string name="screen_alimentation">Feeding</string>
+    <string name="screen_signalement">Report</string>
+    <string name="screen_historique">Assessment history</string>
+    <string name="screen_detail_bilan">Assessment detail</string>
+    <string name="screen_parametres">Settings</string>
+
+    <!-- Home -->
+    <string name="accueil_titre">Understanding My Dog</string>
+    <string name="accueil_bienvenue">Welcome</string>
+
+    <!-- Introduction -->
+    <string name="intro_kicker">Before you begin</string>
+    <string name="intro_duree">This questionnaire will take about 5 minutes.</string>
+    <string name="intro_explorer_kicker">What you will explore</string>
+    <string name="intro_explorer_1">Emotional sensitivity</string>
+    <string name="intro_explorer_2">Need for attachment</string>
+    <string name="intro_explorer_3">Excitement management</string>
+    <string name="intro_explorer_4">Reactivity to the environment</string>
+
+    <!-- Questionnaire -->
+    <string name="question_reponse_label">Your answer</string>
+    <string name="question_reponse_placeholder">E.g. Rocky</string>
+    <string name="question_hint_texte">Enter an answer to continue</string>
+    <string name="question_hint_choix">Choose an answer to continue</string>
+
+    <!-- Loading analysis -->
+    <string name="chargement_msg1">Analysis in progress…</string>
+    <string name="chargement_msg2">Reading your dog\'s profile…</string>
+    <string name="chargement_msg3">Preparing your assessment…</string>
+
+    <!-- Results -->
+    <string name="resultat_kicker">Your assessment</string>
+    <string name="resultat_titre_bilan">Assessment for %1$s</string>
+    <string name="resultat_lecture_principale">Main reading</string>
+    <string name="resultat_priorite">Priority: %1$s</string>
+    <string name="resultat_ressent">What %1$s is probably feeling</string>
+    <string name="resultat_coup_oeil">At a glance</string>
+    <string name="resultat_facteurs">Identified factors</string>
+    <string name="resultat_niveau_situation">Situation level</string>
+    <string name="resultat_inquieter">Should you be concerned?</string>
+    <string name="resultat_se_passe">What is probably happening</string>
+    <string name="resultat_levier_principal">First concrete step</string>
+    <string name="resultat_point_appui">The main lever</string>
+    <string name="resultat_pourquoi">Why is your dog like this?</string>
+    <string name="resultat_comprendre_agir">Understand to act better</string>
+    <string name="resultat_changement">This is often where change begins to take shape.</string>
+    <string name="resultat_3_jours">The next 3 days</string>
+    <string name="resultat_a_faire">To do</string>
+    <string name="resultat_a_eviter">To avoid</string>
+    <string name="resultat_a_observer">To observe</string>
+    <string name="resultat_conseils_complementaires">Additional advice</string>
+    <string name="resultat_quand_aide">When to seek help</string>
+    <string name="resultat_morsure_pro">A bite has been reported — professional support is recommended.</string>
+    <string name="resultat_important">Important</string>
+    <string name="resultat_disclaimer">This assessment is indicative. It does not replace a vet or a behaviour professional.</string>
+    <string name="resultat_aller_plus_loin">Going further with %1$s</string>
+    <string name="resultat_fiches_comportementales">Behaviour fact sheets</string>
+    <string name="resultat_reperes_alimentation">Feeding guidelines</string>
+    <string name="resultat_a_retenir">Key takeaway</string>
+    <string name="resultat_le_livre">The book</string>
+    <string name="resultat_aller_plus_loin_livre">If you want to go further</string>
+    <string name="resultat_copie">Copied</string>
+    <string name="resultat_profil_race">Breed profile</string>
+    <string name="resultat_predispositions">Common predispositions in this family</string>
+
+    <!-- Bite warning -->
+    <string name="morsure_titre">WARNING — BITE REPORTED</string>
+    <string name="morsure_texte">There has already been a bite involving %1$s. This situation should not be taken lightly.</string>
+    <string name="morsure_conseil">Support from a behaviour professional is strongly recommended.</string>
+
+    <!-- Behaviour dictionary -->
+    <string name="dico_titre">Behaviour dictionary</string>
+    <string name="dico_sous_titre">Landmarks for reading your dog\'s body language</string>
+    <string name="dico_recherche_placeholder">Search a fact sheet…</string>
+    <string name="dico_aucun_resultat">No fact sheet matches "%1$s".</string>
+    <string name="dico_important">Important</string>
+    <string name="dico_disclaimer">These fact sheets provide reading landmarks. They do not replace professional advice.</string>
+    <string name="dico_rappel">An isolated behaviour is not always enough to draw conclusions. Context and overall body language matter just as much.</string>
+    <string name="dico_fiche_kicker">Behaviour fact sheet</string>
+    <string name="dico_explication">Explanation</string>
+    <string name="dico_que_faire">What to do</string>
+    <string name="dico_a_eviter">What to avoid</string>
+    <string name="dico_rappel_kicker">Reminder</string>
+    <string name="dico_fiche_introuvable">Fact sheet not found.</string>
+
+    <!-- Feeding -->
+    <string name="alim_titre">Feeding your dog</string>
+    <string name="alim_sous_titre">Practical landmarks for feeding your dog with confidence.</string>
+    <string name="alim_a_retenir_kicker">Keep in mind first</string>
+    <string name="alim_retenir_1">Any dietary change must be gradual.</string>
+    <string name="alim_retenir_2">Even a food that seems harmless to humans may be unsuitable for dogs.</string>
+    <string name="alim_retenir_3">If in doubt about ingestion or symptoms, caution comes before waiting.</string>
+    <string name="alim_important">Important</string>
+    <string name="alim_disclaimer">This guide provides general landmarks. It does not replace a vet.</string>
+    <string name="alim_rappel">If symptoms appear or ingestion seems doubtful, seek veterinary advice.</string>
+    <string name="alim_cat_dangereux_desc">Foods to avoid to stay on the safe side.</string>
+    <string name="alim_cat_autorises_desc">Basic landmarks for giving food without guessing.</string>
+    <string name="alim_cat_ingestion_desc">The right reflexes if your dog has swallowed something.</string>
+    <string name="alim_cat_digestion_desc">Grass, vomiting, stools and small digestive signals.</string>
+
+    <!-- Settings -->
+    <string name="params_kicker">Settings</string>
+    <string name="params_app_titre">Understanding My Dog</string>
+    <string name="params_version">Version %1$s</string>
+    <string name="params_tutoriel_kicker">Tutorial</string>
+    <string name="params_tutoriel_texte">Review the app presentation from the beginning.</string>
+    <string name="params_confidentialite_kicker">Privacy</string>
+    <string name="params_confidentialite_texte">This app does not collect any personal data. Assessments are stored on your device only. Notifications are local.</string>
+    <string name="params_a_propos_kicker">About</string>
+    <string name="params_a_propos_texte">Designed with care to help owners better understand their dog.</string>
+
+    <!-- History -->
+    <string name="historique_titre">Assessment history</string>
+    <string name="historique_aucun">No saved assessments yet.</string>
+    <string name="historique_nb_bilans">%1$d saved assessment</string>
+    <string name="historique_nb_bilans_plural">%1$d saved assessments</string>
+    <string name="historique_vide_texte">Completed assessments will appear here automatically after each questionnaire.</string>
+    <string name="historique_supprimer_titre">Delete this assessment?</string>
+    <string name="historique_supprimer_texte">The assessment for %1$s on %2$s will be permanently deleted.</string>
+    <string name="historique_supprimer_tout_titre">Delete all history?</string>
+    <string name="historique_supprimer_tout_texte">This action cannot be undone. All saved assessments will be permanently deleted.</string>
+    <string name="historique_detail_kicker">Saved assessment</string>
+    <string name="historique_synthese">Summary</string>
+    <string name="historique_carte_profil">Profile card</string>
+    <string name="historique_lecture">Main reading</string>
+    <string name="historique_piste">First concrete step</string>
+    <string name="historique_rappel_kicker">Reminder</string>
+    <string name="historique_rappel_texte">This assessment is an indicative record. Your dog\'s situation may have changed since then.</string>
+
+    <!-- Feedback -->
+    <string name="feedback_kicker">Report</string>
+    <string name="feedback_titre">Something wrong?</string>
+    <string name="feedback_sous_titre">Your feedback is valuable. Describe the issue or suggestion and we will take it into account.</string>
+    <string name="feedback_type_kicker">Report type</string>
+    <string name="feedback_ecran_kicker">Screen concerned</string>
+    <string name="feedback_description_kicker">Description</string>
+    <string name="feedback_description_texte">Describe the issue or your suggestion in as much detail as possible.</string>
+    <string name="feedback_placeholder">E.g.: On the results screen, the Export PDF button doesn\'t work…</string>
+    <string name="feedback_details_hint">Add a few details to help us understand.</string>
+    <string name="feedback_hint_envoyer">Choose a category and write a message to send.</string>
+    <string name="feedback_hint_categorie">Choose a category</string>
+    <string name="feedback_hint_message">write a message</string>
+    <string name="feedback_hint_et"> and </string>
+    <string name="feedback_hint_pour"> to send.</string>
+    <string name="feedback_confidentialite_kicker">Privacy</string>
+    <string name="feedback_confidentialite_texte">Your report is sent by email directly from your app. No personal data is collected automatically.</string>
+    <string name="feedback_merci_titre">Thank you for your feedback!</string>
+    <string name="feedback_merci_texte">Your message has been sent. It will help improve the app.</string>
+    <string name="feedback_aucune_appli_email">No email app found on this device.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_passer">Skip</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_nom">Assessment reminders</string>
+    <string name="notif_channel_desc">Reminders to redo your dog\'s assessment</string>
+    <string name="notif_titre">Time for a new assessment?</string>
+    <string name="notif_texte">A lot may have changed for %1$s 🐾</string>
+
+    <!-- Shared text -->
+    <string name="partage_titre">Emotional assessment for %1$s</string>
+    <string name="partage_hypothese">Hypothesis:</string>
+    <string name="partage_priorite">Priority:</string>
+    <string name="partage_scores">Scores:</string>
+    <string name="partage_sensibilite">Sensitivity: %1$s</string>
+    <string name="partage_attachement">Attachment: %1$s</string>
+    <string name="partage_impulsivite">Impulsivity: %1$s</string>
+    <string name="partage_reactivite">Reactivity: %1$s</string>
+    <string name="partage_indicatif">⚠️ Indicative assessment</string>
+
+    <!-- PDF -->
+    <string name="pdf_bilan_emotionnel">Emotional assessment</string>
+    <string name="pdf_footer">Understanding My Dog  •  Indicative emotional assessment</string>
+    <string name="pdf_page">Page %1$d / 4</string>
+    <string name="pdf_4axes">The 4 dimensions</string>
+    <string name="pdf_hypothese">Reading hypothesis</string>
+    <string name="pdf_se_passe">What is probably happening</string>
+    <string name="pdf_facteurs">Identified factors</string>
+    <string name="pdf_aggravants">What may make things worse</string>
+    <string name="pdf_protecteurs">What is already helping</string>
+    <string name="pdf_plan_action">Action plan for %1$s</string>
+    <string name="pdf_levier">First useful lever</string>
+    <string name="pdf_prochains_jours">The coming days</string>
+    <string name="pdf_conseils">Additional advice</string>
+    <string name="pdf_a_retenir">Key takeaway</string>
+    <string name="pdf_conclusion">Conclusion</string>
+    <string name="pdf_conclusion_texte">The goal is not to label %1$s, but to help read the situation more clearly and move forward in a more adapted, concrete and reassuring way.</string>
+    <string name="pdf_disclaimer">This assessment is indicative. It does not replace the advice of a vet or an animal behaviour professional. It can be used as a basis for discussion during a consultation.</string>
+    <string name="pdf_genere_auto">Automatically generated document</string>
+    <string name="pdf_retrouvez">Find the app to track your dog\'s progress.</string>
+    <string name="pdf_acceder">Access the app — comprendremonchien.fr</string>
+    <string name="pdf_morsure_texte">A bite was reported during this assessment. Professional support is recommended to evaluate the situation and make daily life safer.</string>
+    <string name="pdf_en_un_coup">At a glance</string>
+    <string name="pdf_axe_principal">Main axis</string>
+    <string name="pdf_situation">Situation</string>
+    <string name="pdf_besoin">Main need</string>
+    <string name="pdf_aide">Support to consider</string>
+    <string name="pdf_profil">Profile of %1$s</string>
+    <string name="pdf_aide_comportementaliste_rec">Behaviourist recommended</string>
+    <string name="pdf_aide_pro_rapide">Professional quickly</string>
+    <string name="pdf_aide_comportementaliste">Behaviourist</string>
+    <string name="pdf_aide_educateur">Dog trainer</string>
+    <string name="pdf_aide_educateur_besoin">Dog trainer if needed</string>
+    <string name="pdf_recap_profil">%1$s primarily shows a %2$s profile.</string>
+    <string name="pdf_recap_situation">Situation: %1$s.</string>
+    <string name="pdf_recap_axe">Main axis: %1$s.</string>
+
+    <!-- Priorities -->
+    <string name="priorite_faible">Low</string>
+    <string name="priorite_moderee">Moderate</string>
+    <string name="priorite_elevee">High</string>
+    <string name="priorite_urgente">Urgent</string>
+
+    <!-- Axis levels -->
+    <string name="niveau_peu_marque">Low</string>
+    <string name="niveau_a_surveiller">Watch</string>
+    <string name="niveau_marque">Marked</string>
+    <string name="niveau_tres_marque">Very marked</string>
+
+    <!-- Situation levels -->
+    <string name="situation_stable">Stable</string>
+    <string name="situation_a_travailler">To work on</string>
+    <string name="situation_sensible">Sensitive</string>
+
+    <!-- Axis labels -->
+    <string name="axe_sensibilite">Sensitivity</string>
+    <string name="axe_attachement">Attachment</string>
+    <string name="axe_impulsivite">Impulsivity</string>
+    <string name="axe_reactivite">Reactivity</string>
+
+    <!-- Questionnaire sections -->
+    <string name="section_infos_generales">General information</string>
+    <string name="section_votre_chien">Your dog</string>
+    <string name="section_sensibilite">Sensitivity and fear</string>
+    <string name="section_attachement">Attachment and separation</string>
+    <string name="section_excitation">Excitement and impulsivity</string>
+    <string name="section_reactivite">Reactivity</string>
+    <string name="section_aller_plus_loin">Going further</string>
+    <string name="section_contexte">Current context</string>
+
+    <!-- Feedback screens -->
+    <string name="feedback_ecran_accueil">Home</string>
+    <string name="feedback_ecran_intro">Introduction</string>
+    <string name="feedback_ecran_questionnaire">Questionnaire</string>
+    <string name="feedback_ecran_resultat">Results</string>
+    <string name="feedback_ecran_dico">Behaviour dictionary</string>
+    <string name="feedback_ecran_alim">Feeding</string>
+    <string name="feedback_ecran_historique">History</string>
+    <string name="feedback_ecran_general">General / Other</string>
+
+    <!-- Report categories -->
+    <string name="signalement_bug_label">Bug / Technical issue</string>
+    <string name="signalement_bug_desc">The app crashes, a button doesn\'t work, a screen is frozen…</string>
+    <string name="signalement_contenu_label">Incorrect content</string>
+    <string name="signalement_contenu_desc">Some information seems wrong, a text is unclear…</string>
+    <string name="signalement_suggestion_label">Suggestion</string>
+    <string name="signalement_suggestion_desc">An idea to improve the app or add a feature…</string>
+    <string name="signalement_autre_label">Other</string>
+    <string name="signalement_autre_desc">Anything that doesn\'t fit the other categories.</string>
+
+    <!-- History date -->
+    <string name="date_format_historique">MMMM dd, yyyy \'at\' HH:mm</string>
+
+    <!-- Shared content -->
+    <string name="content_description_retour">Back</string>
+    <string name="content_description_historique">Assessment history</string>
+    <string name="content_description_parametres">Settings</string>
+    <string name="content_description_signalement">Report an issue</string>
+    <string name="content_description_morsure">Bite reported</string>
+    <string name="content_description_supprimer">Delete</string>
+    <string name="content_description_logo">Understanding My Dog logo</string>
+
+    <!-- Share chooser -->
+    <string name="partage_chooser">Share</string>
+    <string name="partage_pdf_chooser">Share PDF</string>
+    <string name="signalement_chooser">Send report</string>
+</resources>

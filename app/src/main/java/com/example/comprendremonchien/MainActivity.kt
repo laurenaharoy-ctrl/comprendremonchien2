@@ -198,8 +198,18 @@ fun ComprendreMonChienApp() {
     }
 
     fun envoyerFeedbackEmail(categorie: String, ecran: String, message: String, version: String) {
-        val sujet = "[Comprendre mon chien] $categorie — $ecran"
-        val corps = """
+        val sujet = "[${strAppName()}] $categorie — $ecran"
+        val corps = if (isEnglish()) """
+Category: $categorie
+Screen: $ecran
+App version: $version
+
+Message:
+$message
+
+---
+Sent from the ${strAppName()} app
+        """.trimIndent() else """
 Catégorie : $categorie
 Écran concerné : $ecran
 Version appli : $version
@@ -208,7 +218,7 @@ Message :
 $message
 
 ---
-Envoyé depuis l'application Comprendre mon chien
+Envoyé depuis l'application ${strAppName()}
         """.trimIndent()
 
         val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -218,10 +228,10 @@ Envoyé depuis l'application Comprendre mon chien
             putExtra(Intent.EXTRA_TEXT, corps)
         }
         try {
-            context.startActivity(Intent.createChooser(intent, "Envoyer le signalement"))
+            context.startActivity(Intent.createChooser(intent, strSignalementChooser()))
         } catch (e: Exception) {
             scope.launch {
-                snackbarHostState.showSnackbar("Aucune application email trouvée sur cet appareil.")
+                snackbarHostState.showSnackbar(strFeedbackAucuneAppliEmail())
             }
         }
     }
@@ -252,19 +262,19 @@ Envoyé depuis l'application Comprendre mon chien
                 val titreEcran = when (screen) {
                     AppScreen.Accueil -> ""
                     AppScreen.Onboarding -> ""
-                    AppScreen.Questionnaire -> "Questionnaire"
-                    AppScreen.Chargement -> "Analyse"
-                    AppScreen.Resultat -> "Résultat"
-                    AppScreen.Dictionnaire -> "Dictionnaire comportemental"
+                    AppScreen.Questionnaire -> strScreenQuestionnaire()
+                    AppScreen.Chargement -> strScreenAnalyse()
+                    AppScreen.Resultat -> strScreenResultat()
+                    AppScreen.Dictionnaire -> strScreenDictionnaire()
                     is AppScreen.DictionnaireDetail -> {
                         val ficheId = (screen as AppScreen.DictionnaireDetail).ficheId
-                        getComportementEntryById(ficheId)?.titre ?: "Fiche comportementale"
+                        getComportementEntryById(ficheId)?.titre ?: strScreenFicheComportementale()
                     }
-                    AppScreen.Alimentation -> "Alimentation"
-                    AppScreen.Feedback -> "Signalement"
-                    AppScreen.Historique -> "Historique des bilans"
-                    is AppScreen.HistoriqueDetail -> "Détail du bilan"
-                    AppScreen.Parametres -> "Paramètres"
+                    AppScreen.Alimentation -> strScreenAlimentation()
+                    AppScreen.Feedback -> strScreenSignalement()
+                    AppScreen.Historique -> strScreenHistorique()
+                    is AppScreen.HistoriqueDetail -> strScreenDetailBilan()
+                    AppScreen.Parametres -> strScreenParametres()
                 }
 
                 val onBack: (() -> Unit)? = if (screen != AppScreen.Accueil && screen != AppScreen.Chargement) {
@@ -298,7 +308,7 @@ Envoyé depuis l'application Comprendre mon chien
                                 }) {
                                     Icon(
                                         Icons.Rounded.History,
-                                        contentDescription = "Historique des bilans",
+                                        contentDescription = strContentDescHistorique(),
                                         tint = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
                                     )
                                 }
@@ -306,7 +316,7 @@ Envoyé depuis l'application Comprendre mon chien
                             IconButton(onClick = { screen = AppScreen.Parametres }) {
                                 Icon(
                                     Icons.Rounded.Settings,
-                                    contentDescription = "Paramètres",
+                                    contentDescription = strContentDescParametres(),
                                     tint = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
                                 )
                             }
@@ -319,7 +329,7 @@ Envoyé depuis l'application Comprendre mon chien
                             }) {
                                 Icon(
                                     Icons.Rounded.Feedback,
-                                    contentDescription = "Signaler un problème",
+                                    contentDescription = strContentDescSignalement(),
                                     tint = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
                                 )
                             }
@@ -424,11 +434,11 @@ Envoyé depuis l'application Comprendre mon chien
                                 type = "text/plain"
                                 putExtra(Intent.EXTRA_TEXT, textePartage)
                             }
-                            context.startActivity(Intent.createChooser(intent, "Partager"))
+                            context.startActivity(Intent.createChooser(intent, strPartageChooser()))
                         },
                         onCopy = {
                             clipboard.setText(AnnotatedString(textePartage))
-                            scope.launch { snackbarHostState.showSnackbar("Copié") }
+                            scope.launch { snackbarHostState.showSnackbar(strResultatCopie()) }
                         },
                         onExportPdf = {
                             val file = PdfExporter.exporterBilanPdf(
@@ -444,7 +454,7 @@ Envoyé depuis l'application Comprendre mon chien
                                 putExtra(Intent.EXTRA_STREAM, uri)
                                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             }
-                            context.startActivity(Intent.createChooser(intent, "Partager PDF"))
+                            context.startActivity(Intent.createChooser(intent, strPartagePdfChooser()))
                         },
                         onRecommencer = {
                             reponsesTexte.clear()
@@ -544,9 +554,7 @@ Envoyé depuis l'application Comprendre mon chien
 
 fun questionDoitEtreAffichee(question: Question, reponsesChoix: Map<String, Int>): Boolean {
     return when (question.id) {
-        // Question propreté hors litière → seulement si réponse non (index 1 ou 2)
         "si_non_quand" -> { val r = reponsesChoix["proprete_maison"]; r == 1 || r == 2 }
-        // Questions de contexte → seulement si problème signalé (index 0 = oui)
         "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
         "frequence_probleme", "intensite_probleme", "generalisation_probleme",
         "changement_recent", "signe_physique" -> reponsesChoix["a_un_probleme"] != 1
@@ -556,23 +564,23 @@ fun questionDoitEtreAffichee(question: Question, reponsesChoix: Map<String, Int>
 
 fun construireTextePartageBilan(nomChien: String, analyse: ResultatAnalyse): String {
     val nom = nomChienAffiche(nomChien)
-    return """
-Bilan émotionnel pour $nom
-
-Hypothèse :
-${analyse.hypothesePrincipale}
-
-Priorité :
-${textePrioriteAction(analyse.prioriteAction)}
-
-${analyse.syntheseAvancee}
-
-Scores :
-Sensibilité : ${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauPeur)}
-Attachement : ${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauAttachement)}
-Impulsivité : ${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauImpulsivite)}
-Réactivité : ${QuestionnaireEngine.libelleNiveauAxe(analyse.niveauReactivite)}
-
-⚠️ Bilan indicatif
-    """.trimIndent()
+    return buildString {
+        appendLine(strPartageTitre(nom))
+        appendLine()
+        appendLine(strPartageHypothese())
+        appendLine(analyse.hypothesePrincipale)
+        appendLine()
+        appendLine(strPartagePriorite())
+        appendLine(strPrioriteAction(analyse.prioriteAction))
+        appendLine()
+        appendLine(analyse.syntheseAvancee)
+        appendLine()
+        appendLine(strPartageScores())
+        appendLine(strPartageSensibilite(strNiveauAxe(analyse.niveauPeur)))
+        appendLine(strPartageAttachement(strNiveauAxe(analyse.niveauAttachement)))
+        appendLine(strPartageImpulsivite(strNiveauAxe(analyse.niveauImpulsivite)))
+        appendLine(strPartageReactivite(strNiveauAxe(analyse.niveauReactivite)))
+        appendLine()
+        append(strPartageIndicatif())
+    }.trim()
 }

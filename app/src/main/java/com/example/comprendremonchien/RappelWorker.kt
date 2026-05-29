@@ -14,24 +14,24 @@ class RappelWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val nomChien = inputData.getString("nom_chien") ?: "votre chien"
+        val nomChien = inputData.getString("nom_chien") ?: nomChienAffiche("")
         val channelId = "rappel_bilan"
         val manager = applicationContext
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channel = NotificationChannel(
             channelId,
-            "Rappels bilan",
+            strNotifChannelNom(),
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "Rappels pour refaire le bilan de votre chien"
+            description = strNotifChannelDesc()
         }
         manager.createNotificationChannel(channel)
 
         val notification = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Et si vous refaisiez le bilan ?")
-            .setContentText("Beaucoup de choses peuvent avoir évolué pour $nomChien 🐾")
+            .setContentTitle(strNotifTitre())
+            .setContentText(strNotifTexte(nomChien))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .build()
