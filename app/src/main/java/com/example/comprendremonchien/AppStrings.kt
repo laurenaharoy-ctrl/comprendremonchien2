@@ -273,7 +273,7 @@ fun strPartageIndicatif() = if (isEnglish()) "⚠️ Indicative assessment" else
 
 fun strPdfBilanEmotionnel() = if (isEnglish()) "Emotional assessment" else "Bilan émotionnel"
 fun strPdfFooter() = if (isEnglish()) "Understanding My Dog  •  Indicative emotional assessment" else "Comprendre mon chien  •  Bilan émotionnel indicatif"
-fun strPdfPage(n: Int) = if (isEnglish()) "Page $n / 4" else "Page $n / 4"
+fun strPdfPage(n: Int, total: Int = 4) = if (isEnglish()) "Page $n / $total" else "Page $n / $total"
 fun strPdf4Axes() = if (isEnglish()) "The 4 dimensions" else "Les 4 dimensions"
 fun strPdfHypothese() = if (isEnglish()) "Reading hypothesis" else "Hypothèse de lecture"
 fun strPdfSePasse() = if (isEnglish()) "What is probably happening" else "Ce qui se passe probablement"
@@ -352,16 +352,16 @@ fun strLibelleAxe(axe: Axe) = when (axe) {
 // ═══════════════════════════════════════════════════════════
 
 fun strTitreSection(questionId: String) = when (questionId) {
-    "nom_chien", "age", "sterilise" -> if (isEnglish()) "General information" else "Informations générales"
+    "nom_chien", "age", "sterilise", "senior_desorientation", "senior_vocalise_nocturne" -> if (isEnglish()) "General information" else "Informations générales"
     "race_categorie" -> if (isEnglish()) "Your dog" else "Votre chien"
     "peur_stimuli", "adaptation_changements", "comportement_exterieur", "reaction_peur" ->
         if (isEnglish()) "Sensitivity and fear" else "Sensibilité et peur"
     "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise",
-    "proprete_maison", "si_non_quand" ->
+    "proprete_maison", "si_non_quand", "proprete_type", "marquage_habitude_post_sterilisation" ->
         if (isEnglish()) "Attachment and separation" else "Attachement et séparation"
     "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" ->
         if (isEnglish()) "Excitement and impulsivity" else "Excitation et impulsivité"
-    "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "defense_ressources" ->
+    "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "cible_agression", "defense_ressources" ->
         if (isEnglish()) "Reactivity" else "Réactivité"
     "a_un_probleme" -> if (isEnglish()) "Going further" else "Pour aller plus loin"
     else -> if (isEnglish()) "Current context" else "Contexte actuel"
@@ -523,3 +523,23 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
         )
     )
 }
+
+// ═══════════════════════════════════════════════════════════
+// CONSULTATION PERSONNALISÉE (FR uniquement)
+// ═══════════════════════════════════════════════════════════
+
+fun showConsultation(): Boolean = !isEnglish()
+
+const val CONSULTATION_BOOKING_URL = "https://tidycal.com/laurenaharoy/30-minute-meeting"
+
+fun strConsultationTitre() = "Besoin d'aide pour interpréter ce bilan ?"
+
+fun strConsultationSousTitre() = "Consultation personnalisée du bilan émotionnel de votre chien"
+
+fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose une consultation personnalisée de 30 minutes en visio pour vous aider à mettre les scores en perspective avec le quotidien de votre chien.\n\nPensez à m'envoyer votre bilan PDF par email avant notre rendez-vous, via le bouton Partager de l'application, à l'adresse laurenaharoy@gmail.com."
+
+fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas une thérapie comportementale complète.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
+
+fun strConsultationPrix() = "35 € / 30 minutes"
+
+fun strConsultationBouton() = "Réserver ma consultation"

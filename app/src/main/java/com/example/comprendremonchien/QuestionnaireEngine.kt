@@ -241,12 +241,33 @@ object QuestionnaireEngine {
 
     fun genererConseilsPratiquesPersonnalises(nomChien: String, reponsesChoix: Map<String, Int>,
                                               peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): List<String> {
+        val nom = nomChienAffiche(nomChien)
         val scoreMax = maxOf(peur, attachement, impulsivite, reactivite)
         if (scoreMax == 0) return listOf(
             if (isEnglish()) "Continue daily observation and maintain the routines already in place."
             else "Continuer l'observation du quotidien et maintenir les repères déjà en place."
         )
         val conseils = mutableListOf<String>()
+        if (reponsesChoix["age"] == 0 && reponsesChoix["proprete_type"] != null) conseils += if (isEnglish())
+            "Reinforce a regular outing routine (after meals, naps and play) and reward calmly each time $nom relieves itself outside — patience is key at this age."
+        else
+            "Renforcez une routine de sorties régulières (après les repas, les siestes et le jeu) et récompensez calmement chaque fois que $nom fait ses besoins dehors — la patience est essentielle à cet âge."
+        if (estMaleEntier(reponsesChoix) && reponsesChoix["age"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)) conseils += if (isEnglish())
+            "Note whether the marks are small quantities on vertical surfaces rather than full-bladder emptying — this helps confirm territorial marking, and neutering can be discussed with your vet."
+        else
+            "Notez si les traces sont de petites quantités sur des surfaces verticales plutôt qu'une vidange complète de la vessie — cela aide à confirmer un marquage territorial, et la stérilisation peut être discutée avec votre vétérinaire."
+        if (reponsesChoix["marquage_habitude_post_sterilisation"] == 0) conseils += if (isEnglish())
+            "Note the frequency and locations of this marking to identify any remaining triggers (smells, recent change) — even if the origin has become a habit, targeted behavioural support can help $nom unlearn this specific gesture."
+        else
+            "Notez la fréquence et les lieux de ce marquage pour identifier d'éventuels déclencheurs encore présents (odeurs, changement récent) — même si l'origine est devenue une habitude, un accompagnement comportemental ciblé peut aider $nom à désapprendre ce geste précis."
+        if (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2) conseils += if (isEnglish())
+            "Write down the location and time of each accident, along with $nom's behavior while urinating — these notes will help your vet's diagnosis."
+        else
+            "Notez les lieux et horaires de chaque accident, ainsi que le comportement de $nom au moment d'uriner — ces observations aideront votre vétérinaire à orienter son diagnostic."
+        if (reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2)) conseils += if (isEnglish())
+            "Keep $nom's environment as stable and predictable as possible — avoid moving furniture, food and resting spots."
+        else
+            "Gardez l'environnement de $nom aussi stable et prévisible que possible — évitez de déplacer meubles, gamelles et couchage."
         if (estMaleEntier(reponsesChoix) && reactivite >= 50) conseils += if (isEnglish())
             "In an intact male, reactivity can be amplified by hormones. A vet's opinion on castration may be worth discussing."
         else
@@ -283,7 +304,27 @@ object QuestionnaireEngine {
         }
     }
 
-    fun explicationProbleme(axe: Axe, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): String {
+    fun explicationProbleme(axe: Axe, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int, reponsesChoix: Map<String, Int> = emptyMap()): String {
+        if (reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2)) return if (isEnglish())
+            "In an older dog, disorientation and unexplained night vocalizing can reflect normal brain aging (age-related cognitive decline) rather than a behavioral problem to correct — a phenomenon fairly close to what is sometimes observed in aging humans."
+        else
+            "Chez un chien âgé, la désorientation et les vocalises nocturnes inexpliquées peuvent refléter un vieillissement cérébral normal (déclin cognitif lié à l'âge) plutôt qu'un problème comportemental à corriger — un phénomène assez proche de ce que l'on observe parfois chez l'humain vieillissant."
+        if (reponsesChoix["age"] == 0 && reponsesChoix["proprete_type"] != null) return if (isEnglish())
+            "Under one year old, house-training is often still an ongoing learning process rather than a behavioral problem. Bladder and bowel control takes time to develop, and some accidents are a normal part of this learning curve."
+        else
+            "À moins d'un an, la propreté est souvent encore un apprentissage en cours plutôt qu'un problème comportemental. Le contrôle de la vessie et des intestins met du temps à se mettre en place, et certains accidents font partie normale de cet apprentissage."
+        if (reponsesChoix["marquage_habitude_post_sterilisation"] == 0) return if (isEnglish())
+            "This marking seems to have started before neutering/spaying, at a time when hormones played a role. The original hormonal cause is gone, but the gesture has turned into a learned habit — it remains ingrained even though the initial reason no longer exists. This type of habitual marking is often longer to correct than marking purely linked to stress or hormones, since a repeated gesture needs to be unlearned rather than simply reducing a source of tension."
+        else
+            "Ce marquage semble avoir débuté avant la stérilisation, à une période où les hormones jouaient un rôle. La cause hormonale d'origine a disparu, mais le geste s'est transformé en habitude acquise — il reste ancré même si la raison initiale n'existe plus. Ce type de marquage devenu habituel est souvent plus long à corriger qu'un marquage purement lié au stress ou aux hormones, car il faut désapprendre un geste répété plutôt que simplement réduire une source de tension."
+        if (estMaleEntier(reponsesChoix) && reponsesChoix["age"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)) return if (isEnglish())
+            "In an intact male, this kind of house-soiling can correspond to territorial marking rather than classic uncleanliness — small amounts deposited on vertical surfaces, often triggered by the presence of other animals or changes in the environment, rather than a simple lack of bladder control."
+        else
+            "Chez un mâle entier, ce type de malpropreté peut correspondre à du marquage territorial plutôt qu'à une malpropreté classique — de petites quantités déposées sur des surfaces verticales, souvent déclenchées par la présence d'autres animaux ou des changements dans l'environnement, plutôt qu'un simple manque de contrôle de la vessie."
+        if (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2) return if (isEnglish())
+            "This urinary house-soiling can have purely medical causes (urinary infection, bladder stones, age-related or post-neutering incontinence, prostate issues in an intact male) that produce the exact same symptoms as a behavioral problem."
+        else
+            "Cette malpropreté urinaire peut avoir des causes purement médicales (infection urinaire, calculs, incontinence liée à l'âge ou à la stérilisation, problème de prostate chez un mâle entier) qui produisent exactement les mêmes symptômes qu'un problème comportemental."
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
         if (maxAxe <= 30) return if (isEnglish())
             "The information collected does not highlight any marked behavioural difficulty at this stage."
@@ -396,10 +437,34 @@ object QuestionnaireEngine {
     fun genererMessageAide(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, niveauSituation: NiveauSituation, nomChien: String): String? {
         val nom = nomChienAffiche(nomChien)
         return when {
-            reponsesChoix["a_deja_mordu"] == 1 -> if (isEnglish())
-                "The fact that there has already been a bite means this situation should not be handled alone. Individual professional support is recommended for $nom."
+            reponsesChoix["a_deja_mordu"] == 1 && reponsesChoix["cible_agression"] == 1 -> if (isEnglish())
+                "A bite toward another animal has been reported. This often points to a lack of socialization or a cohabitation that needs to be reframed — a dog behaviourist can help you rebuild a safer, more gradual introduction between animals."
             else
-                "Le fait qu'il y ait déjà eu morsure justifie de ne pas rester seul avec cette situation. Un accompagnement professionnel individualisé est recommandé pour $nom."
+                "Une morsure envers un autre animal a été signalée. Cela évoque souvent un manque de sociabilisation ou une cohabitation à reprendre autrement — un comportementaliste canin peut vous aider à reconstruire une présentation plus progressive et sécurisée entre les animaux."
+            reponsesChoix["a_deja_mordu"] == 1 -> if (isEnglish())
+                "The fact that there has already been a bite toward a person means this situation should not be handled alone. Individual professional support is recommended for $nom."
+            else
+                "Le fait qu'il y ait déjà eu morsure envers une personne justifie de ne pas rester seul avec cette situation. Un accompagnement professionnel individualisé est recommandé pour $nom."
+            reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2) -> if (isEnglish())
+                "Given $nom's age and the signs described, a veterinary check-up is recommended as a priority to rule out or confirm age-related cognitive decline before considering a behavioural approach."
+            else
+                "Compte tenu de l'âge de $nom et des signes décrits, un bilan vétérinaire est recommandé en priorité pour écarter ou confirmer un déclin cognitif lié à l'âge avant d'envisager une approche comportementale."
+            reponsesChoix["age"] == 0 && reponsesChoix["proprete_type"] != null -> if (isEnglish())
+                "Consult a vet only if house-training seems unusually slow to settle beyond a few months, or if you notice pain, blood, or straining while $nom relieves itself."
+            else
+                "Ne consultez que si l'apprentissage de la propreté semble anormalement long à se mettre en place au-delà de quelques mois, ou si vous remarquez de la douleur, du sang, ou des efforts inhabituels quand $nom fait ses besoins."
+            reponsesChoix["marquage_habitude_post_sterilisation"] == 0 -> if (isEnglish())
+                "This marking has become a learned habit rather than a hormonal behaviour — a dog behaviourist can help $nom unlearn this specific gesture, which often takes longer than addressing stress- or hormone-related marking."
+            else
+                "Ce marquage est devenu une habitude acquise plutôt qu'un comportement hormonal — un comportementaliste canin peut aider $nom à désapprendre ce geste précis, ce qui prend souvent plus de temps qu'un marquage lié au stress ou aux hormones."
+            estMaleEntier(reponsesChoix) && reponsesChoix["age"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2) -> if (isEnglish())
+                "If marking is confirmed, a vet visit can still be useful to rule out a urinary or prostate cause and to discuss neutering as an option for $nom."
+            else
+                "Si le marquage est confirmé, une visite vétérinaire reste utile pour écarter une cause urinaire ou prostatique et discuter de la stérilisation comme option pour $nom."
+            reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2 -> if (isEnglish())
+                "A veterinary check-up is recommended as a priority for $nom to rule out a urinary infection, bladder stones or incontinence before considering a behavioural approach."
+            else
+                "Un bilan vétérinaire est recommandé en priorité pour $nom pour écarter une infection urinaire, des calculs ou une incontinence avant d'envisager une approche comportementale."
             contexte.physique >= 4 -> if (isEnglish())
                 "Some elements suggest that discomfort, pain or a physical component may be contributing to the problem. A vet's opinion is recommended for $nom."
             else
@@ -445,6 +510,26 @@ object QuestionnaireEngine {
                 "The information collected suggests first ruling out a physical component before going further in behavioural interpretation."
             else
                 "Les éléments recueillis invitent d'abord à écarter une composante physique avant d'aller plus loin dans l'interprétation comportementale."
+            reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2) -> if (isEnglish())
+                "Some signs (disorientation, unexplained night vocalizing) may suggest age-related cognitive changes rather than a purely behavioural issue."
+            else
+                "Certains signes (désorientation, vocalises nocturnes inexpliquées) peuvent évoquer un déclin cognitif lié à l'âge plutôt qu'un souci purement comportemental."
+            reponsesChoix["age"] == 0 && reponsesChoix["proprete_type"] != null -> if (isEnglish())
+                "Under one year old, this house-soiling most likely reflects house-training still in progress rather than a behavioural issue to correct."
+            else
+                "À moins d'un an, cette malpropreté reflète le plus probablement un apprentissage de la propreté encore en cours plutôt qu'un souci comportemental à corriger."
+            reponsesChoix["marquage_habitude_post_sterilisation"] == 0 -> if (isEnglish())
+                "This marking seems to have started before neutering/spaying and has since become a learned habit rather than a hormonal behaviour."
+            else
+                "Ce marquage semble avoir débuté avant la stérilisation et s'est transformé depuis en habitude acquise plutôt qu'en comportement hormonal."
+            estMaleEntier(reponsesChoix) && reponsesChoix["age"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2) -> if (isEnglish())
+                "In an intact male, this house-soiling may correspond to territorial marking rather than classic uncleanliness."
+            else
+                "Chez un mâle entier, cette malpropreté peut correspondre à du marquage territorial plutôt qu'à une malpropreté classique."
+            reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2 -> if (isEnglish())
+                "Since this house-soiling involves urine, a medical cause should be ruled out first with a veterinarian."
+            else
+                "Puisque cette malpropreté concerne de l'urine, une cause médicale doit d'abord être écartée avec un vétérinaire."
             attachement >= 60 && (reponsesChoix["support_absences"] == 2 || reponsesChoix["pendant_absence"] == 2) -> if (isEnglish())
                 "The responses may suggest a difficulty around managing separation and absence."
             else
@@ -491,6 +576,7 @@ object QuestionnaireEngine {
     fun determinerPrioriteAction(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): PrioriteAction {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
         return when {
+            reponsesChoix["a_deja_mordu"] == 1 && reponsesChoix["cible_agression"] == 1 -> PrioriteAction.ELEVEE
             reponsesChoix["a_deja_mordu"] == 1 -> PrioriteAction.URGENTE
             contexte.physique >= 4 -> PrioriteAction.URGENTE
             reponsesChoix["apparition"] == 1 && reponsesChoix["intensite_probleme"] == 3 -> PrioriteAction.URGENTE
@@ -506,9 +592,13 @@ object QuestionnaireEngine {
     fun construirePrioriteImmediate(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, priorite: PrioriteAction, niveauSituation: NiveauSituation, nomChien: String): PrioriteImmediate {
         val nom = nomChienAffiche(nomChien)
         return when {
+            reponsesChoix["a_deja_mordu"] == 1 && reponsesChoix["cible_agression"] == 1 -> PrioriteImmediate(PrioriteAction.ELEVEE,
+                if (isEnglish()) "Immediate priority: rework the introduction with other animals" else "Priorité immédiate : reprendre la présentation avec les autres animaux",
+                if (isEnglish()) "Since there has already been a bite toward another animal, cohabitation should be reframed calmly for $nom." else "Comme il y a déjà eu morsure envers un autre animal, la cohabitation doit être reprise calmement pour $nom.",
+                if (isEnglish()) listOf("Temporarily separate the animals in conflict.", "Consider support from a dog behaviourist for a gradual reintroduction.") else listOf("Séparer temporairement les animaux en conflit.", "Envisager un accompagnement par un comportementaliste canin pour une réintroduction progressive."))
             reponsesChoix["a_deja_mordu"] == 1 -> PrioriteImmediate(PrioriteAction.URGENTE,
                 if (isEnglish()) "Immediate priority: secure and get support" else "Priorité immédiate : sécuriser et se faire accompagner",
-                if (isEnglish()) "As there has already been a bite, the situation should not be minimised for $nom." else "Comme il y a déjà eu morsure, la situation ne doit pas être banalisée pour $nom.",
+                if (isEnglish()) "As there has already been a bite toward a person, the situation should not be minimised for $nom." else "Comme il y a déjà eu morsure envers une personne, la situation ne doit pas être banalisée pour $nom.",
                 if (isEnglish()) listOf("Avoid risky situations.", "Seek professional behaviour support quickly.") else listOf("Éviter les situations à risque.", "Demander rapidement l'aide d'un professionnel du comportement."))
             contexte.physique >= 4 -> PrioriteImmediate(PrioriteAction.URGENTE,
                 if (isEnglish()) "Immediate priority: rule out a physical cause" else "Priorité immédiate : écarter une cause physique",
@@ -673,7 +763,7 @@ object QuestionnaireEngine {
             niveauImpulsivite = calculerNiveauAxe(impulsivite), niveauReactivite = calculerNiveauAxe(reactivite),
             profil = profil, vigilance = vigilance, niveauSituation = niveauSituation, contexte = contexte,
             problemePrincipal = problemePrincipal, problemesImportants = determinerProblemesImportants(peur, attachement, impulsivite, reactivite),
-            explicationPrincipale = explicationProbleme(problemePrincipal, peur, attachement, impulsivite, reactivite),
+            explicationPrincipale = explicationProbleme(problemePrincipal, peur, attachement, impulsivite, reactivite, reponsesChoix),
             conseilPrincipal = conseilPrincipal(problemePrincipal, peur, attachement, impulsivite, reactivite),
             conseilsPratiques = genererConseilsPratiquesPersonnalises(reponsesTexte["nom_chien"].orEmpty(), reponsesChoix, peur, attachement, impulsivite, reactivite),
             planAction = planAction,
@@ -692,6 +782,10 @@ object QuestionnaireEngine {
 
     fun doitAfficherQuestion(questionId: String, reponsesChoix: Map<String, Int>): Boolean {
         return when (questionId) {
+            "senior_desorientation", "senior_vocalise_nocturne" -> reponsesChoix["age"] == 3
+            "cible_agression" -> reponsesChoix["a_deja_mordu"] == 1
+            "proprete_type" -> reponsesChoix["proprete_maison"] != 0
+            "marquage_habitude_post_sterilisation" -> estSterilise(reponsesChoix) && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)
             "si_non_quand" -> { val p = reponsesChoix["proprete_maison"]; p == 1 || p == 2 }
             "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
             "frequence_probleme", "intensite_probleme", "generalisation_probleme",
@@ -712,6 +806,14 @@ object QuestionnaireEngine {
             "Neutering/spaying influences certain behaviours such as reactivity or tensions between dogs."
         else
             "La stérilisation influence certains comportements comme la réactivité ou les tensions entre chiens."
+        "senior_desorientation" -> if (isEnglish())
+            "For example, it seems lost near its bowl, a familiar door or its usual resting spot."
+        else
+            "Par exemple, il semble perdu près de sa gamelle, d'une porte familière ou de son couchage habituel."
+        "senior_vocalise_nocturne" -> if (isEnglish())
+            "This means loud, insistent barking or whining with no obvious trigger."
+        else
+            "Il s'agit d'aboiements ou de gémissements forts et insistants, sans déclencheur évident."
         "adaptation_changements" -> if (isEnglish())
             "Think about changes in habits, place, rhythm or environment."
         else
@@ -736,6 +838,14 @@ object QuestionnaireEngine {
             "This question only applies if your dog is not always house-trained."
         else
             "Cette question sert seulement si votre chien n'est pas toujours propre."
+        "proprete_type" -> if (isEnglish())
+            "This distinction helps tell apart territorial marking, a medical cause, or house-training still in progress."
+        else
+            "Cette précision aide à distinguer un marquage territorial, une cause médicale, ou un apprentissage de la propreté encore en cours."
+        "marquage_habitude_post_sterilisation" -> if (isEnglish())
+            "Even after neutering/spaying, a gesture learned beforehand can persist as a habit."
+        else
+            "Même après la stérilisation, un geste appris auparavant peut persister comme une habitude."
         "calmer_apres_excitation" -> if (isEnglish())
             "After play, an outing, a visit or a stimulating moment."
         else
@@ -756,6 +866,10 @@ object QuestionnaireEngine {
             "Even a single isolated bite counts."
         else
             "Même une morsure ponctuelle compte."
+        "cible_agression" -> if (isEnglish())
+            "This helps tell apart a safety concern toward people from a socialization issue with other animals."
+        else
+            "Cela permet de distinguer un enjeu de sécurité envers des personnes d'une difficulté de sociabilisation avec d'autres animaux."
         "signe_physique" -> if (isEnglish())
             "Even a doubt can be useful to mention."
         else
@@ -787,6 +901,18 @@ fun questionsApplication(): List<Question> {
             if (isEnglish()) "Your dog is:" else "Votre chien est :",
             if (isEnglish()) listOf("A neutered male", "A spayed female", "An intact male", "An intact female")
             else listOf("Un mâle stérilisé", "Une femelle stérilisée", "Un mâle entier", "Une femelle entière")),
+
+        QuestionChoix("senior_desorientation",
+            if (isEnglish()) "Does your dog sometimes seem disoriented or lost in places it knows well?"
+            else "Votre chien semble-t-il parfois désorienté ou perdu dans des endroits qu'il connaît bien ?",
+            if (isEnglish()) listOf("No, never", "Sometimes, occasionally", "Yes, regularly")
+            else listOf("Non, jamais", "Parfois, occasionnellement", "Oui, régulièrement")),
+
+        QuestionChoix("senior_vocalise_nocturne",
+            if (isEnglish()) "Has your dog recently been vocalizing or wandering at night without an apparent reason (not hungry, no identifiable demand for attention)?"
+            else "Depuis quelque temps, votre chien vocalise-t-il ou erre-t-il la nuit sans raison apparente (pas de faim, pas de demande d'attention identifiable) ?",
+            if (isEnglish()) listOf("No, never", "Sometimes, occasionally", "Yes, regularly")
+            else listOf("Non, jamais", "Parfois, occasionnellement", "Oui, régulièrement")),
 
         QuestionChoix("peur_stimuli",
             if (isEnglish()) "Does your dog show fear in certain situations?" else "Votre chien montre-t-il de la peur face à certaines situations ?",
@@ -843,6 +969,17 @@ fun questionsApplication(): List<Question> {
             if (isEnglish()) listOf("During your absences", "In your presence", "At night", "Randomly")
             else listOf("Lors de vos absences", "En votre présence", "La nuit", "De manière aléatoire")),
 
+        QuestionChoix("proprete_type",
+            if (isEnglish()) "It is rather:" else "Il s'agit plutôt de :",
+            if (isEnglish()) listOf("Urine", "Stools", "Both")
+            else listOf("Urine", "Selles", "Les deux")),
+
+        QuestionChoix("marquage_habitude_post_sterilisation",
+            if (isEnglish()) "Did this marking start before your dog was neutered/spayed?"
+            else "Ce marquage a-t-il débuté avant la stérilisation de votre chien ?",
+            if (isEnglish()) listOf("Yes, and it has continued since", "No, it appeared after neutering/spaying", "I don't know / I adopted them already neutered/spayed")
+            else listOf("Oui, et ça a continué depuis", "Non, c'est apparu après la stérilisation", "Je ne sais pas / je l'ai adopté déjà stérilisé")),
+
         QuestionChoix("calmer_apres_excitation",
             if (isEnglish()) "Does your dog struggle to calm down after an exciting moment?" else "Votre chien a-t-il du mal à se calmer après un moment excitant ?",
             if (isEnglish()) listOf("No", "Sometimes", "Yes") else listOf("Non", "Parfois", "Oui"),
@@ -878,6 +1015,12 @@ fun questionsApplication(): List<Question> {
             if (isEnglish()) "Has your dog ever bitten?" else "Votre chien a-t-il déjà mordu ?",
             if (isEnglish()) listOf("No", "Yes") else listOf("Non", "Oui"),
             axe = Axe.REACTIVITE, scoreParOption = listOf(0, 4), poids = 2, signalCritique = true),
+
+        QuestionChoix("cible_agression",
+            if (isEnglish()) "Who was it directed at?" else "Envers qui cela s'est-il produit ?",
+            if (isEnglish()) listOf("A person", "Another animal (dog, cat...)", "Both")
+            else listOf("Une personne", "Un autre animal (chien, chat...)", "Les deux"),
+            axe = Axe.REACTIVITE),
 
         QuestionChoix("defense_ressources",
             if (isEnglish()) "Does your dog growl or become tense when approached near its bowl, toys or bed?"

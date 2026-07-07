@@ -197,7 +197,8 @@ fun comportementEntries(): List<ComportementEntry> = if (isEnglish()) listOf(
     ComportementEntry("appel-au-jeu", "Play bow", "Front end low, rear end raised, loose movements.", "The play bow signals a playful intention.", "Check that the other partner responds with pleasure.", "Confusing sudden agitation with real shared play."),
     ComportementEntry("suit-humain", "Follows his owner everywhere", "Can be normal or signal dependency.", "Some dogs follow out of social habit. Others show a more anxious attachment.", "Observe reactions during short absences.", "Seeing this behaviour only as proof of love."),
     ComportementEntry("destruction-absence", "Destruction during absences", "Often linked to stress, boredom or loneliness.", "A dog that destroys when alone is not acting out of revenge.", "Review absence management and enrich the environment.", "Punishing after the fact."),
-    ComportementEntry("hypervigilance", "Hypervigilance", "The dog seems constantly on alert.", "A hypervigilant dog watches his environment a lot and reacts quickly to changes.", "Increase predictability, calm times and daily security.", "Overwhelming him with stimulation to habituate him too quickly.")
+    ComportementEntry("hypervigilance", "Hypervigilance", "The dog seems constantly on alert.", "A hypervigilant dog watches his environment a lot and reacts quickly to changes.", "Increase predictability, calm times and daily security.", "Overwhelming him with stimulation to habituate him too quickly."),
+    ComportementEntry("coup-de-chaleur", "Heatstroke", "A veterinary emergency requiring quick action and the right response.", "Dogs regulate their temperature poorly through the skin and rely mainly on panting. In hot weather, after exertion, or without shade and water, body temperature can rise dangerously within minutes. Brachycephalic breeds (bulldogs, pugs...), older dogs, overweight dogs or those with a thick coat are particularly at risk. Warning signs include intense panting, excessive drooling, dark red or bluish gums, vomiting, disorientation or collapse.", "Immediately move the dog to shade or a cool area, wet the body and paws with lukewarm water (never ice-cold), offer water freely without forcing, and contact a vet urgently even if the dog seems to improve.", "Using ice-cold water or ice packs directly on the skin, forcing the dog to drink all at once, or waiting to see if it passes before calling a vet.")
 ) else listOf(
     ComportementEntry("queue-remue", "Queue qui remue", "Pas toujours synonyme de joie, il faut lire tout le corps.", "Un chien qui remue la queue n'est pas automatiquement heureux. La queue indique surtout un état d'activation émotionnelle.", "Observer l'ensemble du corps avant d'interagir.", "Penser que la queue qui bouge autorise forcément le contact."),
     ComportementEntry("queue-basse", "Queue basse ou rentrée", "Signal fréquent d'inquiétude ou de malaise.", "Quand la queue descend très bas ou se replie sous le ventre, le chien peut être impressionné, stressé ou en retrait.", "Laisser de l'espace, adoucir l'approche et réduire la pression.", "Forcer le chien à avancer, saluer ou rester dans une situation qui le gêne."),
@@ -220,7 +221,8 @@ fun comportementEntries(): List<ComportementEntry> = if (isEnglish()) listOf(
     ComportementEntry("appel-au-jeu", "Posture d'invitation au jeu", "Avant-main basse, arrière-train relevé, gestes souples.", "La révérence de jeu sert à indiquer une intention ludique.", "Vérifier que l'autre partenaire répond avec plaisir.", "Confondre agitation brusque et vrai jeu partagé."),
     ComportementEntry("suit-humain", "Suit son humain partout", "Peut être banal ou signaler une dépendance.", "Certains chiens suivent par habitude sociale. D'autres montrent un attachement plus anxieux.", "Observer les réactions lors des absences courtes.", "Voir ce comportement uniquement comme une preuve d'amour."),
     ComportementEntry("destruction-absence", "Destructions en absence", "Souvent liées au stress, à l'ennui ou à la solitude.", "Un chien qui détruit quand il est seul n'agit pas par vengeance.", "Revoir la gestion de l'absence et enrichir l'environnement.", "Punir après coup."),
-    ComportementEntry("hypervigilance", "Hypervigilance", "Le chien semble constamment sur le qui-vive.", "Un chien hypervigilant surveille beaucoup son environnement et réagit vite aux changements.", "Augmenter la prévisibilité, les temps calmes et la sécurité du quotidien.", "Le saturer de stimulations pour l'habituer trop vite.")
+    ComportementEntry("hypervigilance", "Hypervigilance", "Le chien semble constamment sur le qui-vive.", "Un chien hypervigilant surveille beaucoup son environnement et réagit vite aux changements.", "Augmenter la prévisibilité, les temps calmes et la sécurité du quotidien.", "Le saturer de stimulations pour l'habituer trop vite."),
+    ComportementEntry("coup-de-chaleur", "Coup de chaleur", "Une urgence vétérinaire qui demande une réaction rapide et les bons gestes.", "Le chien régule mal sa température par la peau et compte surtout sur le halètement. En cas de forte chaleur, d'effort ou de manque d'ombre et d'eau, sa température corporelle peut monter dangereusement en quelques minutes. Les races brachycéphales (bouledogues, carlins...), les chiens âgés, en surpoids ou à pelage épais sont particulièrement à risque. Les signes d'alerte incluent un halètement intense, une salivation excessive, des gencives rouge foncé ou bleutées, des vomissements, une désorientation ou un effondrement.", "Déplacez immédiatement le chien à l'ombre ou au frais, mouillez-le à l'eau tiède (jamais glacée) sur le corps et les pattes, proposez de l'eau à volonté sans forcer, et contactez un vétérinaire en urgence même si l'état semble s'améliorer.", "Utiliser de l'eau glacée ou des packs de glace directement sur la peau, forcer le chien à boire d'un coup, ou attendre de voir si ça passe avant d'appeler un vétérinaire.")
 )
 
 fun getComportementEntryById(id: String): ComportementEntry? = comportementEntries().firstOrNull { it.id == id }
@@ -391,6 +393,7 @@ fun IntroductionScreen(modifier: Modifier = Modifier, onCommencer: () -> Unit) {
     }
 }
 
+
 @Composable
 fun QuestionnaireScreen(
     modifier: Modifier = Modifier, question: Question, progress: Float,
@@ -400,6 +403,8 @@ fun QuestionnaireScreen(
 ) {
     val titreSection = strTitreSection(question.id)
     val boutonActif = when (question) { is QuestionTexte -> valeurTexte.isNotBlank(); is QuestionChoix -> choixSelectionne != null }
+    val scrollStateQuestion = rememberScrollState()
+    LaunchedEffect(question.id) { scrollStateQuestion.scrollTo(0) }
 
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
@@ -414,7 +419,7 @@ fun QuestionnaireScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(modifier = Modifier.weight(1f).verticalScroll(scrollStateQuestion), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 when (question) {
                     is QuestionTexte -> {
                         PremiumCard {
@@ -489,7 +494,7 @@ fun ResultatScreen(
             PremiumCard(centered = true) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     EditorialKicker(strResultatLecturePrincipale(), centered = true); Spacer(modifier = Modifier.height(8.dp))
-                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
+                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
                     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFondPriorite(analyse.prioriteAction)).padding(horizontal = 14.dp, vertical = 8.dp)) {
                         Text(strResultatPriorite(strPrioriteAction(analyse.prioriteAction)), color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
                     }
@@ -503,7 +508,7 @@ fun ResultatScreen(
                 Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             PremiumCard(centered = true) { EditorialKicker(strResultatCoupOeil(), centered = true); Spacer(modifier = Modifier.height(14.dp)); QuatreAxesGrid(analyse = analyse) }
-            FacteursCard(analyse = analyse)
+
             PremiumCard(centered = true) {
                 EditorialKicker(strResultatNiveauSituation(), centered = true); Spacer(modifier = Modifier.height(10.dp))
                 AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(14.dp))
@@ -550,6 +555,7 @@ fun ResultatScreen(
                     leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null, tint = Color.White) }
                 )
             }
+            ConsultationCard()
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
             Spacer(modifier = Modifier.height(8.dp))
             androidx.compose.material3.HorizontalDivider(color = PremiumPalette.Border, thickness = 0.5.dp, modifier = Modifier.padding(horizontal = 40.dp))
@@ -560,6 +566,65 @@ fun ResultatScreen(
                 Text(strBtnRecommencer(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+fun ConsultationCard() {
+    if (!showConsultation()) return
+    val context = LocalContext.current
+    val backgroundBrush = if (isSystemInDarkTheme())
+        Brush.verticalGradient(listOf(Color(0xFF2E2018), Color(0xFF231B14)))
+    else
+        Brush.verticalGradient(listOf(Color(0xFFF5EBE0), Color(0xFFEEE0D2)))
+    Card(
+        modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF5A4035) else Color(0xFFD4B8A8))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            EditorialKicker(strConsultationTitre(), centered = true)
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                strConsultationSousTitre(),
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                color = PremiumPalette.Primary
+            )
+            Spacer(modifier = Modifier.height(14.dp))
+            Text(strConsultationDescription(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp))
+                    .background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6))
+                    .padding(14.dp)
+            ) {
+                Text(
+                    strConsultationDisclaimer(),
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                strConsultationPrix(),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(14.dp))
+            PrimaryGlowButton(
+                text = strConsultationBouton(),
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(CONSULTATION_BOOKING_URL))
+                    context.startActivity(intent)
+                }
+            )
         }
     }
 }
@@ -615,14 +680,19 @@ fun QuatreAxesGrid(analyse: ResultatAnalyse) {
         axes.chunked(2).forEach { row ->
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 row.forEach { (label, niveau, score) ->
-                    val couleurNiveau = when (niveau) { NiveauAxe.PEU_MARQUE -> PremiumPalette.PrioriteFaible; NiveauAxe.A_SURVEILLER -> PremiumPalette.PrioriteModere; NiveauAxe.MARQUE -> PremiumPalette.PrioriteElevee; NiveauAxe.TRES_MARQUE -> PremiumPalette.PrioriteUrgente }
-                    val fondNiveau = when (niveau) { NiveauAxe.PEU_MARQUE -> PremiumPalette.PrioriteFaibleBg; NiveauAxe.A_SURVEILLER -> PremiumPalette.PrioriteModereBg; NiveauAxe.MARQUE -> PremiumPalette.PrioriteEleveeBg; NiveauAxe.TRES_MARQUE -> PremiumPalette.PrioriteUrgenteBg }
                     val animated by animateFloatAsState((score / 100f).coerceIn(0f, 1f), label = "axe_$label")
-                    Column(modifier = Modifier.weight(1f).clip(RoundedCornerShape(16.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else fondNiveau).border(1.dp, couleurNiveau.copy(alpha = 0.3f), RoundedCornerShape(16.dp)).padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(
+                        modifier = Modifier.weight(1f).clip(RoundedCornerShape(16.dp))
+                            .background(if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft)
+                            .border(1.dp, PremiumPalette.Border, RoundedCornerShape(16.dp))
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
                         Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
-                        Text(strNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = couleurNiveau, textAlign = TextAlign.Center)
-                        Box(modifier = Modifier.fillMaxWidth().height(5.dp).clip(RoundedCornerShape(999.dp)).background(couleurNiveau.copy(alpha = 0.2f))) {
-                            Box(modifier = Modifier.fillMaxWidth(animated).height(5.dp).clip(RoundedCornerShape(999.dp)).background(couleurNiveau))
+                        Text(strNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
+                        Box(modifier = Modifier.fillMaxWidth().height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft.copy(alpha = 0.2f))) {
+                            Box(modifier = Modifier.fillMaxWidth(animated).height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft))
                         }
                     }
                 }
@@ -760,16 +830,6 @@ fun Bullet(text: String, centered: Boolean = false) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 8.dp).size(7.dp).background(PremiumPalette.PrimarySoft, CircleShape)); Spacer(modifier = Modifier.width(10.dp)); Text(text, modifier = Modifier.widthIn(max = 560.dp), color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center) }
     } else {
         Row(verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 8.dp).size(7.dp).background(PremiumPalette.PrimarySoft, CircleShape)); Spacer(modifier = Modifier.width(10.dp)); Text(text, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurface) }
-    }
-}
-
-@Composable
-fun FacteursCard(analyse: ResultatAnalyse) {
-    if (analyse.facteursAggravants.isEmpty() && analyse.facteursProtecteurs.isEmpty()) return
-    PremiumCard(centered = true) {
-        EditorialKicker(strResultatFacteurs(), centered = true)
-        if (analyse.facteursAggravants.isNotEmpty()) { Spacer(modifier = Modifier.height(12.dp)); SubsectionTitle(if (isEnglish()) "What may make things worse" else "Ce qui peut aggraver"); Spacer(modifier = Modifier.height(8.dp)); analyse.facteursAggravants.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
-        if (analyse.facteursProtecteurs.isNotEmpty()) { Spacer(modifier = Modifier.height(12.dp)); SubsectionTitle(if (isEnglish()) "What is already helping" else "Ce qui protège"); Spacer(modifier = Modifier.height(8.dp)); analyse.facteursProtecteurs.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
     }
 }
 

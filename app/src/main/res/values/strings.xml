@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Understanding My Dog</string>
+    <string name="app_name">Comprendre mon chien</string>
 
     <!-- Navigation / Boutons généraux -->
     <string name="btn_demarrer_bilan">Démarrer le bilan</string>
