@@ -530,7 +530,7 @@ object QuestionnaireEngine {
                 "Since this house-soiling involves urine, a medical cause should be ruled out first with a veterinarian."
             else
                 "Puisque cette malpropreté concerne de l'urine, une cause médicale doit d'abord être écartée avec un vétérinaire."
-            attachement >= 60 && (reponsesChoix["support_absences"] == 2 || reponsesChoix["pendant_absence"] == 2) -> if (isEnglish())
+            attachement >= 60 && reponsesChoix["vecu_absence"] == 2 -> if (isEnglish())
                 "The responses may suggest a difficulty around managing separation and absence."
             else
                 "Les réponses peuvent évoquer une difficulté autour de la gestion de la séparation et de l'absence."
@@ -538,7 +538,7 @@ object QuestionnaireEngine {
                 "The information collected suggests emotional sensitivity combined with marked reactions to the environment."
             else
                 "Les éléments recueillis suggèrent une sensibilité émotionnelle associée à des réactions marquées face à l'environnement."
-            impulsivite >= 60 && (reponsesChoix["jeu_comportement"] == 2 || reponsesChoix["calmer_apres_excitation"] == 2) -> if (isEnglish())
+            impulsivite >= 60 && reponsesChoix["regulation_excitation"] == 2 -> if (isEnglish())
                 "The responses point towards a possible difficulty in emotional regulation, with rapid escalations in excitement."
             else
                 "Les réponses orientent vers une difficulté possible dans la régulation émotionnelle, avec des montées en excitation rapides."
@@ -786,7 +786,6 @@ object QuestionnaireEngine {
             "cible_agression" -> reponsesChoix["a_deja_mordu"] == 1
             "proprete_type" -> reponsesChoix["proprete_maison"] != 0
             "marquage_habitude_post_sterilisation" -> estSterilise(reponsesChoix) && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)
-            "si_non_quand" -> { val p = reponsesChoix["proprete_maison"]; p == 1 || p == 2 }
             "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
             "frequence_probleme", "intensite_probleme", "generalisation_probleme",
             "changement_recent", "signe_physique" -> reponsesChoix["a_un_probleme"] != 1
@@ -826,18 +825,10 @@ object QuestionnaireEngine {
             "Choose the most frequent reaction when your dog is worried."
         else
             "Choisissez la réaction la plus fréquente quand votre chien est inquiet."
-        "support_absences" -> if (isEnglish())
-            "Think about when you leave and the time your dog spends alone."
+        "vecu_absence" -> if (isEnglish())
+            "Think about what you observe on your return, or what your neighbours report."
         else
-            "Pensez au moment où vous partez et au temps où votre chien reste seul."
-        "pendant_absence" -> if (isEnglish())
-            "Answer based on what you observe or what you are told."
-        else
-            "Répondez selon ce que vous observez ou ce que l'on vous rapporte."
-        "si_non_quand" -> if (isEnglish())
-            "This question only applies if your dog is not always house-trained."
-        else
-            "Cette question sert seulement si votre chien n'est pas toujours propre."
+            "Pensez à ce que vous observez à votre retour, ou ce que vos voisins vous rapportent."
         "proprete_type" -> if (isEnglish())
             "This distinction helps tell apart territorial marking, a medical cause, or house-training still in progress."
         else
@@ -846,14 +837,10 @@ object QuestionnaireEngine {
             "Even after neutering/spaying, a gesture learned beforehand can persist as a habit."
         else
             "Même après la stérilisation, un geste appris auparavant peut persister comme une habitude."
-        "calmer_apres_excitation" -> if (isEnglish())
-            "After play, an outing, a visit or a stimulating moment."
+        "regulation_excitation" -> if (isEnglish())
+            "Think about play, an outing, a visit, or any stimulating moment."
         else
-            "Après le jeu, une sortie, une visite ou un moment stimulant."
-        "jeu_comportement" -> if (isEnglish())
-            "For example if biting hard, jumping, overflowing or struggling to stop."
-        else
-            "Par exemple s'il mordille fort, saute, déborde ou a du mal à s'arrêter."
+            "Pensez au jeu, à une sortie, une visite, ou tout moment stimulant."
         "reaction_inconnus" -> if (isEnglish())
             "For example: barking, avoidance, tension, growling."
         else
@@ -914,20 +901,15 @@ fun questionsApplication(): List<Question> {
             if (isEnglish()) listOf("No, never", "Sometimes, occasionally", "Yes, regularly")
             else listOf("Non, jamais", "Parfois, occasionnellement", "Oui, régulièrement")),
 
-        QuestionChoix("peur_stimuli",
-            if (isEnglish()) "Does your dog show fear in certain situations?" else "Votre chien montre-t-il de la peur face à certaines situations ?",
-            if (isEnglish()) listOf("Never", "Sometimes", "Often") else listOf("Jamais", "Parfois", "Souvent"),
-            axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
-
         QuestionChoix("adaptation_changements",
             if (isEnglish()) "Does your dog struggle to adapt to changes?" else "Votre chien a-t-il du mal à s'adapter aux changements ?",
             if (isEnglish()) listOf("No", "A little", "Yes") else listOf("Non", "Un peu", "Oui"),
             axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
 
         QuestionChoix("comportement_exterieur",
-            if (isEnglish()) "On walks or outdoors, your dog is rather:" else "En promenade ou à l'extérieur, votre chien est plutôt :",
-            if (isEnglish()) listOf("Calm and relaxed", "Excited / hard to manage", "Fearful / avoidant")
-            else listOf("Calme et détendu", "Excité / difficile à canaliser", "Craintif / en évitement"),
+            if (isEnglish()) "On walks or outdoors, faced with an unusual situation, your dog is rather:" else "En promenade ou à l'extérieur, face à une situation inhabituelle, votre chien est plutôt :",
+            if (isEnglish()) listOf("Calm and confident", "Cautious, observes before acting", "Fearful, tries to flee or avoid")
+            else listOf("Calme et confiant", "Prudent, observe avant d'agir", "Craintif, cherche à fuir ou à éviter"),
             axe = Axe.PEUR, scoreParOption = listOf(0, 1, 2)),
 
         QuestionChoix("reaction_peur",
@@ -936,16 +918,17 @@ fun questionsApplication(): List<Question> {
             else listOf("Il récupère vite", "Il se cache / fuit", "Il panique ou devient agressif"),
             axe = Axe.PEUR, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
 
-        QuestionChoix("support_absences",
-            if (isEnglish()) "How does your dog handle your absences?" else "Comment votre chien vit-il vos absences ?",
-            if (isEnglish()) listOf("Well", "So-so", "With difficulty") else listOf("Bien", "Moyennement", "Difficilement"),
-            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 1, 2)),
-
-        QuestionChoix("pendant_absence",
-            if (isEnglish()) "While you are away, your dog:" else "Pendant vos absences, votre chien :",
-            if (isEnglish()) listOf("Stays calm", "May vocalise or become restless", "Destroys / barks / panics")
-            else listOf("Reste calme", "Peut vocaliser ou s'agiter", "Détruit / aboie / panique"),
-            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
+        QuestionChoix("vecu_absence",
+            if (isEnglish()) "How does your dog experience your absences?" else "Comment votre chien vit-il vos absences ?",
+            if (isEnglish()) listOf("Well — it stays calm",
+                "So-so — it may vocalize or become a little restless, then settles",
+                "With difficulty — it vocalizes or becomes notably agitated",
+                "Very difficultly — it destroys, barks loudly or panics")
+            else listOf("Bien — il reste calme",
+                "Moyennement — il peut vocaliser ou s'agiter un peu, puis se calme",
+                "Difficilement — il vocalise ou s'agite de façon notable",
+                "Très difficilement — il détruit, aboie fortement ou panique"),
+            axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 1, 2, 4), signalAlerte = true),
 
         QuestionChoix("suit_partout",
             if (isEnglish()) "Does your dog follow you everywhere in the house?" else "Votre chien vous suit-il partout dans la maison ?",
@@ -964,11 +947,6 @@ fun questionsApplication(): List<Question> {
             if (isEnglish()) listOf("Yes", "No", "Sometimes") else listOf("Oui", "Non", "Parfois"),
             axe = Axe.ATTACHEMENT, scoreParOption = listOf(0, 2, 1)),
 
-        QuestionChoix("si_non_quand",
-            if (isEnglish()) "If your dog is not always house-trained, in which situations?" else "Si votre chien n'est pas toujours propre, dans quelles situations ?",
-            if (isEnglish()) listOf("During your absences", "In your presence", "At night", "Randomly")
-            else listOf("Lors de vos absences", "En votre présence", "La nuit", "De manière aléatoire")),
-
         QuestionChoix("proprete_type",
             if (isEnglish()) "It is rather:" else "Il s'agit plutôt de :",
             if (isEnglish()) listOf("Urine", "Stools", "Both")
@@ -980,15 +958,14 @@ fun questionsApplication(): List<Question> {
             if (isEnglish()) listOf("Yes, and it has continued since", "No, it appeared after neutering/spaying", "I don't know / I adopted them already neutered/spayed")
             else listOf("Oui, et ça a continué depuis", "Non, c'est apparu après la stérilisation", "Je ne sais pas / je l'ai adopté déjà stérilisé")),
 
-        QuestionChoix("calmer_apres_excitation",
-            if (isEnglish()) "Does your dog struggle to calm down after an exciting moment?" else "Votre chien a-t-il du mal à se calmer après un moment excitant ?",
-            if (isEnglish()) listOf("No", "Sometimes", "Yes") else listOf("Non", "Parfois", "Oui"),
-            axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 2)),
-
-        QuestionChoix("jeu_comportement",
-            if (isEnglish()) "When playing, your dog:" else "Quand il joue, votre chien :",
-            if (isEnglish()) listOf("Stays controlled", "Can get very excited", "Play becomes hard to control")
-            else listOf("Reste contrôlé", "Peut beaucoup s'exciter", "Les jeux deviennent difficiles à contrôler"),
+        QuestionChoix("regulation_excitation",
+            if (isEnglish()) "After an exciting moment (play, outing, visit), your dog:" else "Après un moment excitant (jeu, sortie, visite), votre chien :",
+            if (isEnglish()) listOf("Stays controlled, calms down easily",
+                "Can get very excited but ends up calming down",
+                "Struggles to calm down, exciting moments become hard to manage")
+            else listOf("Reste contrôlé, se calme facilement",
+                "Peut beaucoup s'exciter mais finit par se calmer",
+                "A du mal à se calmer, les moments d'excitation deviennent difficiles à gérer"),
             axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
 
         QuestionChoix("vole_objets",

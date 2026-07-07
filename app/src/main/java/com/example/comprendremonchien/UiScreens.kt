@@ -89,6 +89,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import kotlinx.coroutines.delay
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextDecoration
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFF8E4A2D), onPrimary = Color.White,
@@ -624,6 +626,19 @@ fun ConsultationCard() {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(CONSULTATION_BOOKING_URL))
                     context.startActivity(intent)
                 }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            val uriHandler = LocalUriHandler.current
+            Text(
+                text = if (isEnglish()) "Follow us on Facebook" else "Nous suivre sur Facebook",
+                color = Color(0xFF1877F2),
+                style = MaterialTheme.typography.bodyMedium,
+                textDecoration = TextDecoration.Underline,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { uriHandler.openUri("https://www.facebook.com/comprendrenosanimaux/") }
+                    .padding(vertical = 8.dp)
             )
         }
     }

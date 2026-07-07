@@ -354,12 +354,12 @@ fun strLibelleAxe(axe: Axe) = when (axe) {
 fun strTitreSection(questionId: String) = when (questionId) {
     "nom_chien", "age", "sterilise", "senior_desorientation", "senior_vocalise_nocturne" -> if (isEnglish()) "General information" else "Informations générales"
     "race_categorie" -> if (isEnglish()) "Your dog" else "Votre chien"
-    "peur_stimuli", "adaptation_changements", "comportement_exterieur", "reaction_peur" ->
+    "adaptation_changements", "comportement_exterieur", "reaction_peur" ->
         if (isEnglish()) "Sensitivity and fear" else "Sensibilité et peur"
-    "support_absences", "pendant_absence", "suit_partout", "autre_personne_apaise",
-    "proprete_maison", "si_non_quand", "proprete_type", "marquage_habitude_post_sterilisation" ->
+    "vecu_absence", "suit_partout", "autre_personne_apaise",
+    "proprete_maison", "proprete_type", "marquage_habitude_post_sterilisation" ->
         if (isEnglish()) "Attachment and separation" else "Attachement et séparation"
-    "calmer_apres_excitation", "jeu_comportement", "vole_objets", "poursuite_mouvement" ->
+    "regulation_excitation", "vole_objets", "poursuite_mouvement" ->
         if (isEnglish()) "Excitement and impulsivity" else "Excitation et impulsivité"
     "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "cible_agression", "defense_ressources" ->
         if (isEnglish()) "Reactivity" else "Réactivité"
