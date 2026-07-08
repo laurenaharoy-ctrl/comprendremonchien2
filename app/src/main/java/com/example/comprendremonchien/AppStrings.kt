@@ -532,13 +532,19 @@ fun showConsultation(): Boolean = !isEnglish()
 
 const val CONSULTATION_BOOKING_URL = "https://tidycal.com/laurenaharoy/30-minute-meeting"
 
+const val CONSULTATION_BOOKING_URL_1H = "https://tidycal.com/laurenaharoy/consultation-comportementale-1-heure"
+
+fun strConsultationFormule30() = "30 minutes — 35 €"
+
+fun strConsultationFormule60() = "1 heure — 50 €"
+
 fun strConsultationTitre() = "Besoin d'aide pour interpréter ce bilan ?"
 
-fun strConsultationSousTitre() = "Consultation personnalisée du bilan émotionnel de votre chien"
+fun strConsultationSousTitre() = "Consultation personnalisée du bilan émotionnel de votre chat"
 
-fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose une consultation personnalisée de 30 minutes en visio pour vous aider à mettre les scores en perspective avec le quotidien de votre chien.\n\nPensez à m'envoyer votre bilan PDF par email avant notre rendez-vous, via le bouton Partager de l'application, à l'adresse laurenaharoy@gmail.com."
+fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose une consultation personnalisée en visio pour vous aider à mettre les scores en perspective avec le quotidien de votre animal, au choix en 30 minutes ou 1 heure.\n\nPensez à m'envoyer votre bilan PDF par email avant notre rendez-vous, via le bouton Partager de l'application, à l'adresse laurenaharoy@gmail.com."
 
-fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas une thérapie comportementale complète.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
+fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas un accompagnement comportemental complet à elle seule.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
 
 fun strConsultationPrix() = "35 € / 30 minutes"
 

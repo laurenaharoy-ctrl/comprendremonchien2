@@ -614,16 +614,31 @@ fun ConsultationCard() {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                strConsultationPrix(),
+                strConsultationFormule30(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             PrimaryGlowButton(
                 text = strConsultationBouton(),
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(CONSULTATION_BOOKING_URL))
+                    context.startActivity(intent)
+                }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                strConsultationFormule60(),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            PrimaryGlowButton(
+                text = strConsultationBouton(),
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(CONSULTATION_BOOKING_URL_1H))
                     context.startActivity(intent)
                 }
             )
