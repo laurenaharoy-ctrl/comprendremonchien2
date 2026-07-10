@@ -589,6 +589,7 @@ fun ConsultationCard() {
             modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val uriHandler = LocalUriHandler.current
             EditorialKicker(strConsultationTitre(), centered = true)
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -642,8 +643,19 @@ fun ConsultationCard() {
                     context.startActivity(intent)
                 }
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = strConsultationCGV(),
+                color = PremiumPalette.Primary,
+                style = MaterialTheme.typography.bodySmall,
+                textDecoration = TextDecoration.Underline,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { uriHandler.openUri(CGV_URL) }
+                    .padding(vertical = 4.dp)
+            )
             Spacer(modifier = Modifier.height(20.dp))
-            val uriHandler = LocalUriHandler.current
             Text(
                 text = if (isEnglish()) "Follow us on Facebook" else "Nous suivre sur Facebook",
                 color = Color(0xFF1877F2),
