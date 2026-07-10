@@ -655,6 +655,20 @@ fun ConsultationCard() {
                     .clickable { uriHandler.openUri(CGV_URL) }
                     .padding(vertical = 4.dp)
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = strConsultationSite(),
+                color = PremiumPalette.Primary,
+                style = MaterialTheme.typography.bodySmall,
+                textDecoration = TextDecoration.Underline,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { uriHandler.openUri(WEBSITE_URL) }
+                    .padding(vertical = 4.dp)
+            )
+
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = if (isEnglish()) "Follow us on Facebook" else "Nous suivre sur Facebook",
