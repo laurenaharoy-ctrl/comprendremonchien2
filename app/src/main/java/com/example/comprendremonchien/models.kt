@@ -153,7 +153,7 @@ fun niveauPourcentage(pourcentage: Int): String {
 }
 
 fun nomChienAffiche(nom: String): String =
-    nom.trim().ifBlank { "votre chien" }
+    nom.trim().ifBlank { tr("votre chien", "your dog", "Ihr Hund") }
 
 fun texteVigilance(niveau: NiveauVigilance, nomChien: String = ""): String {
     val nom = nomChienAffiche(nomChien)

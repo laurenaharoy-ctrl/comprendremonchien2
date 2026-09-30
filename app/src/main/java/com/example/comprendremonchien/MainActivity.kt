@@ -199,17 +199,8 @@ fun ComprendreMonChienApp() {
 
     fun envoyerFeedbackEmail(categorie: String, ecran: String, message: String, version: String) {
         val sujet = "[${strAppName()}] $categorie — $ecran"
-        val corps = if (isEnglish()) """
-Category: $categorie
-Screen: $ecran
-App version: $version
-
-Message:
-$message
-
----
-Sent from the ${strAppName()} app
-        """.trimIndent() else """
+        val corps = tr(
+            """
 Catégorie : $categorie
 Écran concerné : $ecran
 Version appli : $version
@@ -219,7 +210,30 @@ $message
 
 ---
 Envoyé depuis l'application ${strAppName()}
+        """.trimIndent(),
+            """
+Category: $categorie
+Screen: $ecran
+App version: $version
+
+Message:
+$message
+
+---
+Sent from the ${strAppName()} app
+        """.trimIndent(),
+            """
+Kategorie: $categorie
+Bildschirm: $ecran
+App-Version: $version
+
+Nachricht:
+$message
+
+---
+Gesendet aus der App ${strAppName()}
         """.trimIndent()
+        )
 
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")

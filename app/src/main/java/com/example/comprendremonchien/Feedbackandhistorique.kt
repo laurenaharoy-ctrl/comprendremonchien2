@@ -606,7 +606,7 @@ fun QuatreAxesMini(peur: Int, attachement: Int, impulsivite: Int, reactivite: In
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         axes.forEach { (label, score) ->
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(72.dp))
+                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(96.dp))
                 Box(modifier = Modifier.weight(1f).height(5.dp).clip(RoundedCornerShape(999.dp)).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFE9DED5))) {
                     Box(modifier = Modifier.fillMaxWidth((score / 100f).coerceIn(0f, 1f)).height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft))
                 }
@@ -614,7 +614,7 @@ fun QuatreAxesMini(peur: Int, attachement: Int, impulsivite: Int, reactivite: In
                     strNiveauAxe(QuestionnaireEngine.calculerNiveauAxe(score)),
                     style = MaterialTheme.typography.labelSmall,
                     color = PremiumPalette.PrimarySoft,
-                    modifier = Modifier.width(76.dp),
+                    modifier = Modifier.width(96.dp),
                     textAlign = TextAlign.End
                 )
             }
@@ -638,7 +638,7 @@ fun HistoriqueDetailScreen(
         AlertDialog(
             onDismissRequest = { showConfirm = false },
             title = { Text(strHistoriqueSupprimerTitre()) },
-            text = { Text(if (isEnglish()) "This action cannot be undone." else "Cette action est irréversible.") },
+            text = { Text(tr("Cette action est irréversible.", "This action cannot be undone.", "Diese Aktion kann nicht rückgängig gemacht werden.")) },
             confirmButton = {
                 Button(
                     onClick = { onSupprimer(); showConfirm = false },
@@ -690,8 +690,7 @@ fun HistoriqueDetailScreen(
                     }
                     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleur.copy(alpha = 0.12f)).padding(horizontal = 14.dp, vertical = 8.dp)) {
                         Text(
-                            if (isEnglish()) "Priority: ${strPrioriteAction(priorite)}"
-                            else "Priorité : ${strPrioriteAction(priorite)}",
+                            tr("Priorité : ${strPrioriteAction(priorite)}", "Priority: ${strPrioriteAction(priorite)}", "Priorität: ${strPrioriteAction(priorite)}"),
                             color = couleur, fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.labelLarge
                         )

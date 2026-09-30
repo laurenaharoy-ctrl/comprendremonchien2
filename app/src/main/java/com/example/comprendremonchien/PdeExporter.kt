@@ -57,7 +57,7 @@ object PdfExporter {
     fun exporterBilanPdf(context: Context, nomChien: String, analyse: ResultatAnalyse): File {
         val document = PdfDocument()
         val nom = nomChienAffiche(nomChien)
-        val date = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
+        val date = SimpleDateFormat(tr("dd MMMM yyyy", "dd MMMM yyyy", "dd. MMMM yyyy"), Locale.getDefault()).format(Date())
         val couleurPriorite = couleurPourPriorite(analyse.prioriteAction)
         val libellePriorite = libellePourPriorite(analyse.prioriteAction)
 
@@ -146,7 +146,7 @@ object PdfExporter {
             strPdfAxePrincipal() to strLibelleAxe(analyse.problemePrincipal),
             strPdfSituation() to strNiveauSituation(analyse.niveauSituation),
             strPdfBesoin() to strBesoinPrincipal(analyse.problemePrincipal)
-                .removePrefix("Besoin principal : ").removePrefix("Main need: ").removeSuffix("."),
+                .removePrefix("Besoin principal : ").removePrefix("Main need: ").removePrefix("Hauptbedürfnis: ").removeSuffix("."),
             strPdfAide() to aideAEnvisager(analyse)
         )
         y = drawInfoGrid(canvas, y, gridItems)
@@ -411,11 +411,11 @@ object PdfExporter {
         y += 48f
 
         val recapText = buildString {
-            append(strPdfRecapProfil(nom, analyse.profil.profilType.lowercase(Locale.getDefault())))
+            append(strPdfRecapProfil(nom, if (isGerman()) analyse.profil.profilType else analyse.profil.profilType.lowercase(Locale.getDefault())))
             append("\n\n")
-            append(strPdfRecapSituation(strNiveauSituation(analyse.niveauSituation).lowercase(Locale.getDefault())))
+            append(strPdfRecapSituation(if (isGerman()) strNiveauSituation(analyse.niveauSituation) else strNiveauSituation(analyse.niveauSituation).lowercase(Locale.getDefault())))
             append("\n\n")
-            append(strPdfRecapAxe(strLibelleAxe(analyse.problemePrincipal).lowercase(Locale.getDefault())))
+            append(strPdfRecapAxe(if (isGerman()) strLibelleAxe(analyse.problemePrincipal) else strLibelleAxe(analyse.problemePrincipal).lowercase(Locale.getDefault())))
             append("\n\n")
             append(strBesoinPrincipal(analyse.problemePrincipal))
         }

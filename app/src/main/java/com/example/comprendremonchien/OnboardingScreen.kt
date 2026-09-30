@@ -356,7 +356,7 @@ fun AccueilIllustrationCard() {
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
-            Text(if (isEnglish()) "Welcome" else "Bienvenue", style = MaterialTheme.typography.bodyLarge,
+            Text(tr("Bienvenue", "Welcome", "Willkommen"), style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
         }
     }

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Meinen Hund verstehen</string>
+
+    <!-- Navigation / Boutons généraux -->
+    <string name="btn_demarrer_bilan">Einschätzung starten</string>
+    <string name="btn_reprendre">Fragebogen fortsetzen</string>
+    <string name="btn_dictionnaire">Lexikon</string>
+    <string name="btn_alimentation">Ernährung</string>
+    <string name="btn_commencer">Los geht’s</string>
+    <string name="btn_continuer">Weiter</string>
+    <string name="btn_suivant">Weiter</string>
+    <string name="btn_retour">Zurück</string>
+    <string name="btn_passer">Überspringen</string>
+    <string name="btn_partager">Teilen</string>
+    <string name="btn_export_pdf">PDF exportieren</string>
+    <string name="btn_copier_resume">Zusammenfassung kopieren</string>
+    <string name="btn_recommencer">Von vorn beginnen</string>
+    <string name="btn_voir_livres">Meine Bücher ansehen</string>
+    <string name="btn_revoir_introduction">Einführung erneut ansehen</string>
+    <string name="btn_politique_confidentialite">Datenschutzerklärung</string>
+    <string name="btn_retour_rubriques">Zurück zu den Rubriken</string>
+    <string name="btn_retour_categorie">Zurück zur Kategorie</string>
+    <string name="btn_supprimer">Löschen</string>
+    <string name="btn_supprimer_tout">Gesamten Verlauf löschen</string>
+    <string name="btn_supprimer_bilan">Diese Einschätzung löschen</string>
+    <string name="btn_annuler">Abbrechen</string>
+    <string name="btn_envoyer_signalement">Meldung senden</string>
+
+    <!-- TopBar / Titres écrans -->
+    <string name="screen_questionnaire">Fragebogen</string>
+    <string name="screen_analyse">Analyse</string>
+    <string name="screen_resultat">Ergebnis</string>
+    <string name="screen_dictionnaire">Verhaltenslexikon</string>
+    <string name="screen_fiche_comportementale">Verhaltensblatt</string>
+    <string name="screen_alimentation">Ernährung</string>
+    <string name="screen_signalement">Meldung</string>
+    <string name="screen_historique">Verlauf der Einschätzungen</string>
+    <string name="screen_detail_bilan">Details der Einschätzung</string>
+    <string name="screen_parametres">Einstellungen</string>
+
+    <!-- Accueil -->
+    <string name="accueil_titre">Meinen Hund verstehen</string>
+    <string name="accueil_bienvenue">Willkommen</string>
+
+    <!-- Introduction -->
+    <string name="intro_kicker">Bevor Sie beginnen</string>
+    <string name="intro_duree">Dieser Fragebogen dauert etwa 5 Minuten.</string>
+    <string name="intro_explorer_kicker">Was Sie erkunden werden</string>
+    <string name="intro_explorer_1">Seine emotionale Sensibilität</string>
+    <string name="intro_explorer_2">Sein Bindungsbedürfnis</string>
+    <string name="intro_explorer_3">Sein Umgang mit Erregung</string>
+    <string name="intro_explorer_4">Seine Reaktivität auf die Umgebung</string>
+
+    <!-- Questionnaire -->
+    <string name="question_reponse_label">Ihre Antwort</string>
+    <string name="question_reponse_placeholder">z. B. Rocky</string>
+    <string name="question_hint_texte">Geben Sie eine Antwort ein, um fortzufahren</string>
+    <string name="question_hint_choix">Wählen Sie eine Antwort, um fortzufahren</string>
+
+    <!-- Chargement analyse -->
+    <string name="chargement_msg1">Analyse läuft…</string>
+    <string name="chargement_msg2">Das Profil Ihres Hundes wird gelesen…</string>
+    <string name="chargement_msg3">Ihre Einschätzung wird vorbereitet…</string>
+
+    <!-- Résultat -->
+    <string name="resultat_kicker">Ihre Einschätzung</string>
+    <string name="resultat_titre_bilan">Einschätzung für %1$s</string>
+    <string name="resultat_lecture_principale">Hauptlesart</string>
+    <string name="resultat_priorite">Priorität: %1$s</string>
+    <string name="resultat_ressent">Was %1$s wahrscheinlich fühlt</string>
+    <string name="resultat_coup_oeil">Auf einen Blick</string>
+    <string name="resultat_facteurs">Erkannte Faktoren</string>
+    <string name="resultat_niveau_situation">Stand der Situation</string>
+    <string name="resultat_inquieter">Muss man sich Sorgen machen?</string>
+    <string name="resultat_se_passe">Was wahrscheinlich geschieht</string>
+    <string name="resultat_levier_principal">Ein erster konkreter Ansatz</string>
+    <string name="resultat_point_appui">Der wichtigste Hebel</string>
+    <string name="resultat_pourquoi">Warum ist er so?</string>
+    <string name="resultat_comprendre_agir">Verstehen, um besser zu handeln</string>
+    <string name="resultat_changement">Oft beginnt genau hier die Veränderung.</string>
+    <string name="resultat_3_jours">Die nächsten 3 Tage</string>
+    <string name="resultat_a_faire">Zu tun</string>
+    <string name="resultat_a_eviter">Zu vermeiden</string>
+    <string name="resultat_a_observer">Zu beobachten</string>
+    <string name="resultat_conseils_complementaires">Weitere Tipps</string>
+    <string name="resultat_quand_aide">Wann Sie Hilfe suchen sollten</string>
+    <string name="resultat_morsure_pro">Es wurde ein Biss gemeldet – eine professionelle Begleitung wird empfohlen.</string>
+    <string name="resultat_important">Wichtig</string>
+    <string name="resultat_disclaimer">Diese Einschätzung ist nur ein Anhaltspunkt. Sie ersetzt weder einen Tierarzt noch eine Fachperson für Verhalten.</string>
+    <string name="resultat_aller_plus_loin">Weiter mit %1$s</string>
+    <string name="resultat_fiches_comportementales">Verhaltensblätter</string>
+    <string name="resultat_reperes_alimentation">Ernährung auf einen Blick</string>
+    <string name="resultat_a_retenir">Das Wichtigste</string>
+    <string name="resultat_le_livre">Das Buch</string>
+    <string name="resultat_aller_plus_loin_livre">Wenn Sie weitergehen möchten</string>
+    <string name="resultat_copie">Kopiert</string>
+    <string name="resultat_profil_race">Rasseprofil</string>
+    <string name="resultat_predispositions">Häufige Veranlagungen in dieser Gruppe</string>
+
+    <!-- Morsure -->
+    <string name="morsure_titre">ACHTUNG – BISS GEMELDET</string>
+    <string name="morsure_texte">%1$s hat bereits gebissen. Diese Situation sollte nicht verharmlost werden.</string>
+    <string name="morsure_conseil">Eine Begleitung durch eine Fachperson für Verhalten wird dringend empfohlen.</string>
+
+    <!-- Dictionnaire comportemental -->
+    <string name="dico_titre">Verhaltenslexikon</string>
+    <string name="dico_sous_titre">Anhaltspunkte, um die Sprache des Hundes besser zu lesen</string>
+    <string name="dico_recherche_placeholder">Ein Blatt suchen…</string>
+    <string name="dico_aucun_resultat">Kein Blatt passt zu \"%1$s\".</string>
+    <string name="dico_important">Wichtig</string>
+    <string name="dico_disclaimer">Diese Blätter geben Anhaltspunkte zum Lesen. Sie ersetzen nicht den Rat einer Fachperson.</string>
+    <string name="dico_rappel">Ein einzelnes Verhalten reicht nicht immer aus, um Schlüsse zu ziehen. Der Kontext und die gesamte Körpersprache zählen genauso.</string>
+    <string name="dico_fiche_kicker">Verhaltensblatt</string>
+    <string name="dico_explication">Erklärung</string>
+    <string name="dico_que_faire">Was tun</string>
+    <string name="dico_a_eviter">Zu vermeiden</string>
+    <string name="dico_rappel_kicker">Zur Erinnerung</string>
+    <string name="dico_fiche_introuvable">Blatt nicht gefunden.</string>
+
+    <!-- Alimentation -->
+    <string name="alim_titre">Ernährung des Hundes</string>
+    <string name="alim_sous_titre">Praktische Anhaltspunkte, um Ihren Hund entspannt zu füttern.</string>
+    <string name="alim_a_retenir_kicker">Zuerst das Wichtigste</string>
+    <string name="alim_retenir_1">Jede Futterumstellung muss schrittweise erfolgen.</string>
+    <string name="alim_retenir_2">Selbst ein für Menschen alltägliches Lebensmittel kann für Hunde ungeeignet sein.</string>
+    <string name="alim_retenir_3">Bei verdächtiger Aufnahme oder Symptomen gilt: lieber vorsichtig als abwarten.</string>
+    <string name="alim_important">Wichtig</string>
+    <string name="alim_disclaimer">Dieser Leitfaden gibt allgemeine Anhaltspunkte. Er ersetzt keinen Tierarzt.</string>
+    <string name="alim_rappel">Bei Symptomen oder fraglicher Aufnahme holen Sie lieber tierärztlichen Rat ein.</string>
+    <string name="alim_cat_dangereux_desc">Lebensmittel, die Sie meiden sollten, um keinen Fehler zu machen.</string>
+    <string name="alim_cat_autorises_desc">Die Grundregeln, um nichts dem Zufall zu überlassen.</string>
+    <string name="alim_cat_ingestion_desc">Die richtigen Reflexe, wenn Ihr Hund etwas verschluckt hat.</string>
+    <string name="alim_cat_digestion_desc">Gras, Erbrechen, Kot und kleine Verdauungssignale.</string>
+
+    <!-- Paramètres -->
+    <string name="params_kicker">Einstellungen</string>
+    <string name="params_app_titre">Meinen Hund verstehen</string>
+    <string name="params_version">Version %1$s</string>
+    <string name="params_tutoriel_kicker">Einführung</string>
+    <string name="params_tutoriel_texte">Die Vorstellung der App noch einmal von vorn ansehen.</string>
+    <string name="params_confidentialite_kicker">Datenschutz</string>
+    <string name="params_confidentialite_texte">Diese App erhebt keine personenbezogenen Daten. Die Einschätzungen werden nur auf Ihrem Gerät gespeichert. Die Benachrichtigungen sind lokal.</string>
+    <string name="params_a_propos_kicker">Über die App</string>
+    <string name="params_a_propos_texte">Mit Sorgfalt entwickelt, um Haltern zu helfen, ihren Hund besser zu verstehen.</string>
+
+    <!-- Historique -->
+    <string name="historique_titre">Verlauf der Einschätzungen</string>
+    <string name="historique_aucun">Noch keine gespeicherte Einschätzung.</string>
+    <string name="historique_nb_bilans">%1$d gespeicherte Einschätzung</string>
+    <string name="historique_nb_bilans_plural">%1$d gespeicherte Einschätzungen</string>
+    <string name="historique_vide_texte">Ihre Einschätzungen erscheinen hier automatisch nach jedem abgeschlossenen Fragebogen.</string>
+    <string name="historique_supprimer_titre">Diese Einschätzung löschen?</string>
+    <string name="historique_supprimer_texte">Die Einschätzung von %1$s vom %2$s wird endgültig gelöscht.</string>
+    <string name="historique_supprimer_tout_titre">Gesamten Verlauf löschen?</string>
+    <string name="historique_supprimer_tout_texte">Diese Aktion kann nicht rückgängig gemacht werden. Alle gespeicherten Einschätzungen werden endgültig gelöscht.</string>
+    <string name="historique_detail_kicker">Gespeicherte Einschätzung</string>
+    <string name="historique_synthese">Zusammenfassung</string>
+    <string name="historique_carte_profil">Profilkarte</string>
+    <string name="historique_lecture">Hauptlesart</string>
+    <string name="historique_piste">Ein erster konkreter Ansatz</string>
+    <string name="historique_rappel_kicker">Zur Erinnerung</string>
+    <string name="historique_rappel_texte">Diese Einschätzung ist eine unverbindliche Momentaufnahme. Die Situation Ihres Hundes kann sich seitdem verändert haben.</string>
+
+    <!-- Feedback -->
+    <string name="feedback_kicker">Meldung</string>
+    <string name="feedback_titre">Stimmt etwas nicht?</string>
+    <string name="feedback_sous_titre">Ihre Rückmeldung ist wertvoll. Beschreiben Sie das Problem oder Ihren Vorschlag, und wir werden ihn berücksichtigen.</string>
+    <string name="feedback_type_kicker">Art der Meldung</string>
+    <string name="feedback_ecran_kicker">Betroffener Bildschirm</string>
+    <string name="feedback_description_kicker">Beschreibung</string>
+    <string name="feedback_description_texte">Beschreiben Sie das Problem oder Ihren Vorschlag so genau wie möglich.</string>
+    <string name="feedback_placeholder">z. B.: Auf dem Ergebnisbildschirm funktioniert die Schaltfläche PDF exportieren nicht…</string>
+    <string name="feedback_details_hint">Fügen Sie ein paar Details hinzu, damit wir es besser verstehen.</string>
+    <string name="feedback_hint_envoyer">Wählen Sie eine Kategorie und schreiben Sie eine Nachricht, um sie zu senden.</string>
+    <string name="feedback_hint_categorie">Wählen Sie eine Kategorie</string>
+    <string name="feedback_hint_message">schreiben Sie eine Nachricht</string>
+    <string name="feedback_hint_et"> und </string>
+    <string name="feedback_hint_pour"> zum Senden.</string>
+    <string name="feedback_confidentialite_kicker">Datenschutz</string>
+    <string name="feedback_confidentialite_texte">Ihre Meldung wird direkt aus Ihrer App per E-Mail gesendet. Es werden keine personenbezogenen Daten automatisch erhoben.</string>
+    <string name="feedback_merci_titre">Danke für Ihre Rückmeldung!</string>
+    <string name="feedback_merci_texte">Ihre Nachricht wurde gesendet. Sie hilft, die App zu verbessern.</string>
+    <string name="feedback_aucune_appli_email">Auf diesem Gerät wurde keine E-Mail-App gefunden.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_passer">Überspringen</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_nom">Erinnerungen an die Einschätzung</string>
+    <string name="notif_channel_desc">Erinnerungen, die Einschätzung Ihres Hundes zu wiederholen</string>
+    <string name="notif_titre">Zeit für eine neue Einschätzung?</string>
+    <string name="notif_texte">Bei %1$s kann sich viel verändert haben 🐾</string>
+
+    <!-- Texte partagé -->
+    <string name="partage_titre">Emotionale Einschätzung für %1$s</string>
+    <string name="partage_hypothese">Hypothese:</string>
+    <string name="partage_priorite">Priorität:</string>
+    <string name="partage_scores">Werte:</string>
+    <string name="partage_sensibilite">Sensibilität: %1$s</string>
+    <string name="partage_attachement">Bindung: %1$s</string>
+    <string name="partage_impulsivite">Impulsivität: %1$s</string>
+    <string name="partage_reactivite">Reaktivität: %1$s</string>
+    <string name="partage_indicatif">⚠️ Unverbindliche Einschätzung</string>
+
+    <!-- PDF -->
+    <string name="pdf_bilan_emotionnel">Emotionale Einschätzung</string>
+    <string name="pdf_footer">Meinen Hund verstehen  •  Unverbindliche emotionale Einschätzung</string>
+    <string name="pdf_page">Seite %1$d / 4</string>
+    <string name="pdf_4axes">Die 4 Dimensionen</string>
+    <string name="pdf_hypothese">Lesehypothese</string>
+    <string name="pdf_se_passe">Was wahrscheinlich geschieht</string>
+    <string name="pdf_facteurs">Erkannte Faktoren</string>
+    <string name="pdf_aggravants">Was die Lage verschlimmern kann</string>
+    <string name="pdf_protecteurs">Was bereits schützt</string>
+    <string name="pdf_plan_action">Aktionsplan für %1$s</string>
+    <string name="pdf_levier">Erster hilfreicher Hebel</string>
+    <string name="pdf_prochains_jours">Die nächsten Tage</string>
+    <string name="pdf_conseils">Weitere Tipps</string>
+    <string name="pdf_a_retenir">Das Wichtigste</string>
+    <string name="pdf_conclusion">Fazit</string>
+    <string name="pdf_conclusion_texte">Ziel ist es nicht, %1$s ein Etikett aufzudrücken, sondern besser zu verstehen, was geschieht, und auf eine passendere, konkretere und beruhigendere Weise voranzukommen.</string>
+    <string name="pdf_disclaimer">Diese Einschätzung ist unverbindlich. Sie ersetzt nicht den Rat eines Tierarztes oder einer Fachperson für Tierverhalten. Sie kann als Gesprächsgrundlage bei einer Beratung dienen.</string>
+    <string name="pdf_genere_auto">Automatisch erstelltes Dokument</string>
+    <string name="pdf_retrouvez">Nutzen Sie die App, um die Entwicklung Ihres Hundes zu verfolgen.</string>
+    <string name="pdf_acceder">Zur App – comprendremonchien.fr</string>
+    <string name="pdf_morsure_texte">Bei dieser Einschätzung wurde ein Biss gemeldet. Eine professionelle Begleitung wird empfohlen, um die Situation zu beurteilen und den Alltag sicherer zu machen.</string>
+    <string name="pdf_en_un_coup">Auf einen Blick</string>
+    <string name="pdf_axe_principal">Hauptachse</string>
+    <string name="pdf_situation">Situation</string>
+    <string name="pdf_besoin">Hauptbedürfnis</string>
+    <string name="pdf_aide">Mögliche Unterstützung</string>
+    <string name="pdf_profil">Profil von %1$s</string>
+    <string name="pdf_aide_comportementaliste_rec">Verhaltensberatung empfohlen</string>
+    <string name="pdf_aide_pro_rapide">Rasch eine Fachperson</string>
+    <string name="pdf_aide_comportementaliste">Verhaltensberater</string>
+    <string name="pdf_aide_educateur">Hundetrainer</string>
+    <string name="pdf_aide_educateur_besoin">Hundetrainer bei Bedarf</string>
+    <string name="pdf_recap_profil">%1$s zeigt vor allem ein Profil „%2$s“.</string>
+    <string name="pdf_recap_situation">Situation: %1$s.</string>
+    <string name="pdf_recap_axe">Hauptachse: %1$s.</string>
+
+    <!-- Priorités -->
+    <string name="priorite_faible">Gering</string>
+    <string name="priorite_moderee">Mäßig</string>
+    <string name="priorite_elevee">Hoch</string>
+    <string name="priorite_urgente">Dringend</string>
+
+    <!-- Niveaux axes -->
+    <string name="niveau_peu_marque">Wenig ausgeprägt</string>
+    <string name="niveau_a_surveiller">Zu beobachten</string>
+    <string name="niveau_marque">Ausgeprägt</string>
+    <string name="niveau_tres_marque">Stark ausgeprägt</string>
+
+    <!-- Niveaux situation -->
+    <string name="situation_stable">Stabil</string>
+    <string name="situation_a_travailler">Daran arbeiten</string>
+    <string name="situation_sensible">Heikel</string>
+
+    <!-- Libellés axes -->
+    <string name="axe_sensibilite">Sensibilität</string>
+    <string name="axe_attachement">Bindung</string>
+    <string name="axe_impulsivite">Impulsivität</string>
+    <string name="axe_reactivite">Reaktivität</string>
+
+    <!-- Sections questionnaire -->
+    <string name="section_infos_generales">Allgemeine Angaben</string>
+    <string name="section_votre_chien">Ihr Hund</string>
+    <string name="section_sensibilite">Sensibilität und Angst</string>
+    <string name="section_attachement">Bindung und Trennung</string>
+    <string name="section_excitation">Erregung und Impulsivität</string>
+    <string name="section_reactivite">Reaktivität</string>
+    <string name="section_aller_plus_loin">Weiterführendes</string>
+    <string name="section_contexte">Aktuelle Situation</string>
+
+    <!-- Ecrans feedback -->
+    <string name="feedback_ecran_accueil">Startseite</string>
+    <string name="feedback_ecran_intro">Einführung</string>
+    <string name="feedback_ecran_questionnaire">Fragebogen</string>
+    <string name="feedback_ecran_resultat">Ergebnis</string>
+    <string name="feedback_ecran_dico">Verhaltenslexikon</string>
+    <string name="feedback_ecran_alim">Ernährung</string>
+    <string name="feedback_ecran_historique">Verlauf</string>
+    <string name="feedback_ecran_general">Allgemein / Sonstiges</string>
+
+    <!-- Catégories signalement -->
+    <string name="signalement_bug_label">Fehler / Technisches Problem</string>
+    <string name="signalement_bug_desc">Die App stürzt ab, eine Schaltfläche funktioniert nicht, ein Bildschirm hängt…</string>
+    <string name="signalement_contenu_label">Fehlerhafter Inhalt</string>
+    <string name="signalement_contenu_desc">Eine Information scheint falsch, ein Text ist unverständlich…</string>
+    <string name="signalement_suggestion_label">Vorschlag</string>
+    <string name="signalement_suggestion_desc">Eine Idee, um die App zu verbessern oder eine Funktion hinzuzufügen…</string>
+    <string name="signalement_autre_label">Sonstiges</string>
+    <string name="signalement_autre_desc">Alles, was in keine der obigen Kategorien passt.</string>
+
+    <!-- Date historique -->
+    <string name="date_format_historique">dd. MMMM yyyy \'um\' HH:mm</string>
+
+    <!-- Contenu partagé -->
+    <string name="content_description_retour">Zurück</string>
+    <string name="content_description_historique">Verlauf der Einschätzungen</string>
+    <string name="content_description_parametres">Einstellungen</string>
+    <string name="content_description_signalement">Ein Problem melden</string>
+    <string name="content_description_morsure">Biss gemeldet</string>
+    <string name="content_description_supprimer">Löschen</string>
+    <string name="content_description_logo">Logo Meinen Hund verstehen</string>
+
+    <!-- Choisir app partage -->
+    <string name="partage_chooser">Teilen</string>
+    <string name="partage_pdf_chooser">PDF teilen</string>
+    <string name="signalement_chooser">Meldung senden</string>
+</resources>

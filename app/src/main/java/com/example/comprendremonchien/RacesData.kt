@@ -16,7 +16,7 @@ data class InfoRace(
     val nuanceSpecifique: String? = null
 )
 
-val categoriesRaces get() = if (isEnglish()) categoriesRacesEn else categoriesRacesFr
+val categoriesRaces get() = trList(categoriesRacesFr, categoriesRacesEn, categoriesRacesDe)
 
 val categoriesRacesFr = listOf(
 
@@ -357,6 +357,177 @@ val categoriesRacesEn = listOf(
         nuanceAnalyse = "Mixed breed dogs have very varied profiles depending on their origins. Without precise knowledge of their genetic heritage, it is difficult to anticipate their behavioural predispositions. The assessment is therefore based solely on observed behaviours, which remains the most reliable and accurate reading of their actual situation."
     )
 )
+
+val categoriesRacesDe = listOf(
+
+    CategorieRace(
+        id = "bergers",
+        nom = "Hüte- und Hirtenhunde",
+        emoji = "🐕",
+        description = "Rassen, die für die enge Zusammenarbeit mit dem Menschen gezüchtet wurden.",
+        races = listOf(
+            "Border Collie", "Deutscher Schäferhund", "Australian Shepherd",
+            "Belgischer Schäferhund Malinois", "Belgischer Schäferhund Tervueren", "Weißer Schweizer Schäferhund",
+            "Briard", "Pyrenäen-Schäferhund", "Bouvier des Flandres", "Collie"
+        ),
+        predispositions = listOf(
+            "Von Natur aus hohe Reaktivität",
+            "Häufige Übererregung und Wachsamkeit",
+            "Großes Bedürfnis nach geistiger Auslastung",
+            "Ausgeprägte emotionale Sensibilität"
+        ),
+        nuanceAnalyse = "Hütehunde wurden darauf gezüchtet, ständig aufmerksam gegenüber ihrer Umgebung zu sein und auf kleinste Signale zu reagieren. Ein hoher Wert bei Reaktivität oder Sensibilität kann daher teilweise ihr tiefes Wesen widerspiegeln und nicht nur eine Schwierigkeit, die korrigiert werden muss. Das mindert nicht die Bedeutung, an diesen Achsen zu arbeiten, hilft aber, die Erwartungen einzuordnen und die Methoden anzupassen."
+    ),
+
+    CategorieRace(
+        id = "retrievers",
+        nom = "Retriever & Spaniel",
+        emoji = "🦮",
+        description = "Rassen, die für ihre Geselligkeit und ihren Wunsch zu gefallen bekannt sind.",
+        races = listOf(
+            "Golden Retriever", "Labrador Retriever", "English Cocker Spaniel",
+            "American Cocker Spaniel", "Springer Spaniel", "Flat Coated Retriever",
+            "Nova Scotia Duck Tolling Retriever", "Cavalier King Charles Spaniel"
+        ),
+        predispositions = listOf(
+            "Großes Bedürfnis nach Bindung und Kontakt",
+            "Neigung zu Frust bei zu wenig Auslastung",
+            "Umgang mit Erregung manchmal schwierig",
+            "Meist gute Verträglichkeit"
+        ),
+        nuanceAnalyse = "Retriever und Spaniel sind von Natur aus sehr an ihre Familie gebunden und haben ein großes Bedürfnis nach Kontakt. Ein hoher Wert bei der Bindung ist bei diesen Rassen daher sehr häufig und bedeutet nicht unbedingt eine krankhafte Trennungsangst. Auch Impulsivität kann beim Spielen oder in aufregenden Momenten auftreten, was typisch für ihr energiegeladenes Profil ist."
+    ),
+
+    CategorieRace(
+        id = "terriers",
+        nom = "Terrier",
+        emoji = "🐾",
+        description = "Hartnäckige, unabhängige und oft sehr reaktive Rassen.",
+        races = listOf(
+            "Jack Russell Terrier", "West Highland White Terrier", "Yorkshire Terrier",
+            "Bullterrier", "Staffordshire Bullterrier", "American Staffordshire Terrier",
+            "Foxterrier", "Airedale Terrier", "Border Terrier", "Cairn Terrier"
+        ),
+        predispositions = listOf(
+            "Oft ausgeprägte Reaktivität",
+            "Starke Persönlichkeit und Unabhängigkeit",
+            "Häufige Impulsivität beim Spielen",
+            "Neigung zur Hartnäckigkeit"
+        ),
+        nuanceAnalyse = "Terrier wurden gezüchtet, um zu jagen und sich Beutetieren zu stellen, die oft größer sind als sie selbst – das erklärt ihr starkes Temperament, ihre Reaktivität und ihre Neigung, nicht loszulassen. Ein hoher Wert bei Impulsivität oder Reaktivität ist bei diesen Rassen sehr häufig. Das bedeutet nicht, dass der Hund „schwierig“ ist, sondern dass sein Profil einen Ansatz braucht, der zu seiner natürlichen Energie passt."
+    ),
+
+    CategorieRace(
+        id = "molosses",
+        nom = "Molosser & Doggen",
+        emoji = "🦁",
+        description = "Kraftvolle Rassen, oft ruhig, aber mit starker Präsenz.",
+        races = listOf(
+            "Deutsche Dogge", "Rottweiler", "Boxer", "Französische Bulldogge",
+            "Englische Bulldogge", "Cane Corso", "Bordeauxdogge",
+            "Mastiff", "Boerboel", "Shar Pei"
+        ),
+        predispositions = listOf(
+            "Meist ausgeglichenes Temperament",
+            "Mögliche Reaktivität gegenüber Fremden",
+            "Bedürfnis nach einem klaren Rahmen",
+            "Emotionale Sensibilität, die oft unterschätzt wird"
+        ),
+        nuanceAnalyse = "Molosser werden oft als starke und dominante Hunde wahrgenommen, doch viele sind in Wirklichkeit emotional sehr sensibel. Ein hoher Wert bei der Sensibilität ist nicht selten und verdient dieselbe Aufmerksamkeit wie bei jeder anderen Rasse. Ihre Größe verstärkt die Wirkung ihres Verhaltens, weshalb die Erziehungsarbeit besonders wichtig ist, selbst wenn die Probleme „klein“ erscheinen."
+    ),
+
+    CategorieRace(
+        id = "nordiques",
+        nom = "Nordische & ursprüngliche Hunde",
+        emoji = "🐺",
+        description = "Rassen, die ihren ursprünglichen Instinkten nahe sind, oft unabhängig.",
+        races = listOf(
+            "Siberian Husky", "Alaskan Malamute", "Samojede", "Deutscher Spitz",
+            "Akita Inu", "Shiba Inu", "Basenji", "Grönlandhund", "Chow-Chow"
+        ),
+        predispositions = listOf(
+            "Ausgeprägte Unabhängigkeit",
+            "Geringes Bedürfnis, dem Menschen zu gefallen",
+            "Mögliche Reaktivität auf äußere Reize",
+            "Umgang mit Impulsivität manchmal schwierig"
+        ),
+        nuanceAnalyse = "Nordische und ursprüngliche Rassen haben sich eine große Eigenständigkeit im Denken bewahrt. Sie wurden weniger auf Gehorsam als auf eigenständige Entscheidungen gezüchtet – was sich in Reaktivität auf die Umgebung und in Schwierigkeiten äußern kann, auf Aufforderung zur Ruhe zu kommen. Diese Verhaltensweisen sind bei diesen Rassen oft normal und erfordern besondere Ansätze statt klassischer Korrekturen."
+    ),
+
+    CategorieRace(
+        id = "levriers",
+        nom = "Windhunde & Rennhunde",
+        emoji = "💨",
+        description = "Schnelle, sensible Rassen, die zu Hause oft ruhig sind.",
+        races = listOf(
+            "Greyhound", "Whippet", "Italienisches Windspiel", "Saluki",
+            "Barsoi", "Galgo Español", "Afghanischer Windhund", "Irischer Wolfshund"
+        ),
+        predispositions = listOf(
+            "Oft hohe emotionale Sensibilität",
+            "Reaktivität auf schnelle Bewegungen",
+            "Bedürfnis nach Sicherheit und Vorhersehbarkeit",
+            "Im Haus meist ruhig"
+        ),
+        nuanceAnalyse = "Windhunde sind sehr sensible Hunde, die stark auf visuelle Reize und schnelle Bewegungen reagieren – das liegt in ihrer Natur als Sichtjäger. Ein hoher Wert bei Sensibilität oder Reaktivität ist daher häufig und mit ihren tiefen Instinkten verbunden. Sie brauchen außerdem viel emotionale Sicherheit, was sich in einer ausgeprägteren Bindung zeigen kann."
+    ),
+
+    CategorieRace(
+        id = "nains",
+        nom = "Klein- & Gesellschaftshunde",
+        emoji = "🐩",
+        description = "Rassen, die als Begleiter gezüchtet wurden und oft sehr an ihrer Familie hängen.",
+        races = listOf(
+            "Chihuahua", "Bichon Frisé", "Malteser", "Mops",
+            "Toypudel", "Zwergpudel", "Zwergspitz (Pomeranian)",
+            "Shih Tzu", "Lhasa Apso", "Pekinese"
+        ),
+        predispositions = listOf(
+            "Starke Bindung an ihre Bezugsperson",
+            "Hohe emotionale Sensibilität",
+            "Reaktivität, die manchmal unterschätzt wird",
+            "Häufiges Bellen möglich"
+        ),
+        nuanceAnalyse = "Klein- und Gesellschaftshunde wurden gezüchtet, um ganz nah am Menschen zu leben – das erklärt ein oft sehr starkes Bindungsbedürfnis. Wegen ihrer geringen Größe werden ihre Reaktivität oder ihre Verhaltensschwierigkeiten manchmal unterschätzt. Ein hoher Wert bei Bindung oder Sensibilität ist sehr häufig und verdient dieselbe Aufmerksamkeit wie bei großen Rassen."
+    ),
+
+    CategorieRace(
+        id = "chasse",
+        nom = "Jagd- & Spürhunde",
+        emoji = "🌿",
+        description = "Energiegeladene Rassen mit sehr ausgeprägter Nase und Motivation.",
+        races = listOf(
+            "Beagle", "Basset Hound", "Deutsch Kurzhaar", "Weimaraner",
+            "Epagneul Breton", "Pointer", "Irish Red Setter",
+            "Dalmatiner", "Rhodesian Ridgeback", "Magyar Vizsla"
+        ),
+        predispositions = listOf(
+            "Sehr hohe Motivation und Energie",
+            "Häufige Impulsivität draußen",
+            "Schwieriger Umgang mit Erregung",
+            "Mögliche Unabhängigkeit auf Geruchsspuren"
+        ),
+        nuanceAnalyse = "Jagdhunde haben von Natur aus eine sehr hohe Motivation und Energie sowie einen sehr starken Spür- oder Hetztrieb. Ein hoher Wert bei Impulsivität oder Reaktivität draußen ist oft der direkte Ausdruck dieser Instinkte. Diese Verhaltensweisen sind in ihrem ursprünglichen Kontext normal und erfordern eine angepasste Arbeit statt einer klassischen Korrektur."
+    ),
+
+    CategorieRace(
+        id = "croise",
+        nom = "Mischling / Rasse unbekannt",
+        emoji = "🐕‍🦺",
+        description = "Mischlingshunde oder Hunde, deren Rasse nicht bekannt ist.",
+        races = listOf(
+            "Mischling (Rasse unbekannt)",
+            "Mischling (teilweise bekannt)"
+        ),
+        predispositions = listOf(
+            "Je nach genetischem Erbe sehr unterschiedliches Profil",
+            "Oft gute emotionale Belastbarkeit",
+            "Die vorherrschenden Instinkte können variieren"
+        ),
+        nuanceAnalyse = "Mischlinge haben je nach Herkunft sehr unterschiedliche Profile. Ohne genaue Kenntnis ihres genetischen Erbes lassen sich ihre Verhaltensveranlagungen schwer vorhersagen. Die Einschätzung stützt sich daher allein auf das beobachtete Verhalten, was die zuverlässigste und gerechteste Lesart ihrer tatsächlichen Situation bleibt."
+    )
+)
+
 
 fun toutesLesRaces(): List<String> {
     return categoriesRaces.flatMap { it.races }.sorted()
