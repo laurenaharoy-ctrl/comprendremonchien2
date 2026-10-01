@@ -604,7 +604,7 @@ fun ResultatScreen(
                     leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null, tint = Color.White) }
                 )
             }
-            ConsultationCard()
+            ConsultationCard(analyse.lieuResidence)
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
             Spacer(modifier = Modifier.height(8.dp))
             androidx.compose.material3.HorizontalDivider(color = PremiumPalette.Border, thickness = 0.5.dp, modifier = Modifier.padding(horizontal = 40.dp))
@@ -620,7 +620,7 @@ fun ResultatScreen(
 }
 
 @Composable
-fun ConsultationCard() {
+fun ConsultationCard(lieuResidence: Int? = null) {
     if (!showConsultation()) return
     val context = LocalContext.current
     val backgroundBrush = if (isSystemInDarkTheme())
@@ -665,28 +665,30 @@ fun ConsultationCard() {
                 strConsultationFormule30(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            PrimaryGlowButton(
-                text = strConsultationBouton(),
-                onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(CONSULTATION_BOOKING_URL))
-                    context.startActivity(intent)
-                }
-            )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             Text(
                 strConsultationFormule60(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                strConsultationModalite(lieuResidence),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                color = PremiumPalette.Primary
             )
             Spacer(modifier = Modifier.height(10.dp))
             PrimaryGlowButton(
-                text = strConsultationBouton(),
+                text = strConsultationBouton(lieuResidence),
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(CONSULTATION_BOOKING_URL_1H))
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse(TELEPHONE_URI))
                     context.startActivity(intent)
                 }
             )

@@ -339,8 +339,8 @@ object PdfExporter {
         val description = strConsultationDescription()
         val disclaimer = strConsultationDisclaimer()
         val prix = strConsultationPrix()
-        val bouton = strConsultationBouton()
-        val url = CONSULTATION_BOOKING_URL
+        val bouton = strConsultationAppel()
+        val url = strConsultationTelephonePdf()
 
         val innerW = (CONTENT_W - 40f).toInt()
         val paintTitre = makePaint(16f, COLOR_PRIMARY, bold = true)

@@ -649,7 +649,8 @@ object QuestionnaireEngine {
             prioriteImmediate = prioriteImmediate, explicationResultat = explicationResultat,
             facteursAggravants = facteursAggravants, facteursProtecteurs = facteursProtecteurs,
             syntheseAvancee = syntheseAvancee, raceCategorie = raceCategorieTexte, racePrecise = null,
-            originesPossibles = originesPossibles
+            originesPossibles = originesPossibles,
+            lieuResidence = reponsesChoix["lieu_residence"]
         )
     }
 
@@ -657,6 +658,7 @@ object QuestionnaireEngine {
         return when (questionId) {
             "senior_desorientation", "senior_vocalise_nocturne" -> reponsesChoix["age"] == 3
             "cible_agression" -> reponsesChoix["a_deja_mordu"] == 1
+            "lieu_residence" -> showConsultation()
             "proprete_type" -> reponsesChoix["proprete_maison"] != 0
             "marquage_habitude_post_sterilisation" -> estSterilise(reponsesChoix) && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)
             "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
@@ -684,6 +686,7 @@ object QuestionnaireEngine {
         "reaction_inconnus" -> tr("Par exemple : aboiements, évitement, tension, grognements.", "For example: barking, avoidance, tension, growling.", "Zum Beispiel: Bellen, Ausweichen, Anspannung, Knurren.")
         "reaction_chiens" -> tr("Par exemple : tension, aboiements, charge, évitement ou agitation.", "For example: tension, barking, lunging, avoidance or agitation.", "Zum Beispiel: Anspannung, Bellen, Vorpreschen, Ausweichen oder Unruhe.")
         "a_deja_mordu" -> tr("Même une morsure ponctuelle compte.", "Even a single isolated bite counts.", "Auch ein einmaliger Biss zählt.")
+        "lieu_residence" -> tr("Pour vous proposer une consultation adaptée.", "To suggest a suitable consultation.", "Damit wir Ihnen eine passende Beratung vorschlagen können.")
         "cible_agression" -> tr("Cela permet de distinguer un enjeu de sécurité envers des personnes d'une difficulté de sociabilisation avec d'autres animaux.", "This helps tell apart a safety concern toward people from a socialization issue with other animals.", "So lässt sich ein Sicherheitsproblem gegenüber Menschen von einer Schwierigkeit im Umgang mit anderen Tieren unterscheiden.")
         "signe_physique" -> tr("Même un doute peut être utile à signaler.", "Even a doubt can be useful to mention.", "Auch ein Zweifel kann hilfreich sein.")
         else -> null
@@ -916,6 +919,12 @@ fun questionsApplication(): List<Question> {
                 "Oui, il semble avoir mal ou être gêné dans ses mouvements", "Oui, autre chose a changé physiquement"),
                 listOf("No, nothing particular", "Yes, it seems more tired than usual",
                     "Yes, it seems to be in pain or has difficulty moving", "Yes, something else has changed physically"),
-                listOf("Nein, nichts Besonderes", "Ja, er wirkt müder als früher", "Ja, er scheint Schmerzen zu haben oder in seinen Bewegungen eingeschränkt zu sein", "Ja, etwas anderes hat sich körperlich verändert")))
+                listOf("Nein, nichts Besonderes", "Ja, er wirkt müder als früher", "Ja, er scheint Schmerzen zu haben oder in seinen Bewegungen eingeschränkt zu sein", "Ja, etwas anderes hat sich körperlich verändert"))),
+
+        QuestionChoix("lieu_residence",
+            tr("Où habitez-vous ?", "Where do you live?", "Wo wohnen Sie?"),
+            trList(listOf("Dans l'Essonne (91)", "Ailleurs en France", "Dans un autre pays francophone (Belgique, Suisse, Luxembourg…)"),
+                listOf("In Essonne (91)", "Elsewhere in France", "In another French-speaking country (Belgium, Switzerland, Luxembourg…)"),
+                listOf("Im Département Essonne (91)", "Anderswo in Frankreich", "In einem anderen französischsprachigen Land (Belgien, Schweiz, Luxemburg …)")))
     )
 }

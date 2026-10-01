@@ -124,7 +124,8 @@ data class ResultatAnalyse(
     val racePrecise: String? = null,
 
     // ── NOUVEAU : Origines possibles ──────────────────────────────────────────
-    val originesPossibles: String = ""
+    val originesPossibles: String = "",
+    val lieuResidence: Int? = null
 )
 
 data class SavedQuestionnaireState(

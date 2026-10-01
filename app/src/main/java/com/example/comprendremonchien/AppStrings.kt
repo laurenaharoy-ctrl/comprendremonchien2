@@ -376,7 +376,7 @@ fun strTitreSection(questionId: String) = when (questionId) {
         tr("Excitation et impulsivité", "Excitement and impulsivity", "Erregung und Impulsivität")
     "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "cible_agression", "defense_ressources" ->
         tr("Réactivité", "Reactivity", "Reaktivität")
-    "a_un_probleme" -> tr("Pour aller plus loin", "Going further", "Weiterführendes")
+    "a_un_probleme", "lieu_residence" -> tr("Pour aller plus loin", "Going further", "Weiterführendes")
     else -> tr("Contexte actuel", "Current context", "Aktuelle Situation")
 }
 
@@ -578,7 +578,6 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
     )
 }
 
-// ═══════════════════════════════════════════════════════════
 // CONSULTATION PERSONNALISÉE (FR uniquement)
 // ═══════════════════════════════════════════════════════════
 
@@ -592,6 +591,12 @@ const val CGV_URL = "https://laurenaharoy-ctrl.github.io/comprendremonchien2/cgv
 
 const val WEBSITE_URL = "https://comportementaliste91.fr"
 
+const val TELEPHONE_NATIONAL = "06 20 65 78 88"
+
+const val TELEPHONE_INTERNATIONAL = "+33 6 20 65 78 88"
+
+const val TELEPHONE_URI = "tel:+33620657888"
+
 fun strConsultationFormule30() = "Consultation conseil — 30 min — 35 €"
 
 fun strConsultationFormule60() = "Consultation comportementale — 1 heure — 50 €"
@@ -604,10 +609,19 @@ fun strConsultationTitre() = "Besoin d'aide pour interpréter ce bilan ?"
 
 fun strConsultationSousTitre() = "Consultation personnalisée du bilan émotionnel de votre chien"
 
-fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose deux formats de consultation personnalisée en visio, selon vos besoins : un échange conseil de 30 minutes pour une première orientation, ou une consultation comportementale d'1 heure pour construire un plan d'accompagnement plus approfondi.\n\nPensez à m'envoyer votre bilan PDF par email avant notre rendez-vous, via le bouton Partager de l'application, à l'adresse lauren.aharoy@gmail.com."
+fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose deux formats de consultation personnalisée, selon vos besoins : un échange conseil de 30 minutes pour une première orientation, ou une consultation comportementale d'1 heure pour construire un plan d'accompagnement plus approfondi.\n\nPour prendre rendez-vous, appelez-moi directement : nous ferons connaissance et choisirons ensemble la formule la plus adaptée."
 
 fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas un accompagnement comportemental complet à elle seule.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
 
-fun strConsultationPrix() = "35 € / 30 minutes"
+fun strConsultationPrix() = "35 € / 30 min  •  50 € / 1 h"
 
-fun strConsultationBouton() = "Réserver ma consultation"
+fun strConsultationBouton(lieu: Int? = null) = "Appeler le " + if (lieu == 2) TELEPHONE_INTERNATIONAL else TELEPHONE_NATIONAL
+
+fun strConsultationAppel() = "Pour prendre rendez-vous, appelez-moi"
+
+fun strConsultationTelephonePdf() = "$TELEPHONE_NATIONAL  (depuis l'étranger : $TELEPHONE_INTERNATIONAL)"
+
+fun strConsultationModalite(lieu: Int?) = when (lieu) {
+    0 -> "Consultation en visio ou en présentiel (Essonne)"
+    else -> "Consultation en visio"
+}
