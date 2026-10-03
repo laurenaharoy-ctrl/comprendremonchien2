@@ -137,7 +137,7 @@ object PremiumPalette {
 
 enum class DictionnaireCategorie(val titre: String) {
     DANGEREUX(tr("Aliments dangereux", "Dangerous foods", "Gefährliche Lebensmittel")),
-    AUTORISES(tr("Aliments autorisés", "Permitted foods", "Erlaubte Lebensmittel")),
+    AUTORISES(tr("Aliments autorisés", "Safe foods", "Erlaubte Lebensmittel")),
     INGESTION(tr("Que faire en cas d'ingestion", "What to do if your dog swallows something", "Was tun, wenn der Hund etwas verschluckt hat")),
     DIGESTION(tr("Digestion / herbe / vomissements / selles", "Digestion / grass / vomiting / stools", "Verdauung / Gras / Erbrechen / Kot"))
 }
