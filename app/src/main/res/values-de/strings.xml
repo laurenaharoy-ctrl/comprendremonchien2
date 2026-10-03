@@ -32,7 +32,7 @@
     <string name="screen_analyse">Analyse</string>
     <string name="screen_resultat">Ergebnis</string>
     <string name="screen_dictionnaire">Verhaltenslexikon</string>
-    <string name="screen_fiche_comportementale">Verhaltensblatt</string>
+    <string name="screen_fiche_comportementale">Infoblatt zum Verhalten</string>
     <string name="screen_alimentation">Ernährung</string>
     <string name="screen_signalement">Meldung</string>
     <string name="screen_historique">Verlauf der Einschätzungen</string>
@@ -66,12 +66,12 @@
     <!-- Résultat -->
     <string name="resultat_kicker">Ihre Einschätzung</string>
     <string name="resultat_titre_bilan">Einschätzung für %1$s</string>
-    <string name="resultat_lecture_principale">Hauptlesart</string>
+    <string name="resultat_lecture_principale">Wichtigste Deutung</string>
     <string name="resultat_priorite">Priorität: %1$s</string>
     <string name="resultat_ressent">Was %1$s wahrscheinlich fühlt</string>
     <string name="resultat_coup_oeil">Auf einen Blick</string>
     <string name="resultat_facteurs">Erkannte Faktoren</string>
-    <string name="resultat_niveau_situation">Stand der Situation</string>
+    <string name="resultat_niveau_situation">Einschätzung der Lage</string>
     <string name="resultat_inquieter">Muss man sich Sorgen machen?</string>
     <string name="resultat_se_passe">Was wahrscheinlich geschieht</string>
     <string name="resultat_levier_principal">Ein erster konkreter Ansatz</string>
@@ -88,12 +88,12 @@
     <string name="resultat_morsure_pro">Es wurde ein Biss gemeldet – eine professionelle Begleitung wird empfohlen.</string>
     <string name="resultat_important">Wichtig</string>
     <string name="resultat_disclaimer">Diese Einschätzung ist nur ein Anhaltspunkt. Sie ersetzt weder einen Tierarzt noch eine Fachperson für Verhalten.</string>
-    <string name="resultat_aller_plus_loin">Weiter mit %1$s</string>
-    <string name="resultat_fiches_comportementales">Verhaltensblätter</string>
+    <string name="resultat_aller_plus_loin">Weiterführendes für %1$s</string>
+    <string name="resultat_fiches_comportementales">Infoblätter zum Verhalten</string>
     <string name="resultat_reperes_alimentation">Ernährung auf einen Blick</string>
     <string name="resultat_a_retenir">Das Wichtigste</string>
     <string name="resultat_le_livre">Das Buch</string>
-    <string name="resultat_aller_plus_loin_livre">Wenn Sie weitergehen möchten</string>
+    <string name="resultat_aller_plus_loin_livre">Wenn Sie tiefer einsteigen möchten</string>
     <string name="resultat_copie">Kopiert</string>
     <string name="resultat_profil_race">Rasseprofil</string>
     <string name="resultat_predispositions">Häufige Veranlagungen in dieser Gruppe</string>
@@ -106,17 +106,17 @@
     <!-- Dictionnaire comportemental -->
     <string name="dico_titre">Verhaltenslexikon</string>
     <string name="dico_sous_titre">Anhaltspunkte, um die Sprache des Hundes besser zu lesen</string>
-    <string name="dico_recherche_placeholder">Ein Blatt suchen…</string>
-    <string name="dico_aucun_resultat">Kein Blatt passt zu \"%1$s\".</string>
+    <string name="dico_recherche_placeholder">Ein Infoblatt suchen…</string>
+    <string name="dico_aucun_resultat">Kein Infoblatt passt zu „%1$s“.</string>
     <string name="dico_important">Wichtig</string>
-    <string name="dico_disclaimer">Diese Blätter geben Anhaltspunkte zum Lesen. Sie ersetzen nicht den Rat einer Fachperson.</string>
+    <string name="dico_disclaimer">Diese Infoblätter bieten Orientierungshilfen. Sie ersetzen nicht den Rat einer Fachperson.</string>
     <string name="dico_rappel">Ein einzelnes Verhalten reicht nicht immer aus, um Schlüsse zu ziehen. Der Kontext und die gesamte Körpersprache zählen genauso.</string>
-    <string name="dico_fiche_kicker">Verhaltensblatt</string>
+    <string name="dico_fiche_kicker">Infoblatt zum Verhalten</string>
     <string name="dico_explication">Erklärung</string>
     <string name="dico_que_faire">Was tun</string>
     <string name="dico_a_eviter">Zu vermeiden</string>
     <string name="dico_rappel_kicker">Zur Erinnerung</string>
-    <string name="dico_fiche_introuvable">Blatt nicht gefunden.</string>
+    <string name="dico_fiche_introuvable">Infoblatt nicht gefunden.</string>
 
     <!-- Alimentation -->
     <string name="alim_titre">Ernährung des Hundes</string>
@@ -130,7 +130,7 @@
     <string name="alim_rappel">Bei Symptomen oder fraglicher Aufnahme holen Sie lieber tierärztlichen Rat ein.</string>
     <string name="alim_cat_dangereux_desc">Lebensmittel, die Sie meiden sollten, um keinen Fehler zu machen.</string>
     <string name="alim_cat_autorises_desc">Die Grundregeln, um nichts dem Zufall zu überlassen.</string>
-    <string name="alim_cat_ingestion_desc">Die richtigen Reflexe, wenn Ihr Hund etwas verschluckt hat.</string>
+    <string name="alim_cat_ingestion_desc">Was zu tun ist, wenn Ihr Hund etwas verschluckt hat.</string>
     <string name="alim_cat_digestion_desc">Gras, Erbrechen, Kot und kleine Verdauungssignale.</string>
 
     <!-- Paramètres -->
@@ -157,7 +157,7 @@
     <string name="historique_detail_kicker">Gespeicherte Einschätzung</string>
     <string name="historique_synthese">Zusammenfassung</string>
     <string name="historique_carte_profil">Profilkarte</string>
-    <string name="historique_lecture">Hauptlesart</string>
+    <string name="historique_lecture">Wichtigste Deutung</string>
     <string name="historique_piste">Ein erster konkreter Ansatz</string>
     <string name="historique_rappel_kicker">Zur Erinnerung</string>
     <string name="historique_rappel_texte">Diese Einschätzung ist eine unverbindliche Momentaufnahme. Die Situation Ihres Hundes kann sich seitdem verändert haben.</string>
@@ -208,7 +208,7 @@
     <string name="pdf_footer">Meinen Hund verstehen  •  Unverbindliche emotionale Einschätzung</string>
     <string name="pdf_page">Seite %1$d / 4</string>
     <string name="pdf_4axes">Die 4 Dimensionen</string>
-    <string name="pdf_hypothese">Lesehypothese</string>
+    <string name="pdf_hypothese">Deutungshypothese</string>
     <string name="pdf_se_passe">Was wahrscheinlich geschieht</string>
     <string name="pdf_facteurs">Erkannte Faktoren</string>
     <string name="pdf_aggravants">Was die Lage verschlimmern kann</string>
@@ -232,7 +232,7 @@
     <string name="pdf_aide">Mögliche Unterstützung</string>
     <string name="pdf_profil">Profil von %1$s</string>
     <string name="pdf_aide_comportementaliste_rec">Verhaltensberatung empfohlen</string>
-    <string name="pdf_aide_pro_rapide">Rasch eine Fachperson</string>
+    <string name="pdf_aide_pro_rapide">Zeitnah Fachperson hinzuziehen</string>
     <string name="pdf_aide_comportementaliste">Verhaltensberater</string>
     <string name="pdf_aide_educateur">Hundetrainer</string>
     <string name="pdf_aide_educateur_besoin">Hundetrainer bei Bedarf</string>
@@ -254,7 +254,7 @@
 
     <!-- Niveaux situation -->
     <string name="situation_stable">Stabil</string>
-    <string name="situation_a_travailler">Daran arbeiten</string>
+    <string name="situation_a_travailler">Handlungsbedarf</string>
     <string name="situation_sensible">Heikel</string>
 
     <!-- Libellés axes -->

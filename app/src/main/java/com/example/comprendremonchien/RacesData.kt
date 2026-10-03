@@ -206,7 +206,7 @@ val categoriesRacesEn = listOf(
             "Strong need for mental stimulation",
             "Marked emotional sensitivity"
         ),
-        nuanceAnalyse = "Herding dogs were selected to be constantly attentive to their environment and reactive to the slightest signals. A high score in reactivity or sensitivity may therefore partly reflect their deep nature, not just a difficulty to correct. This does not diminish the importance of working on these axes, but helps calibrate expectations and adapt methods."
+        nuanceAnalyse = "Herding dogs were selected to be constantly attentive to their environment and reactive to the slightest signals. A high score in reactivity or sensitivity may therefore partly reflect their fundamental nature, not just a difficulty to correct. This does not diminish the importance of working on these axes, but helps calibrate expectations and adapt methods."
     ),
 
     CategorieRace(
@@ -222,7 +222,7 @@ val categoriesRacesEn = listOf(
         predispositions = listOf(
             "Strong need for attachment and contact",
             "Tendency towards frustration if under-stimulated",
-            "Excitement management sometimes difficult",
+            "Sometimes struggles to manage excitement",
             "Generally good sociability"
         ),
         nuanceAnalyse = "Retrievers and Spaniels are naturally very attached to their family and have a strong need for contact. A high attachment score is therefore very common in these breeds and does not necessarily indicate pathological separation anxiety. Impulsivity may also be present in play or excitement contexts, which is typical of their energetic profile."
@@ -242,7 +242,7 @@ val categoriesRacesEn = listOf(
             "Often marked reactivity",
             "Strong personality and independence",
             "Frequent impulsivity in play",
-            "Tendency towards tenacity"
+            "A tenacious streak"
         ),
         nuanceAnalyse = "Terriers were selected to hunt and confront prey often larger than themselves — which explains their strong temperament, reactivity and tendency not to give up. A high impulsivity or reactivity score is very common in these breeds. This does not mean the dog is \"difficult\", but that its profile calls for an approach adapted to its natural energy."
     ),
@@ -260,10 +260,10 @@ val categoriesRacesEn = listOf(
         predispositions = listOf(
             "Generally calm temperament",
             "Possible reactivity towards strangers",
-            "Need for a clear framework",
+            "Needs clear boundaries",
             "Emotional sensitivity sometimes underestimated"
         ),
-        nuanceAnalyse = "Molossers are often perceived as strong and dominant dogs, but many are actually very emotionally sensitive. A high sensitivity score is not uncommon and deserves the same attention as for any other breed. Their size amplifies the impact of their behaviours, making educational work particularly important even when problems seem \"minor\"."
+        nuanceAnalyse = "Molossers are often perceived as strong and dominant dogs, but many are actually very emotionally sensitive. A high sensitivity score is not uncommon and deserves the same attention as for any other breed. Their size amplifies the impact of their behaviours, making training particularly important even when problems seem \"minor\"."
     ),
 
     CategorieRace(
@@ -279,9 +279,9 @@ val categoriesRacesEn = listOf(
             "Marked independence",
             "Low need to please humans",
             "Possible reactivity to external stimuli",
-            "Impulse management sometimes difficult"
+            "Impulse control sometimes difficult"
         ),
-        nuanceAnalyse = "Nordic and primitive breeds have retained a great deal of independent thinking. They were selected less to obey than to make decisions on their own — which can translate into environmental reactivity and difficulty returning to calm on request. These behaviours are often normal for these breeds and require specific approaches rather than classic corrections."
+        nuanceAnalyse = "Nordic and primitive breeds have retained a great deal of independent thinking. They were selected less to obey than to make decisions on their own — which can translate into environmental reactivity and difficulty returning to calm on request. These behaviours are often normal for these breeds and call for specific approaches rather than traditional corrections."
     ),
 
     CategorieRace(
@@ -299,7 +299,7 @@ val categoriesRacesEn = listOf(
             "Need for security and predictability",
             "Generally calm indoors"
         ),
-        nuanceAnalyse = "Sighthounds are very sensitive dogs that react strongly to visual stimuli and fast movements — this is their sight-hunting nature. A high sensitivity or reactivity score is therefore common and linked to their deep instincts. They also need a great deal of emotional security, which can translate into more marked attachment."
+        nuanceAnalyse = "Sighthounds are very sensitive dogs that react strongly to visual stimuli and fast movements — this is their sight-hunting nature. A high sensitivity or reactivity score is therefore common and linked to their deep-rooted instincts. They also need a great deal of emotional security, which can translate into more marked attachment."
     ),
 
     CategorieRace(
@@ -318,7 +318,7 @@ val categoriesRacesEn = listOf(
             "Reactivity sometimes underestimated",
             "Frequent barking possible"
         ),
-        nuanceAnalyse = "Toy and companion breeds were selected to live as close as possible to humans — which explains a often very strong attachment need. Their small size sometimes leads to underestimating their reactivity or behavioural difficulties. A high attachment or sensitivity score is very common and deserves the same attention as in larger breeds."
+        nuanceAnalyse = "Toy and companion breeds were selected to live as close as possible to humans — which explains an often very strong need for attachment. Their small size sometimes leads to underestimating their reactivity or behavioural difficulties. A high attachment or sensitivity score is very common and deserves the same attention as in larger breeds."
     ),
 
     CategorieRace(
@@ -334,10 +334,10 @@ val categoriesRacesEn = listOf(
         predispositions = listOf(
             "Very high motivation and energy",
             "Frequent impulsivity outdoors",
-            "Difficult excitement management",
+            "Struggles to manage excitement",
             "Possible independence when following scent trails"
         ),
-        nuanceAnalyse = "Hunting dogs have naturally very high motivation and energy, as well as a very strong tracking or chasing instinct. A high impulsivity or reactivity score outdoors is often the direct expression of these instincts. These behaviours are normal in their original context and require adapted work rather than classic correction."
+        nuanceAnalyse = "Hunting dogs have naturally very high motivation and energy, as well as a very strong tracking or chasing instinct. A high impulsivity or reactivity score outdoors is often the direct expression of these instincts. These behaviours are normal in their original context and call for tailored work rather than traditional correction."
     ),
 
     CategorieRace(
@@ -372,11 +372,11 @@ val categoriesRacesDe = listOf(
         ),
         predispositions = listOf(
             "Von Natur aus hohe Reaktivität",
-            "Häufige Übererregung und Wachsamkeit",
+            "Häufig übersteigerte Wachsamkeit",
             "Großes Bedürfnis nach geistiger Auslastung",
             "Ausgeprägte emotionale Sensibilität"
         ),
-        nuanceAnalyse = "Hütehunde wurden darauf gezüchtet, ständig aufmerksam gegenüber ihrer Umgebung zu sein und auf kleinste Signale zu reagieren. Ein hoher Wert bei Reaktivität oder Sensibilität kann daher teilweise ihr tiefes Wesen widerspiegeln und nicht nur eine Schwierigkeit, die korrigiert werden muss. Das mindert nicht die Bedeutung, an diesen Achsen zu arbeiten, hilft aber, die Erwartungen einzuordnen und die Methoden anzupassen."
+        nuanceAnalyse = "Hütehunde wurden darauf gezüchtet, ständig aufmerksam gegenüber ihrer Umgebung zu sein und auf kleinste Signale zu reagieren. Ein hoher Wert bei Reaktivität oder Sensibilität kann daher teilweise ihr grundlegendes Wesen widerspiegeln und nicht nur eine Schwierigkeit, die korrigiert werden muss. Das mindert nicht die Bedeutung, an diesen Achsen zu arbeiten, hilft aber, die Erwartungen einzuordnen und die Methoden anzupassen."
     ),
 
     CategorieRace(
@@ -431,7 +431,7 @@ val categoriesRacesDe = listOf(
             "Meist ausgeglichenes Temperament",
             "Mögliche Reaktivität gegenüber Fremden",
             "Bedürfnis nach einem klaren Rahmen",
-            "Emotionale Sensibilität, die oft unterschätzt wird"
+            "Emotionale Sensibilität, die manchmal unterschätzt wird"
         ),
         nuanceAnalyse = "Molosser werden oft als starke und dominante Hunde wahrgenommen, doch viele sind in Wirklichkeit emotional sehr sensibel. Ein hoher Wert bei der Sensibilität ist nicht selten und verdient dieselbe Aufmerksamkeit wie bei jeder anderen Rasse. Ihre Größe verstärkt die Wirkung ihres Verhaltens, weshalb die Erziehungsarbeit besonders wichtig ist, selbst wenn die Probleme „klein“ erscheinen."
     ),
@@ -469,7 +469,7 @@ val categoriesRacesDe = listOf(
             "Bedürfnis nach Sicherheit und Vorhersehbarkeit",
             "Im Haus meist ruhig"
         ),
-        nuanceAnalyse = "Windhunde sind sehr sensible Hunde, die stark auf visuelle Reize und schnelle Bewegungen reagieren – das liegt in ihrer Natur als Sichtjäger. Ein hoher Wert bei Sensibilität oder Reaktivität ist daher häufig und mit ihren tiefen Instinkten verbunden. Sie brauchen außerdem viel emotionale Sicherheit, was sich in einer ausgeprägteren Bindung zeigen kann."
+        nuanceAnalyse = "Windhunde sind sehr sensible Hunde, die stark auf visuelle Reize und schnelle Bewegungen reagieren – das liegt in ihrer Natur als Sichtjäger. Ein hoher Wert bei Sensibilität oder Reaktivität ist daher häufig und mit ihren tief verwurzelten Instinkten verbunden. Sie brauchen außerdem viel emotionale Sicherheit, was sich in einer ausgeprägteren Bindung zeigen kann."
     ),
 
     CategorieRace(
@@ -524,7 +524,7 @@ val categoriesRacesDe = listOf(
             "Oft gute emotionale Belastbarkeit",
             "Die vorherrschenden Instinkte können variieren"
         ),
-        nuanceAnalyse = "Mischlinge haben je nach Herkunft sehr unterschiedliche Profile. Ohne genaue Kenntnis ihres genetischen Erbes lassen sich ihre Verhaltensveranlagungen schwer vorhersagen. Die Einschätzung stützt sich daher allein auf das beobachtete Verhalten, was die zuverlässigste und gerechteste Lesart ihrer tatsächlichen Situation bleibt."
+        nuanceAnalyse = "Mischlinge haben je nach Herkunft sehr unterschiedliche Profile. Ohne genaue Kenntnis ihres genetischen Erbes lassen sich ihre Verhaltensveranlagungen schwer vorhersagen. Die Einschätzung stützt sich daher allein auf das beobachtete Verhalten, was die zuverlässigste und treffendste Deutung ihrer tatsächlichen Situation bleibt."
     )
 )
 

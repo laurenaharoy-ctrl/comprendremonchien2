@@ -65,7 +65,7 @@ fun strBtnExportPdf() = tr("PDF", "PDF", "PDF")
 fun strBtnCopierResume() = tr("Copier le résumé", "Copy summary", "Zusammenfassung kopieren")
 fun strBtnRecommencer() = tr("Recommencer depuis le début", "Start over", "Von vorn beginnen")
 fun strBtnVoirLivres() = tr("Voir mes livres", "See my books", "Meine Bücher ansehen")
-fun strBtnRevoirIntroduction() = tr("Revoir l'introduction", "Review the introduction", "Einführung ansehen")
+fun strBtnRevoirIntroduction() = tr("Revoir l'introduction", "View the introduction again", "Einführung erneut ansehen")
 fun strBtnPolitiqueConfidentialite() = tr("Politique de confidentialité", "Privacy policy", "Datenschutzerklärung")
 fun strBtnRetourRubriques() = tr("Retour aux rubriques", "Back to categories", "Zurück zu den Rubriken")
 fun strBtnRetourCategorie() = tr("Retour à la catégorie", "Back to category", "Zurück zur Kategorie")
@@ -80,10 +80,10 @@ fun strScreenQuestionnaire() = tr("Questionnaire", "Questionnaire", "Fragebogen"
 fun strScreenAnalyse() = tr("Analyse", "Analysis", "Analyse")
 fun strScreenResultat() = tr("Résultat", "Results", "Ergebnis")
 fun strScreenDictionnaire() = tr("Dictionnaire comportemental", "Behaviour dictionary", "Verhaltenslexikon")
-fun strScreenFicheComportementale() = tr("Fiche comportementale", "Behaviour fact sheet", "Verhaltensblatt")
+fun strScreenFicheComportementale() = tr("Fiche comportementale", "Behaviour fact sheet", "Infoblatt zum Verhalten")
 fun strScreenAlimentation() = tr("Alimentation", "Feeding", "Ernährung")
 fun strScreenSignalement() = tr("Signalement", "Report", "Meldung")
-fun strScreenHistorique() = tr("Historique des bilans", "Assessment history", "Verlauf")
+fun strScreenHistorique() = tr("Historique des bilans", "Assessment history", "Verlauf der Einschätzungen")
 fun strScreenDetailBilan() = tr("Détail du bilan", "Assessment detail", "Details der Einschätzung")
 fun strScreenParametres() = tr("Paramètres", "Settings", "Einstellungen")
 
@@ -124,18 +124,18 @@ fun strChargementMessages() = trList(
 
 fun strResultatKicker() = tr("Votre bilan", "Your assessment", "Ihre Einschätzung")
 fun strResultatTitreBilan(nom: String) = tr("Bilan pour $nom", "Assessment for $nom", "Einschätzung für $nom")
-fun strResultatLecturePrincipale() = tr("Lecture principale", "Main reading", "Hauptlesart")
+fun strResultatLecturePrincipale() = tr("Lecture principale", "Main reading", "Wichtigste Deutung")
 fun strResultatPriorite(p: String) = tr("Priorité : $p", "Priority: $p", "Priorität: $p")
 fun strResultatRessent(nom: String) = tr("Ce que ressent probablement $nom", "What $nom is probably feeling", "Was $nom wahrscheinlich fühlt")
 fun strResultatCoupOeil() = tr("En un coup d'œil", "At a glance", "Auf einen Blick")
 fun strResultatFacteurs() = tr("Facteurs repérés", "Identified factors", "Erkannte Faktoren")
-fun strResultatNiveauSituation() = tr("Niveau de situation", "Situation level", "Stand der Situation")
+fun strResultatNiveauSituation() = tr("Niveau de situation", "Situation level", "Einschätzung der Lage")
 fun strResultatInquieter() = tr("Faut-il s'inquiéter ?", "Should you be concerned?", "Muss man sich Sorgen machen?")
 fun strResultatSePasse() = tr("Ce qui se passe probablement", "What is probably happening", "Was wahrscheinlich geschieht")
 fun strResultatLevierPrincipal() = tr("Première piste concrète", "First concrete step", "Ein erster konkreter Ansatz")
 fun strResultatPointAppui() = tr("Le point d'appui principal", "The main lever", "Der wichtigste Hebel")
 fun strResultatPourquoi() = tr("Pourquoi est-il comme ça ?", "Why is your dog like this?", "Warum ist er so?")
-fun strResultatComprendreAgir() = tr("Comprendre pour mieux agir", "Understand to act better", "Verstehen, um besser zu handeln")
+fun strResultatComprendreAgir() = tr("Comprendre pour mieux agir", "Understand to act more effectively", "Verstehen, um besser zu handeln")
 fun strResultatChangement() = tr("C'est souvent ici que le changement commence à prendre forme.", "This is often where change begins to take shape.", "Oft beginnt genau hier die Veränderung.")
 fun strResultat3Jours() = tr("Les 3 prochains jours", "The next 3 days", "Die nächsten 3 Tage")
 fun strResultatAFaire() = tr("À faire", "To do", "Zu tun")
@@ -146,12 +146,12 @@ fun strResultatQuandAide() = tr("Quand demander de l'aide", "When to seek help",
 fun strResultatMorsurePro() = tr("Une morsure a été signalée — un accompagnement professionnel est recommandé.", "A bite has been reported — professional support is recommended.", "Es wurde ein Biss gemeldet – eine professionelle Begleitung wird empfohlen.")
 fun strResultatImportant() = tr("Important", "Important", "Wichtig")
 fun strResultatDisclaimer() = tr("Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.", "This assessment is indicative. It does not replace a vet or a behaviour professional.", "Diese Einschätzung ist nur ein Anhaltspunkt. Sie ersetzt weder einen Tierarzt noch eine Fachperson für Verhalten.")
-fun strResultatAllerPlusLoin(nom: String) = tr("Pour aller plus loin avec $nom", "Going further with $nom", "Weiter mit $nom")
-fun strResultatFichesComportementales() = tr("Fiches comportementales", "Behaviour fact sheets", "Verhaltensblätter")
+fun strResultatAllerPlusLoin(nom: String) = tr("Pour aller plus loin avec $nom", "Going further with $nom", "Weiterführendes für $nom")
+fun strResultatFichesComportementales() = tr("Fiches comportementales", "Behaviour fact sheets", "Infoblätter zum Verhalten")
 fun strResultatReperes() = tr("Repères alimentation", "Feeding guidelines", "Ernährung auf einen Blick")
 fun strResultatARetenir() = tr("À retenir", "Key takeaway", "Das Wichtigste")
 fun strResultatLeLivre() = tr("Le livre", "The book", "Das Buch")
-fun strResultatAllerPlusLoinLivre() = tr("Si vous souhaitez aller plus loin", "If you want to go further", "Wenn Sie weitergehen möchten")
+fun strResultatAllerPlusLoinLivre() = tr("Si vous souhaitez aller plus loin", "If you want to go further", "Wenn Sie tiefer einsteigen möchten")
 fun strResultatCopie() = tr("Copié", "Copied", "Kopiert")
 fun strResultatProfilRace() = tr("Profil de race", "Breed profile", "Rasseprofil")
 fun strResultatPredispositions() = tr("Prédispositions fréquentes dans cette famille", "Common predispositions in this family", "Häufige Veranlagungen in dieser Gruppe")
@@ -169,35 +169,35 @@ fun strMorsuConseil() = tr("Un accompagnement par un professionnel du comporteme
 // ═══════════════════════════════════════════════════════════
 
 fun strDicoTitre() = tr("Dictionnaire comportemental", "Behaviour dictionary", "Verhaltenslexikon")
-fun strDicoSousTitre() = tr("Repères pour mieux lire le langage du chien", "Landmarks for reading your dog's body language", "Anhaltspunkte, um die Sprache des Hundes besser zu lesen")
-fun strDicoRecherchePlaceholder() = tr("Rechercher une fiche…", "Search a fact sheet…", "Ein Blatt suchen…")
-fun strDicoAucunResultat(q: String) = tr("Aucune fiche ne correspond à \"$q\".", "No fact sheet matches \"$q\".", "Kein Blatt passt zu \"$q\".")
+fun strDicoSousTitre() = tr("Repères pour mieux lire le langage du chien", "Pointers for reading your dog's body language", "Anhaltspunkte, um die Sprache des Hundes besser zu lesen")
+fun strDicoRecherchePlaceholder() = tr("Rechercher une fiche…", "Search a fact sheet…", "Ein Infoblatt suchen…")
+fun strDicoAucunResultat(q: String) = tr("Aucune fiche ne correspond à \"$q\".", "No fact sheet matches \"$q\".", "Kein Infoblatt passt zu „$q“.")
 fun strDicoImportant() = tr("Important", "Important", "Wichtig")
-fun strDicoDisclaimer() = tr("Ces fiches donnent des repères de lecture. Elles ne remplacent pas l'avis d'un professionnel.", "These fact sheets provide reading landmarks. They do not replace professional advice.", "Diese Blätter geben Anhaltspunkte zum Lesen. Sie ersetzen nicht den Rat einer Fachperson.")
+fun strDicoDisclaimer() = tr("Ces fiches donnent des repères de lecture. Elles ne remplacent pas l'avis d'un professionnel.", "These fact sheets offer guidance for interpretation. They do not replace professional advice.", "Diese Infoblätter bieten Orientierungshilfen. Sie ersetzen nicht den Rat einer Fachperson.")
 fun strDicoRappel() = tr("Un comportement isolé ne suffit pas toujours à conclure. Le contexte et l'ensemble du langage corporel comptent autant.", "An isolated behaviour is not always enough to draw conclusions. Context and overall body language matter just as much.", "Ein einzelnes Verhalten reicht nicht immer aus, um Schlüsse zu ziehen. Der Kontext und die gesamte Körpersprache zählen genauso.")
-fun strDicoFicheKicker() = tr("Fiche comportementale", "Behaviour fact sheet", "Verhaltensblatt")
+fun strDicoFicheKicker() = tr("Fiche comportementale", "Behaviour fact sheet", "Infoblatt zum Verhalten")
 fun strDicoExplication() = tr("Explication", "Explanation", "Erklärung")
 fun strDicoQueFaire() = tr("Que faire", "What to do", "Was tun")
 fun strDicoAEviter() = tr("À éviter", "What to avoid", "Zu vermeiden")
 fun strDicoRappelKicker() = tr("Rappel", "Reminder", "Zur Erinnerung")
-fun strDicoFicheIntrouvable() = tr("Fiche introuvable.", "Fact sheet not found.", "Blatt nicht gefunden.")
+fun strDicoFicheIntrouvable() = tr("Fiche introuvable.", "Fact sheet not found.", "Infoblatt nicht gefunden.")
 
 // ═══════════════════════════════════════════════════════════
 // ALIMENTATION
 // ═══════════════════════════════════════════════════════════
 
 fun strAlimTitre() = tr("Alimentation du chien", "Feeding your dog", "Ernährung des Hundes")
-fun strAlimSousTitre() = tr("Repères pratiques pour nourrir votre chien sereinement.", "Practical landmarks for feeding your dog with confidence.", "Praktische Anhaltspunkte, um Ihren Hund entspannt zu füttern.")
+fun strAlimSousTitre() = tr("Repères pratiques pour nourrir votre chien sereinement.", "Practical guidance for feeding your dog with confidence.", "Praktische Anhaltspunkte, um Ihren Hund entspannt zu füttern.")
 fun strAlimARetenirKicker() = tr("À retenir d'abord", "Keep in mind first", "Zuerst das Wichtigste")
 fun strAlimRetenir1() = tr("Tout changement alimentaire doit être progressif.", "Any dietary change must be gradual.", "Jede Futterumstellung muss schrittweise erfolgen.")
 fun strAlimRetenir2() = tr("Même un aliment banal pour l'humain peut être inadapté pour le chien.", "Even a food that seems harmless to humans may be unsuitable for dogs.", "Selbst ein für Menschen alltägliches Lebensmittel kann für Hunde ungeeignet sein.")
-fun strAlimRetenir3() = tr("En cas d'ingestion suspecte ou de symptômes, la prudence passe avant l'attente.", "If in doubt about ingestion or symptoms, caution comes before waiting.", "Bei verdächtiger Aufnahme oder Symptomen gilt: lieber vorsichtig als abwarten.")
+fun strAlimRetenir3() = tr("En cas d'ingestion suspecte ou de symptômes, la prudence passe avant l'attente.", "If your dog may have swallowed something harmful or shows symptoms, act with caution rather than wait.", "Bei verdächtiger Aufnahme oder Symptomen gilt: lieber vorsichtig als abwarten.")
 fun strAlimImportant() = tr("Important", "Important", "Wichtig")
-fun strAlimDisclaimer() = tr("Ce guide donne des repères généraux. Il ne remplace pas un vétérinaire.", "This guide provides general landmarks. It does not replace a vet.", "Dieser Leitfaden gibt allgemeine Anhaltspunkte. Er ersetzt keinen Tierarzt.")
-fun strAlimRappel() = tr("En cas de symptômes ou d'ingestion douteuse, privilégiez un avis vétérinaire.", "If symptoms appear or ingestion seems doubtful, seek veterinary advice.", "Bei Symptomen oder fraglicher Aufnahme holen Sie lieber tierärztlichen Rat ein.")
+fun strAlimDisclaimer() = tr("Ce guide donne des repères généraux. Il ne remplace pas un vétérinaire.", "This guide provides general guidance. It does not replace a vet.", "Dieser Leitfaden gibt allgemeine Anhaltspunkte. Er ersetzt keinen Tierarzt.")
+fun strAlimRappel() = tr("En cas de symptômes ou d'ingestion douteuse, privilégiez un avis vétérinaire.", "If symptoms appear or you suspect your dog has eaten something harmful, seek veterinary advice.", "Bei Symptomen oder fraglicher Aufnahme holen Sie lieber tierärztlichen Rat ein.")
 fun strAlimCatDangereuxDesc() = tr("Les aliments à éviter pour ne pas faire d'erreur.", "Foods to avoid to stay on the safe side.", "Lebensmittel, die Sie meiden sollten, um keinen Fehler zu machen.")
-fun strAlimCatAutorisesDesc() = tr("Les repères de base pour donner sans improviser.", "Basic landmarks for giving food without guessing.", "Die Grundregeln, um nichts dem Zufall zu überlassen.")
-fun strAlimCatIngestionDesc() = tr("Les bons réflexes si le chien a avalé quelque chose.", "The right reflexes if your dog has swallowed something.", "Die richtigen Reflexe, wenn Ihr Hund etwas verschluckt hat.")
+fun strAlimCatAutorisesDesc() = tr("Les repères de base pour donner sans improviser.", "The basics for feeding safely without guessing.", "Die Grundregeln, um nichts dem Zufall zu überlassen.")
+fun strAlimCatIngestionDesc() = tr("Les bons réflexes si le chien a avalé quelque chose.", "What to do if your dog has swallowed something.", "Was zu tun ist, wenn Ihr Hund etwas verschluckt hat.")
 fun strAlimCatDigestionDesc() = tr("Herbe, vomissements, selles et petits signaux digestifs.", "Grass, vomiting, stools and small digestive signals.", "Gras, Erbrechen, Kot und kleine Verdauungssignale.")
 
 // ═══════════════════════════════════════════════════════════
@@ -208,7 +208,7 @@ fun strParamsKicker() = tr("Paramètres", "Settings", "Einstellungen")
 fun strParamsAppTitre() = tr("Comprendre mon chien", "Understanding My Dog", "Meinen Hund verstehen")
 fun strParamsVersion(v: String) = tr("Version $v", "Version $v", "Version $v")
 fun strParamsTutorielKicker() = tr("Tutoriel", "Tutorial", "Einführung")
-fun strParamsTutorielTexte() = tr("Revoir la présentation de l'application depuis le début.", "Review the app presentation from the beginning.", "Die Vorstellung der App noch einmal von vorn ansehen.")
+fun strParamsTutorielTexte() = tr("Revoir la présentation de l'application depuis le début.", "Replay the app introduction from the start.", "Die Vorstellung der App noch einmal von vorn ansehen.")
 fun strParamsConfidentialiteKicker() = tr("Confidentialité", "Privacy", "Datenschutz")
 fun strParamsConfidentialiteTexte() = tr("Cette application ne collecte aucune donnée personnelle. Les bilans sont stockés uniquement sur votre appareil. Les notifications sont locales.", "This app does not collect any personal data. Assessments are stored on your device only. Notifications are local.", "Diese App erhebt keine personenbezogenen Daten. Die Einschätzungen werden nur auf Ihrem Gerät gespeichert. Die Benachrichtigungen sind lokal.")
 fun strParamsAProposKicker() = tr("À propos", "About", "Über die App")
@@ -232,7 +232,7 @@ fun strHistoriqueSupprimerToutTexte() = tr("Cette action est irréversible. Tous
 fun strHistoriqueDetailKicker() = tr("Bilan sauvegardé", "Saved assessment", "Gespeicherte Einschätzung")
 fun strHistoriqueSynthese() = tr("Synthèse", "Summary", "Zusammenfassung")
 fun strHistoriqueCarte() = tr("Carte du profil", "Profile card", "Profilkarte")
-fun strHistoriqueLecture() = tr("Lecture principale", "Main reading", "Hauptlesart")
+fun strHistoriqueLecture() = tr("Lecture principale", "Main reading", "Wichtigste Deutung")
 fun strHistoriquePiste() = tr("Première piste concrète", "First concrete step", "Ein erster konkreter Ansatz")
 fun strHistoriqueRappelKicker() = tr("Rappel", "Reminder", "Zur Erinnerung")
 fun strHistoriqueRappelTexte() = tr("Ce bilan est un enregistrement indicatif. La situation de votre chien peut avoir évolué depuis.", "This assessment is an indicative record. Your dog's situation may have changed since then.", "Diese Einschätzung ist eine unverbindliche Momentaufnahme. Die Situation Ihres Hundes kann sich seitdem verändert haben.")
@@ -297,7 +297,7 @@ fun strPdfBilanEmotionnel() = tr("Bilan émotionnel", "Emotional assessment", "E
 fun strPdfFooter() = tr("Comprendre mon chien  •  Bilan émotionnel indicatif", "Understanding My Dog  •  Indicative emotional assessment", "Meinen Hund verstehen  •  Unverbindliche emotionale Einschätzung")
 fun strPdfPage(n: Int, total: Int = 4) = tr("Page $n / $total", "Page $n / $total", "Seite $n / $total")
 fun strPdf4Axes() = tr("Les 4 dimensions", "The 4 dimensions", "Die 4 Dimensionen")
-fun strPdfHypothese() = tr("Hypothèse de lecture", "Reading hypothesis", "Lesehypothese")
+fun strPdfHypothese() = tr("Hypothèse de lecture", "Reading hypothesis", "Deutungshypothese")
 fun strPdfSePasse() = tr("Ce qui se passe probablement", "What is probably happening", "Was wahrscheinlich geschieht")
 fun strPdfFacteurs() = tr("Facteurs repérés", "Identified factors", "Erkannte Faktoren")
 fun strPdfAggravants() = tr("Ce qui peut aggraver", "What may make things worse", "Was die Lage verschlimmern kann")
@@ -319,9 +319,9 @@ fun strPdfAxePrincipal() = tr("Axe principal", "Main axis", "Hauptachse")
 fun strPdfSituation() = tr("Situation", "Situation", "Situation")
 fun strPdfBesoin() = tr("Besoin principal", "Main need", "Hauptbedürfnis")
 fun strPdfAide() = tr("Aide à envisager", "Support to consider", "Mögliche Unterstützung")
-fun strPdfProfil(nom: String) = tr("Profil de $nom", "Profile of $nom", "Profil von $nom")
+fun strPdfProfil(nom: String) = tr("Profil de $nom", "$nom's profile", "Profil von $nom")
 fun strPdfAideComportementalisteRec() = tr("Comportementaliste recommandé", "Behaviourist recommended", "Verhaltensberatung empfohlen")
-fun strPdfAideProRapide() = tr("Professionnel rapidement", "Professional quickly", "Rasch eine Fachperson")
+fun strPdfAideProRapide() = tr("Professionnel rapidement", "See a professional soon", "Zeitnah Fachperson hinzuziehen")
 fun strPdfAideComportementaliste() = tr("Comportementaliste", "Behaviourist", "Verhaltensberater")
 fun strPdfAideEducateur() = tr("Éducateur canin", "Dog trainer", "Hundetrainer")
 fun strPdfAideEducateurBesoin() = tr("Éducateur canin si besoin", "Dog trainer if needed", "Hundetrainer bei Bedarf")
@@ -341,15 +341,15 @@ fun strPrioriteAction(p: PrioriteAction) = when (p) {
 }
 
 fun strNiveauAxe(n: NiveauAxe) = when (n) {
-    NiveauAxe.PEU_MARQUE -> tr("Peu marqué", "Low", "Wenig ausgeprägt")
-    NiveauAxe.A_SURVEILLER -> tr("À surveiller", "Watch", "Zu beobachten")
+    NiveauAxe.PEU_MARQUE -> tr("Peu marqué", "Mild", "Wenig ausgeprägt")
+    NiveauAxe.A_SURVEILLER -> tr("À surveiller", "Worth watching", "Zu beobachten")
     NiveauAxe.MARQUE -> tr("Marqué", "Marked", "Ausgeprägt")
     NiveauAxe.TRES_MARQUE -> tr("Très marqué", "Very marked", "Stark ausgeprägt")
 }
 
 fun strNiveauSituation(n: NiveauSituation) = when (n) {
     NiveauSituation.STABLE -> tr("Stable", "Stable", "Stabil")
-    NiveauSituation.A_TRAVAILLER -> tr("À travailler", "To work on", "Daran arbeiten")
+    NiveauSituation.A_TRAVAILLER -> tr("À travailler", "To work on", "Handlungsbedarf")
     NiveauSituation.SENSIBLE -> tr("Sensible", "Sensitive", "Heikel")
 }
 
@@ -449,7 +449,7 @@ fun strSignalementChooser() = tr("Envoyer le signalement", "Send report", "Meldu
 
 fun strResumeEmotionnel(axe: Axe) = when (axe) {
     Axe.PEUR -> tr("Sensible et facilement impacté par son environnement", "Sensitive and easily affected by the environment", "Sensibel und leicht von seiner Umgebung beeinflusst")
-    Axe.ATTACHEMENT -> tr("Très attaché, difficile à détacher", "Very attached, hard to detach", "Sehr anhänglich, schwer zu lösen")
+    Axe.ATTACHEMENT -> tr("Très attaché, difficile à détacher", "Very attached, finds it hard to be apart", "Sehr anhänglich, tut sich schwer mit Trennungen")
     Axe.IMPULSIVITE -> tr("Monte vite en excitation", "Gets excited quickly", "Gerät schnell in Erregung")
     Axe.REACTIVITE -> tr("Réagit rapidement aux stimuli", "Reacts quickly to stimuli", "Reagiert schnell auf Reize")
 }
@@ -458,17 +458,17 @@ fun strIntentionChien(axe: Axe) = when (axe) {
     Axe.PEUR -> tr("Il essaie surtout de gérer ce qui lui fait peur.", "He is mainly trying to manage what frightens him.", "Er versucht vor allem, mit dem umzugehen, was ihm Angst macht.")
     Axe.ATTACHEMENT -> tr("Il cherche à rester en sécurité avec vous.", "He is looking to stay safe with you.", "Er sucht bei Ihnen Sicherheit.")
     Axe.IMPULSIVITE -> tr("Il tente de gérer son excitation.", "He is trying to manage his excitement.", "Er versucht, mit seiner Erregung umzugehen.")
-    Axe.REACTIVITE -> tr("Il essaie de répondre à un environnement trop intense.", "He is trying to respond to an overly intense environment.", "Er versucht, auf eine zu intensive Umgebung zu antworten.")
+    Axe.REACTIVITE -> tr("Il essaie de répondre à un environnement trop intense.", "He is trying to cope with an environment that is too intense.", "Er versucht, mit einer zu intensiven Umgebung zurechtzukommen.")
 }
 
 fun strBesoinPrincipal(axe: Axe) = when (axe) {
     Axe.PEUR -> tr("Besoin principal : se sentir en sécurité.", "Main need: to feel safe.", "Hauptbedürfnis: sich sicher fühlen.")
     Axe.ATTACHEMENT -> tr("Besoin principal : gagner en autonomie.", "Main need: to build independence.", "Hauptbedürfnis: selbstständiger werden.")
-    Axe.IMPULSIVITE -> tr("Besoin principal : apprendre à redescendre.", "Main need: learning to come back down.", "Hauptbedürfnis: lernen, wieder herunterzukommen.")
+    Axe.IMPULSIVITE -> tr("Besoin principal : apprendre à redescendre.", "Main need: to learn to calm back down.", "Hauptbedürfnis: lernen, wieder herunterzukommen.")
     Axe.REACTIVITE -> tr("Besoin principal : retrouver du calme.", "Main need: to find calm again.", "Hauptbedürfnis: wieder zur Ruhe finden.")
 }
 
-fun strPhraseFin(nom: String) = tr("Chaque chien est unique. Ce bilan donne des repères pour $nom, mais l'observation du quotidien reste essentielle.", "Every dog is unique. This assessment provides landmarks for $nom, but daily observation remains essential.", "Jeder Hund ist einzigartig. Diese Einschätzung gibt Anhaltspunkte für $nom, doch die Beobachtung im Alltag bleibt unerlässlich.")
+fun strPhraseFin(nom: String) = tr("Chaque chien est unique. Ce bilan donne des repères pour $nom, mais l'observation du quotidien reste essentielle.", "Every dog is unique. This assessment offers pointers for $nom, but daily observation remains essential.", "Jeder Hund ist einzigartig. Diese Einschätzung gibt Anhaltspunkte für $nom, doch die Beobachtung im Alltag bleibt unerlässlich.")
 
 fun strTexteVigilance(niveau: NiveauVigilance, nom: String) = when (niveau) {
     NiveauVigilance.FAIBLE -> tr("À ce stade, rien ne ressort comme particulièrement préoccupant pour $nom.", "At this stage, nothing stands out as particularly concerning for $nom.", "Im Moment deutet nichts auf etwas besonders Besorgniserregendes bei $nom hin.")
@@ -517,12 +517,12 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             OnboardingSlide(
                 kicker = "Welcome",
                 titre = "Understanding My Dog",
-                description = "This app helps you decode your dog's behaviour and get concrete advice tailored to his unique profile.",
+                description = "This app helps you decode your dog's behaviour and get concrete advice tailored to their unique profile.",
                 illustrationType = IllustrationType.CHIEN_ASSIS
             ),
             OnboardingSlide(
                 kicker = "How it works",
-                titre = "A questionnaire, four dimensions",
+                titre = "One questionnaire, four dimensions",
                 description = "In just a few minutes, you explore the four axes that shape your dog's everyday behaviour.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
