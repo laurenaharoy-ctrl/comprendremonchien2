@@ -32,7 +32,7 @@
     <string name="screen_analyse">Analysis</string>
     <string name="screen_resultat">Results</string>
     <string name="screen_dictionnaire">Behavior dictionary</string>
-    <string name="screen_fiche_comportementale">Behavior fact sheet</string>
+    <string name="screen_fiche_comportementale">Behavior guide</string>
     <string name="screen_alimentation">Feeding</string>
     <string name="screen_signalement">Report</string>
     <string name="screen_historique">Assessment history</string>
@@ -49,7 +49,7 @@
     <string name="intro_explorer_kicker">What you will explore</string>
     <string name="intro_explorer_1">Emotional sensitivity</string>
     <string name="intro_explorer_2">Need for attachment</string>
-    <string name="intro_explorer_3">Excitement management</string>
+    <string name="intro_explorer_3">How they handle excitement</string>
     <string name="intro_explorer_4">Reactivity to the environment</string>
 
     <!-- Questionnaire -->
@@ -71,11 +71,11 @@
     <string name="resultat_ressent">What %1$s is probably feeling</string>
     <string name="resultat_coup_oeil">At a glance</string>
     <string name="resultat_facteurs">Identified factors</string>
-    <string name="resultat_niveau_situation">Situation level</string>
+    <string name="resultat_niveau_situation">How serious this is</string>
     <string name="resultat_inquieter">Should you be concerned?</string>
     <string name="resultat_se_passe">What is probably happening</string>
     <string name="resultat_levier_principal">First concrete step</string>
-    <string name="resultat_point_appui">The main lever</string>
+    <string name="resultat_point_appui">The main thing to build on</string>
     <string name="resultat_pourquoi">Why is your dog like this?</string>
     <string name="resultat_comprendre_agir">Understand to act more effectively</string>
     <string name="resultat_changement">This is often where change begins to take shape.</string>
@@ -89,7 +89,7 @@
     <string name="resultat_important">Important</string>
     <string name="resultat_disclaimer">This assessment is indicative. It does not replace a vet or a behavior professional.</string>
     <string name="resultat_aller_plus_loin">Going further with %1$s</string>
-    <string name="resultat_fiches_comportementales">Behavior fact sheets</string>
+    <string name="resultat_fiches_comportementales">Behavior guides</string>
     <string name="resultat_reperes_alimentation">Feeding guidelines</string>
     <string name="resultat_a_retenir">Key takeaway</string>
     <string name="resultat_le_livre">The book</string>
@@ -106,12 +106,12 @@
     <!-- Behavior dictionary -->
     <string name="dico_titre">Behavior dictionary</string>
     <string name="dico_sous_titre">Pointers for reading your dog\'s body language</string>
-    <string name="dico_recherche_placeholder">Search a fact sheet…</string>
-    <string name="dico_aucun_resultat">No fact sheet matches \"%1$s\".</string>
+    <string name="dico_recherche_placeholder">Search guides…</string>
+    <string name="dico_aucun_resultat">No guide matches \"%1$s\".</string>
     <string name="dico_important">Important</string>
-    <string name="dico_disclaimer">These fact sheets offer guidance for interpretation. They do not replace professional advice.</string>
+    <string name="dico_disclaimer">These guides offer help with interpretation. They do not replace professional advice.</string>
     <string name="dico_rappel">An isolated behavior is not always enough to draw conclusions. Context and overall body language matter just as much.</string>
-    <string name="dico_fiche_kicker">Behavior fact sheet</string>
+    <string name="dico_fiche_kicker">Behavior guide</string>
     <string name="dico_explication">Explanation</string>
     <string name="dico_que_faire">What to do</string>
     <string name="dico_a_eviter">What to avoid</string>
@@ -167,7 +167,7 @@
     <string name="feedback_titre">Something wrong?</string>
     <string name="feedback_sous_titre">Your feedback is valuable. Describe the issue or suggestion and we will take it into account.</string>
     <string name="feedback_type_kicker">Report type</string>
-    <string name="feedback_ecran_kicker">Screen concerned</string>
+    <string name="feedback_ecran_kicker">Affected screen</string>
     <string name="feedback_description_kicker">Description</string>
     <string name="feedback_description_texte">Describe the issue or your suggestion in as much detail as possible.</string>
     <string name="feedback_placeholder">E.g.: On the results screen, the Export PDF button doesn\'t work…</string>
@@ -208,13 +208,13 @@
     <string name="pdf_footer">Understanding My Dog  •  Indicative emotional assessment</string>
     <string name="pdf_page">Page %1$d / 4</string>
     <string name="pdf_4axes">The 4 dimensions</string>
-    <string name="pdf_hypothese">Reading hypothesis</string>
+    <string name="pdf_hypothese">Possible reading</string>
     <string name="pdf_se_passe">What is probably happening</string>
     <string name="pdf_facteurs">Identified factors</string>
     <string name="pdf_aggravants">What may make things worse</string>
     <string name="pdf_protecteurs">What is already helping</string>
     <string name="pdf_plan_action">Action plan for %1$s</string>
-    <string name="pdf_levier">First useful lever</string>
+    <string name="pdf_levier">First useful step</string>
     <string name="pdf_prochains_jours">The coming days</string>
     <string name="pdf_conseils">Additional advice</string>
     <string name="pdf_a_retenir">Key takeaway</string>
@@ -231,9 +231,9 @@
     <string name="pdf_besoin">Main need</string>
     <string name="pdf_aide">Support to consider</string>
     <string name="pdf_profil">%1$s\'s profile</string>
-    <string name="pdf_aide_comportementaliste_rec">Behaviorist recommended</string>
+    <string name="pdf_aide_comportementaliste_rec">Behavior consultant recommended</string>
     <string name="pdf_aide_pro_rapide">See a professional soon</string>
-    <string name="pdf_aide_comportementaliste">Behaviorist</string>
+    <string name="pdf_aide_comportementaliste">Behavior consultant</string>
     <string name="pdf_aide_educateur">Dog trainer</string>
     <string name="pdf_aide_educateur_besoin">Dog trainer if needed</string>
     <string name="pdf_recap_profil">%1$s primarily shows a %2$s profile.</string>
@@ -252,7 +252,7 @@
     <string name="niveau_marque">Marked</string>
     <string name="niveau_tres_marque">Very marked</string>
 
-    <!-- Situation levels -->
+    <!-- How serious this iss -->
     <string name="situation_stable">Stable</string>
     <string name="situation_a_travailler">To work on</string>
     <string name="situation_sensible">Sensitive</string>

@@ -72,10 +72,10 @@
     <string name="resultat_coup_oeil">Auf einen Blick</string>
     <string name="resultat_facteurs">Erkannte Faktoren</string>
     <string name="resultat_niveau_situation">Einschätzung der Lage</string>
-    <string name="resultat_inquieter">Muss man sich Sorgen machen?</string>
+    <string name="resultat_inquieter">Sollten Sie sich Sorgen machen?</string>
     <string name="resultat_se_passe">Was wahrscheinlich geschieht</string>
     <string name="resultat_levier_principal">Ein erster konkreter Ansatz</string>
-    <string name="resultat_point_appui">Der wichtigste Hebel</string>
+    <string name="resultat_point_appui">Der wichtigste Ansatzpunkt</string>
     <string name="resultat_pourquoi">Warum ist er so?</string>
     <string name="resultat_comprendre_agir">Verstehen, um besser zu handeln</string>
     <string name="resultat_changement">Oft beginnt genau hier die Veränderung.</string>
@@ -128,7 +128,7 @@
     <string name="alim_important">Wichtig</string>
     <string name="alim_disclaimer">Dieser Leitfaden gibt allgemeine Anhaltspunkte. Er ersetzt keinen Tierarzt.</string>
     <string name="alim_rappel">Bei Symptomen oder fraglicher Aufnahme holen Sie lieber tierärztlichen Rat ein.</string>
-    <string name="alim_cat_dangereux_desc">Lebensmittel, die Sie meiden sollten, um keinen Fehler zu machen.</string>
+    <string name="alim_cat_dangereux_desc">Lebensmittel, die Sie meiden sollten, um auf der sicheren Seite zu bleiben.</string>
     <string name="alim_cat_autorises_desc">Die Grundregeln, um nichts dem Zufall zu überlassen.</string>
     <string name="alim_cat_ingestion_desc">Was zu tun ist, wenn Ihr Hund etwas verschluckt hat.</string>
     <string name="alim_cat_digestion_desc">Gras, Erbrechen, Kot und kleine Verdauungssignale.</string>
@@ -208,13 +208,13 @@
     <string name="pdf_footer">Meinen Hund verstehen  •  Unverbindliche emotionale Einschätzung</string>
     <string name="pdf_page">Seite %1$d / 4</string>
     <string name="pdf_4axes">Die 4 Dimensionen</string>
-    <string name="pdf_hypothese">Deutungshypothese</string>
+    <string name="pdf_hypothese">Mögliche Deutung</string>
     <string name="pdf_se_passe">Was wahrscheinlich geschieht</string>
     <string name="pdf_facteurs">Erkannte Faktoren</string>
     <string name="pdf_aggravants">Was die Lage verschlimmern kann</string>
     <string name="pdf_protecteurs">Was bereits schützt</string>
     <string name="pdf_plan_action">Aktionsplan für %1$s</string>
-    <string name="pdf_levier">Erster hilfreicher Hebel</string>
+    <string name="pdf_levier">Erster hilfreicher Schritt</string>
     <string name="pdf_prochains_jours">Die nächsten Tage</string>
     <string name="pdf_conseils">Weitere Tipps</string>
     <string name="pdf_a_retenir">Das Wichtigste</string>
