@@ -79,8 +79,8 @@ fun strBtnEnvoyerSignalement() = tr("Envoyer le signalement", "Send report", "Me
 fun strScreenQuestionnaire() = tr("Questionnaire", "Questionnaire", "Fragebogen")
 fun strScreenAnalyse() = tr("Analyse", "Analysis", "Analyse")
 fun strScreenResultat() = tr("Résultat", "Results", "Ergebnis")
-fun strScreenDictionnaire() = tr("Dictionnaire comportemental", "Behaviour dictionary", "Verhaltenslexikon")
-fun strScreenFicheComportementale() = tr("Fiche comportementale", "Behaviour fact sheet", "Infoblatt zum Verhalten")
+fun strScreenDictionnaire() = tr("Dictionnaire comportemental", "Behavior dictionary", "Verhaltenslexikon")
+fun strScreenFicheComportementale() = tr("Fiche comportementale", "Behavior fact sheet", "Infoblatt zum Verhalten")
 fun strScreenAlimentation() = tr("Alimentation", "Feeding", "Ernährung")
 fun strScreenSignalement() = tr("Signalement", "Report", "Meldung")
 fun strScreenHistorique() = tr("Historique des bilans", "Assessment history", "Verlauf der Einschätzungen")
@@ -145,9 +145,9 @@ fun strResultatConseilsComplementaires() = tr("Conseils complémentaires", "Addi
 fun strResultatQuandAide() = tr("Quand demander de l'aide", "When to seek help", "Wann Sie Hilfe suchen sollten")
 fun strResultatMorsurePro() = tr("Une morsure a été signalée — un accompagnement professionnel est recommandé.", "A bite has been reported — professional support is recommended.", "Es wurde ein Biss gemeldet – eine professionelle Begleitung wird empfohlen.")
 fun strResultatImportant() = tr("Important", "Important", "Wichtig")
-fun strResultatDisclaimer() = tr("Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.", "This assessment is indicative. It does not replace a vet or a behaviour professional.", "Diese Einschätzung ist nur ein Anhaltspunkt. Sie ersetzt weder einen Tierarzt noch eine Fachperson für Verhalten.")
+fun strResultatDisclaimer() = tr("Ce bilan reste indicatif. Il ne remplace ni un vétérinaire ni un professionnel du comportement.", "This assessment is indicative. It does not replace a vet or a behavior professional.", "Diese Einschätzung ist nur ein Anhaltspunkt. Sie ersetzt weder einen Tierarzt noch eine Fachperson für Verhalten.")
 fun strResultatAllerPlusLoin(nom: String) = tr("Pour aller plus loin avec $nom", "Going further with $nom", "Weiterführendes für $nom")
-fun strResultatFichesComportementales() = tr("Fiches comportementales", "Behaviour fact sheets", "Infoblätter zum Verhalten")
+fun strResultatFichesComportementales() = tr("Fiches comportementales", "Behavior fact sheets", "Infoblätter zum Verhalten")
 fun strResultatReperes() = tr("Repères alimentation", "Feeding guidelines", "Ernährung auf einen Blick")
 fun strResultatARetenir() = tr("À retenir", "Key takeaway", "Das Wichtigste")
 fun strResultatLeLivre() = tr("Le livre", "The book", "Das Buch")
@@ -162,20 +162,20 @@ fun strResultatPredispositions() = tr("Prédispositions fréquentes dans cette f
 
 fun strMorsureTitre() = tr("ATTENTION — MORSURE SIGNALÉE", "WARNING — BITE REPORTED", "ACHTUNG – BISS GEMELDET")
 fun strMorsuTexte(nom: String) = tr("Il y a déjà eu morsure chez $nom. Cette situation ne doit pas être banalisée.", "There has already been a bite involving $nom. This situation should not be taken lightly.", "$nom hat bereits gebissen. Diese Situation sollte nicht verharmlost werden.")
-fun strMorsuConseil() = tr("Un accompagnement par un professionnel du comportement est fortement recommandé.", "Support from a behaviour professional is strongly recommended.", "Eine Begleitung durch eine Fachperson für Verhalten wird dringend empfohlen.")
+fun strMorsuConseil() = tr("Un accompagnement par un professionnel du comportement est fortement recommandé.", "Support from a behavior professional is strongly recommended.", "Eine Begleitung durch eine Fachperson für Verhalten wird dringend empfohlen.")
 
 // ═══════════════════════════════════════════════════════════
 // DICTIONNAIRE COMPORTEMENTAL
 // ═══════════════════════════════════════════════════════════
 
-fun strDicoTitre() = tr("Dictionnaire comportemental", "Behaviour dictionary", "Verhaltenslexikon")
+fun strDicoTitre() = tr("Dictionnaire comportemental", "Behavior dictionary", "Verhaltenslexikon")
 fun strDicoSousTitre() = tr("Repères pour mieux lire le langage du chien", "Pointers for reading your dog's body language", "Anhaltspunkte, um die Sprache des Hundes besser zu lesen")
 fun strDicoRecherchePlaceholder() = tr("Rechercher une fiche…", "Search a fact sheet…", "Ein Infoblatt suchen…")
 fun strDicoAucunResultat(q: String) = tr("Aucune fiche ne correspond à \"$q\".", "No fact sheet matches \"$q\".", "Kein Infoblatt passt zu „$q“.")
 fun strDicoImportant() = tr("Important", "Important", "Wichtig")
 fun strDicoDisclaimer() = tr("Ces fiches donnent des repères de lecture. Elles ne remplacent pas l'avis d'un professionnel.", "These fact sheets offer guidance for interpretation. They do not replace professional advice.", "Diese Infoblätter bieten Orientierungshilfen. Sie ersetzen nicht den Rat einer Fachperson.")
-fun strDicoRappel() = tr("Un comportement isolé ne suffit pas toujours à conclure. Le contexte et l'ensemble du langage corporel comptent autant.", "An isolated behaviour is not always enough to draw conclusions. Context and overall body language matter just as much.", "Ein einzelnes Verhalten reicht nicht immer aus, um Schlüsse zu ziehen. Der Kontext und die gesamte Körpersprache zählen genauso.")
-fun strDicoFicheKicker() = tr("Fiche comportementale", "Behaviour fact sheet", "Infoblatt zum Verhalten")
+fun strDicoRappel() = tr("Un comportement isolé ne suffit pas toujours à conclure. Le contexte et l'ensemble du langage corporel comptent autant.", "An isolated behavior is not always enough to draw conclusions. Context and overall body language matter just as much.", "Ein einzelnes Verhalten reicht nicht immer aus, um Schlüsse zu ziehen. Der Kontext und die gesamte Körpersprache zählen genauso.")
+fun strDicoFicheKicker() = tr("Fiche comportementale", "Behavior fact sheet", "Infoblatt zum Verhalten")
 fun strDicoExplication() = tr("Explication", "Explanation", "Erklärung")
 fun strDicoQueFaire() = tr("Que faire", "What to do", "Was tun")
 fun strDicoAEviter() = tr("À éviter", "What to avoid", "Zu vermeiden")
@@ -308,10 +308,10 @@ fun strPdfProchainsJours() = tr("Les prochains jours", "The coming days", "Die n
 fun strPdfConseils() = tr("Conseils complémentaires", "Additional advice", "Weitere Tipps")
 fun strPdfARetenir() = tr("À retenir", "Key takeaway", "Das Wichtigste")
 fun strPdfConclusion() = tr("Conclusion", "Conclusion", "Fazit")
-fun strPdfConclusionTexte(nom: String) = tr("L'objectif n'est pas d'étiqueter $nom, mais d'aider à mieux lire ce qui se passe et à avancer de manière plus adaptée, plus concrète et plus rassurante.", "The goal is not to label $nom, but to help read the situation more clearly and move forward in a more adapted, concrete and reassuring way.", "Ziel ist es nicht, $nom ein Etikett aufzudrücken, sondern besser zu verstehen, was geschieht, und auf eine passendere, konkretere und beruhigendere Weise voranzukommen.")
-fun strPdfDisclaimer() = tr("Ce bilan est indicatif. Il ne remplace pas l'avis d'un vétérinaire ni d'un professionnel du comportement animal. Il peut servir de base de discussion lors d'une consultation.", "This assessment is indicative. It does not replace the advice of a vet or an animal behaviour professional. It can be used as a basis for discussion during a consultation.", "Diese Einschätzung ist unverbindlich. Sie ersetzt nicht den Rat eines Tierarztes oder einer Fachperson für Tierverhalten. Sie kann als Gesprächsgrundlage bei einer Beratung dienen.")
+fun strPdfConclusionTexte(nom: String) = tr("L'objectif n'est pas d'étiqueter $nom, mais d'aider à mieux lire ce qui se passe et à avancer de manière plus adaptée, plus concrète et plus rassurante.", "The goal is not to label $nom, but to help read the situation more clearly and move forward in a more suitable, concrete and reassuring way.", "Ziel ist es nicht, $nom ein Etikett aufzudrücken, sondern besser zu verstehen, was geschieht, und auf eine passendere, konkretere und beruhigendere Weise voranzukommen.")
+fun strPdfDisclaimer() = tr("Ce bilan est indicatif. Il ne remplace pas l'avis d'un vétérinaire ni d'un professionnel du comportement animal. Il peut servir de base de discussion lors d'une consultation.", "This assessment is indicative. It does not replace the advice of a vet or an animal behavior professional. It can be used as a basis for discussion during a consultation.", "Diese Einschätzung ist unverbindlich. Sie ersetzt nicht den Rat eines Tierarztes oder einer Fachperson für Tierverhalten. Sie kann als Gesprächsgrundlage bei einer Beratung dienen.")
 fun strPdfGenereAuto() = tr("Document généré automatiquement", "Automatically generated document", "Automatisch erstelltes Dokument")
-fun strPdfRetrouvez() = tr("Retrouvez l'application pour suivre l'évolution de votre chien.", "Find the app to track your dog's progress.", "Nutzen Sie die App, um die Entwicklung Ihres Hundes zu verfolgen.")
+fun strPdfRetrouvez() = tr("Retrouvez l'application pour suivre l'évolution de votre chien.", "Use the app to track your dog's progress.", "Nutzen Sie die App, um die Entwicklung Ihres Hundes zu verfolgen.")
 fun strPdfAcceder() = tr("Accéder à l'application — comprendremonchien.fr", "Access the app — comprendremonchien.fr", "Zur App – comprendremonchien.fr")
 fun strPdfMorsuTexte() = tr("Une morsure a été signalée lors de ce bilan. Un accompagnement professionnel est recommandé pour évaluer la situation et sécuriser le quotidien.", "A bite was reported during this assessment. Professional support is recommended to evaluate the situation and make daily life safer.", "Bei dieser Einschätzung wurde ein Biss gemeldet. Eine professionelle Begleitung wird empfohlen, um die Situation zu beurteilen und den Alltag sicherer zu machen.")
 fun strPdfEnUnCoup() = tr("En un coup d'œil", "At a glance", "Auf einen Blick")
@@ -320,9 +320,9 @@ fun strPdfSituation() = tr("Situation", "Situation", "Situation")
 fun strPdfBesoin() = tr("Besoin principal", "Main need", "Hauptbedürfnis")
 fun strPdfAide() = tr("Aide à envisager", "Support to consider", "Mögliche Unterstützung")
 fun strPdfProfil(nom: String) = tr("Profil de $nom", "$nom's profile", "Profil von $nom")
-fun strPdfAideComportementalisteRec() = tr("Comportementaliste recommandé", "Behaviourist recommended", "Verhaltensberatung empfohlen")
+fun strPdfAideComportementalisteRec() = tr("Comportementaliste recommandé", "Behaviorist recommended", "Verhaltensberatung empfohlen")
 fun strPdfAideProRapide() = tr("Professionnel rapidement", "See a professional soon", "Zeitnah Fachperson hinzuziehen")
-fun strPdfAideComportementaliste() = tr("Comportementaliste", "Behaviourist", "Verhaltensberater")
+fun strPdfAideComportementaliste() = tr("Comportementaliste", "Behaviorist", "Verhaltensberater")
 fun strPdfAideEducateur() = tr("Éducateur canin", "Dog trainer", "Hundetrainer")
 fun strPdfAideEducateurBesoin() = tr("Éducateur canin si besoin", "Dog trainer if needed", "Hundetrainer bei Bedarf")
 fun strPdfRecapProfil(nom: String, profil: String) = tr("$nom présente surtout un profil $profil.", "$nom primarily shows a $profil profile.", "$nom zeigt vor allem ein Profil „$profil“.")
@@ -386,7 +386,7 @@ fun strTitreSection(questionId: String) = when (questionId) {
 
 fun strEcransFeedback() = trList(
     listOf("Accueil", "Introduction", "Questionnaire", "Résultat", "Dictionnaire comportemental", "Alimentation", "Historique", "Général / Autre"),
-    listOf("Home", "Introduction", "Questionnaire", "Results", "Behaviour dictionary", "Feeding", "History", "General / Other"),
+    listOf("Home", "Introduction", "Questionnaire", "Results", "Behavior dictionary", "Feeding", "History", "General / Other"),
     listOf("Startseite", "Einführung", "Fragebogen", "Ergebnis", "Verhaltenslexikon", "Ernährung", "Verlauf", "Allgemein / Sonstiges")
 )
 
@@ -472,8 +472,8 @@ fun strPhraseFin(nom: String) = tr("Chaque chien est unique. Ce bilan donne des 
 
 fun strTexteVigilance(niveau: NiveauVigilance, nom: String) = when (niveau) {
     NiveauVigilance.FAIBLE -> tr("À ce stade, rien ne ressort comme particulièrement préoccupant pour $nom.", "At this stage, nothing stands out as particularly concerning for $nom.", "Im Moment deutet nichts auf etwas besonders Besorgniserregendes bei $nom hin.")
-    NiveauVigilance.MODEREE -> tr("Quelques éléments méritent une attention particulière pour $nom.", "A few elements deserve particular attention for $nom.", "Einige Punkte verdienen bei $nom besondere Aufmerksamkeit.")
-    NiveauVigilance.ELEVEE -> tr("Certaines réponses invitent à ne pas laisser la situation s'installer seule pour $nom.", "Some responses suggest it would be best not to let the situation develop on its own for $nom.", "Einige Antworten legen nahe, die Situation bei $nom nicht einfach sich selbst zu überlassen.")
+    NiveauVigilance.MODEREE -> tr("Quelques éléments méritent une attention particulière pour $nom.", "A few points deserve particular attention for $nom.", "Einige Punkte verdienen bei $nom besondere Aufmerksamkeit.")
+    NiveauVigilance.ELEVEE -> tr("Certaines réponses invitent à ne pas laisser la situation s'installer seule pour $nom.", "Some answers suggest that $nom's situation should not be left to evolve on its own.", "Einige Antworten legen nahe, die Situation bei $nom nicht einfach sich selbst zu überlassen.")
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -517,13 +517,13 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             OnboardingSlide(
                 kicker = "Welcome",
                 titre = "Understanding My Dog",
-                description = "This app helps you decode your dog's behaviour and get concrete advice tailored to their unique profile.",
+                description = "This app helps you decode your dog's behavior and get concrete advice tailored to his unique profile.",
                 illustrationType = IllustrationType.CHIEN_ASSIS
             ),
             OnboardingSlide(
                 kicker = "How it works",
                 titre = "One questionnaire, four dimensions",
-                description = "In just a few minutes, you explore the four axes that shape your dog's everyday behaviour.",
+                description = "In just a few minutes, you explore the four axes that shape your dog's everyday behavior.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.Psychology to "Emotional sensitivity",

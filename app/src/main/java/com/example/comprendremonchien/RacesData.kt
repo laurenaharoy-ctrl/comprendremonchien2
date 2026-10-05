@@ -221,7 +221,7 @@ val categoriesRacesEn = listOf(
         ),
         predispositions = listOf(
             "Strong need for attachment and contact",
-            "Tendency towards frustration if under-stimulated",
+            "Tendency toward frustration if under-stimulated",
             "Sometimes struggles to manage excitement",
             "Generally good sociability"
         ),
@@ -259,11 +259,11 @@ val categoriesRacesEn = listOf(
         ),
         predispositions = listOf(
             "Generally calm temperament",
-            "Possible reactivity towards strangers",
+            "Possible reactivity toward strangers",
             "Needs clear boundaries",
             "Emotional sensitivity sometimes underestimated"
         ),
-        nuanceAnalyse = "Molossers are often perceived as strong and dominant dogs, but many are actually very emotionally sensitive. A high sensitivity score is not uncommon and deserves the same attention as for any other breed. Their size amplifies the impact of their behaviours, making training particularly important even when problems seem \"minor\"."
+        nuanceAnalyse = "Molossers are often perceived as strong and dominant dogs, but many are actually very emotionally sensitive. A high sensitivity score is not uncommon and deserves the same attention as for any other breed. Their size amplifies the impact of their behaviors, making training particularly important even when problems seem \"minor\"."
     ),
 
     CategorieRace(
@@ -281,7 +281,7 @@ val categoriesRacesEn = listOf(
             "Possible reactivity to external stimuli",
             "Impulse control sometimes difficult"
         ),
-        nuanceAnalyse = "Nordic and primitive breeds have retained a great deal of independent thinking. They were selected less to obey than to make decisions on their own — which can translate into environmental reactivity and difficulty returning to calm on request. These behaviours are often normal for these breeds and call for specific approaches rather than traditional corrections."
+        nuanceAnalyse = "Nordic and primitive breeds have retained a great deal of independent thinking. They were selected less to obey than to make decisions on their own — which can translate into environmental reactivity and difficulty returning to calm on request. These behaviors are often normal for these breeds and call for specific approaches rather than traditional corrections."
     ),
 
     CategorieRace(
@@ -318,7 +318,7 @@ val categoriesRacesEn = listOf(
             "Reactivity sometimes underestimated",
             "Frequent barking possible"
         ),
-        nuanceAnalyse = "Toy and companion breeds were selected to live as close as possible to humans — which explains an often very strong need for attachment. Their small size sometimes leads to underestimating their reactivity or behavioural difficulties. A high attachment or sensitivity score is very common and deserves the same attention as in larger breeds."
+        nuanceAnalyse = "Toy and companion breeds were selected to live as close as possible to humans — which explains an often very strong need for attachment. Their small size sometimes leads to underestimating their reactivity or behavioral difficulties. A high attachment or sensitivity score is very common and deserves the same attention as in larger breeds."
     ),
 
     CategorieRace(
@@ -337,7 +337,7 @@ val categoriesRacesEn = listOf(
             "Struggles to manage excitement",
             "Possible independence when following scent trails"
         ),
-        nuanceAnalyse = "Hunting dogs have naturally very high motivation and energy, as well as a very strong tracking or chasing instinct. A high impulsivity or reactivity score outdoors is often the direct expression of these instincts. These behaviours are normal in their original context and call for tailored work rather than traditional correction."
+        nuanceAnalyse = "Hunting dogs have naturally very high motivation and energy, as well as a very strong tracking or chasing instinct. A high impulsivity or reactivity score outdoors is often the direct expression of these instincts. These behaviors are normal in their original context and call for tailored work rather than traditional correction."
     ),
 
     CategorieRace(
@@ -354,7 +354,7 @@ val categoriesRacesEn = listOf(
             "Often good emotional resilience",
             "Dominant instincts may vary"
         ),
-        nuanceAnalyse = "Mixed breed dogs have very varied profiles depending on their origins. Without precise knowledge of their genetic heritage, it is difficult to anticipate their behavioural predispositions. The assessment is therefore based solely on observed behaviours, which remains the most reliable and accurate reading of their actual situation."
+        nuanceAnalyse = "Mixed breed dogs have very varied profiles depending on their origins. Without precise knowledge of their genetic heritage, it is difficult to anticipate their behavioral predispositions. The assessment is therefore based solely on observed behaviors, which remains the most reliable and accurate reading of their actual situation."
     )
 )
 

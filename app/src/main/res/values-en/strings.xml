@@ -31,8 +31,8 @@
     <string name="screen_questionnaire">Questionnaire</string>
     <string name="screen_analyse">Analysis</string>
     <string name="screen_resultat">Results</string>
-    <string name="screen_dictionnaire">Behaviour dictionary</string>
-    <string name="screen_fiche_comportementale">Behaviour fact sheet</string>
+    <string name="screen_dictionnaire">Behavior dictionary</string>
+    <string name="screen_fiche_comportementale">Behavior fact sheet</string>
     <string name="screen_alimentation">Feeding</string>
     <string name="screen_signalement">Report</string>
     <string name="screen_historique">Assessment history</string>
@@ -87,9 +87,9 @@
     <string name="resultat_quand_aide">When to seek help</string>
     <string name="resultat_morsure_pro">A bite has been reported — professional support is recommended.</string>
     <string name="resultat_important">Important</string>
-    <string name="resultat_disclaimer">This assessment is indicative. It does not replace a vet or a behaviour professional.</string>
+    <string name="resultat_disclaimer">This assessment is indicative. It does not replace a vet or a behavior professional.</string>
     <string name="resultat_aller_plus_loin">Going further with %1$s</string>
-    <string name="resultat_fiches_comportementales">Behaviour fact sheets</string>
+    <string name="resultat_fiches_comportementales">Behavior fact sheets</string>
     <string name="resultat_reperes_alimentation">Feeding guidelines</string>
     <string name="resultat_a_retenir">Key takeaway</string>
     <string name="resultat_le_livre">The book</string>
@@ -101,17 +101,17 @@
     <!-- Bite warning -->
     <string name="morsure_titre">WARNING — BITE REPORTED</string>
     <string name="morsure_texte">There has already been a bite involving %1$s. This situation should not be taken lightly.</string>
-    <string name="morsure_conseil">Support from a behaviour professional is strongly recommended.</string>
+    <string name="morsure_conseil">Support from a behavior professional is strongly recommended.</string>
 
-    <!-- Behaviour dictionary -->
-    <string name="dico_titre">Behaviour dictionary</string>
+    <!-- Behavior dictionary -->
+    <string name="dico_titre">Behavior dictionary</string>
     <string name="dico_sous_titre">Pointers for reading your dog\'s body language</string>
     <string name="dico_recherche_placeholder">Search a fact sheet…</string>
     <string name="dico_aucun_resultat">No fact sheet matches \"%1$s\".</string>
     <string name="dico_important">Important</string>
     <string name="dico_disclaimer">These fact sheets offer guidance for interpretation. They do not replace professional advice.</string>
-    <string name="dico_rappel">An isolated behaviour is not always enough to draw conclusions. Context and overall body language matter just as much.</string>
-    <string name="dico_fiche_kicker">Behaviour fact sheet</string>
+    <string name="dico_rappel">An isolated behavior is not always enough to draw conclusions. Context and overall body language matter just as much.</string>
+    <string name="dico_fiche_kicker">Behavior fact sheet</string>
     <string name="dico_explication">Explanation</string>
     <string name="dico_que_faire">What to do</string>
     <string name="dico_a_eviter">What to avoid</string>
@@ -219,10 +219,10 @@
     <string name="pdf_conseils">Additional advice</string>
     <string name="pdf_a_retenir">Key takeaway</string>
     <string name="pdf_conclusion">Conclusion</string>
-    <string name="pdf_conclusion_texte">The goal is not to label %1$s, but to help read the situation more clearly and move forward in a more adapted, concrete and reassuring way.</string>
-    <string name="pdf_disclaimer">This assessment is indicative. It does not replace the advice of a vet or an animal behaviour professional. It can be used as a basis for discussion during a consultation.</string>
+    <string name="pdf_conclusion_texte">The goal is not to label %1$s, but to help read the situation more clearly and move forward in a more suitable, concrete and reassuring way.</string>
+    <string name="pdf_disclaimer">This assessment is indicative. It does not replace the advice of a vet or an animal behavior professional. It can be used as a basis for discussion during a consultation.</string>
     <string name="pdf_genere_auto">Automatically generated document</string>
-    <string name="pdf_retrouvez">Find the app to track your dog\'s progress.</string>
+    <string name="pdf_retrouvez">Use the app to track your dog\'s progress.</string>
     <string name="pdf_acceder">Access the app — comprendremonchien.fr</string>
     <string name="pdf_morsure_texte">A bite was reported during this assessment. Professional support is recommended to evaluate the situation and make daily life safer.</string>
     <string name="pdf_en_un_coup">At a glance</string>
@@ -231,9 +231,9 @@
     <string name="pdf_besoin">Main need</string>
     <string name="pdf_aide">Support to consider</string>
     <string name="pdf_profil">%1$s\'s profile</string>
-    <string name="pdf_aide_comportementaliste_rec">Behaviourist recommended</string>
+    <string name="pdf_aide_comportementaliste_rec">Behaviorist recommended</string>
     <string name="pdf_aide_pro_rapide">See a professional soon</string>
-    <string name="pdf_aide_comportementaliste">Behaviourist</string>
+    <string name="pdf_aide_comportementaliste">Behaviorist</string>
     <string name="pdf_aide_educateur">Dog trainer</string>
     <string name="pdf_aide_educateur_besoin">Dog trainer if needed</string>
     <string name="pdf_recap_profil">%1$s primarily shows a %2$s profile.</string>
@@ -278,7 +278,7 @@
     <string name="feedback_ecran_intro">Introduction</string>
     <string name="feedback_ecran_questionnaire">Questionnaire</string>
     <string name="feedback_ecran_resultat">Results</string>
-    <string name="feedback_ecran_dico">Behaviour dictionary</string>
+    <string name="feedback_ecran_dico">Behavior dictionary</string>
     <string name="feedback_ecran_alim">Feeding</string>
     <string name="feedback_ecran_historique">History</string>
     <string name="feedback_ecran_general">General / Other</string>
