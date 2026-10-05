@@ -250,7 +250,7 @@ object QuestionnaireEngine {
     }
 
     fun explicationProbleme(axe: Axe, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int, reponsesChoix: Map<String, Int> = emptyMap()): String {
-        if (reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2)) return tr("Chez un chien âgé, la désorientation et les vocalises nocturnes inexpliquées peuvent refléter un vieillissement cérébral normal (déclin cognitif lié à l'âge) plutôt qu'un problème comportemental à corriger — un phénomène assez proche de ce que l'on observe parfois chez l'humain vieillissant.", "In an older dog, disorientation and unexplained vocalizing at night can reflect normal brain ageing (age-related cognitive decline) rather than a behavioral problem to correct — much like what is sometimes seen in older people.", "Bei einem älteren Hund können Orientierungslosigkeit und unerklärliches nächtliches Bellen oder Winseln eher auf ein normales Altern des Gehirns (altersbedingter kognitiver Abbau) hinweisen als auf ein Verhaltensproblem, das korrigiert werden muss – ähnlich wie man es manchmal bei älteren Menschen beobachtet.")
+        if (reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2)) return tr("Chez un chien âgé, la désorientation et les vocalises nocturnes inexpliquées peuvent refléter un vieillissement cérébral normal (déclin cognitif lié à l'âge) plutôt qu'un problème comportemental à corriger — un phénomène assez proche de ce que l'on observe parfois chez l'humain vieillissant.", "In an older dog, disorientation and unexplained vocalizing at night can reflect normal brain aging (age-related cognitive decline) rather than a behavioral problem to correct — much like what is sometimes seen in older people.", "Bei einem älteren Hund können Orientierungslosigkeit und unerklärliches nächtliches Bellen oder Winseln eher auf ein normales Altern des Gehirns (altersbedingter kognitiver Abbau) hinweisen als auf ein Verhaltensproblem, das korrigiert werden muss – ähnlich wie man es manchmal bei älteren Menschen beobachtet.")
         if (reponsesChoix["age"] == 0 && reponsesChoix["proprete_type"] != null) return tr("À moins d'un an, la propreté est souvent encore un apprentissage en cours plutôt qu'un problème comportemental. Le contrôle de la vessie et des intestins met du temps à se mettre en place, et certains accidents font partie normale de cet apprentissage.", "Under one year old, house-training is often still an ongoing learning process rather than a behavioral problem. Bladder and bowel control takes time to develop, and some accidents are a normal part of this learning curve.", "Unter einem Jahr ist die Stubenreinheit oft noch ein laufender Lernprozess und kein Verhaltensproblem. Die Kontrolle über Blase und Darm braucht Zeit, und einzelne Missgeschicke gehören zu diesem Lernen dazu.")
         if (reponsesChoix["marquage_habitude_post_sterilisation"] == 0) return tr("Ce marquage semble avoir débuté avant la stérilisation, à une période où les hormones jouaient un rôle. La cause hormonale d'origine a disparu, mais le geste s'est transformé en habitude acquise — il reste ancré même si la raison initiale n'existe plus. Ce type de marquage devenu habituel est souvent plus long à corriger qu'un marquage purement lié au stress ou aux hormones, car il faut désapprendre un geste répété plutôt que simplement réduire une source de tension.", "This marking seems to have started before neutering/spaying, at a time when hormones played a role. The original hormonal cause is gone, but the behavior has turned into a learned habit — it remains ingrained even though the initial reason no longer exists. This kind of habitual marking often takes longer to correct than marking linked purely to stress or hormones, because a repeated behavior has to be unlearned, rather than simply easing a source of tension.", "Diese Markierung scheint vor der Kastration begonnen zu haben, in einer Zeit, in der Hormone eine Rolle spielten. Die ursprüngliche hormonelle Ursache ist verschwunden, doch das Verhalten hat sich zu einer erlernten Gewohnheit entwickelt – es bleibt bestehen, auch wenn der ursprüngliche Grund nicht mehr existiert. Eine solche zur Gewohnheit gewordene Markierung lässt sich oft langsamer korrigieren als eine rein stress- oder hormonbedingte, weil ein wiederholtes Verhalten verlernt werden muss, statt nur eine Spannungsquelle zu verringern.")
         if (estMaleEntier(reponsesChoix) && reponsesChoix["age"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)) return tr("Chez un mâle entier, ce type de malpropreté peut correspondre à du marquage territorial plutôt qu'à une malpropreté classique — de petites quantités déposées sur des surfaces verticales, souvent déclenchées par la présence d'autres animaux ou des changements dans l'environnement, plutôt qu'un simple manque de contrôle de la vessie.", "In an intact male, this kind of house-soiling may be territorial marking rather than ordinary house-soiling — small amounts left on vertical surfaces, often triggered by the presence of other animals or changes in the environment, rather than a simple lack of bladder control.", "Bei einem unkastrierten Rüden kann diese Unsauberkeit eher eine Reviermarkierung sein als gewöhnliche Unsauberkeit – kleine Mengen an senkrechten Flächen, oft ausgelöst durch andere Tiere oder Veränderungen in der Umgebung, statt einer einfachen fehlenden Blasenkontrolle.")
@@ -807,7 +807,7 @@ fun questionsApplication(): List<Question> {
                 listOf("Stays in control, calms down easily",
                     "Can get very excited but ends up calming down",
                     "Struggles to calm down, exciting moments become hard to manage"),
-                listOf("Er bleibt kontrolliert und beruhigt sich leicht", "Er kann sich stark aufregen, beruhigt sich aber schließlich", "Er kommt nur schwer zur Ruhe, aufregende Momente werden schwer zu handhaben")),
+                listOf("Er bleibt kontrolliert und beruhigt sich leicht", "Er kann sich stark aufregen, beruhigt sich aber schließlich", "Er kommt nur schwer zur Ruhe, aufregende Momente werden schwer zu bewältigen")),
             axe = Axe.IMPULSIVITE, scoreParOption = listOf(0, 1, 4), signalAlerte = true),
 
         QuestionChoix("vole_objets",
@@ -868,7 +868,7 @@ fun questionsApplication(): List<Question> {
         QuestionChoix("apparition",
             tr("Le comportement qui vous préoccupe est apparu :", "The behavior you are concerned about appeared:", "Das Verhalten, das Sie beschäftigt, ist aufgetreten:"),
             trList(listOf("Progressivement", "Du jour au lendemain, sans raison apparente", "Je ne sais pas vraiment"),
-                listOf("Gradually", "Suddenly, with no apparent reason", "I'm not really sure"),
+                listOf("Gradually", "Suddenly, for no apparent reason", "I'm not really sure"),
                 listOf("Nach und nach", "Von einem Tag auf den anderen, ohne erkennbaren Grund", "Ich weiß es nicht genau"))),
 
         QuestionChoix("situation_principale",
@@ -880,7 +880,7 @@ fun questionsApplication(): List<Question> {
         QuestionChoix("duree_probleme",
             tr("Depuis combien de temps observez-vous ce comportement ?", "How long have you been observing this behavior?", "Seit wann beobachten Sie dieses Verhalten?"),
             trList(listOf("Moins d'1 semaine", "1 à 4 semaines", "Plusieurs mois", "Depuis toujours"),
-                listOf("Less than 1 week", "1 to 4 weeks", "Several months", "Always"),
+                listOf("Less than 1 week", "1 to 4 weeks", "Several months", "Ever since I've had him"),
                 listOf("Weniger als 1 Woche", "1 bis 4 Wochen", "Mehrere Monate", "Schon immer"))),
 
         QuestionChoix("evolution_probleme",
@@ -899,7 +899,7 @@ fun questionsApplication(): List<Question> {
             tr("Quand cela arrive, c'est plutôt :", "When it happens, it is usually:", "Wenn es passiert, ist es eher:"),
             trList(listOf("Gérable facilement", "Gênant", "Difficile à gérer", "Perte de contrôle / dangereux"),
                 listOf("Easily manageable", "Annoying", "Hard to manage", "Loss of control / dangerous"),
-                listOf("Leicht zu handhaben", "Störend", "Schwer zu handhaben", "Kontrollverlust / gefährlich"))),
+                listOf("Gut zu bewältigen", "Störend", "Schwer zu bewältigen", "Kontrollverlust / gefährlich"))),
 
         QuestionChoix("generalisation_probleme",
             tr("Le comportement arrive plutôt :", "The behavior mostly occurs:", "Das Verhalten tritt eher auf:"),
@@ -919,7 +919,7 @@ fun questionsApplication(): List<Question> {
                 "Oui, il semble avoir mal ou être gêné dans ses mouvements", "Oui, autre chose a changé physiquement"),
                 listOf("No, nothing in particular", "Yes, he seems more tired than usual",
                     "Yes, he seems to be in pain or has difficulty moving", "Yes, something else has changed physically"),
-                listOf("Nein, nichts Besonderes", "Ja, er wirkt müder als früher", "Ja, er scheint Schmerzen zu haben oder in seinen Bewegungen eingeschränkt zu sein", "Ja, etwas anderes hat sich körperlich verändert"))),
+                listOf("Nein, nichts Besonderes", "Ja, er wirkt müder als sonst", "Ja, er scheint Schmerzen zu haben oder in seinen Bewegungen eingeschränkt zu sein", "Ja, etwas anderes hat sich körperlich verändert"))),
 
         QuestionChoix("lieu_residence",
             tr("Où habitez-vous ?", "Where do you live?", "Wo wohnen Sie?"),

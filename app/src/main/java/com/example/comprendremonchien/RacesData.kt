@@ -217,7 +217,7 @@ val categoriesRacesEn = listOf(
         races = listOf(
             "Golden Retriever", "Labrador Retriever", "English Cocker Spaniel",
             "American Cocker Spaniel", "Springer Spaniel", "Flat Coated Retriever",
-            "Nova Scotia Duck Tolling Retriever", "Cavalier King Charles"
+            "Nova Scotia Duck Tolling Retriever", "Cavalier King Charles Spaniel"
         ),
         predispositions = listOf(
             "Strong need for attachment and contact",
@@ -244,7 +244,7 @@ val categoriesRacesEn = listOf(
             "Frequent impulsivity in play",
             "A tenacious streak"
         ),
-        nuanceAnalyse = "Terriers were selected to hunt and confront prey often larger than themselves — which explains their strong temperament, reactivity and tendency not to give up. A high impulsivity or reactivity score is very common in these breeds. This does not mean the dog is \"difficult\", but that its profile calls for an approach adapted to its natural energy."
+        nuanceAnalyse = "Terriers were selected to hunt and confront prey often larger than themselves — which explains their strong temperament, reactivity and tendency not to give up. A high impulsivity or reactivity score is very common in these breeds. This does not mean the dog is \"difficult\", but that his profile calls for an approach suited to his natural energy."
     ),
 
     CategorieRace(
