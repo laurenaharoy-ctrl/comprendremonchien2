@@ -96,7 +96,7 @@ fun strIntroDuree() = tr("Ce questionnaire vous prendra environ 5 minutes.", "Th
 fun strIntroExplorerKicker() = tr("Ce que vous allez explorer", "What you will explore", "Was Sie erkunden werden")
 fun strIntroExplorer1() = tr("Sa sensibilité émotionnelle", "Emotional sensitivity", "Seine emotionale Sensibilität")
 fun strIntroExplorer2() = tr("Son besoin d'attachement", "Need for attachment", "Sein Bindungsbedürfnis")
-fun strIntroExplorer3() = tr("Sa gestion de l'excitation", "How they handle excitement", "Sein Umgang mit Erregung")
+fun strIntroExplorer3() = tr("Sa gestion de l'excitation", "Handling excitement", "Sein Umgang mit Erregung")
 fun strIntroExplorer4() = tr("Sa réactivité à l'environnement", "Reactivity to the environment", "Seine Reaktivität auf die Umgebung")
 
 // ═══════════════════════════════════════════════════════════
@@ -180,7 +180,7 @@ fun strDicoExplication() = tr("Explication", "Explanation", "Erklärung")
 fun strDicoQueFaire() = tr("Que faire", "What to do", "Was tun")
 fun strDicoAEviter() = tr("À éviter", "What to avoid", "Zu vermeiden")
 fun strDicoRappelKicker() = tr("Rappel", "Reminder", "Zur Erinnerung")
-fun strDicoFicheIntrouvable() = tr("Fiche introuvable.", "Fact sheet not found.", "Infoblatt nicht gefunden.")
+fun strDicoFicheIntrouvable() = tr("Fiche introuvable.", "Guide not found.", "Infoblatt nicht gefunden.")
 
 // ═══════════════════════════════════════════════════════════
 // ALIMENTATION
@@ -528,7 +528,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.Psychology to "Emotional sensitivity",
                     Icons.Rounded.Favorite to "Need for attachment",
-                    Icons.Rounded.EmojiNature to "How they handle excitement",
+                    Icons.Rounded.EmojiNature to "Handling excitement",
                     Icons.Rounded.Analytics to "Reactivity to the environment"
                 )
             ),

@@ -49,7 +49,7 @@
     <string name="intro_explorer_kicker">What you will explore</string>
     <string name="intro_explorer_1">Emotional sensitivity</string>
     <string name="intro_explorer_2">Need for attachment</string>
-    <string name="intro_explorer_3">How they handle excitement</string>
+    <string name="intro_explorer_3">Handling excitement</string>
     <string name="intro_explorer_4">Reactivity to the environment</string>
 
     <!-- Questionnaire -->
@@ -116,7 +116,7 @@
     <string name="dico_que_faire">What to do</string>
     <string name="dico_a_eviter">What to avoid</string>
     <string name="dico_rappel_kicker">Reminder</string>
-    <string name="dico_fiche_introuvable">Fact sheet not found.</string>
+    <string name="dico_fiche_introuvable">Guide not found.</string>
 
     <!-- Feeding -->
     <string name="alim_titre">Feeding your dog</string>
@@ -252,7 +252,7 @@
     <string name="niveau_marque">Marked</string>
     <string name="niveau_tres_marque">Very marked</string>
 
-    <!-- How serious this iss -->
+    <!-- Situation levels -->
     <string name="situation_stable">Stable</string>
     <string name="situation_a_travailler">To work on</string>
     <string name="situation_sensible">Sensitive</string>

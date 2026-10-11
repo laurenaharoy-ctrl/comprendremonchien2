@@ -14,8 +14,8 @@ android {
         applicationId = "com.laurena.comprendremonchien"
         minSdk = 28
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.5.2"
+        versionCode = 10
+        versionName = "1.5.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,7 +39,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true      // R8 activé (avant : false)
+            isShrinkResources = true    // supprime les ressources inutilisées (nouveau)
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
