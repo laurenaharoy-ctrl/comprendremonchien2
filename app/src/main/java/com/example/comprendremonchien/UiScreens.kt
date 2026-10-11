@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -344,13 +345,13 @@ fun EditorialKicker(text: String, centered: Boolean = false) {
 
 @Composable
 fun PrimaryGlowButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true, leading: (@Composable () -> Unit)? = null) {
-    Button(onClick = onClick, enabled = enabled, modifier = modifier.fillMaxWidth().height(58.dp), shape = RoundedCornerShape(20.dp),
+    Button(onClick = onClick, enabled = enabled, modifier = modifier.fillMaxWidth().heightIn(min = 58.dp), shape = RoundedCornerShape(20.dp),
         colors = ButtonDefaults.buttonColors(containerColor = PremiumPalette.Primary, contentColor = Color.White, disabledContainerColor = Color(0xFFCFB3A5), disabledContentColor = Color.White.copy(alpha = 0.8f))
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             leading?.invoke()
             if (leading != null) Spacer(modifier = Modifier.width(8.dp))
-            Text(text)
+            Text(text, textAlign = TextAlign.Center)
         }
     }
 }
