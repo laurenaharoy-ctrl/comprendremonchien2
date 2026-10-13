@@ -534,7 +534,7 @@ object QuestionnaireEngine {
                         append("Eine zu frühe Trennung von der Mutter oder eine schwierige Trennung in den ersten Lebenswochen kann den Aufbau emotionaler Selbstständigkeit schwächen. ")
                         append("Ein sehr enges Umfeld – in dem der Hund selten Momente allein erlebt hat – kann dieses Bedürfnis ebenfalls verstärken. ")
                         if (reponsesChoix["suit_partout"] == 2) append("Seinem Menschen ständig zu folgen, kann zugleich ein Anzeichen und ein Faktor sein, der diese Abhängigkeit in der Beziehung aufrechterhält. ")
-                        append("Ein solches Profil ist keine Frage des Charakters oder einer Laune: Oft spiegelt sie eine echte Schwierigkeit wider, inneren Halt zu finden, wenn die beruhigende Anwesenheit fehlt.")
+                        append("Ein solches Profil ist keine Frage des Charakters oder einer Laune: Oft spiegelt es eine echte Schwierigkeit wider, inneren Halt zu finden, wenn die beruhigende Anwesenheit fehlt.")
                     }
                     AppLang.FR -> {
                         append("Le besoin de proximité important de $nom peut s'expliquer de plusieurs façons. ")
@@ -552,7 +552,7 @@ object QuestionnaireEngine {
                         append("Some dogs have a naturally low activation threshold: they escalate quickly and come down more slowly, regardless of the training they have received. ")
                         if (reponsesChoix["race_categorie"]?.let { it == 0 || it == 5 || it == 7 } == true) append("Some breed families were selected for high levels of energy and reactivity, which can weigh on emotional regulation. ")
                         append("A lack of structure in daily interactions — games that are too long, too intense, without breaks — can also maintain this pattern. ")
-                        if (reponsesChoix["age"] == 0 || reponsesChoix["age"] == 1) append("At a young age, inhibitory control is still developing: some impulsivity is often normal before 2-3 years. ")
+                        if (reponsesChoix["age"] == 0 || reponsesChoix["age"] == 1) append("At a young age, inhibitory control is still developing: some impulsivity is often normal before the age of 2–3. ")
                         append("Impulsivity is generally not a lack of willpower or intelligence, but a difficulty putting the brakes on an emotional surge that has already started.")
                     }
                     AppLang.DE -> {
@@ -560,7 +560,7 @@ object QuestionnaireEngine {
                         append("Manche Hunde haben von Natur aus eine niedrige Aktivierungsschwelle: Sie steigern sich schnell und kommen langsamer wieder herunter, unabhängig von ihrer Erziehung. ")
                         if (reponsesChoix["race_categorie"]?.let { it == 0 || it == 5 || it == 7 } == true) append("Manche Rassegruppen wurden auf ein hohes Energie- und Reaktionsniveau gezüchtet, was die emotionale Regulation belasten kann. ")
                         append("Fehlende Struktur in den alltäglichen Interaktionen – zu lange, zu intensive Spiele ohne Pausen – kann dieses Muster ebenfalls aufrechterhalten. ")
-                        if (reponsesChoix["age"] == 0 || reponsesChoix["age"] == 1) append("In jungem Alter entwickelt sich die Impulskontrolle noch: Eine gewisse Impulsivität ist vor 2–3 Jahren oft normal. ")
+                        if (reponsesChoix["age"] == 0 || reponsesChoix["age"] == 1) append("In jungem Alter entwickelt sich die Impulskontrolle noch: Eine gewisse Impulsivität ist bis zum Alter von 2–3 Jahren oft normal. ")
                         append("Impulsivität ist in der Regel kein Mangel an Willen oder Intelligenz, sondern die Schwierigkeit, einen bereits begonnenen emotionalen Anstieg zu bremsen.")
                     }
                     AppLang.FR -> {

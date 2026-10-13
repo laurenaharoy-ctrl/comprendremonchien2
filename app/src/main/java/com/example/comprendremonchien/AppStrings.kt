@@ -534,7 +534,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "What you get",
-                titre = "A complete personalised assessment",
+                titre = "A complete personalized assessment",
                 description = "At the end of the questionnaire, you receive a detailed emotional assessment with concrete advice, an action plan and a PDF to share with your vet.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
