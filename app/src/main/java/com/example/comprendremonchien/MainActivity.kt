@@ -234,6 +234,17 @@ $message
 
 ---
 Gesendet aus der App ${strAppName()}
+        """.trimIndent(),
+            """
+Categoría: $categorie
+Pantalla: $ecran
+Versión de la aplicación: $version
+
+Mensaje:
+$message
+
+---
+Enviado desde la aplicación ${strAppName()}
         """.trimIndent()
         )
 
