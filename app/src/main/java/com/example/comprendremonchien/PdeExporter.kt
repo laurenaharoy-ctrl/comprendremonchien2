@@ -58,7 +58,7 @@ object PdfExporter {
 
     fun exporterBilanPdf(context: Context, nomChien: String, analyse: ResultatAnalyse): File {
         val nom = nomChienAffiche(nomChien)
-        val date = SimpleDateFormat(tr("dd MMMM yyyy", "dd MMMM yyyy", "dd. MMMM yyyy"), Locale.getDefault()).format(Date())
+        val date = SimpleDateFormat(tr("dd MMMM yyyy", "dd MMMM yyyy", "dd. MMMM yyyy", "d 'de' MMMM 'de' yyyy"), Locale.getDefault()).format(Date())
         val couleurPriorite = couleurPourPriorite(analyse.prioriteAction)
         val libellePriorite = libellePourPriorite(analyse.prioriteAction)
 

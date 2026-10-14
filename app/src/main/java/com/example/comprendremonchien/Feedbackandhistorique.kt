@@ -638,7 +638,7 @@ fun HistoriqueDetailScreen(
         AlertDialog(
             onDismissRequest = { showConfirm = false },
             title = { Text(strHistoriqueSupprimerTitre()) },
-            text = { Text(tr("Cette action est irréversible.", "This action cannot be undone.", "Diese Aktion kann nicht rückgängig gemacht werden.")) },
+            text = { Text(tr("Cette action est irréversible.", "This action cannot be undone.", "Diese Aktion kann nicht rückgängig gemacht werden.", "Esta acción no se puede deshacer.")) },
             confirmButton = {
                 Button(
                     onClick = { onSupprimer(); showConfirm = false },
@@ -690,7 +690,7 @@ fun HistoriqueDetailScreen(
                     }
                     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleur.copy(alpha = 0.12f)).padding(horizontal = 14.dp, vertical = 8.dp)) {
                         Text(
-                            tr("Priorité : ${strPrioriteAction(priorite)}", "Priority: ${strPrioriteAction(priorite)}", "Priorität: ${strPrioriteAction(priorite)}"),
+                            tr("Priorité : ${strPrioriteAction(priorite)}", "Priority: ${strPrioriteAction(priorite)}", "Priorität: ${strPrioriteAction(priorite)}", "Prioridad: ${strPrioriteAction(priorite)}"),
                             color = couleur, fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.labelLarge
                         )

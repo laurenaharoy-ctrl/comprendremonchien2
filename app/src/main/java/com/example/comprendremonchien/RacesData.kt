@@ -16,7 +16,7 @@ data class InfoRace(
     val nuanceSpecifique: String? = null
 )
 
-val categoriesRaces get() = trList(categoriesRacesFr, categoriesRacesEn, categoriesRacesDe)
+val categoriesRaces get() = trList(categoriesRacesFr, categoriesRacesEn, categoriesRacesDe, categoriesRacesEs)
 
 val categoriesRacesFr = listOf(
 
@@ -550,3 +550,172 @@ fun getPredispositions(race: String): List<String> {
 fun getCategorieNom(race: String): String? {
     return getCategorieParRace(race)?.nom
 }
+val categoriesRacesEs = listOf(
+
+    CategorieRace(
+        id = "bergers",
+        nom = "Perros de pastoreo",
+        emoji = "🐕",
+        description = "Razas seleccionadas para trabajar en estrecha colaboración con el ser humano.",
+        races = listOf(
+            "Border collie", "Pastor alemán", "Pastor australiano",
+            "Pastor belga malinois", "Pastor belga tervueren", "Pastor blanco suizo",
+            "Pastor de Brie", "Pastor de los Pirineos", "Boyero de Flandes", "Collie"
+        ),
+        predispositions = listOf(
+            "Reactividad naturalmente alta",
+            "Hipervigilancia frecuente",
+            "Gran necesidad de estimulación mental",
+            "Sensibilidad emocional marcada"
+        ),
+        nuanceAnalyse = "Los perros de pastoreo fueron seleccionados para estar constantemente atentos a su entorno y reaccionar a la menor señal. Por eso, una puntuación alta en reactividad o en sensibilidad puede reflejar en parte su naturaleza profunda, y no solo una dificultad que corregir. Esto no resta importancia a trabajar estos ejes, pero ayuda a ajustar las expectativas y a adaptar los métodos."
+    ),
+
+    CategorieRace(
+        id = "retrievers",
+        nom = "Retrievers y spaniels",
+        emoji = "🦮",
+        description = "Razas conocidas por su sociabilidad y sus ganas de agradar.",
+        races = listOf(
+            "Golden retriever", "Labrador retriever", "Cocker spaniel inglés",
+            "Cocker spaniel americano", "Springer spaniel", "Flat-coated retriever",
+            "Retriever de Nueva Escocia", "Cavalier King Charles spaniel"
+        ),
+        predispositions = listOf(
+            "Gran necesidad de apego y de contacto",
+            "Tendencia a la frustración si le falta estimulación",
+            "Manejo de la excitación a veces difícil",
+            "Buena sociabilidad en general"
+        ),
+        nuanceAnalyse = "Los retrievers y los spaniels están naturalmente muy apegados a su familia y tienen una gran necesidad de contacto. Por eso, una puntuación alta en apego es muy frecuente en estas razas y no indica necesariamente una ansiedad por separación patológica. La impulsividad también puede aparecer en contextos de juego o excitación, algo típico de su perfil enérgico."
+    ),
+
+    CategorieRace(
+        id = "terriers",
+        nom = "Terriers",
+        emoji = "🐾",
+        description = "Razas tenaces, independientes y a menudo muy reactivas.",
+        races = listOf(
+            "Jack Russell terrier", "West Highland white terrier", "Yorkshire terrier",
+            "Bull terrier", "Staffordshire bull terrier", "American Staffordshire terrier",
+            "Fox terrier", "Airedale terrier", "Border terrier", "Cairn terrier"
+        ),
+        predispositions = listOf(
+            "Reactividad a menudo marcada",
+            "Fuerte personalidad e independencia",
+            "Impulsividad frecuente en el juego",
+            "Tendencia a la tenacidad"
+        ),
+        nuanceAnalyse = "Los terriers fueron seleccionados para cazar y enfrentarse a presas a menudo más grandes que ellos, lo que explica su fuerte temperamento, su reactividad y su tendencia a no rendirse. Una puntuación alta en impulsividad o en reactividad es muy común en estas razas. Esto no significa que el perro sea «difícil», sino que su perfil requiere un enfoque adaptado a su energía natural."
+    ),
+
+    CategorieRace(
+        id = "molosses",
+        nom = "Molosos y dogos",
+        emoji = "🦁",
+        description = "Razas potentes, a menudo tranquilas, pero con mucha presencia.",
+        races = listOf(
+            "Gran danés", "Rottweiler", "Bóxer", "Bulldog francés",
+            "Bulldog inglés", "Cane corso", "Dogo de Burdeos",
+            "Mastín inglés", "Boerboel", "Shar pei"
+        ),
+        predispositions = listOf(
+            "Temperamento generalmente tranquilo",
+            "Posible reactividad ante desconocidos",
+            "Necesidad de un marco claro",
+            "Sensibilidad emocional a veces subestimada"
+        ),
+        nuanceAnalyse = "Los molosos suelen percibirse como perros fuertes y dominantes, pero muchos son en realidad muy sensibles emocionalmente. Una puntuación alta en sensibilidad no es rara y merece la misma atención que en cualquier otra raza. Su tamaño amplifica el impacto de sus comportamientos, por lo que el trabajo educativo es especialmente importante, incluso cuando los problemas parecen «menores»."
+    ),
+
+    CategorieRace(
+        id = "nordiques",
+        nom = "Perros nórdicos y primitivos",
+        emoji = "🐺",
+        description = "Razas cercanas a sus instintos originales, a menudo independientes.",
+        races = listOf(
+            "Husky siberiano", "Malamute de Alaska", "Samoyedo", "Spitz alemán",
+            "Akita inu", "Shiba inu", "Basenji", "Perro de Groenlandia", "Chow chow"
+        ),
+        predispositions = listOf(
+            "Independencia marcada",
+            "Poca necesidad de agradar al ser humano",
+            "Posible reactividad a los estímulos externos",
+            "Control de la impulsividad a veces difícil"
+        ),
+        nuanceAnalyse = "Las razas nórdicas y primitivas han conservado una gran autonomía de pensamiento. Fueron seleccionadas menos para obedecer que para tomar decisiones por sí mismas, lo que puede traducirse en reactividad al entorno y en dificultad para volver a la calma cuando se les pide. Estos comportamientos suelen ser normales en estas razas y requieren enfoques específicos más que correcciones clásicas."
+    ),
+
+    CategorieRace(
+        id = "levriers",
+        nom = "Lebreles y perros de carrera",
+        emoji = "💨",
+        description = "Razas rápidas, sensibles y a menudo tranquilas en casa.",
+        races = listOf(
+            "Greyhound", "Whippet", "Lebrel italiano", "Saluki",
+            "Borzoi", "Galgo español", "Lebrel afgano", "Lebrel irlandés"
+        ),
+        predispositions = listOf(
+            "Sensibilidad emocional a menudo alta",
+            "Reactividad a los movimientos rápidos",
+            "Necesidad de seguridad y previsibilidad",
+            "Generalmente tranquilos en casa"
+        ),
+        nuanceAnalyse = "Los lebreles son perros muy sensibles que reaccionan con fuerza a los estímulos visuales y a los movimientos rápidos: es su naturaleza de cazadores a la vista. Por eso, una puntuación alta en sensibilidad o en reactividad es frecuente y está ligada a sus instintos profundos. También necesitan mucha seguridad afectiva, lo que puede traducirse en un apego más marcado."
+    ),
+
+    CategorieRace(
+        id = "nains",
+        nom = "Razas pequeñas y de compañía",
+        emoji = "🐩",
+        description = "Razas creadas para la compañía, a menudo muy unidas a su familia.",
+        races = listOf(
+            "Chihuahua", "Bichón frisé", "Bichón maltés", "Carlino",
+            "Caniche toy", "Caniche enano", "Pomerania",
+            "Shih tzu", "Lhasa apso", "Pequinés"
+        ),
+        predispositions = listOf(
+            "Fuerte apego a su persona de referencia",
+            "Sensibilidad emocional alta",
+            "Reactividad a veces subestimada",
+            "Posibles ladridos frecuentes"
+        ),
+        nuanceAnalyse = "Las razas pequeñas y de compañía fueron seleccionadas para vivir lo más cerca posible del ser humano, lo que explica una necesidad de apego a menudo muy fuerte. Su pequeño tamaño a veces lleva a subestimar su reactividad o sus dificultades de comportamiento. Una puntuación alta en apego o en sensibilidad es muy común y merece la misma atención que en las razas grandes."
+    ),
+
+    CategorieRace(
+        id = "chasse",
+        nom = "Perros de caza y rastreo",
+        emoji = "🌿",
+        description = "Razas enérgicas, con un olfato y una motivación muy desarrollados.",
+        races = listOf(
+            "Beagle", "Basset hound", "Braco alemán", "Braco de Weimar",
+            "Bretón", "Pointer", "Setter irlandés",
+            "Dálmata", "Rhodesian ridgeback", "Vizsla"
+        ),
+        predispositions = listOf(
+            "Motivación y energía muy altas",
+            "Impulsividad frecuente al aire libre",
+            "Manejo de la excitación difícil",
+            "Posible independencia al seguir rastros"
+        ),
+        nuanceAnalyse = "Los perros de caza tienen una motivación y una energía naturalmente muy altas, además de un instinto de rastreo o de persecución muy fuerte. Una puntuación alta en impulsividad o en reactividad al aire libre suele ser la expresión directa de estos instintos. Estos comportamientos son normales en su contexto de origen y requieren un trabajo adaptado más que una corrección clásica."
+    ),
+
+    CategorieRace(
+        id = "croise",
+        nom = "Mestizo / raza desconocida",
+        emoji = "🐕‍🦺",
+        description = "Perros mestizos o cuya raza se desconoce.",
+        races = listOf(
+            "Mestizo (raza desconocida)",
+            "Mestizo identificado en parte"
+        ),
+        predispositions = listOf(
+            "Perfil muy variable según la herencia genética",
+            "A menudo buena resistencia emocional",
+            "Los instintos dominantes pueden variar"
+        ),
+        nuanceAnalyse = "Los perros mestizos tienen perfiles muy variados según sus orígenes. Sin conocer con precisión su herencia genética, es difícil anticipar sus predisposiciones de comportamiento. Por eso, la evaluación se basa únicamente en los comportamientos observados, que siguen siendo la lectura más fiable y justa de su situación real."
+    )
+)

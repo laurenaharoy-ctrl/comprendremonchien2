@@ -137,10 +137,10 @@ object PremiumPalette {
 }
 
 enum class DictionnaireCategorie(val titre: String) {
-    DANGEREUX(tr("Aliments dangereux", "Dangerous foods", "Gefährliche Lebensmittel")),
-    AUTORISES(tr("Aliments autorisés", "Safe foods", "Erlaubte Lebensmittel")),
-    INGESTION(tr("Que faire en cas d'ingestion", "What to do if your dog swallows something", "Was tun, wenn der Hund etwas verschluckt hat")),
-    DIGESTION(tr("Digestion / herbe / vomissements / selles", "Digestion / grass / vomiting / stools", "Verdauung / Gras / Erbrechen / Kot"))
+    DANGEREUX(tr("Aliments dangereux", "Dangerous foods", "Gefährliche Lebensmittel", "Alimentos peligrosos")),
+    AUTORISES(tr("Aliments autorisés", "Safe foods", "Erlaubte Lebensmittel", "Alimentos permitidos")),
+    INGESTION(tr("Que faire en cas d'ingestion", "What to do if your dog swallows something", "Was tun, wenn der Hund etwas verschluckt hat", "Qué hacer en caso de ingestión")),
+    DIGESTION(tr("Digestion / herbe / vomissements / selles", "Digestion / grass / vomiting / stools", "Verdauung / Gras / Erbrechen / Kot", "Digestión / hierba / vómitos / heces"))
 }
 
 data class DictionnaireEntry(val categorie: DictionnaireCategorie, val titre: String, val resume: String, val contenu: String)
@@ -194,6 +194,22 @@ fun dictionnaireEntries(): List<DictionnaireEntry> = trList(
         DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Wie ist auffälliger Kot zu verstehen?", "Der Kot erzählt oft eine kleine Verdauungsgeschichte.", "Weicherer, häufigerer, ungewöhnlich gefärbter Kot oder Kot mit Unwohlsein kann auf Verdauungsschwierigkeiten hinweisen. Wenn das anhält oder andere Symptome hinzukommen, sollten Sie mit einem Tierarzt darüber sprechen."),
         DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mein Hund frisst zu schnell", "Die Mahlzeit wie eine Rakete zu verschlingen, erfordert manchmal eine kleine Anpassung.", "Manche Hunde fressen aus Aufregung oder Gewohnheit sehr schnell. Das kann Verdauungsbeschwerden begünstigen. Die Ration aufzuteilen oder einen geeigneten Napf zu verwenden, kann helfen."),
         DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mein Hund bettelt ständig um Futter", "Das Betteln kann aus Gewohnheit, Langeweile oder einer unpassenden Ration kommen.", "Ein Hund, der oft bettelt, hat nicht unbedingt zu wenig Futter. Das Betteln kann mit Gewohnheit, Langeweile, zu häufigen Leckerlis oder unregelmäßigen Fütterungszeiten zusammenhängen.")
+    ),
+    listOf(
+        DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "¿Qué alimentos hay que evitar sí o sí?", "Algunos alimentos de las personas pueden ser realmente problemáticos para el perro.", "Por prudencia, hay que evitar los alimentos conocidos por causar problemas, como el chocolate, la cebolla, el ajo, las uvas (frescas o pasas), el alcohol, los huesos cocidos y los alimentos muy grasos, muy salados o muy condimentados. Ante una ingestión sospechosa, sobre todo si el perro parece encontrarse mal o presenta síntomas inusuales, no hay que esperar."),
+        DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "¿Las sobras de la mesa son un riesgo?", "Ese pequeño extra de la mesa puede volverse rápidamente un falso amigo.", "Es mejor evitar las sobras demasiado ricas, saladas, grasas o muy procesadas. Aunque al perro le gusten, pueden desequilibrar su ración, favorecer problemas digestivos, fomentar que pida comida y hacer que las comidas sean menos regulares en el día a día."),
+        DictionnaireEntry(DictionnaireCategorie.DANGEREUX, "¿Por qué hay que evitar los huesos cocidos?", "Un hueso cocido puede convertirse en una pequeña catástrofe silenciosa.", "Los huesos cocidos pueden romperse en fragmentos más cortantes y causar problemas digestivos o mecánicos. Para ir sobre seguro, es mejor evitarlos. Si después de comer uno aparecen dolor, vómitos, molestias o un comportamiento inusual, hay que consultar a un veterinario."),
+        DictionnaireEntry(DictionnaireCategorie.AUTORISES, "¿Se le pueden dar frutas o verduras?", "A veces sí, pero no en modo bufé libre.", "Algunas frutas y verduras pueden ofrecerse en pequeña cantidad, según su naturaleza y la tolerancia del perro. La idea general es ser prudente, evitar los alimentos conocidos por causar problemas y no alterar la ración principal. Si tienes dudas sobre un alimento concreto, es mejor informarse antes de dárselo."),
+        DictionnaireEntry(DictionnaireCategorie.AUTORISES, "Premios: ¿útiles o arriesgados?", "Muy útiles en la educación, menos divertidos cuando se salen de control.", "Los premios pueden ser útiles si se ajustan a la ración global y se dan en pequeña cantidad. El riesgo aparece cuando son demasiados, demasiado ricos o se reparten sin ningún criterio."),
+        DictionnaireEntry(DictionnaireCategorie.AUTORISES, "¿Cómo cambiar su alimento seco?", "Un cambio demasiado rápido puede convertir el estómago en el tambor de una lavadora.", "El cambio de alimento debe hacerse de forma progresiva durante varios días. Primero se mezcla una pequeña cantidad del nuevo alimento con el anterior y luego se aumenta poco a poco la proporción del nuevo."),
+        DictionnaireEntry(DictionnaireCategorie.INGESTION, "¿Qué hago si mi perro ha comido algo dudoso?", "La mejor reacción es la calma y la rapidez, no la improvisación.", "Si tu perro ha comido un alimento sospechoso o inusual, lo primero es evitar los remedios caseros improvisados. Ante la duda, sobre todo si se trata de un alimento conocido por ser problemático o si aparecen síntomas, contacta rápidamente con un veterinario."),
+        DictionnaireEntry(DictionnaireCategorie.INGESTION, "¿Qué señales deben alertarte después de una ingestión?", "Cuando el cuerpo da la alarma, conviene escucharlo de inmediato.", "Hay que estar especialmente atento a vómitos repetidos, diarrea importante, decaimiento, agitación inusual, temblores, dolor, dificultad para respirar o cualquier cambio repentino de comportamiento."),
+        DictionnaireEntry(DictionnaireCategorie.INGESTION, "¿Hay que esperar a ver si se le pasa?", "A veces esperar tranquiliza, a veces esperar complica las cosas.", "Cuando el alimento ingerido es potencialmente peligroso o cuando el perro ya presenta síntomas, es mejor no esperar. Ante la duda, lo más seguro es pedir consejo."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "¿Por qué mi perro come hierba?", "Un comportamiento frecuente, a menudo sin importancia, pero que hay que vigilar si se vuelve repetitivo.", "Comer hierba puede tener varias explicaciones. Algunos perros lo hacen de vez en cuando sin que sea preocupante. Si se vuelve muy frecuente o va acompañado de vómitos o decaimiento, es mejor consultar a un veterinario."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mi perro vomita, ¿siempre es grave?", "Un vómito aislado no tiene el mismo peso que una serie seguida.", "Un vómito puntual a veces no tiene una gravedad aparente, pero los vómitos repetidos, acompañados de dolor, decaimiento, diarrea, rechazo a beber o un comportamiento inusual, deben llevarte a consultar a un veterinario."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "¿Cómo interpretar unas heces anormales?", "Las heces suelen contar una pequeña historia digestiva.", "Unas heces más blandas, más frecuentes, de un color inusual o acompañadas de molestias pueden reflejar una dificultad digestiva. Si dura o va acompañado de otros síntomas, conviene consultar a un veterinario."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mi perro come demasiado rápido", "Engullir la comida como un cohete a veces requiere un pequeño ajuste.", "Algunos perros comen muy rápido por excitación o por costumbre. Esto puede favorecer las molestias digestivas. Repartir la ración o usar un comedero adaptado puede ayudar."),
+        DictionnaireEntry(DictionnaireCategorie.DIGESTION, "Mi perro pide comida todo el tiempo", "Pedir comida puede deberse a la costumbre, al aburrimiento o a una ración poco adecuada.", "Un perro que pide comida a menudo no necesariamente come poco. Puede deberse a la costumbre, al aburrimiento, a premios demasiado frecuentes o a horarios irregulares.")
     )
 )
 
@@ -272,6 +288,31 @@ fun comportementEntries(): List<ComportementEntry> = trList(
         ComportementEntry("destruction-absence", "Zerstörung während der Abwesenheit", "Oft verbunden mit Stress, Langeweile oder Einsamkeit.", "Ein Hund, der zerstört, wenn er allein ist, handelt nicht aus Rache.", "Den Umgang mit Abwesenheiten überdenken und die Umgebung bereichern.", "Im Nachhinein bestrafen."),
         ComportementEntry("hypervigilance", "Übermäßige Wachsamkeit", "Der Hund scheint ständig auf der Hut zu sein.", "Ein übermäßig wachsamer Hund überwacht seine Umgebung stark und reagiert schnell auf Veränderungen.", "Mehr Vorhersehbarkeit, Ruhezeiten und Sicherheit im Alltag schaffen.", "Ihn mit Reizen überfluten, um ihn zu schnell daran zu gewöhnen."),
         ComportementEntry("coup-de-chaleur", "Hitzschlag", "Ein tierärztlicher Notfall, der schnelles Handeln und die richtigen Handgriffe erfordert.", "Hunde regulieren ihre Temperatur schlecht über die Haut und sind vor allem auf das Hecheln angewiesen. Bei großer Hitze, Anstrengung oder fehlendem Schatten und Wasser kann ihre Körpertemperatur innerhalb weniger Minuten gefährlich ansteigen. Kurzköpfige Rassen (Bulldoggen, Möpse …), ältere, übergewichtige oder dicht behaarte Hunde sind besonders gefährdet. Warnzeichen sind starkes Hecheln, übermäßiges Speicheln, dunkelrotes oder bläuliches Zahnfleisch, Erbrechen, Orientierungslosigkeit oder ein Zusammenbruch.", "Bringen Sie den Hund sofort in den Schatten oder an einen kühlen Ort, befeuchten Sie Körper und Pfoten mit lauwarmem (niemals eiskaltem) Wasser, bieten Sie ihm Wasser nach Belieben an, ohne zu zwingen, und kontaktieren Sie umgehend einen Tierarzt, auch wenn es ihm besser zu gehen scheint.", "Eiskaltes Wasser oder Eisbeutel direkt auf der Haut verwenden, den Hund zwingen, auf einmal viel zu trinken, oder abwarten, ob es vorbeigeht, bevor man einen Tierarzt ruft.")
+    ),
+    listOf(
+        ComportementEntry("queue-remue", "Cola que se mueve", "No siempre es sinónimo de alegría: hay que leer todo el cuerpo.", "Un perro que mueve la cola no está automáticamente feliz. La cola indica sobre todo un estado de activación emocional.", "Observar todo el cuerpo antes de interactuar.", "Pensar que una cola que se mueve siempre autoriza el contacto."),
+        ComportementEntry("queue-basse", "Cola baja o entre las patas", "Una señal frecuente de inquietud o malestar.", "Cuando la cola baja mucho o se esconde bajo el vientre, el perro puede estar intimidado, estresado o retraído.", "Dejar espacio, suavizar el acercamiento y reducir la presión.", "Obligar al perro a avanzar, saludar o quedarse en una situación que le incomoda."),
+        ComportementEntry("baillement", "Bostezo sin cansancio", "A menudo una señal de calma o de tensión leve.", "El perro puede bostezar sin estar cansado. A veces es una forma de regular su emoción.", "Ir más despacio, hacer una pausa, simplificar el ejercicio o la interacción.", "Reducir esta señal a simple cansancio."),
+        ComportementEntry("leche-truffe", "Lamerse la trufa rápidamente", "Una pequeña señal discreta de tensión o de calma.", "Este rápido lametón suele aparecer cuando el perro intenta calmarse o calmar la interacción.", "Ponerse ligeramente de lado y dejar más iniciativa al perro.", "Seguir insistiendo física o verbalmente."),
+        ComportementEntry("tourne-tete", "Girar la cabeza", "El perro suele intentar evitar la presión.", "Girar la cabeza es una forma educada de hacer el intercambio menos directo.", "Suavizar la postura y reducir la presión social.", "Interpretarlo como ignorancia o como negativa a obedecer."),
+        ComportementEntry("oreilles-arriere", "Orejas pegadas hacia atrás", "Una señal que hay que leer junto con el resto del cuerpo.", "Las orejas hacia atrás pueden acompañar el miedo, la incomodidad o una emoción intensa.", "Leer la postura global y dar tiempo al perro.", "Analizar una sola señal sin tener en cuenta el contexto."),
+        ComportementEntry("corps-fige", "Cuerpo inmóvil", "Una señal importante, a menudo justo antes de una reacción.", "Quedarse inmóvil es detener el movimiento de golpe. El perro suspende su comportamiento porque está evaluando la situación.", "Interrumpir el acercamiento y aumentar la distancia.", "Seguir tocando o acercándose a un perro inmóvil."),
+        ComportementEntry("grognement", "Gruñido", "Un aviso útil y valioso.", "El gruñido es una comunicación clara que dice que el perro no está cómodo. Castigar esta señal no ayuda.", "Detener la fuente de incomodidad y analizar la situación con calma.", "Castigar, desafiar o provocar al perro."),
+        ComportementEntry("montre-dents", "Enseñar los dientes", "El nivel de alerta sube.", "Cuando el perro enseña los dientes, expresa un límite muy claro.", "Crear distancia de inmediato, sin gestos bruscos.", "Buscar un enfrentamiento de fuerza."),
+        ComportementEntry("aplati-sol", "Tumbarse pegado al suelo", "Puede expresar miedo, inhibición o retraimiento.", "Un perro que se aplasta contra el suelo suele intentar pasar desapercibido en una situación que vive mal.", "Hacer la situación más predecible y tranquila.", "Tirar de la correa para hacerlo avanzar."),
+        ComportementEntry("sur-le-dos", "Ponerse panza arriba", "No siempre es una invitación a las caricias.", "Esta postura puede expresar vulnerabilidad o un intento de calmar la situación.", "Observar antes de tocar, sobre todo si el perro parece tenso.", "Acariciarle la panza de forma automática."),
+        ComportementEntry("patte-levee", "Pata delantera levantada", "A menudo asociada a la duda o al análisis.", "Una pata levantada puede mostrar que el perro observa, duda o evalúa la situación.", "Darle tiempo para entender.", "Tomar esta señal solo como una postura bonita."),
+        ComportementEntry("secouement", "Sacudirse el cuerpo", "Una forma frecuente de liberar tensión.", "El perro puede sacudirse después de un encuentro o de una emoción fuerte.", "Dejar que ocurra este momento de relajación.", "Pasar enseguida a algo demasiado intenso."),
+        ComportementEntry("haletement", "Jadeo sin esfuerzo", "Puede revelar estrés, calor o incomodidad.", "El jadeo no siempre está relacionado con el ejercicio. Puede acompañar una tensión emocional.", "Revisar el contexto y vigilar si se repite.", "Atribuirlo automáticamente a una simple excitación."),
+        ComportementEntry("aboiement-alerte", "Ladrido de alerta", "El perro avisa de una presencia o de un cambio.", "Ante un ruido o una llegada inusual, el perro puede ladrar para avisar.", "Mantener la calma y luego redirigirlo hacia un comportamiento más tranquilo.", "Gritarle a su vez."),
+        ComportementEntry("aboiement-frustration", "Ladrido de frustración", "Al perro le cuesta manejar la espera o que se le impida el acceso.", "Cuando una puerta sigue cerrada o una actividad esperada se retrasa, algunos perros ladran por frustración.", "Trabajar la espera de forma progresiva y premiar la calma.", "Multiplicar las órdenes cuando el perro ya está desbordado."),
+        ComportementEntry("approche-arc", "Acercamiento en arco", "Un código social educado entre perros.", "Los perros equilibrados suelen evitar el acercamiento frontal. Rodean ligeramente y manejan mejor la distancia.", "Respetar los acercamientos indirectos, sobre todo entre perros.", "Forzar encuentros frontales con la correa tensa."),
+        ComportementEntry("renifle-sol", "Olfatear el suelo de repente", "Puede ayudar al perro a bajar la presión.", "Olfatear puede ser una forma de descomprimir en una situación cargada emocionalmente.", "Dejar que exista este momento de descompresión.", "Tirar de inmediato de la correa para recuperar su atención."),
+        ComportementEntry("appel-au-jeu", "Postura de invitación al juego", "Parte delantera baja, parte trasera levantada, movimientos sueltos.", "La reverencia de juego sirve para indicar una intención de jugar.", "Comprobar que el otro perro responde con ganas.", "Confundir una agitación brusca con un verdadero juego compartido."),
+        ComportementEntry("suit-humain", "Sigue a su humano a todas partes", "Puede ser normal o indicar una dependencia.", "Algunos perros siguen a su humano por costumbre social. Otros muestran un apego más ansioso.", "Observar sus reacciones durante ausencias cortas.", "Ver este comportamiento solo como una prueba de amor."),
+        ComportementEntry("destruction-absence", "Destrozos en tu ausencia", "A menudo relacionados con el estrés, el aburrimiento o la soledad.", "Un perro que destroza cosas cuando está solo no actúa por venganza.", "Revisar cómo se manejan las ausencias y enriquecer el entorno.", "Castigar después de los hechos."),
+        ComportementEntry("hypervigilance", "Hipervigilancia", "El perro parece estar siempre alerta.", "Un perro hipervigilante vigila mucho su entorno y reacciona rápido a los cambios.", "Aumentar la previsibilidad, los momentos de calma y la seguridad en el día a día.", "Saturarlo de estímulos para que se acostumbre demasiado rápido."),
+        ComportementEntry("coup-de-chaleur", "Golpe de calor", "Una urgencia veterinaria que exige reaccionar rápido y con los gestos adecuados.", "El perro regula mal su temperatura a través de la piel y depende sobre todo del jadeo. Con mucho calor, después de un esfuerzo o sin sombra ni agua, su temperatura corporal puede subir peligrosamente en pocos minutos. Las razas braquicéfalas (bulldogs, carlinos...), los perros mayores, con sobrepeso o de pelo espeso tienen un riesgo especial. Las señales de alerta incluyen un jadeo intenso, salivación excesiva, encías rojo oscuro o azuladas, vómitos, desorientación o desmayo.", "Lleva de inmediato al perro a la sombra o a un lugar fresco, mójale el cuerpo y las patas con agua tibia (nunca helada), ofrécele agua a voluntad sin obligarlo y contacta con un veterinario de urgencia aunque parezca mejorar.", "Usar agua helada o bolsas de hielo directamente sobre la piel, obligar al perro a beber de golpe o esperar a ver si se le pasa antes de llamar al veterinario.")
     )
 )
 
@@ -461,7 +502,7 @@ fun QuestionnaireScreen(
             PremiumCard {
                 SectionChip(titreSection)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text("$numero ${tr("sur", "of", "von")} $total", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
+                Text("$numero ${tr("sur", "of", "von", "de")} $total", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
                 Spacer(modifier = Modifier.height(12.dp))
                 val animatedProgress by animateFloatAsState(progress.coerceIn(0f, 1f), label = "progress")
                 Box(modifier = Modifier.fillMaxWidth().height(10.dp).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFE9DED5), RoundedCornerShape(999.dp))) {
@@ -599,7 +640,7 @@ fun ResultatScreen(
                 PrimaryGlowButton(
                     text = strBtnVoirLivres(),
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tr("https://comprendre-mon-chien.carrd.co", "https://understanding-my-dog.carrd.co", "https://understanding-my-dog.carrd.co")))
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tr("https://comprendre-mon-chien.carrd.co", "https://understanding-my-dog.carrd.co", "https://understanding-my-dog.carrd.co", "https://comprendre-mon-chien.carrd.co")))
                         context.startActivity(intent)
                     },
                     leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null, tint = Color.White) }
@@ -721,7 +762,7 @@ fun ConsultationCard(lieuResidence: Int? = null) {
 
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = tr("Nous suivre sur Facebook", "Follow us on Facebook", "Folgen Sie uns auf Facebook"),
+                text = tr("Nous suivre sur Facebook", "Follow us on Facebook", "Folgen Sie uns auf Facebook", "Síguenos en Facebook"),
                 color = Color(0xFF1877F2),
                 style = MaterialTheme.typography.bodyMedium,
                 textDecoration = TextDecoration.Underline,
@@ -862,7 +903,7 @@ fun ActionButtonsGrid(onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -
             ActionButton(text = strBtnPartager(), icon = Icons.Rounded.Share, primary = true, modifier = Modifier.weight(1f), onClick = onShare)
             ActionButton(text = strBtnExportPdf(), icon = Icons.Rounded.PictureAsPdf, primary = true, modifier = Modifier.weight(1f), onClick = onExportPdf)
         }
-        ActionButton(text = tr("Copier le résumé", "Copy summary", "Zusammenfassung kopieren"), icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.fillMaxWidth(), onClick = onCopy)
+        ActionButton(text = tr("Copier le résumé", "Copy summary", "Zusammenfassung kopieren", "Copiar el resumen"), icon = Icons.Rounded.ContentCopy, primary = false, modifier = Modifier.fillMaxWidth(), onClick = onCopy)
     }
 }
 
@@ -998,7 +1039,7 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
                 selectedEntryState.value != null -> {
                     val entry = selectedEntryState.value!!
                     PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton(strBtnRetourCategorie(), onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
-                    PremiumCard(centered = true) { EditorialKicker(tr("Rappel", "Reminder", "Zur Erinnerung"), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimRappel(), textAlign = TextAlign.Center) }
+                    PremiumCard(centered = true) { EditorialKicker(tr("Rappel", "Reminder", "Zur Erinnerung", "Recuerda"), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimRappel(), textAlign = TextAlign.Center) }
                 }
                 selectedCategoryState.value != null -> {
                     val categorie = selectedCategoryState.value!!
