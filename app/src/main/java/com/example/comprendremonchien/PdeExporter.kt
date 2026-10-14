@@ -250,7 +250,7 @@ object PdfExporter {
             strPdfAxePrincipal() to strLibelleAxe(analyse.problemePrincipal),
             strPdfSituation() to strNiveauSituation(analyse.niveauSituation),
             strPdfBesoin() to strBesoinPrincipal(analyse.problemePrincipal)
-                .removePrefix("Besoin principal : ").removePrefix("Main need: ").removePrefix("Hauptbedürfnis: ").removeSuffix("."),
+                .removePrefix("Besoin principal : ").removePrefix("Main need: ").removePrefix("Hauptbedürfnis: ").removePrefix("Necesidad principal: ").removeSuffix("."),
             strPdfAide() to aideAEnvisager(analyse)
         )
         pager.y = drawInfoGrid(pager.canvas, pager.y, gridItems)
