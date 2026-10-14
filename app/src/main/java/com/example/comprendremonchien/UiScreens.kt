@@ -640,7 +640,7 @@ fun ResultatScreen(
                 PrimaryGlowButton(
                     text = strBtnVoirLivres(),
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tr("https://comprendre-mon-chien.carrd.co", "https://understanding-my-dog.carrd.co", "https://understanding-my-dog.carrd.co", "https://comprender-a-mi-perro.carrd.co")))
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tr("https://comprendre-mon-chien.carrd.co", "https://understanding-my-dog.carrd.co", "https://meinen-hund-verstehen.carrd.co", "https://comprender-a-mi-perro.carrd.co")))
                         context.startActivity(intent)
                     },
                     leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null, tint = Color.White) }
