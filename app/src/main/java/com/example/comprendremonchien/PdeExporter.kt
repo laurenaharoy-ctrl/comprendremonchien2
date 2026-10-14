@@ -558,11 +558,19 @@ object PdfExporter {
         val footerTop = QR_FOOTER_TOP
         drawCard(canvas, MARGIN, footerTop, PAGE_W - MARGIN, PAGE_H - MARGIN + 2f, COLOR_WARM_BG, COLOR_BORDER, 14f)
 
-        val qrSize = 62
-        val qrBitmap = generateQrCode("https://play.google.com/store/apps/details?id=com.laurena.comprendremonchien", 300)
-        val qrLeft = (PAGE_W - MARGIN - qrSize - 14f).toInt()
-        val qrTop = (footerTop + 14f).toInt()
-        canvas.drawBitmap(qrBitmap, null, Rect(qrLeft, qrTop, qrLeft + qrSize, qrTop + qrSize), null)
+        val qrSize = 54
+        val qrTop = (footerTop + 12f).toInt()
+        val labelPaint = makePaint(7f, COLOR_INK_SOFT)
+        val appQrLeft = (PAGE_W - MARGIN - qrSize - 14f).toInt()
+        canvas.drawBitmap(generateQrCode("https://play.google.com/store/apps/details?id=com.laurena.comprendremonchien", 300), null, Rect(appQrLeft, qrTop, appQrLeft + qrSize, qrTop + qrSize), null)
+        val appLabel = tr("Application", "App", "App", "Aplicación")
+        canvas.drawText(appLabel, appQrLeft + (qrSize - labelPaint.measureText(appLabel)) / 2f, qrTop + qrSize + 10f, labelPaint)
+        if (appLang() == AppLang.FR) {
+            val siteQrLeft = appQrLeft - qrSize - 12
+            canvas.drawBitmap(generateQrCode("https://comportementaliste91.fr", 300), null, Rect(siteQrLeft, qrTop, siteQrLeft + qrSize, qrTop + qrSize), null)
+            val siteLabel = "Site internet"
+            canvas.drawText(siteLabel, siteQrLeft + (qrSize - labelPaint.measureText(siteLabel)) / 2f, qrTop + qrSize + 10f, labelPaint)
+        }
 
         val tx = MARGIN + 14f
         canvas.drawText(strPdfGenereAuto(), tx, footerTop + 22f, makePaint(9f, COLOR_INK_SOFT))
