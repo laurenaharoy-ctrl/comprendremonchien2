@@ -223,7 +223,7 @@
     <string name="pdf_disclaimer">Ce bilan est indicatif. Il ne remplace pas l\'avis d\'un vétérinaire ni d\'un professionnel du comportement animal. Il peut servir de base de discussion lors d\'une consultation.</string>
     <string name="pdf_genere_auto">Document généré automatiquement</string>
     <string name="pdf_retrouvez">Retrouvez l\'application pour suivre l\'évolution de votre chien.</string>
-    <string name="pdf_acceder">Accéder à l\'application — comprendremonchien.fr</string>
+    <string name="pdf_acceder">Scannez le QR code pour accéder à l\'application</string>
     <string name="pdf_morsure_texte">Une morsure a été signalée lors de ce bilan. Un accompagnement professionnel est recommandé pour évaluer la situation et sécuriser le quotidien.</string>
     <string name="pdf_en_un_coup">En un coup d\'œil</string>
     <string name="pdf_axe_principal">Axe principal</string>
