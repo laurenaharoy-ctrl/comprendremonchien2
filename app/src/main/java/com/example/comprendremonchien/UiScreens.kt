@@ -36,6 +36,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AutoStories
 import androidx.compose.material.icons.rounded.ChevronRight
@@ -593,7 +594,7 @@ fun ResultatScreen(
             }
             PremiumCard(centered = true) {
                 EditorialKicker(strResultatRessent(nomChienAffiche(nomChien)), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(analyse.profil.phraseHumaine, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
+                Text(phraseHumaineCoherente(analyse, nomChienAffiche(nomChien)), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
                 Text(strResumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
                 Text(strIntentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
                 Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -732,7 +733,8 @@ fun ConsultationCard(lieuResidence: Int? = null) {
                 onClick = {
                     val intent = Intent(Intent.ACTION_DIAL, Uri.parse(TELEPHONE_URI))
                     context.startActivity(intent)
-                }
+                },
+                leading = { Icon(Icons.Rounded.Phone, contentDescription = null) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(

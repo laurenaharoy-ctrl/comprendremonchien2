@@ -231,7 +231,7 @@ object PdfExporter {
         canvas.drawText(badgeText, (PAGE_W - badgeTextW) / 2f, 155f, badgePaint)
 
         drawStaticText(
-            canvas, analyse.profil.phraseHumaine,
+            canvas, phraseHumaineCoherente(analyse, nom),
             MARGIN, 170f, CONTENT_W.toInt(),
             makePaint(11f, COLOR_INK, italic = true),
             Layout.Alignment.ALIGN_CENTER
@@ -579,7 +579,7 @@ object PdfExporter {
 
         val pageLabel = strPdfPage(pageNum, totalPages)
         val pagePaint = makePaint(8f, COLOR_INK_SOFT)
-        canvas.drawText(pageLabel, PAGE_W - MARGIN - pagePaint.measureText(pageLabel), PAGE_H - MARGIN - 4f, pagePaint)
+        canvas.drawText(pageLabel, MARGIN + 14f, footerTop + 80f, pagePaint)
     }
 
     // ════════════════════════════════════════════════════════════

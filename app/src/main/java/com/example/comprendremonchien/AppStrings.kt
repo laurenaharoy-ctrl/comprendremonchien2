@@ -660,7 +660,7 @@ fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consul
 
 fun strConsultationPrix() = "35 € / 30 min  •  50 € / 1 h"
 
-fun strConsultationBouton(lieu: Int? = null) = "Appeler le " + if (lieu == 2) TELEPHONE_INTERNATIONAL else TELEPHONE_NATIONAL
+fun strConsultationBouton(lieu: Int? = null) = (if (lieu == 2) TELEPHONE_INTERNATIONAL else TELEPHONE_NATIONAL).replace(" ", "\u00A0")
 
 fun strConsultationAppel() = "Pour prendre rendez-vous, appelez-moi"
 
@@ -669,4 +669,18 @@ fun strConsultationTelephonePdf() = "$TELEPHONE_NATIONAL  (depuis l'étranger : 
 fun strConsultationModalite(lieu: Int?) = when (lieu) {
     0 -> "Consultation en visio ou en présentiel (Essonne)"
     else -> "Consultation en visio"
+}
+
+/** Évite une phrase « stable et sereine » quand la situation ou la priorité est élevée. */
+fun phraseHumaineCoherente(analyse: ResultatAnalyse, nom: String): String {
+    val maxAxe = maxOf(analyse.peur, analyse.attachement, analyse.impulsivite, analyse.reactivite)
+    val alerte = analyse.niveauSituation == NiveauSituation.SENSIBLE ||
+        analyse.prioriteAction == PrioriteAction.ELEVEE || analyse.prioriteAction == PrioriteAction.URGENTE
+    if (maxAxe > 30 || !alerte) return analyse.profil.phraseHumaine
+    return tr(
+        "Le profil émotionnel de $nom paraît plutôt équilibré, mais certains signes relevés dans les réponses méritent une attention particulière.",
+        "$nom's emotional profile looks fairly balanced, but some signs noted in the answers deserve particular attention.",
+        "Das emotionale Profil von $nom wirkt recht ausgeglichen, doch einige Anzeichen in den Antworten verdienen besondere Aufmerksamkeit.",
+        "El perfil emocional de $nom parece bastante equilibrado, pero algunas señales observadas en las respuestas merecen una atención especial."
+    )
 }
