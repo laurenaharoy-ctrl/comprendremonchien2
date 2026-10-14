@@ -559,7 +559,7 @@ object PdfExporter {
         drawCard(canvas, MARGIN, footerTop, PAGE_W - MARGIN, PAGE_H - MARGIN + 2f, COLOR_WARM_BG, COLOR_BORDER, 14f)
 
         val qrSize = 62
-        val qrBitmap = generateQrCode("https://comprendremonchien.fr", 300)
+        val qrBitmap = generateQrCode("https://play.google.com/store/apps/details?id=com.laurena.comprendremonchien", 300)
         val qrLeft = (PAGE_W - MARGIN - qrSize - 14f).toInt()
         val qrTop = (footerTop + 14f).toInt()
         canvas.drawBitmap(qrBitmap, null, Rect(qrLeft, qrTop, qrLeft + qrSize, qrTop + qrSize), null)
