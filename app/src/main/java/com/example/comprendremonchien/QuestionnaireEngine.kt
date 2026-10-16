@@ -699,7 +699,7 @@ object QuestionnaireEngine {
             "cible_agression" -> reponsesChoix["a_deja_mordu"] == 1
             "lieu_residence" -> showConsultation()
             "proprete_type" -> reponsesChoix["proprete_maison"] != 0
-            "marquage_habitude_post_sterilisation" -> estSterilise(reponsesChoix) && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)
+            "marquage_habitude_post_sterilisation" -> estSterilise(reponsesChoix) && reponsesChoix["proprete_maison"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)
             "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
             "frequence_probleme", "intensite_probleme", "generalisation_probleme",
             "changement_recent", "signe_physique" -> reponsesChoix["a_un_probleme"] != 1

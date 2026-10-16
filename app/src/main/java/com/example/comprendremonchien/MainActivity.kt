@@ -579,15 +579,8 @@ Enviado desde la aplicación ${strAppName()}
     }
 }
 
-fun questionDoitEtreAffichee(question: Question, reponsesChoix: Map<String, Int>): Boolean {
-    return when (question.id) {
-        "si_non_quand" -> { val r = reponsesChoix["proprete_maison"]; r == 1 || r == 2 }
-        "apparition", "situation_principale", "duree_probleme", "evolution_probleme",
-        "frequence_probleme", "intensite_probleme", "generalisation_probleme",
-        "changement_recent", "signe_physique" -> reponsesChoix["a_un_probleme"] != 1
-        else -> true
-    }
-}
+fun questionDoitEtreAffichee(question: Question, reponsesChoix: Map<String, Int>): Boolean =
+    QuestionnaireEngine.doitAfficherQuestion(question.id, reponsesChoix)
 
 fun construireTextePartageBilan(nomChien: String, analyse: ResultatAnalyse): String {
     val nom = nomChienAffiche(nomChien)
