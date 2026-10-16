@@ -705,20 +705,22 @@ fun ConsultationCard(lieuResidence: Int? = null) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                strConsultationFormule30(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
                 strConsultationFormule60(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
+            if (lieuResidence == 0) {
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    strConsultationFormuleDomicile(),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 strConsultationModalite(lieuResidence),

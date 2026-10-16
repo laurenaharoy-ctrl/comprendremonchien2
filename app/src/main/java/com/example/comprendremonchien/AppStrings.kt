@@ -628,10 +628,6 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
 
 fun showConsultation(): Boolean = appLang() == AppLang.FR
 
-const val CONSULTATION_BOOKING_URL = "https://tidycal.com/laurenaharoy/30-minute-meeting"
-
-const val CONSULTATION_BOOKING_URL_1H = "https://tidycal.com/laurenaharoy/consultation-comportementale-1-heure"
-
 const val CGV_URL = "https://laurenaharoy-ctrl.github.io/comprendremonchien2/cgv.html"
 
 const val WEBSITE_URL = "https://comportementaliste91.fr"
@@ -642,9 +638,9 @@ const val TELEPHONE_INTERNATIONAL = "+33 6 20 65 78 88"
 
 const val TELEPHONE_URI = "tel:+33620657888"
 
-fun strConsultationFormule30() = "Consultation conseil — 30 min — 35 €"
+fun strConsultationFormuleDomicile() = "À domicile (Essonne) — 1 heure — 70 €"
 
-fun strConsultationFormule60() = "Consultation comportementale — 1 heure — 50 €"
+fun strConsultationFormule60() = "En visioconférence — 1 heure — 50 €"
 
 fun strConsultationCGV() = "Consulter les Conditions Générales de Vente"
 
@@ -654,11 +650,11 @@ fun strConsultationTitre() = "Besoin d'aide pour interpréter ce bilan ?"
 
 fun strConsultationSousTitre() = "Consultation personnalisée du bilan émotionnel de votre chien"
 
-fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose deux formats de consultation personnalisée, selon vos besoins : un échange conseil de 30 minutes pour une première orientation, ou une consultation comportementale d'1 heure pour construire un plan d'accompagnement plus approfondi.\n\nPour prendre rendez-vous, appelez-moi directement : nous ferons connaissance et choisirons ensemble la formule la plus adaptée."
+fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose une consultation comportementale d'1 heure, en visioconférence ou à domicile si vous habitez l'Essonne, pour analyser en profondeur son comportement et construire ensemble un plan d'accompagnement adapté.\n\nPour prendre rendez-vous, appelez-moi directement : ce premier échange nous permettra de faire le point sur votre situation."
 
 fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas un accompagnement comportemental complet à elle seule.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
 
-fun strConsultationPrix() = "35 € / 30 min  •  50 € / 1 h"
+fun strConsultationPrix() = "Visio : 50 € / 1 h  •  À domicile (Essonne) : 70 € / 1 h"
 
 fun strConsultationBouton(lieu: Int? = null) = (if (lieu == 2) TELEPHONE_INTERNATIONAL else TELEPHONE_NATIONAL).replace(" ", "\u00A0")
 
