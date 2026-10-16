@@ -91,7 +91,7 @@ object PdfExporter {
         dessinePlan(pager, nom, analyse)
         dessineARetenir(pager, nom, analyse, couleurPriorite)
         if (showConsultation()) {
-            dessineConsultation(pager)
+            dessineConsultation(pager, analyse.lieuResidence)
         }
         pager.closePage()
         return pager.pageNum
@@ -404,16 +404,16 @@ object PdfExporter {
     // ════════════════════════════════════════════════════════════
     // PAGE 5 — Consultation personnalisée (FR uniquement, page dédiée)
     // ════════════════════════════════════════════════════════════
-    private fun dessineConsultation(pager: Pager) {
+    private fun dessineConsultation(pager: Pager, lieu: Int?) {
         pager.newPage(strConsultationTitre())
         val canvas = pager.canvas
         val y = MARGIN + 60f
 
         val titre = strConsultationTitre()
         val sousTitre = strConsultationSousTitre()
-        val description = strConsultationDescription()
+        val description = strConsultationDescription(lieu)
         val disclaimer = strConsultationDisclaimer()
-        val prix = strConsultationPrix()
+        val prix = strConsultationPrix(lieu)
         val bouton = strConsultationAppel()
         val url = strConsultationTelephonePdf()
 

@@ -650,11 +650,14 @@ fun strConsultationTitre() = "Besoin d'aide pour interpréter ce bilan ?"
 
 fun strConsultationSousTitre() = "Consultation personnalisée du bilan émotionnel de votre chien"
 
-fun strConsultationDescription() = "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose une consultation comportementale d'1 heure, en visioconférence ou à domicile si vous habitez l'Essonne, pour analyser en profondeur son comportement et construire ensemble un plan d'accompagnement adapté.\n\nPour prendre rendez-vous, appelez-moi directement : ce premier échange nous permettra de faire le point sur votre situation."
+fun strConsultationDescription(lieu: Int? = null): String {
+    val format = if (lieu == 0) "en visioconférence ou à domicile en Essonne" else "en visioconférence"
+    return "Vous avez reçu le bilan émotionnel de votre animal et vous souhaitez mieux comprendre ses résultats ?\n\nJe vous propose une consultation comportementale d'1 heure, $format, pour analyser en profondeur son comportement et construire ensemble un plan d'accompagnement adapté.\n\nPour prendre rendez-vous, appelez-moi directement : ce premier échange nous permettra de faire le point sur votre situation."
+}
 
 fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas un accompagnement comportemental complet à elle seule.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
 
-fun strConsultationPrix() = "Visio : 50 € / 1 h  •  À domicile (Essonne) : 70 € / 1 h"
+fun strConsultationPrix(lieu: Int? = null) = if (lieu == 0) "Visio : 50 € / 1 h  •  À domicile (Essonne) : 70 € / 1 h" else "Visioconférence : 50 € / 1 h"
 
 fun strConsultationBouton(lieu: Int? = null) = (if (lieu == 2) TELEPHONE_INTERNATIONAL else TELEPHONE_NATIONAL).replace(" ", "\u00A0")
 

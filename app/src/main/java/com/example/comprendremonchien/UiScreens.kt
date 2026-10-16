@@ -689,7 +689,7 @@ fun ConsultationCard(lieuResidence: Int? = null) {
                 color = PremiumPalette.Primary
             )
             Spacer(modifier = Modifier.height(14.dp))
-            Text(strConsultationDescription(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+            Text(strConsultationDescription(lieuResidence), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(16.dp))
             Box(
                 modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp))
