@@ -418,7 +418,7 @@ Enviado desde la aplicación ${strAppName()}
                             choixSelectionne = reponsesChoix[question.id],
                             nomChien = reponsesTexte["nom_chien"].orEmpty(),
                             onValeurChangee = { reponsesTexte[question.id] = it; saveState() },
-                            onChoixSelectionne = { reponsesChoix[question.id] = it; saveState() },
+                            onChoixSelectionne = { reponsesChoix[question.id] = it; effacerReponsesMasquees(questions, reponsesChoix); saveState() },
                             onSuivant = {
                                 if (indexQuestion < questionsVisibles.lastIndex) indexQuestion++
                                 else screen = AppScreen.Chargement
@@ -576,6 +576,19 @@ Enviado desde la aplicación ${strAppName()}
                 }
             }
         }
+    }
+}
+
+/** Efface les réponses des questions qui ne doivent plus s'afficher
+ *  (ex. « Envers qui ? » quand on repasse « A-t-il mordu ? » à Non),
+ *  pour qu'elles ne comptent plus dans le bilan. */
+fun effacerReponsesMasquees(questions: List<Question>, reponsesChoix: MutableMap<String, Int>) {
+    while (true) {
+        val masquees = questions
+            .filter { reponsesChoix.containsKey(it.id) && !questionDoitEtreAffichee(it, reponsesChoix) }
+            .map { it.id }
+        if (masquees.isEmpty()) return
+        masquees.forEach { reponsesChoix.remove(it) }
     }
 }
 
