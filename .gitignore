@@ -20,3 +20,7 @@ keystore.properties
 *.keystore
 app/release/*.jks
 app/release/*.keystore
+
+# Rapports de plantage Java / Android Studio
+hs_err_pid*.log
+replay_pid*.log
