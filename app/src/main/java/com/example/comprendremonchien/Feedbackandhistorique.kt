@@ -196,7 +196,7 @@ fun FeedbackScreen(
                         val selected = categorieSelectionnee?.id == categorie.id
                         val bgColor by animateColorAsState(
                             targetValue = if (selected) PremiumPalette.Accent.copy(alpha = 0.18f)
-                            else if (isSystemInDarkTheme()) Color(0xFF231B17) else Color(0xFFF8F4EE),
+                            else if (isSystemInDarkTheme()) Color(0xFF231B17) else Color(0xFFFCF9F6),
                             animationSpec = tween(200),
                             label = "cat_bg_${categorie.id}"
                         )

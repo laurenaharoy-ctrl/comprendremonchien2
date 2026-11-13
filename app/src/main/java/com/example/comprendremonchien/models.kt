@@ -160,7 +160,7 @@ fun texteVigilance(niveau: NiveauVigilance, nomChien: String = ""): String {
     val nom = nomChienAffiche(nomChien)
     return when (niveau) {
         NiveauVigilance.FAIBLE ->
-            "À ce stade, rien ne ressort comme particulièrement préoccupant pour $nom."
+            "Pour l'instant, rien ne ressort comme particulièrement préoccupant pour $nom."
         NiveauVigilance.MODEREE ->
             "Quelques éléments méritent une attention particulière pour $nom."
         NiveauVigilance.ELEVEE ->

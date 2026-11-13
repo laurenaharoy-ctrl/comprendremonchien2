@@ -1,5 +1,17 @@
 package com.laurena.comprendremonchien
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.draw.rotate
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -40,6 +52,9 @@ import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AutoStories
 import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.MenuBook
 import androidx.compose.material.icons.rounded.PictureAsPdf
@@ -93,10 +108,17 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.rotate
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFF8E4A2D), onPrimary = Color.White,
-    background = Color(0xFFF4EFE8), surface = Color(0xFFF8F4EE),
+    background = Color(0xFFEEDFD5), surface = Color(0xFFFCF9F6),
     onSurface = Color(0xFF33231D), onBackground = Color(0xFF33231D),
     surfaceVariant = Color(0xFFF0E5DC), onSurfaceVariant = Color(0xFF75584C),
     outline = Color(0xFFE0D2C6), secondary = Color(0xFFB86A4A),
@@ -117,7 +139,7 @@ object PremiumPalette {
     val PrimarySoft = Color(0xFFB86A4A)
     val Accent = Color(0xFFD9A58F)
     val Paper = Color(0xFFF4EFE8)
-    val PaperSoft = Color(0xFFF8F4EE)
+    val PaperSoft = Color(0xFFFCF9F6)
     val PaperWarm = Color(0xFFF1E7DE)
     val Ink = Color(0xFF33231D)
     val InkSoft = Color(0xFF75584C)
@@ -222,7 +244,7 @@ fun comportementEntries(): List<ComportementEntry> = trList(
         ComportementEntry("leche-truffe", "Lèchement rapide de truffe", "Petit signal discret de tension ou d'apaisement.", "Ce coup de langue rapide apparaît souvent quand le chien essaie de se calmer ou d'apaiser l'échange.", "Se mettre légèrement de côté et laisser davantage d'initiative au chien.", "Continuer à insister physiquement ou verbalement."),
         ComportementEntry("tourne-tete", "Tourner la tête", "Le chien cherche souvent à éviter la pression.", "Tourner la tête est une façon polie de rendre l'échange moins direct.", "Adoucir sa posture et diminuer la pression sociale.", "Interpréter cela comme de l'ignorance ou un refus d'obéir."),
         ComportementEntry("oreilles-arriere", "Oreilles plaquées en arrière", "Signal à lire avec le reste du corps.", "Des oreilles en arrière peuvent accompagner la peur, l'inconfort ou une émotion intense.", "Lire la posture globale et donner du temps au chien.", "Analyser un seul signal sans tenir compte du contexte."),
-        ComportementEntry("corps-fige", "Corps figé", "Signal important, souvent juste avant une réaction.", "Le figement est un arrêt du mouvement. Le chien suspend son comportement car il évalue la situation.", "Interrompre l'approche et augmenter la distance.", "Continuer à toucher ou à approcher un chien figé."),
+        ComportementEntry("corps-fige", "Corps figé", "Signal important, souvent juste avant une réaction.", "Le corps figé est un arrêt du mouvement. Le chien suspend son comportement car il évalue la situation.", "Interrompre l'approche et augmenter la distance.", "Continuer à toucher ou à approcher un chien figé."),
         ComportementEntry("grognement", "Grognement", "Avertissement utile et précieux.", "Le grognement est une communication claire qui dit que le chien n'est pas à l'aise. Punir ce signal n'aide pas.", "Arrêter la source d'inconfort et analyser calmement la situation.", "Punir, défier ou provoquer le chien."),
         ComportementEntry("montre-dents", "Montrer les dents", "Le niveau d'alerte devient plus élevé.", "Quand le chien montre les dents, il exprime une limite très claire.", "Créer immédiatement de la distance sans gestes brusques.", "Chercher le rapport de force."),
         ComportementEntry("aplati-sol", "Se coucher ventre au sol", "Peut traduire peur, inhibition ou repli.", "Un chien qui s'aplatit essaie souvent de se faire discret dans une situation qu'il vit mal.", "Rendre la situation plus prévisible et plus calme.", "Tirer sur la laisse pour le faire avancer."),
@@ -340,7 +362,7 @@ fun AppBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.(
     val brush = if (isSystemInDarkTheme())
         Brush.verticalGradient(listOf(Color(0xFF241B17), Color(0xFF1D1613), Color(0xFF171210)))
     else
-        Brush.verticalGradient(listOf(Color(0xFFF8F4EE), Color(0xFFF4EFE8), Color(0xFFF1E7DE)))
+        Brush.verticalGradient(listOf(Color(0xFFEEDFD5), Color(0xFFEAD9CD), Color(0xFFE6D3C6)))
     Box(modifier = modifier.fillMaxSize().background(brush)) {
         Box(modifier = Modifier.fillMaxSize().graphicsLayer(alpha = 0.08f).background(Brush.radialGradient(colors = listOf(Color.White, Color.Transparent))))
         content()
@@ -376,7 +398,7 @@ fun AccentChip(text: String) {
 @Composable
 fun SectionChip(text: String) {
     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(if (isSystemInDarkTheme()) Color(0xFF3D2920) else Color(0xFFEDD8CC)).padding(horizontal = 14.dp, vertical = 8.dp)) {
-        Text(text, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.Primary)
+        Text(text, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = marronTexte())
     }
 }
 
@@ -451,13 +473,68 @@ fun ChargementAnalyseScreen(modifier: Modifier = Modifier, onTermine: () -> Unit
 
 @Composable
 fun AccueilScreen(modifier: Modifier = Modifier, hasSavedProgress: Boolean, onCommencer: () -> Unit, onReprendre: () -> Unit, onDictionnaire: () -> Unit, onAlimentation: () -> Unit) {
-    EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 8.dp)) {
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
-            AccueilIllustrationCard()
-            PrimaryGlowButton(text = strBtnDemarrerBilan(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
-            SecondaryPremiumButton(text = strBtnDictionnaire(), onClick = onDictionnaire, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
-            SecondaryPremiumButton(text = strBtnAlimentation(), onClick = onAlimentation, leading = { Icon(Icons.Rounded.Star, contentDescription = null) })
-            if (hasSavedProgress) SecondaryPremiumButton(text = strBtnReprendre(), onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
+    val isDark = isSystemInDarkTheme()
+    val couleurPatte = if (isDark) PremiumPalette.PrimarySoft.copy(alpha = 0.09f) else PremiumPalette.Primary.copy(alpha = 0.07f)
+    Box(modifier = modifier.fillMaxSize()) {
+        Canvas(modifier = Modifier.matchParentSize()) {
+            val t = 20.dp.toPx()
+            // une trace en haut à gauche, qui sort de l'écran
+            traceDePattes(Offset(size.width * 0.04f, size.height * 0.30f), Offset(size.width * 0.30f, -t), 4, t, couleurPatte)
+            // une trace en bas à droite, qui entre dans l'écran
+            traceDePattes(Offset(size.width + t, size.height * 0.80f), Offset(size.width * 0.62f, size.height * 1.02f), 4, t, couleurPatte)
+        }
+        EditorialContainer(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 8.dp)) {
+            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(strAppName(), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.ExtraBold, color = marronTexte(), textAlign = TextAlign.Center)
+                Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
+                    style = styleDoux().copy(fontSize = 19.sp, lineHeight = 26.sp), color = marronTexte(), textAlign = TextAlign.Center)
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                    Box(modifier = Modifier.size(width = 320.dp, height = 240.dp).background(Brush.radialGradient(listOf(Color.White.copy(alpha = if (isDark) 0.06f else 0.6f), Color.Transparent))))
+                    Image(painter = painterResource(id = R.drawable.logo_accueil_rogne), contentDescription = strContentDescLogo(), modifier = Modifier.widthIn(max = 300.dp).fillMaxWidth(0.82f), contentScale = ContentScale.Fit)
+                }
+                Text(tr("Créée par Lauréna Haroy\ncomportementaliste animalier", "Created by Lauréna Haroy\nanimal behaviourist", "Entwickelt von Lauréna Haroy\nVerhaltensberaterin für Tiere", "Creada por Lauréna Haroy\nespecialista en comportamiento animal"),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(6.dp))
+                PrimaryGlowButton(text = strBtnDemarrerBilan(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    TuileAccueil(strBtnDictionnaire(), Icons.Rounded.MenuBook, onDictionnaire, Modifier.weight(1f))
+                    TuileAccueil(strBtnAlimentation(), Icons.Rounded.Star, onAlimentation, Modifier.weight(1f))
+                }
+                if (hasSavedProgress) SecondaryPremiumButton(text = strBtnReprendre(), onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
+            }
+        }
+    }
+}
+
+@Composable
+fun TuileAccueil(texte: String, icone: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val isDark = isSystemInDarkTheme()
+    Card(modifier = modifier.clickable(onClick = onClick), shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF231B17) else PremiumPalette.PaperSoft),
+        border = BorderStroke(1.dp, if (isDark) Color(0xFF56433B) else PremiumPalette.Border)) {
+        Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp, horizontal = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(icone, contentDescription = null, tint = PremiumPalette.PrimarySoft, modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(texte, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = marronTexte(), textAlign = TextAlign.Center)
+        }
+    }
+}
+
+/** Trace de pattes discrète, de [depart] vers [arrivee], pas alternés gauche / droite. */
+fun androidx.compose.ui.graphics.drawscope.DrawScope.traceDePattes(depart: Offset, arrivee: Offset, nombre: Int, taille: Float, couleur: Color) {
+    val dx = arrivee.x - depart.x; val dy = arrivee.y - depart.y
+    val longueur = kotlin.math.sqrt(dx * dx + dy * dy)
+    val ux = dx / longueur; val uy = dy / longueur
+    val angle = Math.toDegrees(kotlin.math.atan2(uy.toDouble(), ux.toDouble())).toFloat() + 90f
+    for (i in 0 until nombre) {
+        val f = (i + 0.5f) / nombre
+        val cote = if (i % 2 == 0) -0.45f else 0.45f
+        val c = Offset(depart.x + dx * f - uy * cote * taille, depart.y + dy * f + ux * cote * taille)
+        rotate(angle, pivot = c) {
+            drawOval(couleur, topLeft = Offset(c.x - 0.5f * taille, c.y - 0.15f * taille), size = Size(taille, 0.82f * taille))
+            for ((ox, oy) in listOf(-0.56f to -0.42f, -0.2f to -0.78f, 0.2f to -0.78f, 0.56f to -0.42f)) {
+                drawOval(couleur, topLeft = Offset(c.x + ox * taille - 0.15f * taille, c.y + oy * taille - 0.2f * taille), size = Size(0.3f * taille, 0.4f * taille))
+            }
         }
     }
 }
@@ -500,7 +577,7 @@ fun QuestionnaireScreen(
 
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            PremiumCard {
+            PremiumCard(centered = true) {
                 SectionChip(titreSection)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("$numero ${tr("sur", "of", "von", "de")} $total", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
@@ -557,7 +634,7 @@ fun QuestionnaireScreen(
 fun ChoiceRow(text: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth().selectable(selected = selected, onClick = onClick, role = Role.RadioButton)
-            .background(if (selected) PremiumPalette.Accent.copy(alpha = 0.20f) else if (isSystemInDarkTheme()) Color(0xFF231B17) else Color(0xFFF8F4EE), RoundedCornerShape(20.dp))
+            .background(if (selected) PremiumPalette.Accent.copy(alpha = 0.20f) else if (isSystemInDarkTheme()) Color(0xFF231B17) else Color(0xFFFCF9F6), RoundedCornerShape(20.dp))
             .border(1.dp, if (selected) PremiumPalette.Primary else MaterialTheme.colorScheme.outline, RoundedCornerShape(20.dp))
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -568,6 +645,121 @@ fun ChoiceRow(text: String, selected: Boolean, onClick: () -> Unit) {
     }
 }
 
+val LoraItalique = FontFamily(Font(R.font.lora_italic, FontWeight.Normal, FontStyle.Italic))
+val Beige = Color(0xFFF5EBE0)
+
+@Composable
+fun LettreMiCheminScreen(modifier: Modifier = Modifier, nomChien: String, onContinuer: () -> Unit, onPause: () -> Unit) {
+    val nom = nomChienAffiche(nomChien)
+    val fond = if (isSystemInDarkTheme()) Color(0xFF5A2E1A) else PremiumPalette.Primary
+    val lettre = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, fontSize = 17.sp, lineHeight = 25.sp)
+    Box(modifier = modifier.fillMaxSize().background(fond)) {
+        Column(
+            modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 28.dp, vertical = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(Icons.Rounded.Pets, contentDescription = null, tint = Beige.copy(alpha = 0.8f), modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(tr("Vous êtes à mi-chemin !", "You're halfway there!", "Sie haben die Hälfte geschafft!", "¡Vas por la mitad!"), style = lettre.copy(fontSize = 23.sp, lineHeight = 30.sp), color = Beige, textAlign = TextAlign.Center)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                tr(
+                    "Je sais, le questionnaire est un peu long. Mais cette appli n'est pas un simple test : elle est conçue pour vous aider réellement à comprendre $nom et à repérer une éventuelle difficulté de comportement. Pour cela, j'ai besoin de vous poser un certain nombre de questions.",
+                    "I know, the questionnaire is a bit long. But this app isn't just a simple quiz: it's designed to genuinely help you understand $nom and spot any possible behavioral difficulty. To do that, I need to ask you a certain number of questions.",
+                    "Ich weiß, der Fragebogen ist etwas lang. Aber diese App ist kein einfacher Test: Sie soll Ihnen wirklich helfen, $nom zu verstehen und eine mögliche Verhaltensschwierigkeit zu erkennen. Dafür muss ich Ihnen eine Reihe von Fragen stellen.",
+                    "Lo sé, el cuestionario es un poco largo. Pero esta aplicación no es un simple test: está pensada para ayudarte de verdad a comprender a $nom y a detectar una posible dificultad de comportamiento. Para ello, necesito hacerte cierto número de preguntas."
+                ),
+                style = lettre, color = Beige, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(tr("Courage, vous avez déjà fait la moitié du chemin !", "Keep going, you're already halfway through!", "Nur Mut, die Hälfte haben Sie schon geschafft!", "¡Ánimo, ya has hecho la mitad del camino!"), style = lettre, color = Beige, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Lauréna", style = lettre.copy(fontSize = 24.sp), color = Beige, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                onClick = onContinuer, modifier = Modifier.fillMaxWidth().height(50.dp), shape = RoundedCornerShape(18.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Beige, contentColor = fond)
+            ) { Text(tr("Continuer le questionnaire", "Continue the questionnaire", "Fragebogen fortsetzen", "Continuar el cuestionario"), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold) }
+            Spacer(modifier = Modifier.height(4.dp))
+            TextButton(onClick = onPause) {
+                Text(tr("Faire une pause", "Take a break", "Eine Pause machen", "Hacer una pausa"), color = Beige, textDecoration = TextDecoration.Underline)
+            }
+            Text(tr("Vos réponses sont enregistrées, vous pourrez reprendre plus tard.", "Your answers are saved, you can pick up where you left off later.", "Ihre Antworten sind gespeichert, Sie können später weitermachen.", "Tus respuestas están guardadas, podrás continuar más tarde."), style = MaterialTheme.typography.bodySmall, color = Beige.copy(alpha = 0.75f), textAlign = TextAlign.Center)
+        }
+    }
+}
+
+@Composable
+fun EncartMarron(content: @Composable ColumnScope.() -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp),
+        colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF6B3820) else PremiumPalette.Primary)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 24.dp), horizontalAlignment = Alignment.CenterHorizontally, content = content)
+    }
+}
+
+@Composable
+fun KickerBeige(text: String) {
+    Text(text.uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = Beige.copy(alpha = 0.8f), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun KickerDoux(text: String) {
+    Text(text.uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = marronTexte(), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+}
+
+/** Marron des textes : plus clair en mode sombre pour rester lisible */
+@Composable
+fun marronTexte(): Color = if (isSystemInDarkTheme()) Color(0xFFE8B08E) else PremiumPalette.Primary
+
+@Composable
+fun EncartDoux(content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp))
+            .background(if (isSystemInDarkTheme()) Color(0xFF3A2B23) else PremiumPalette.PaperWarm)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, content = content
+    )
+}
+
+@Composable
+fun TitreEncart(text: String, icon: ImageVector) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+        Icon(icon, contentDescription = null, tint = PremiumPalette.PrimarySoft, modifier = Modifier.size(18.dp))
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(text, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = marronTexte())
+    }
+}
+
+@Composable
+fun styleDoux() = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, lineHeight = 26.sp)
+
+@Composable
+fun SectionDeroulante(titre: String, ouvertParDefaut: Boolean = false, content: @Composable ColumnScope.() -> Unit) {
+    var ouvert by rememberSaveable(titre) { mutableStateOf(ouvertParDefaut) }
+    val rotation by animateFloatAsState(if (ouvert) 180f else 0f, label = "chevron_$titre")
+    PremiumCard(contentPadding = PaddingValues(0.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable { ouvert = !ouvert }.padding(horizontal = 22.dp, vertical = 18.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(titre, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = marronTexte(), modifier = Modifier.weight(1f))
+            Icon(Icons.Rounded.KeyboardArrowDown, contentDescription = null, tint = PremiumPalette.Primary, modifier = Modifier.size(26.dp).rotate(rotation))
+        }
+        AnimatedVisibility(visible = ouvert, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(start = 22.dp, end = 22.dp, bottom = 22.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                androidx.compose.material3.HorizontalDivider(color = PremiumPalette.Border, thickness = 0.5.dp)
+                Spacer(modifier = Modifier.height(16.dp))
+                content()
+            }
+        }
+    }
+}
+
 @Composable
 fun ResultatScreen(
     modifier: Modifier = Modifier, nomChien: String, analyse: ResultatAnalyse,
@@ -575,69 +767,125 @@ fun ResultatScreen(
     onRecommencer: () -> Unit, onOpenFiche: (String) -> Unit = {}, onOpenAlimentation: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val nom = nomChienAffiche(nomChien)
+    // Profil calme : scores bas et situation stable -> on évite les textes contradictoires ou superflus
+    val profilCalme = maxOf(analyse.peur, analyse.attachement, analyse.impulsivite, analyse.reactivite) <= 30 && analyse.niveauSituation == NiveauSituation.STABLE
+    val explicationGenerique = analyse.explicationPrincipale.startsWith(tr("Les éléments recueillis ne mettent pas", "The information collected does not", "Die gesammelten Angaben zeigen derzeit keine", "La información recopilada no muestra"))
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            // --- Toujours visible en haut
             PremiumCard(centered = true) {
                 EditorialKicker(strResultatKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(strResultatTitreBilan(nomChienAffiche(nomChien)), style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp))
+                Text(strResultatTitreBilan(nom), style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp))
                 AccentChip(analyse.profil.profilType)
             }
-            if (!analyse.raceCategorie.isNullOrBlank() || !analyse.racePrecise.isNullOrBlank()) RaceCard(raceCategorie = analyse.raceCategorie, racePrecise = analyse.racePrecise)
-            PremiumCard(centered = true) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    EditorialKicker(strResultatLecturePrincipale(), centered = true); Spacer(modifier = Modifier.height(8.dp))
-                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
-                    Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFondPriorite(analyse.prioriteAction)).padding(horizontal = 14.dp, vertical = 8.dp)) {
-                        Text(strResultatPriorite(strPrioriteAction(analyse.prioriteAction)), color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
-                    }
+            EncartMarron {
+                Text(analyse.hypothesePrincipale, style = styleDoux(), textAlign = TextAlign.Center, color = Beige)
+                Spacer(modifier = Modifier.height(14.dp))
+                Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFondPriorite(analyse.prioriteAction)).padding(horizontal = 14.dp, vertical = 8.dp)) {
+                    Text(strResultatPriorite(strPrioriteAction(analyse.prioriteAction)), color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
                 }
-            }
-            PremiumCard(centered = true) {
-                EditorialKicker(strResultatRessent(nomChienAffiche(nomChien)), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(phraseHumaineCoherente(analyse, nomChienAffiche(nomChien)), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-                Text(strResumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
-                Text(strIntentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
-                Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             PremiumCard(centered = true) { EditorialKicker(strResultatCoupOeil(), centered = true); Spacer(modifier = Modifier.height(14.dp)); QuatreAxesGrid(analyse = analyse) }
 
-            PremiumCard(centered = true) {
-                EditorialKicker(strResultatNiveauSituation(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(14.dp))
-                Text(analyse.messageSituation, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
-                Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            // --- Onglets à dérouler
+            if (!analyse.raceCategorie.isNullOrBlank() || !analyse.racePrecise.isNullOrBlank()) {
+                SectionDeroulante(strResultatProfilRace()) { RaceCard(raceCategorie = analyse.raceCategorie, racePrecise = analyse.racePrecise, bare = true) }
             }
-            PremiumCard(centered = true) { EditorialKicker(strResultatInquieter(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center) }
-            PremiumCard(centered = true) { EditorialKicker(strResultatSePasse(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(analyse.explicationPrincipale, textAlign = TextAlign.Center) }
-            HighlightAdviceCard(title = strResultatLevierPrincipal(), advice = analyse.conseilPrincipal)
-            OriginesPossiblesCard(origines = analyse.originesPossibles)
-            PremiumCard(centered = true) {
-                EditorialKicker(strResultat3Jours(), centered = true); Spacer(modifier = Modifier.height(14.dp))
-                SubsectionTitle(strResultatAFaire()); Spacer(modifier = Modifier.height(8.dp))
-                analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAEviter()); Spacer(modifier = Modifier.height(8.dp))
-                analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAObserver()); Spacer(modifier = Modifier.height(8.dp))
-                analyse.planAction.aObserver.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-            }
-            if (analyse.conseilsPratiques.isNotEmpty()) {
-                PremiumCard(centered = true) { EditorialKicker(strResultatConseilsComplementaires(), centered = true); Spacer(modifier = Modifier.height(12.dp)); analyse.conseilsPratiques.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
-            }
-            if (analyse.messageAide != null || analyse.aDejaMordu) {
-                PremiumCard(centered = true) {
-                    EditorialKicker(strResultatQuandAide(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    if (analyse.aDejaMordu) Text(strResultatMorsurePro(), textAlign = TextAlign.Center, color = PremiumPalette.PrioriteModere, fontWeight = FontWeight.SemiBold)
-                    else analyse.messageAide?.let { Text(it, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold) }
+            SectionDeroulante(strResultatRessent(nom)) {
+                Text(phraseHumaineCoherente(analyse, nom), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+                if (!profilCalme) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    EncartDoux {
+                        Text(strResumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center, color = marronTexte()); Spacer(modifier = Modifier.height(8.dp))
+                        Text(strIntentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
+                        Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                 }
             }
-            PremiumCard(centered = true) { EditorialKicker(strResultatImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strResultatDisclaimer(), textAlign = TextAlign.Center) }
-            FichesRecommandeesCard(analyse = analyse, nomChien = nomChienAffiche(nomChien), onOpenFiche = onOpenFiche, onOpenAlimentation = onOpenAlimentation)
-            PremiumCard(centered = true) { EditorialKicker(strResultatARetenir(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strPhraseFin(nomChien), textAlign = TextAlign.Center) }
-            PremiumCard(centered = true) {
-                EditorialKicker(strResultatLeLivre(), centered = true)
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(strResultatAllerPlusLoinLivre(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Spacer(modifier = Modifier.height(14.dp))
+            SectionDeroulante(strResultatSePasse()) {
+                if (profilCalme) {
+                    // Situation stable : un seul texte, sans « Faut-il s'inquiéter ? » ni raison générique
+                    Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
+                    if (explicationGenerique) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(tr("$nom semble évoluer dans un équilibre global satisfaisant.", "$nom seems to be in a good overall balance.", "$nom scheint sich in einem insgesamt guten Gleichgewicht zu befinden.", "$nom parece encontrarse en un buen equilibrio general."), textAlign = TextAlign.Center)
+                    }
+                } else {
+                    // Chaque partie dans son propre encart, pour aérer
+                    EncartDoux {
+                        KickerDoux(strResultatNiveauSituation()); Spacer(modifier = Modifier.height(10.dp))
+                        AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(12.dp))
+                        Text(analyse.messageSituation, textAlign = TextAlign.Center)
+                        if (analyse.niveauSituation != NiveauSituation.STABLE) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    EncartDoux {
+                        KickerDoux(strResultatInquieter()); Spacer(modifier = Modifier.height(10.dp))
+                        Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center)
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    EncartDoux {
+                        KickerDoux(strResultatSePasse()); Spacer(modifier = Modifier.height(10.dp))
+                        Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
+                    }
+                    if (analyse.originesPossibles.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        EncartDoux {
+                            KickerDoux(strResultatPourquoi()); Spacer(modifier = Modifier.height(10.dp))
+                            Text(analyse.originesPossibles, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                        }
+                    }
+                }
+            }
+            SectionDeroulante(strResultat3Jours()) {
+                if (profilCalme) {
+                    Text(tr("Rien de particulier ne ressort de ce bilan : il n'y a pas de travail spécifique à mettre en place.", "Nothing in particular stands out in this assessment: there is no specific work to put in place.", "In dieser Einschätzung fällt nichts Besonderes auf: Es ist keine gezielte Arbeit nötig.", "Nada en particular destaca en esta evaluación: no hay ningún trabajo específico que poner en marcha."), style = styleDoux(), textAlign = TextAlign.Center, color = marronTexte())
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(tr("Continuez simplement à prendre soin de son quotidien :", "Simply keep taking care of everyday life:", "Achten Sie einfach weiterhin auf einen guten Alltag:", "Simplemente sigue cuidando su día a día:"), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    listOf(
+                        tr("Garder des repères stables : horaires, sorties, temps de repos.", "Keep a stable routine: regular times, walks, rest.", "Feste Gewohnheiten beibehalten: Zeiten, Spaziergänge, Ruhephasen.", "Mantener rutinas estables: horarios, paseos, tiempos de descanso."),
+                        tr("Lui offrir chaque jour des activités adaptées : promenades variées, flair, jeux.", "Offer suitable activities every day: varied walks, sniffing, games.", "Ihm täglich passende Beschäftigung bieten: abwechslungsreiche Spaziergänge, Schnüffeln, Spiele.", "Ofrecerle cada día actividades adaptadas: paseos variados, olfato, juegos."),
+                        tr("Préserver des moments de calme et de complicité.", "Protect moments of calm and closeness.", "Momente der Ruhe und Verbundenheit pflegen.", "Preservar momentos de calma y complicidad.")
+                    ).forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    EncartDoux {
+                        TitreEncart(strResultatAObserver(), Icons.Rounded.Visibility); Spacer(modifier = Modifier.height(8.dp))
+                        Text(tr("Tout changement inhabituel de comportement, d'appétit ou de sommeil. Dans ce cas, n'hésitez pas à refaire le bilan.", "Any unusual change in behavior, appetite or sleep. If that happens, feel free to take the assessment again.", "Jede ungewöhnliche Veränderung im Verhalten, beim Appetit oder beim Schlaf. In diesem Fall die Einschätzung gern erneut durchführen.", "Cualquier cambio inusual de comportamiento, apetito o sueño. En ese caso, no dudes en repetir la evaluación."), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                    }
+                } else {
+                    AccentChip(strResultatPointAppui()); Spacer(modifier = Modifier.height(12.dp))
+                    Text(analyse.conseilPrincipal, style = styleDoux(), textAlign = TextAlign.Center, color = marronTexte()); Spacer(modifier = Modifier.height(8.dp))
+                    Text(strResultatChangement(), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.height(20.dp))
+                    EncartDoux {
+                        TitreEncart(strResultatAFaire(), Icons.Rounded.CheckCircle); Spacer(modifier = Modifier.height(8.dp))
+                        analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(6.dp)) }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    EncartDoux {
+                        TitreEncart(strResultatAEviter(), Icons.Rounded.Block); Spacer(modifier = Modifier.height(8.dp))
+                        analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(6.dp)) }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    EncartDoux {
+                        TitreEncart(strResultatAObserver(), Icons.Rounded.Visibility); Spacer(modifier = Modifier.height(8.dp))
+                        analyse.planAction.aObserver.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(6.dp)) }
+                    }
+                }
+            }
+            if (analyse.conseilsPratiques.isNotEmpty()) {
+                SectionDeroulante(strResultatConseilsComplementaires()) { analyse.conseilsPratiques.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
+            }
+            SectionDeroulante(strResultatAllerPlusLoin(nom)) {
+                FichesRecommandeesCard(analyse = analyse, nomChien = nom, onOpenFiche = onOpenFiche, onOpenAlimentation = onOpenAlimentation, bare = true)
+                Spacer(modifier = Modifier.height(18.dp))
+                EditorialKicker(strResultatLeLivre(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                Text(strResultatAllerPlusLoinLivre(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(14.dp))
                 PrimaryGlowButton(
                     text = strBtnVoirLivres(),
                     onClick = {
@@ -647,6 +895,16 @@ fun ResultatScreen(
                     leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null, tint = Color.White) }
                 )
             }
+
+            // --- Toujours visible en bas
+            if (analyse.messageAide != null || analyse.aDejaMordu) {
+                PremiumCard(centered = true) {
+                    EditorialKicker(strResultatQuandAide(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                    if (analyse.aDejaMordu) Text(strResultatMorsurePro(), textAlign = TextAlign.Center, color = PremiumPalette.PrioriteModere, fontWeight = FontWeight.SemiBold)
+                    else analyse.messageAide?.let { Text(it, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold) }
+                }
+            }
+            EncartMarron { Text(strPhraseFin(nomChien), style = styleDoux(), textAlign = TextAlign.Center, color = Beige) }
             ConsultationCard(analyse.lieuResidence)
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
             Spacer(modifier = Modifier.height(8.dp))
@@ -666,118 +924,59 @@ fun ResultatScreen(
 fun ConsultationCard(lieuResidence: Int? = null) {
     if (!showConsultation()) return
     val context = LocalContext.current
-    val backgroundBrush = if (isSystemInDarkTheme())
+    val uriHandler = LocalUriHandler.current
+    val isDark = isSystemInDarkTheme()
+    val backgroundBrush = if (isDark)
         Brush.verticalGradient(listOf(Color(0xFF2E2018), Color(0xFF231B14)))
     else
         Brush.verticalGradient(listOf(Color(0xFFF5EBE0), Color(0xFFEEE0D2)))
     Card(
         modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF5A4035) else Color(0xFFD4B8A8))
+        border = BorderStroke(1.dp, if (isDark) Color(0xFF5A4035) else Color(0xFFD4B8A8))
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().background(backgroundBrush).padding(horizontal = 24.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val uriHandler = LocalUriHandler.current
-            EditorialKicker(strConsultationTitre(), centered = true)
+            Text("Une consultation avec moi ?", style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center, color = marronTexte())
             Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                strConsultationSousTitre(),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-                color = PremiumPalette.Primary
-            )
+            val lieu = if (lieuResidence == 0) "en visio ou à domicile en Essonne" else "en visioconférence"
+            Text("Une heure ensemble, $lieu, pour comprendre votre chien et construire un plan adapté.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(14.dp))
-            Text(strConsultationDescription(lieuResidence), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp))
-                    .background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6))
-                    .padding(14.dp)
-            ) {
-                Text(
-                    strConsultationDisclaimer(),
-                    style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
             Text(
-                strConsultationFormule60(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
+                if (lieuResidence == 0) "Visio\u00A0: 50\u00A0€  •  À\u00A0domicile\u00A0: 70\u00A0€" else "Visio\u00A0: 50\u00A0€ / 1\u00A0h",
+                style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface
             )
-            if (lieuResidence == 0) {
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    strConsultationFormuleDomicile(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                strConsultationModalite(lieuResidence),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                color = PremiumPalette.Primary
-            )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             PrimaryGlowButton(
                 text = strConsultationBouton(lieuResidence),
-                onClick = {
-                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse(TELEPHONE_URI))
-                    context.startActivity(intent)
-                },
+                onClick = { context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(TELEPHONE_URI))) },
                 leading = { Icon(Icons.Rounded.Phone, contentDescription = null) }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
             Text(
-                text = strConsultationCGV(),
-                color = PremiumPalette.Primary,
-                style = MaterialTheme.typography.bodySmall,
-                textDecoration = TextDecoration.Underline,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { uriHandler.openUri(CGV_URL) }
-                    .padding(vertical = 4.dp)
+                "Ne remplace pas une consultation vétérinaire : en cas de changement brutal, de douleur ou de symptôme physique, consultez d'abord votre vétérinaire.",
+                style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = strConsultationSite(),
-                color = PremiumPalette.Primary,
-                style = MaterialTheme.typography.bodySmall,
-                textDecoration = TextDecoration.Underline,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { uriHandler.openUri(WEBSITE_URL) }
-                    .padding(vertical = 4.dp)
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = tr("Nous suivre sur Facebook", "Follow us on Facebook", "Folgen Sie uns auf Facebook", "Síguenos en Facebook"),
-                color = Color(0xFF1877F2),
-                style = MaterialTheme.typography.bodyMedium,
-                textDecoration = TextDecoration.Underline,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { uriHandler.openUri("https://www.facebook.com/comprendrenosanimaux/") }
-                    .padding(vertical = 8.dp)
-            )
+            Spacer(modifier = Modifier.height(14.dp))
+            Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                LienDiscret("CGV") { uriHandler.openUri(CGV_URL) }
+                Text("  •  ", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                LienDiscret("Mon site") { uriHandler.openUri(WEBSITE_URL) }
+                Text("  •  ", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                LienDiscret("Facebook") { uriHandler.openUri("https://www.facebook.com/comprendremonanimal") }
+            }
         }
     }
+}
+
+@Composable
+fun LienDiscret(texte: String, onClick: () -> Unit) {
+    Text(
+        texte, color = marronTexte(), style = MaterialTheme.typography.bodySmall, textDecoration = TextDecoration.Underline,
+        modifier = Modifier.clip(RoundedCornerShape(6.dp)).clickable(onClick = onClick).padding(horizontal = 4.dp, vertical = 6.dp)
+    )
 }
 
 @Composable
@@ -841,7 +1040,7 @@ fun QuatreAxesGrid(analyse: ResultatAnalyse) {
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
-                        Text(strNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
+                        Text(strNiveauAxe(niveau), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = marronTexte(), textAlign = TextAlign.Center)
                         Box(modifier = Modifier.fillMaxWidth().height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft.copy(alpha = 0.2f))) {
                             Box(modifier = Modifier.fillMaxWidth(animated).height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft))
                         }
@@ -853,12 +1052,11 @@ fun QuatreAxesGrid(analyse: ResultatAnalyse) {
 }
 
 @Composable
-fun FichesRecommandeesCard(analyse: ResultatAnalyse, nomChien: String, onOpenFiche: (String) -> Unit, onOpenAlimentation: () -> Unit) {
+fun FichesRecommandeesCard(analyse: ResultatAnalyse, nomChien: String, onOpenFiche: (String) -> Unit, onOpenAlimentation: () -> Unit, bare: Boolean = false) {
     val fichesBehavior = recommanderFichesComportement(analyse)
     val fichesAlim = recommanderFichesAlimentation(analyse)
     if (fichesBehavior.isEmpty() && fichesAlim.isEmpty()) return
-    PremiumCard(centered = false) {
-        EditorialKicker(strResultatAllerPlusLoin(nomChien)); Spacer(modifier = Modifier.height(14.dp))
+    val corps: @Composable ColumnScope.() -> Unit = {
         if (fichesBehavior.isNotEmpty()) {
             Text(strResultatFichesComportementales(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.PrimarySoft); Spacer(modifier = Modifier.height(8.dp))
             fichesBehavior.forEach { (ficheId, titre) ->
@@ -878,6 +1076,8 @@ fun FichesRecommandeesCard(analyse: ResultatAnalyse, nomChien: String, onOpenFic
             }
         }
     }
+    if (bare) Column(modifier = Modifier.fillMaxWidth()) { corps() }
+    else PremiumCard(centered = false) { EditorialKicker(strResultatAllerPlusLoin(nomChien)); Spacer(modifier = Modifier.height(14.dp)); corps() }
 }
 
 fun recommanderFichesComportement(analyse: ResultatAnalyse): List<Pair<String, String>> {
@@ -928,23 +1128,27 @@ fun couleurPriorite(p: PrioriteAction) = when (p) { PrioriteAction.FAIBLE -> Pre
 fun couleurFondPriorite(p: PrioriteAction) = when (p) { PrioriteAction.FAIBLE -> PremiumPalette.PrioriteFaibleBg; PrioriteAction.MODEREE -> PremiumPalette.PrioriteModereBg; PrioriteAction.ELEVEE -> PremiumPalette.PrioriteEleveeBg; PrioriteAction.URGENTE -> PremiumPalette.PrioriteUrgenteBg }
 
 @Composable
-fun RaceCard(raceCategorie: String?, racePrecise: String?) {
+fun RaceCard(raceCategorie: String?, racePrecise: String?, bare: Boolean = false) {
     val categorieId = when (raceCategorie) { "Chiens de berger & troupeau" -> "bergers"; "Retrievers & Spaniels" -> "retrievers"; "Terriers" -> "terriers"; "Molosses & Dogues" -> "molosses"; "Chiens nordiques & primitifs" -> "nordiques"; "Lévriers & Races de course" -> "levriers"; "Races naines & compagnie" -> "nains"; "Chiens de chasse & pisteurs" -> "chasse"; else -> "croise" }
     val categorie = categoriesRaces.firstOrNull { it.id == categorieId }
     val nuance = if (!racePrecise.isNullOrBlank()) getNuanceAnalyse(racePrecise) ?: categorie?.nuanceAnalyse else categorie?.nuanceAnalyse
     val predispositions = if (!racePrecise.isNullOrBlank()) getPredispositions(racePrecise).ifEmpty { categorie?.predispositions ?: emptyList() } else categorie?.predispositions ?: emptyList()
     val categorieAffichee = categorie?.nom ?: raceCategorie
     val nomAffiche = when { !racePrecise.isNullOrBlank() -> racePrecise; !raceCategorie.isNullOrBlank() -> categorieAffichee ?: return; else -> return }
-    PremiumCard(centered = true) {
-        EditorialKicker(strResultatProfilRace(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-        Text(nomAffiche, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
+    val corps: @Composable ColumnScope.() -> Unit = {
+        Text(nomAffiche, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = marronTexte(), textAlign = TextAlign.Center)
         if (!raceCategorie.isNullOrBlank() && !racePrecise.isNullOrBlank()) { Spacer(modifier = Modifier.height(4.dp)); Text(categorieAffichee ?: raceCategorie, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
         if (predispositions.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(14.dp)); Text(strResultatPredispositions(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()); Spacer(modifier = Modifier.height(8.dp))
-            predispositions.forEach { pred -> Row(modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 7.dp).size(6.dp).background(PremiumPalette.Accent, CircleShape)); Spacer(modifier = Modifier.width(8.dp)); Text(pred, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 500.dp)) } }
+            val garderMajuscules = appLang() == AppLang.DE
+            val items = predispositions.map { if (garderMajuscules) it else it.replaceFirstChar { c -> c.lowercase() } }
+            val liste = if (items.size == 1) items[0] else items.dropLast(1).joinToString(", ") + tr(" et ", " and ", " und ", " y ") + items.last()
+            Spacer(modifier = Modifier.height(14.dp))
+            Text(strResultatPredispositions() + tr(" : ", ": ", ": ", ": ") + liste + ".", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
         }
         if (!nuance.isNullOrBlank()) { Spacer(modifier = Modifier.height(14.dp)); Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6)).padding(14.dp)) { Text(nuance, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center) } }
     }
+    if (bare) Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) { corps() }
+    else PremiumCard(centered = true) { EditorialKicker(strResultatProfilRace(), centered = true); Spacer(modifier = Modifier.height(10.dp)); corps() }
 }
 
 @Composable
@@ -977,6 +1181,11 @@ fun ScoreLine(label: String, value: Int, centered: Boolean = false) {
 }
 
 @Composable
+fun BulletDoux(text: String) {
+    Row(verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 10.dp).size(7.dp).background(PremiumPalette.PrimarySoft, CircleShape)); Spacer(modifier = Modifier.width(10.dp)); Text(text, modifier = Modifier.weight(1f), style = styleDoux().copy(fontSize = 17.sp, lineHeight = 24.sp), color = marronTexte()) }
+}
+
+@Composable
 fun Bullet(text: String, centered: Boolean = false) {
     if (centered) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 8.dp).size(7.dp).background(PremiumPalette.PrimarySoft, CircleShape)); Spacer(modifier = Modifier.width(10.dp)); Text(text, modifier = Modifier.widthIn(max = 560.dp), color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center) }
@@ -992,14 +1201,14 @@ fun DictionnaireInfoScreen(modifier: Modifier = Modifier, onOpenFiche: (String) 
     val fichesFiltrees = remember(recherche) { if (recherche.isBlank()) fiches else fiches.filter { it.titre.contains(recherche, ignoreCase = true) || it.resume.contains(recherche, ignoreCase = true) } }
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            PremiumCard(centered = true) {
-                EditorialKicker(strDicoTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(strDicoSousTitre(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-                OutlinedTextField(value = recherche, onValueChange = { recherche = it }, placeholder = { Text(strDicoRecherchePlaceholder()) }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PremiumPalette.Primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline, focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
+            EncartMarron {
+                KickerBeige(strDicoTitre()); Spacer(modifier = Modifier.height(10.dp))
+                Text(strDicoSousTitre(), style = styleDoux().copy(fontSize = 21.sp, lineHeight = 29.sp), color = Beige, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(value = recherche, onValueChange = { recherche = it }, placeholder = { Text(strDicoRecherchePlaceholder()) }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Beige, unfocusedBorderColor = Beige.copy(alpha = 0.5f), focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
             }
             if (fichesFiltrees.isEmpty()) PremiumCard(centered = true) { Text(strDicoAucunResultat(recherche), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             else fichesFiltrees.forEach { fiche -> ComportementListItem(entry = fiche, onClick = { onOpenFiche(fiche.id) }) }
-            PremiumCard(centered = true) { EditorialKicker(strDicoImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strDicoDisclaimer(), textAlign = TextAlign.Center) }
+            EncartDoux { KickerDoux(strDicoImportant()); Spacer(modifier = Modifier.height(8.dp)); Text(strDicoDisclaimer(), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }
     }
 }
@@ -1011,11 +1220,18 @@ fun DictionnaireDetailScreen(modifier: Modifier = Modifier, ficheId: String) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             if (fiche == null) PremiumCard(centered = true) { Text(strDicoFicheIntrouvable(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center) }
             else {
-                PremiumCard(centered = true) { EditorialKicker(strDicoFicheKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.resume, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                EncartMarron {
+                    KickerBeige(strDicoFicheKicker()); Spacer(modifier = Modifier.height(10.dp))
+                    Text(fiche.titre, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = Beige, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
+                    Text(fiche.resume, style = styleDoux(), color = Beige, textAlign = TextAlign.Center)
+                }
                 PremiumCard { EditorialKicker(strDicoExplication()); Spacer(modifier = Modifier.height(12.dp)); Text(fiche.explication, style = MaterialTheme.typography.bodyLarge) }
-                PremiumCard { EditorialKicker(strDicoQueFaire()); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.queFaire) }
-                PremiumCard { EditorialKicker(strDicoAEviter()); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.aEviter) }
-                PremiumCard(centered = true) { EditorialKicker(strDicoRappelKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strDicoRappel(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                PremiumCard {
+                    TitreEncart(strDicoQueFaire(), Icons.Rounded.CheckCircle); Spacer(modifier = Modifier.height(10.dp)); Bullet(fiche.queFaire)
+                    Spacer(modifier = Modifier.height(20.dp))
+                    TitreEncart(strDicoAEviter(), Icons.Rounded.Block); Spacer(modifier = Modifier.height(10.dp)); Bullet(fiche.aEviter)
+                }
+                EncartDoux { KickerDoux(strDicoRappelKicker()); Spacer(modifier = Modifier.height(8.dp)); Text(strDicoRappel(), style = styleDoux().copy(fontSize = 16.sp, lineHeight = 23.sp), textAlign = TextAlign.Center, color = marronTexte()) }
             }
         }
     }
@@ -1025,8 +1241,8 @@ fun DictionnaireDetailScreen(modifier: Modifier = Modifier, ficheId: String) {
 fun ComportementListItem(entry: ComportementEntry, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border)) {
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = marronTexte()); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft)
         }
     }
 }
@@ -1042,21 +1258,21 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
             when {
                 selectedEntryState.value != null -> {
                     val entry = selectedEntryState.value!!
-                    PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton(strBtnRetourCategorie(), onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
-                    PremiumCard(centered = true) { EditorialKicker(tr("Rappel", "Reminder", "Zur Erinnerung", "Recuerda"), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimRappel(), textAlign = TextAlign.Center) }
+                    PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = marronTexte()); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton(strBtnRetourCategorie(), onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
+                    EncartDoux { KickerDoux(tr("Rappel", "Reminder", "Zur Erinnerung", "Recuerda")); Spacer(modifier = Modifier.height(8.dp)); Text(strAlimRappel(), style = styleDoux().copy(fontSize = 16.sp, lineHeight = 23.sp), textAlign = TextAlign.Center, color = marronTexte()) }
                 }
                 selectedCategoryState.value != null -> {
                     val categorie = selectedCategoryState.value!!
                     val items = entries.filter { it.categorie == categorie }
-                    PremiumCard(centered = true) { EditorialKicker(strAlimTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(categorie.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center) }
+                    EncartMarron { KickerBeige(strAlimTitre()); Spacer(modifier = Modifier.height(10.dp)); Text(categorie.titre, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = Beige, textAlign = TextAlign.Center) }
                     items.forEach { entry -> DictionnaireListItem(entry = entry, onClick = { selectedEntryState.value = entry }) }
                     SecondaryPremiumButton(strBtnRetourRubriques(), onClick = { selectedCategoryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) })
                 }
                 else -> {
-                    PremiumCard(centered = true) { EditorialKicker(strAlimTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimSousTitre(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                    PremiumCard { EditorialKicker(strAlimARetenirKicker()); Spacer(modifier = Modifier.height(12.dp)); Bullet(strAlimRetenir1()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir2()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir3()) }
+                    EncartMarron { KickerBeige(strAlimTitre()); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimSousTitre(), style = styleDoux(), color = Beige, textAlign = TextAlign.Center) }
+                    PremiumCard { TitreEncart(strAlimARetenirKicker(), Icons.Rounded.Star); Spacer(modifier = Modifier.height(12.dp)); BulletDoux(strAlimRetenir1()); Spacer(modifier = Modifier.height(10.dp)); BulletDoux(strAlimRetenir2()); Spacer(modifier = Modifier.height(10.dp)); BulletDoux(strAlimRetenir3()) }
                     categories.forEach { categorie -> DictionnaireCategoryButton(categorie = categorie, onClick = { selectedCategoryState.value = categorie }) }
-                    PremiumCard(centered = true) { EditorialKicker(strAlimImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimDisclaimer(), textAlign = TextAlign.Center) }
+                    EncartDoux { KickerDoux(strAlimImportant()); Spacer(modifier = Modifier.height(8.dp)); Text(strAlimDisclaimer(), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                 }
             }
         }
@@ -1068,7 +1284,7 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(26.dp), colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border)) {
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(categorie.titre, style = MaterialTheme.typography.titleLarge); Spacer(modifier = Modifier.height(6.dp))
+                Text(categorie.titre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = marronTexte()); Spacer(modifier = Modifier.height(6.dp))
                 Text(when (categorie) {
                     DictionnaireCategorie.DANGEREUX -> strAlimCatDangereuxDesc()
                     DictionnaireCategorie.AUTORISES -> strAlimCatAutorisesDesc()
@@ -1076,7 +1292,7 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
                     DictionnaireCategorie.DIGESTION -> strAlimCatDigestionDesc()
                 }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft)
         }
     }
 }
@@ -1085,8 +1301,8 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
 fun DictionnaireListItem(entry: DictionnaireEntry, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border)) {
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = marronTexte()); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft)
         }
     }
 }

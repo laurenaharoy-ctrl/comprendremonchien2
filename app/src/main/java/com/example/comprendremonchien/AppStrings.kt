@@ -129,7 +129,7 @@ fun strChargementMessages() = trList(
 // ═══════════════════════════════════════════════════════════
 
 fun strResultatKicker() = tr("Votre bilan", "Your assessment", "Ihre Einschätzung", "Tu evaluación")
-fun strResultatTitreBilan(nom: String) = tr("Bilan pour $nom", "Assessment for $nom", "Einschätzung für $nom", "Evaluación de $nom")
+fun strResultatTitreBilan(nom: String) = tr("Pour $nom", "For $nom", "Für $nom", "Para $nom")
 fun strResultatLecturePrincipale() = tr("Lecture principale", "Main reading", "Wichtigste Deutung", "Lectura principal")
 fun strResultatPriorite(p: String) = tr("Priorité : $p", "Priority: $p", "Priorität: $p", "Prioridad: $p")
 fun strResultatRessent(nom: String) = tr("Ce que ressent probablement $nom", "What $nom is probably feeling", "Was $nom wahrscheinlich fühlt", "Lo que probablemente siente $nom")
@@ -482,10 +482,10 @@ fun strBesoinPrincipal(axe: Axe) = when (axe) {
     Axe.REACTIVITE -> tr("Besoin principal : retrouver du calme.", "Main need: to find calm again.", "Hauptbedürfnis: wieder zur Ruhe finden.", "Necesidad principal: recuperar la calma.")
 }
 
-fun strPhraseFin(nom: String) = tr("Chaque chien est unique. Ce bilan donne des repères pour $nom, mais l'observation du quotidien reste essentielle.", "Every dog is unique. This assessment offers pointers for $nom, but daily observation remains essential.", "Jeder Hund ist einzigartig. Diese Einschätzung gibt Anhaltspunkte für $nom, doch die Beobachtung im Alltag bleibt unerlässlich.", "Cada perro es único. Esta evaluación ofrece pautas para $nom, pero la observación del día a día sigue siendo esencial.")
+fun strPhraseFin(nom: String) = tr("Chaque chien est unique. Ce bilan est indicatif : il donne des repères pour $nom, mais l'observation du quotidien reste essentielle. Il ne remplace ni un vétérinaire, ni un professionnel du comportement.", "Every dog is unique. This assessment is indicative: it offers pointers for $nom, but daily observation remains essential. It does not replace a vet or a behavior professional.", "Jeder Hund ist einzigartig. Diese Einschätzung ist nur ein Anhaltspunkt: Sie gibt Orientierung für $nom, doch die Beobachtung im Alltag bleibt unerlässlich. Sie ersetzt weder einen Tierarzt noch eine Fachperson für Verhalten.", "Cada perro es único. Esta evaluación es orientativa: ofrece pautas para $nom, pero la observación del día a día sigue siendo esencial. No sustituye a un veterinario ni a un especialista en comportamiento animal.")
 
 fun strTexteVigilance(niveau: NiveauVigilance, nom: String) = when (niveau) {
-    NiveauVigilance.FAIBLE -> tr("À ce stade, rien ne ressort comme particulièrement préoccupant pour $nom.", "At this stage, nothing stands out as particularly concerning for $nom.", "Im Moment deutet nichts auf etwas besonders Besorgniserregendes bei $nom hin.", "Por ahora, nada destaca como especialmente preocupante en $nom.")
+    NiveauVigilance.FAIBLE -> tr("Pour l'instant, rien ne ressort comme particulièrement préoccupant pour $nom.", "For now, nothing stands out as particularly concerning for $nom.", "Im Moment deutet nichts auf etwas besonders Besorgniserregendes bei $nom hin.", "Por ahora, nada destaca como especialmente preocupante en $nom.")
     NiveauVigilance.MODEREE -> tr("Quelques éléments méritent une attention particulière pour $nom.", "A few points deserve particular attention for $nom.", "Einige Punkte verdienen bei $nom besondere Aufmerksamkeit.", "Algunos aspectos merecen una atención especial en el caso de $nom.")
     NiveauVigilance.ELEVEE -> tr("Certaines réponses invitent à ne pas laisser la situation s'installer seule pour $nom.", "Some answers suggest that $nom's situation should not be left to evolve on its own.", "Einige Antworten legen nahe, die Situation bei $nom nicht einfach sich selbst zu überlassen.", "Algunas respuestas invitan a no dejar que la situación de $nom se instale por sí sola.")
 }
@@ -505,7 +505,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Comment ça marche",
-                titre = "Un questionnaire, quatre dimensions",
+                titre = "",
                 description = "En quelques minutes, vous explorez les quatre axes qui façonnent le comportement de votre chien au quotidien.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -517,12 +517,12 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Ce que vous obtenez",
-                titre = "Un bilan personnalisé complet",
-                description = "À la fin du questionnaire, vous recevez un bilan émotionnel détaillé avec des conseils concrets, un plan d'action et un PDF à partager avec votre vétérinaire.",
+                titre = "",
+                description = "À la fin du questionnaire, vous recevez un bilan émotionnel détaillé avec des conseils concrets, les premières actions à mettre en place et un PDF à partager avec votre vétérinaire.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Bilan émotionnel",
-                    Icons.Rounded.PictureAsPdf to "Export PDF 4 pages",
+                    Icons.Rounded.PictureAsPdf to "Export PDF",
                     Icons.Rounded.History to "Historique des bilans"
                 )
             )
@@ -536,7 +536,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "How it works",
-                titre = "One questionnaire, four dimensions",
+                titre = "",
                 description = "In just a few minutes, you explore the four axes that shape your dog's everyday behavior.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -548,12 +548,12 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "What you get",
-                titre = "A complete personalized assessment",
-                description = "At the end of the questionnaire, you receive a detailed emotional assessment with concrete advice, an action plan and a PDF to share with your vet.",
+                titre = "",
+                description = "At the end of the questionnaire, you receive a detailed emotional assessment with concrete advice, the first steps to take and a PDF to share with your vet.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Emotional assessment",
-                    Icons.Rounded.PictureAsPdf to "4-page PDF export",
+                    Icons.Rounded.PictureAsPdf to "PDF export",
                     Icons.Rounded.History to "Assessment history"
                 )
             )
@@ -567,7 +567,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "So funktioniert’s",
-                titre = "Ein Fragebogen, vier Dimensionen",
+                titre = "",
                 description = "In wenigen Minuten erkunden Sie die vier Achsen, die das Verhalten Ihres Hundes im Alltag prägen.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -579,12 +579,12 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Was Sie erhalten",
-                titre = "Eine vollständige, persönliche Einschätzung",
-                description = "Am Ende des Fragebogens erhalten Sie eine ausführliche emotionale Einschätzung mit konkreten Tipps, einem Aktionsplan und einem PDF, das Sie mit Ihrem Tierarzt teilen können.",
+                titre = "",
+                description = "Am Ende des Fragebogens erhalten Sie eine ausführliche emotionale Einschätzung mit konkreten Tipps, den ersten Schritten zur Umsetzung und einem PDF, das Sie mit Ihrem Tierarzt teilen können.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Emotionale Einschätzung",
-                    Icons.Rounded.PictureAsPdf to "4-seitiger PDF-Export",
+                    Icons.Rounded.PictureAsPdf to "PDF-Export",
                     Icons.Rounded.History to "Verlauf der Einschätzungen"
                 )
             )
@@ -598,7 +598,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Cómo funciona",
-                titre = "Un cuestionario, cuatro dimensiones",
+                titre = "",
                 description = "En pocos minutos, exploras los cuatro ejes que dan forma al comportamiento de tu perro en el día a día.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -610,8 +610,8 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Lo que obtienes",
-                titre = "Una evaluación personalizada y completa",
-                description = "Al final del cuestionario, recibes una evaluación emocional detallada con consejos concretos, un plan de acción y un PDF para compartir con tu veterinario.",
+                titre = "",
+                description = "Al final del cuestionario, recibes una evaluación emocional detallada con consejos concretos, las primeras acciones que poner en marcha y un PDF para compartir con tu veterinario.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Evaluación emocional",
@@ -630,7 +630,7 @@ fun showConsultation(): Boolean = appLang() == AppLang.FR
 
 const val CGV_URL = "https://laurenaharoy-ctrl.github.io/comprendremonchien2/cgv.html"
 
-const val WEBSITE_URL = "https://comportementaliste91.fr"
+const val WEBSITE_URL = "https://www.laurenaharoy.com/fr/"
 
 const val TELEPHONE_NATIONAL = "06 20 65 78 88"
 
