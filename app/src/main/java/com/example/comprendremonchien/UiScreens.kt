@@ -626,10 +626,16 @@ fun ResultatScreen(
                 Text(strResultatTitreBilan(nom), style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp))
                 AccentChip(analyse.profil.profilType)
             }
-            PremiumCard(centered = true) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    EditorialKicker(strResultatLecturePrincipale(), centered = true); Spacer(modifier = Modifier.height(8.dp))
-                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, lineHeight = 26.sp), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(12.dp))
+            val beige = Color(0xFFF5EBE0)
+            Card(
+                modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp),
+                colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF6B3820) else PremiumPalette.Primary)
+            ) {
+                Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(strResultatLecturePrincipale().uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = beige.copy(alpha = 0.75f), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, lineHeight = 26.sp), textAlign = TextAlign.Center, color = beige)
+                    Spacer(modifier = Modifier.height(14.dp))
                     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFondPriorite(analyse.prioriteAction)).padding(horizontal = 14.dp, vertical = 8.dp)) {
                         Text(strResultatPriorite(strPrioriteAction(analyse.prioriteAction)), color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
                     }
@@ -968,8 +974,11 @@ fun RaceCard(raceCategorie: String?, racePrecise: String?, bare: Boolean = false
         Text(nomAffiche, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = PremiumPalette.Primary, textAlign = TextAlign.Center)
         if (!raceCategorie.isNullOrBlank() && !racePrecise.isNullOrBlank()) { Spacer(modifier = Modifier.height(4.dp)); Text(categorieAffichee ?: raceCategorie, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center) }
         if (predispositions.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(14.dp)); Text(strResultatPredispositions(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()); Spacer(modifier = Modifier.height(8.dp))
-            predispositions.forEach { pred -> Row(modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 7.dp).size(6.dp).background(PremiumPalette.Accent, CircleShape)); Spacer(modifier = Modifier.width(8.dp)); Text(pred, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 500.dp)) } }
+            val garderMajuscules = appLang() == AppLang.DE
+            val items = predispositions.map { if (garderMajuscules) it else it.replaceFirstChar { c -> c.lowercase() } }
+            val liste = if (items.size == 1) items[0] else items.dropLast(1).joinToString(", ") + tr(" et ", " and ", " und ", " y ") + items.last()
+            Spacer(modifier = Modifier.height(14.dp))
+            Text(strResultatPredispositions() + tr(" : ", ": ", ": ", ": ") + liste + ".", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
         }
         if (!nuance.isNullOrBlank()) { Spacer(modifier = Modifier.height(14.dp)); Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(if (isSystemInDarkTheme()) Color(0xFF2A1F1A) else Color(0xFFF4EDE6)).padding(14.dp)) { Text(nuance, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center) } }
     }
