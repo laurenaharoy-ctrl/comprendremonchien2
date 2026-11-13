@@ -856,11 +856,15 @@ fun ResultatScreen(
                     Text(analyse.conseilPrincipal, style = styleDoux(), textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
                     Text(strResultatChangement(), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.height(20.dp))
-                    TitreEncart(strResultatAFaire(), Icons.Rounded.CheckCircle); Spacer(modifier = Modifier.height(8.dp))
-                    analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                    EncartDoux {
+                        TitreEncart(strResultatAFaire(), Icons.Rounded.CheckCircle); Spacer(modifier = Modifier.height(8.dp))
+                        analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(6.dp)) }
+                    }
                     Spacer(modifier = Modifier.height(12.dp))
-                    TitreEncart(strResultatAEviter(), Icons.Rounded.Block); Spacer(modifier = Modifier.height(8.dp))
-                    analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                    EncartDoux {
+                        TitreEncart(strResultatAEviter(), Icons.Rounded.Block); Spacer(modifier = Modifier.height(8.dp))
+                        analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(6.dp)) }
+                    }
                     Spacer(modifier = Modifier.height(12.dp))
                     EncartDoux {
                         TitreEncart(strResultatAObserver(), Icons.Rounded.Visibility); Spacer(modifier = Modifier.height(8.dp))
