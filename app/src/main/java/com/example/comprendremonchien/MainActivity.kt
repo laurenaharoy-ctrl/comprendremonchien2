@@ -398,7 +398,7 @@ Enviado desde la aplicación ${strAppName()}
                         onCommencer = {
                             reponsesTexte.clear()
                             reponsesChoix.clear()
-                            indexQuestion = 0
+                            indexQuestion = 0; lettreVue = false
                             screen = AppScreen.Questionnaire
                             clearSavedState()
                             saveState()
@@ -504,7 +504,7 @@ Enviado desde la aplicación ${strAppName()}
                         onRecommencer = {
                             reponsesTexte.clear()
                             reponsesChoix.clear()
-                            indexQuestion = 0
+                            indexQuestion = 0; lettreVue = false
                             screen = AppScreen.Accueil
                             clearSavedState()
                         },
