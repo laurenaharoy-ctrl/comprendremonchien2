@@ -365,7 +365,8 @@ Enviado desde la aplicación ${strAppName()}
                     }
                 }
 
-                PremiumTopBarWithActions(
+                // Pas de barre du haut pendant l'introduction : elle recouvrait le bouton « Passer »
+                if (screen != AppScreen.Onboarding) PremiumTopBarWithActions(
                     title = titreEcran,
                     onBack = onBack,
                     actions = actions
