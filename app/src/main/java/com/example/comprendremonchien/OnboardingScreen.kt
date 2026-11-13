@@ -171,7 +171,7 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
             Spacer(modifier = Modifier.height(18.dp))
             Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
                 style = styleDoux().copy(fontSize = 18.sp, lineHeight = 25.sp), color = if (isDark) Beige else PremiumPalette.Primary, textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(18.dp))
         } else {
             Spacer(modifier = Modifier.height(18.dp))
         }
