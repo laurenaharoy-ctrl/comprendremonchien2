@@ -195,7 +195,7 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (hasFeatures) {
+        if (hasFeatures && slide.titre.isNotBlank()) {
             Text(slide.titre, style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center, lineHeight = 28.sp)
