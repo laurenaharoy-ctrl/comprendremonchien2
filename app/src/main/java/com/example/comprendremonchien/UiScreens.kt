@@ -577,7 +577,7 @@ fun QuestionnaireScreen(
 
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 10.dp)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            PremiumCard {
+            PremiumCard(centered = true) {
                 SectionChip(titreSection)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("$numero ${tr("sur", "of", "von", "de")} $total", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
@@ -886,7 +886,6 @@ fun ResultatScreen(
                 }
             }
             EncartMarron { Text(strPhraseFin(nomChien), style = styleDoux(), textAlign = TextAlign.Center, color = Beige) }
-            PremiumCard(centered = true) { EditorialKicker(strResultatImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strResultatDisclaimer(), textAlign = TextAlign.Center) }
             ConsultationCard(analyse.lieuResidence)
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
             Spacer(modifier = Modifier.height(8.dp))

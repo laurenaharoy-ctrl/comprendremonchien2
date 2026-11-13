@@ -292,7 +292,7 @@ Enviado desde la aplicación ${strAppName()}
                 val titreEcran = when (screen) {
                     AppScreen.Accueil -> ""
                     AppScreen.Onboarding -> ""
-                    AppScreen.Questionnaire -> strScreenQuestionnaire()
+                    AppScreen.Questionnaire -> ""
                     AppScreen.Chargement -> strScreenAnalyse()
                     AppScreen.Resultat -> strScreenResultat()
                     AppScreen.Dictionnaire -> ""
@@ -301,7 +301,7 @@ Enviado desde la aplicación ${strAppName()}
                     AppScreen.Feedback -> strScreenSignalement()
                     AppScreen.Historique -> strScreenHistorique()
                     is AppScreen.HistoriqueDetail -> strScreenDetailBilan()
-                    AppScreen.Parametres -> strScreenParametres()
+                    AppScreen.Parametres -> ""
                 }
 
                 val onBack: (() -> Unit)? = if (screen != AppScreen.Accueil && screen != AppScreen.Chargement) {
