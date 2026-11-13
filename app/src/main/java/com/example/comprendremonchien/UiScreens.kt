@@ -492,7 +492,7 @@ fun AccueilScreen(modifier: Modifier = Modifier, hasSavedProgress: Boolean, onCo
                     Box(modifier = Modifier.size(width = 320.dp, height = 240.dp).background(Brush.radialGradient(listOf(Color.White.copy(alpha = if (isDark) 0.06f else 0.6f), Color.Transparent))))
                     Image(painter = painterResource(id = R.drawable.logo_accueil_rogne), contentDescription = strContentDescLogo(), modifier = Modifier.widthIn(max = 300.dp).fillMaxWidth(0.82f), contentScale = ContentScale.Fit)
                 }
-                Text(tr("Par Lauréna Haroy\ncomportementaliste animalier", "By Lauréna Haroy\nanimal behaviourist", "Von Lauréna Haroy\nVerhaltensberaterin für Tiere", "Por Lauréna Haroy\nespecialista en comportamiento animal"),
+                Text(tr("Créée par Lauréna Haroy\ncomportementaliste animalier", "Created by Lauréna Haroy\nanimal behaviourist", "Entwickelt von Lauréna Haroy\nVerhaltensberaterin für Tiere", "Creada por Lauréna Haroy\nespecialista en comportamiento animal"),
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(6.dp))
                 PrimaryGlowButton(text = strBtnDemarrerBilan(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })

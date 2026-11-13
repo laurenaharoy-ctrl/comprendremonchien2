@@ -195,7 +195,7 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
         Spacer(modifier = Modifier.height(18.dp))
         Text(slide.description, style = styleDoux().copy(fontSize = 17.sp, lineHeight = 24.sp),
             color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(if (bienvenue) 28.dp else 16.dp))
 
         if (bienvenue) {
             Text(tr("Créée par Lauréna Haroy\ncomportementaliste animalier", "Created by Lauréna Haroy\nanimal behaviourist", "Entwickelt von Lauréna Haroy\nVerhaltensberaterin für Tiere", "Creada por Lauréna Haroy\nespecialista en comportamiento animal"),
