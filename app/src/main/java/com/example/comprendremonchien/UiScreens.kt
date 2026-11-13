@@ -108,6 +108,13 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.rotate
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFF8E4A2D), onPrimary = Color.White,
@@ -466,13 +473,68 @@ fun ChargementAnalyseScreen(modifier: Modifier = Modifier, onTermine: () -> Unit
 
 @Composable
 fun AccueilScreen(modifier: Modifier = Modifier, hasSavedProgress: Boolean, onCommencer: () -> Unit, onReprendre: () -> Unit, onDictionnaire: () -> Unit, onAlimentation: () -> Unit) {
-    EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 8.dp)) {
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
-            AccueilIllustrationCard()
-            PrimaryGlowButton(text = strBtnDemarrerBilan(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
-            SecondaryPremiumButton(text = strBtnDictionnaire(), onClick = onDictionnaire, leading = { Icon(Icons.Rounded.MenuBook, contentDescription = null) })
-            SecondaryPremiumButton(text = strBtnAlimentation(), onClick = onAlimentation, leading = { Icon(Icons.Rounded.Star, contentDescription = null) })
-            if (hasSavedProgress) SecondaryPremiumButton(text = strBtnReprendre(), onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
+    val isDark = isSystemInDarkTheme()
+    val couleurPatte = if (isDark) PremiumPalette.PrimarySoft.copy(alpha = 0.09f) else PremiumPalette.Primary.copy(alpha = 0.07f)
+    Box(modifier = modifier.fillMaxSize()) {
+        Canvas(modifier = Modifier.matchParentSize()) {
+            val t = 20.dp.toPx()
+            // une trace en haut à gauche, qui sort de l'écran
+            traceDePattes(Offset(size.width * 0.04f, size.height * 0.30f), Offset(size.width * 0.30f, -t), 4, t, couleurPatte)
+            // une trace en bas à droite, qui entre dans l'écran
+            traceDePattes(Offset(size.width + t, size.height * 0.80f), Offset(size.width * 0.62f, size.height * 1.02f), 4, t, couleurPatte)
+        }
+        EditorialContainer(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 20.dp, vertical = 8.dp)) {
+            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(strAppName(), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.ExtraBold, color = if (isDark) PremiumPalette.PrimarySoft else PremiumPalette.Primary, textAlign = TextAlign.Center)
+                Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
+                    style = styleDoux().copy(fontSize = 19.sp, lineHeight = 26.sp), color = if (isDark) Beige else PremiumPalette.Primary, textAlign = TextAlign.Center)
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                    Box(modifier = Modifier.size(width = 320.dp, height = 240.dp).background(Brush.radialGradient(listOf(Color.White.copy(alpha = if (isDark) 0.06f else 0.6f), Color.Transparent))))
+                    Image(painter = painterResource(id = R.drawable.logo_accueil_rogne), contentDescription = strContentDescLogo(), modifier = Modifier.widthIn(max = 300.dp).fillMaxWidth(0.82f), contentScale = ContentScale.Fit)
+                }
+                Text(tr("par Lauréna Haroy, comportementaliste", "by Lauréna Haroy, animal behaviourist", "von Lauréna Haroy, Verhaltensberaterin für Tiere", "por Lauréna Haroy, especialista en comportamiento animal"),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(6.dp))
+                PrimaryGlowButton(text = strBtnDemarrerBilan(), onClick = onCommencer, leading = { Icon(Icons.Rounded.Pets, contentDescription = null, tint = Color.White) })
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    TuileAccueil(strBtnDictionnaire(), Icons.Rounded.MenuBook, onDictionnaire, Modifier.weight(1f))
+                    TuileAccueil(strBtnAlimentation(), Icons.Rounded.Star, onAlimentation, Modifier.weight(1f))
+                }
+                if (hasSavedProgress) SecondaryPremiumButton(text = strBtnReprendre(), onClick = onReprendre, leading = { Icon(Icons.Rounded.AutoStories, contentDescription = null) })
+            }
+        }
+    }
+}
+
+@Composable
+fun TuileAccueil(texte: String, icone: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val isDark = isSystemInDarkTheme()
+    Card(modifier = modifier.clickable(onClick = onClick), shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF231B17) else PremiumPalette.PaperSoft),
+        border = BorderStroke(1.dp, if (isDark) Color(0xFF56433B) else PremiumPalette.Border)) {
+        Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp, horizontal = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(icone, contentDescription = null, tint = PremiumPalette.PrimarySoft, modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(texte, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = if (isDark) PremiumPalette.PrimarySoft else PremiumPalette.Primary, textAlign = TextAlign.Center)
+        }
+    }
+}
+
+/** Trace de pattes discrète, de [depart] vers [arrivee], pas alternés gauche / droite. */
+fun androidx.compose.ui.graphics.drawscope.DrawScope.traceDePattes(depart: Offset, arrivee: Offset, nombre: Int, taille: Float, couleur: Color) {
+    val dx = arrivee.x - depart.x; val dy = arrivee.y - depart.y
+    val longueur = kotlin.math.sqrt(dx * dx + dy * dy)
+    val ux = dx / longueur; val uy = dy / longueur
+    val angle = Math.toDegrees(kotlin.math.atan2(uy.toDouble(), ux.toDouble())).toFloat() + 90f
+    for (i in 0 until nombre) {
+        val f = (i + 0.5f) / nombre
+        val cote = if (i % 2 == 0) -0.45f else 0.45f
+        val c = Offset(depart.x + dx * f - uy * cote * taille, depart.y + dy * f + ux * cote * taille)
+        rotate(angle, pivot = c) {
+            drawOval(couleur, topLeft = Offset(c.x - 0.5f * taille, c.y - 0.15f * taille), size = Size(taille, 0.82f * taille))
+            for ((ox, oy) in listOf(-0.56f to -0.42f, -0.2f to -0.78f, 0.2f to -0.78f, 0.56f to -0.42f)) {
+                drawOval(couleur, topLeft = Offset(c.x + ox * taille - 0.15f * taille, c.y + oy * taille - 0.2f * taille), size = Size(0.3f * taille, 0.4f * taille))
+            }
         }
     }
 }
@@ -1101,6 +1163,11 @@ fun ScoreLine(label: String, value: Int, centered: Boolean = false) {
 }
 
 @Composable
+fun BulletDoux(text: String) {
+    Row(verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 10.dp).size(7.dp).background(PremiumPalette.PrimarySoft, CircleShape)); Spacer(modifier = Modifier.width(10.dp)); Text(text, modifier = Modifier.weight(1f), style = styleDoux().copy(fontSize = 17.sp, lineHeight = 24.sp), color = if (isSystemInDarkTheme()) Beige else PremiumPalette.Primary) }
+}
+
+@Composable
 fun Bullet(text: String, centered: Boolean = false) {
     if (centered) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) { Box(modifier = Modifier.padding(top = 8.dp).size(7.dp).background(PremiumPalette.PrimarySoft, CircleShape)); Spacer(modifier = Modifier.width(10.dp)); Text(text, modifier = Modifier.widthIn(max = 560.dp), color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center) }
@@ -1185,7 +1252,7 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
                 }
                 else -> {
                     EncartMarron { KickerBeige(strAlimTitre()); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimSousTitre(), style = styleDoux(), color = Beige, textAlign = TextAlign.Center) }
-                    PremiumCard { TitreEncart(strAlimARetenirKicker(), Icons.Rounded.Star); Spacer(modifier = Modifier.height(12.dp)); Bullet(strAlimRetenir1()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir2()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir3()) }
+                    PremiumCard { TitreEncart(strAlimARetenirKicker(), Icons.Rounded.Star); Spacer(modifier = Modifier.height(12.dp)); BulletDoux(strAlimRetenir1()); Spacer(modifier = Modifier.height(10.dp)); BulletDoux(strAlimRetenir2()); Spacer(modifier = Modifier.height(10.dp)); BulletDoux(strAlimRetenir3()) }
                     categories.forEach { categorie -> DictionnaireCategoryButton(categorie = categorie, onClick = { selectedCategoryState.value = categorie }) }
                     EncartDoux { KickerDoux(strAlimImportant()); Spacer(modifier = Modifier.height(8.dp)); Text(strAlimDisclaimer(), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                 }
