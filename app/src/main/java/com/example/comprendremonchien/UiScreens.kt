@@ -8,6 +8,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.rotate
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -576,6 +579,8 @@ fun ChoiceRow(text: String, selected: Boolean, onClick: () -> Unit) {
     }
 }
 
+val LoraItalique = FontFamily(Font(R.font.lora_italic, FontWeight.Normal, FontStyle.Italic))
+
 @Composable
 fun SectionDeroulante(titre: String, ouvertParDefaut: Boolean = false, content: @Composable ColumnScope.() -> Unit) {
     var ouvert by rememberSaveable(titre) { mutableStateOf(ouvertParDefaut) }
@@ -623,7 +628,7 @@ fun ResultatScreen(
             PremiumCard(centered = true) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     EditorialKicker(strResultatLecturePrincipale(), centered = true); Spacer(modifier = Modifier.height(8.dp))
-                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
+                    Text(analyse.hypothesePrincipale, style = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, lineHeight = 26.sp), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(12.dp))
                     Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(couleurFondPriorite(analyse.prioriteAction)).padding(horizontal = 14.dp, vertical = 8.dp)) {
                         Text(strResultatPriorite(strPrioriteAction(analyse.prioriteAction)), color = couleurPriorite(analyse.prioriteAction), fontWeight = FontWeight.SemiBold)
                     }

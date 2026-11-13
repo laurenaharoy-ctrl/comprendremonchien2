@@ -129,7 +129,7 @@ fun strChargementMessages() = trList(
 // ═══════════════════════════════════════════════════════════
 
 fun strResultatKicker() = tr("Votre bilan", "Your assessment", "Ihre Einschätzung", "Tu evaluación")
-fun strResultatTitreBilan(nom: String) = tr("Bilan pour $nom", "Assessment for $nom", "Einschätzung für $nom", "Evaluación de $nom")
+fun strResultatTitreBilan(nom: String) = tr("Pour $nom", "For $nom", "Für $nom", "Para $nom")
 fun strResultatLecturePrincipale() = tr("Lecture principale", "Main reading", "Wichtigste Deutung", "Lectura principal")
 fun strResultatPriorite(p: String) = tr("Priorité : $p", "Priority: $p", "Priorität: $p", "Prioridad: $p")
 fun strResultatRessent(nom: String) = tr("Ce que ressent probablement $nom", "What $nom is probably feeling", "Was $nom wahrscheinlich fühlt", "Lo que probablemente siente $nom")
