@@ -590,16 +590,16 @@ val Beige = Color(0xFFF5EBE0)
 fun LettreMiCheminScreen(modifier: Modifier = Modifier, nomChien: String, onContinuer: () -> Unit, onPause: () -> Unit) {
     val nom = nomChienAffiche(nomChien)
     val fond = if (isSystemInDarkTheme()) Color(0xFF5A2E1A) else PremiumPalette.Primary
-    val lettre = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, fontSize = 19.sp, lineHeight = 30.sp)
+    val lettre = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, fontSize = 17.sp, lineHeight = 25.sp)
     Box(modifier = modifier.fillMaxSize().background(fond)) {
         Column(
-            modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 32.dp, vertical = 36.dp),
+            modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 28.dp, vertical = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(Icons.Rounded.Pets, contentDescription = null, tint = Beige.copy(alpha = 0.8f), modifier = Modifier.size(34.dp))
-            Spacer(modifier = Modifier.height(18.dp))
-            Text(tr("Vous êtes à mi-chemin !", "You're halfway there!", "Sie haben die Hälfte geschafft!", "¡Vas por la mitad!"), style = lettre.copy(fontSize = 26.sp, lineHeight = 34.sp), color = Beige, textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.height(26.dp))
+            Icon(Icons.Rounded.Pets, contentDescription = null, tint = Beige.copy(alpha = 0.8f), modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(tr("Vous êtes à mi-chemin !", "You're halfway there!", "Sie haben die Hälfte geschafft!", "¡Vas por la mitad!"), style = lettre.copy(fontSize = 23.sp, lineHeight = 30.sp), color = Beige, textAlign = TextAlign.Center)
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 tr(
                     "Je sais, le questionnaire est un peu long. Mais cette appli n'est pas un simple test : elle est conçue pour vous aider réellement à comprendre $nom et à repérer une éventuelle difficulté de comportement. Pour cela, j'ai besoin de vous poser un certain nombre de questions.",
@@ -609,16 +609,16 @@ fun LettreMiCheminScreen(modifier: Modifier = Modifier, nomChien: String, onCont
                 ),
                 style = lettre, color = Beige, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Text(tr("Courage, vous avez déjà fait la moitié du chemin !", "Keep going, you're already halfway through!", "Nur Mut, die Hälfte haben Sie schon geschafft!", "¡Ánimo, ya has hecho la mitad del camino!"), style = lettre, color = Beige, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
-            Spacer(modifier = Modifier.height(22.dp))
-            Text("Lauréna", style = lettre.copy(fontSize = 28.sp), color = Beige, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Lauréna", style = lettre.copy(fontSize = 24.sp), color = Beige, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
-                onClick = onContinuer, modifier = Modifier.fillMaxWidth().height(54.dp), shape = RoundedCornerShape(18.dp),
+                onClick = onContinuer, modifier = Modifier.fillMaxWidth().height(50.dp), shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Beige, contentColor = fond)
             ) { Text(tr("Continuer le questionnaire", "Continue the questionnaire", "Fragebogen fortsetzen", "Continuar el cuestionario"), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold) }
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             TextButton(onClick = onPause) {
                 Text(tr("Faire une pause", "Take a break", "Eine Pause machen", "Hacer una pausa"), color = Beige, textDecoration = TextDecoration.Underline)
             }
