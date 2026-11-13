@@ -518,7 +518,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             OnboardingSlide(
                 kicker = "Ce que vous obtenez",
                 titre = "Un bilan personnalisé complet",
-                description = "À la fin du questionnaire, vous recevez un bilan émotionnel détaillé avec des conseils concrets, un plan d'action et un PDF à partager avec votre vétérinaire.",
+                description = "À la fin du questionnaire, vous recevez un bilan émotionnel détaillé avec des conseils concrets, les premières actions à mettre en place et un PDF à partager avec votre vétérinaire.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Bilan émotionnel",
@@ -549,7 +549,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             OnboardingSlide(
                 kicker = "What you get",
                 titre = "A complete personalized assessment",
-                description = "At the end of the questionnaire, you receive a detailed emotional assessment with concrete advice, an action plan and a PDF to share with your vet.",
+                description = "At the end of the questionnaire, you receive a detailed emotional assessment with concrete advice, the first steps to take and a PDF to share with your vet.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Emotional assessment",
@@ -580,7 +580,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             OnboardingSlide(
                 kicker = "Was Sie erhalten",
                 titre = "Eine vollständige, persönliche Einschätzung",
-                description = "Am Ende des Fragebogens erhalten Sie eine ausführliche emotionale Einschätzung mit konkreten Tipps, einem Aktionsplan und einem PDF, das Sie mit Ihrem Tierarzt teilen können.",
+                description = "Am Ende des Fragebogens erhalten Sie eine ausführliche emotionale Einschätzung mit konkreten Tipps, den ersten Schritten zur Umsetzung und einem PDF, das Sie mit Ihrem Tierarzt teilen können.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Emotionale Einschätzung",
@@ -611,7 +611,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             OnboardingSlide(
                 kicker = "Lo que obtienes",
                 titre = "Una evaluación personalizada y completa",
-                description = "Al final del cuestionario, recibes una evaluación emocional detallada con consejos concretos, un plan de acción y un PDF para compartir con tu veterinario.",
+                description = "Al final del cuestionario, recibes una evaluación emocional detallada con consejos concretos, las primeras acciones que poner en marcha y un PDF para compartir con tu veterinario.",
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Evaluación emocional",
