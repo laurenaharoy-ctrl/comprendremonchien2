@@ -319,7 +319,7 @@ fun strPdfConclusionTexte(nom: String) = tr("L'objectif n'est pas d'étiqueter $
 fun strPdfDisclaimer() = tr("Ce bilan est indicatif. Il ne remplace pas l'avis d'un vétérinaire ni d'un professionnel du comportement animal. Il peut servir de base de discussion lors d'une consultation.", "This assessment is indicative. It does not replace the advice of a vet or an animal behavior professional. It can be used as a basis for discussion during a consultation.", "Diese Einschätzung ist unverbindlich. Sie ersetzt nicht den Rat eines Tierarztes oder einer Fachperson für Tierverhalten. Sie kann als Gesprächsgrundlage bei einer Beratung dienen.", "Esta evaluación es orientativa. No sustituye la opinión de un veterinario ni de un especialista en comportamiento animal. Puede servir como base de conversación en una consulta.")
 fun strPdfGenereAuto() = tr("Document généré automatiquement", "Automatically generated document", "Automatisch erstelltes Dokument", "Documento generado automáticamente")
 fun strPdfRetrouvez() = tr("Retrouvez l'application pour suivre l'évolution de votre chien.", "Use the app to track your dog's progress.", "Nutzen Sie die App, um die Entwicklung Ihres Hundes zu verfolgen.", "Usa la aplicación para seguir la evolución de tu perro.")
-fun strPdfAcceder() = tr("Consultations : comportementaliste91.fr", "Scan the QR code to open the app", "QR-Code scannen, um die App zu öffnen", "Escanea el código QR para acceder a la aplicación")
+fun strPdfAcceder() = tr("Consultations : laurenaharoy.com", "Scan the QR code to open the app", "QR-Code scannen, um die App zu öffnen", "Escanea el código QR para acceder a la aplicación")
 fun strPdfMorsuTexte() = tr("Une morsure a été signalée lors de ce bilan. Un accompagnement professionnel est recommandé pour évaluer la situation et sécuriser le quotidien.", "A bite was reported during this assessment. Professional support is recommended to evaluate the situation and make daily life safer.", "Bei dieser Einschätzung wurde ein Biss gemeldet. Eine professionelle Begleitung wird empfohlen, um die Situation zu beurteilen und den Alltag sicherer zu machen.", "Se ha señalado una mordedura en esta evaluación. Se recomienda el acompañamiento de un profesional para valorar la situación y hacer el día a día más seguro.")
 fun strPdfEnUnCoup() = tr("En un coup d'œil", "At a glance", "Auf einen Blick", "De un vistazo")
 fun strPdfAxePrincipal() = tr("Axe principal", "Main axis", "Hauptachse", "Eje principal")
@@ -657,7 +657,7 @@ fun strConsultationDescription(lieu: Int? = null): String {
 
 fun strConsultationDisclaimer() = "Cette consultation ne remplace pas une consultation vétérinaire et ne constitue pas un accompagnement comportemental complet à elle seule.\n\nEn cas de changement brutal de comportement, douleur, malpropreté soudaine, agressivité inhabituelle ou symptôme physique, consultez d'abord un vétérinaire."
 
-fun strConsultationPrix(lieu: Int? = null) = if (lieu == 0) "Visio : 50 € / 1 h  •  À domicile (Essonne) : 70 € / 1 h" else "Visioconférence : 50 € / 1 h"
+fun strConsultationPrix(lieu: Int? = null) = if (lieu == 0) "Visio : 50 € / 1 h\nÀ domicile (Essonne) : 70 € / 1 h" else "Visioconférence : 50 € / 1 h"
 
 fun strConsultationBouton(lieu: Int? = null) = (if (lieu == 2) TELEPHONE_INTERNATIONAL else TELEPHONE_NATIONAL).replace(" ", "\u00A0")
 

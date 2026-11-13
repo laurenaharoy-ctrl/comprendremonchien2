@@ -904,7 +904,7 @@ fun ResultatScreen(
                     else analyse.messageAide?.let { Text(it, textAlign = TextAlign.Center, color = PremiumPalette.PrioriteUrgente, fontWeight = FontWeight.SemiBold) }
                 }
             }
-            EncartMarron { Text(strPhraseFin(nomChien), style = styleDoux(), textAlign = TextAlign.Center, color = Beige) }
+            EncartMarron { Text(strPhraseFin(nom), style = styleDoux(), textAlign = TextAlign.Center, color = Beige) }
             ConsultationCard(analyse.lieuResidence)
             ActionButtonsGrid(onShare = onShare, onCopy = onCopy, onExportPdf = onExportPdf, onRecommencer = onRecommencer)
             Spacer(modifier = Modifier.height(8.dp))

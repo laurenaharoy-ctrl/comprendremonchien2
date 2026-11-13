@@ -177,6 +177,30 @@ object PdfExporter {
         y += 20f
     }
 
+    /** Hauteur d'un groupe « titre + puces » (ou de puces seules si titre == null). */
+    private fun hauteurGroupe(titre: String?, items: List<String>): Float =
+        (if (titre != null) 24f else 20f) + items.sumOf { (makeStaticLayout(it, (CONTENT_W - 18f).toInt(), makePaint(10.5f, COLOR_INK)).height + 5).toDouble() }.toFloat()
+
+    /** Groupe insécable : le titre et toutes ses puces restent ensemble sur la même page. */
+    private fun Pager.groupe(titre: String?, items: List<String>, spaceAfter: Float = 12f) {
+        if (items.isEmpty()) return
+        ensure(hauteurGroupe(titre, items))
+        if (titre != null) {
+            canvas.drawText(titre, MARGIN, y, makePaint(11f, COLOR_PRIMARY, bold = true))
+            y += 24f
+        } else {
+            y += 20f
+        }
+        items.forEach { y = drawBullet(canvas, y, it) }
+        y += spaceAfter
+    }
+
+    /** Nouvelle partie : continue sur la page en cours (l'en-tête des pages suivantes prend ce titre). */
+    private fun Pager.suite(titre: String) {
+        header = titre
+        y += 8f
+    }
+
     private fun Pager.bullet(text: String) {
         val h = makeStaticLayout(text, (CONTENT_W - 18f).toInt(), makePaint(10.5f, COLOR_INK)).height.toFloat()
         if (ensure(h)) y += 20f
@@ -291,18 +315,11 @@ object PdfExporter {
         }
 
         if (analyse.facteursAggravants.isNotEmpty() || analyse.facteursProtecteurs.isNotEmpty()) {
-            pager.sectionTitle(strPdfFacteurs())
-
-            if (analyse.facteursAggravants.isNotEmpty()) {
-                pager.label(strPdfAggravants())
-                analyse.facteursAggravants.forEach { pager.bullet(it) }
-                pager.y += 10f
-            }
-
-            if (analyse.facteursProtecteurs.isNotEmpty()) {
-                pager.label(strPdfProtecteurs())
-                analyse.facteursProtecteurs.forEach { pager.bullet(it) }
-            }
+            val premier = if (analyse.facteursAggravants.isNotEmpty()) hauteurGroupe(strPdfAggravants(), analyse.facteursAggravants)
+                          else hauteurGroupe(strPdfProtecteurs(), analyse.facteursProtecteurs)
+            pager.sectionTitle(strPdfFacteurs(), keepWith = premier)
+            pager.groupe(strPdfAggravants(), analyse.facteursAggravants, spaceAfter = 10f)
+            pager.groupe(strPdfProtecteurs(), analyse.facteursProtecteurs)
         }
     }
 
@@ -310,30 +327,20 @@ object PdfExporter {
     // PAGE 3 — Plan d'action
     // ════════════════════════════════════════════════════════════
     private fun dessinePlan(pager: Pager, nom: String, analyse: ResultatAnalyse) {
-        pager.newPage(strPdfPlanAction(nom))
+        pager.suite(strPdfPlanAction(nom))
 
         val texte11 = makePaint(11f, COLOR_INK)
         pager.sectionTitle(strPdfLevier(), keepWith = minOf(cardHeight(analyse.conseilPrincipal, texte11), 300f))
         pager.card(analyse.conseilPrincipal, COLOR_WARM_BG_ALT, COLOR_ACCENT, texte11)
 
-        pager.sectionTitle(strPdfProchainsJours())
-
-        pager.label(strResultatAFaire())
-        analyse.planAction.aFaire.forEach { pager.bullet(it) }
-        pager.y += 12f
-
-        pager.label(strResultatAEviter())
-        analyse.planAction.aEviter.forEach { pager.bullet(it) }
-        pager.y += 12f
-
-        pager.label(strResultatAObserver())
-        analyse.planAction.aObserver.forEach { pager.bullet(it) }
-        pager.y += 18f
+        pager.sectionTitle(strPdfProchainsJours(), keepWith = hauteurGroupe(strResultatAFaire(), analyse.planAction.aFaire))
+        pager.groupe(strResultatAFaire(), analyse.planAction.aFaire)
+        pager.groupe(strResultatAEviter(), analyse.planAction.aEviter)
+        pager.groupe(strResultatAObserver(), analyse.planAction.aObserver, spaceAfter = 18f)
 
         if (analyse.conseilsPratiques.isNotEmpty()) {
-            pager.sectionTitle(strPdfConseils())
-            analyse.conseilsPratiques.forEach { pager.bullet(it) }
-            pager.y += 12f
+            pager.sectionTitle(strPdfConseils(), keepWith = hauteurGroupe(null, analyse.conseilsPratiques))
+            pager.groupe(null, analyse.conseilsPratiques)
         }
 
         if (analyse.aDejaMordu) {
@@ -359,9 +366,6 @@ object PdfExporter {
         pager: Pager, nom: String,
         analyse: ResultatAnalyse, couleurPriorite: Int
     ) {
-        pager.newPage(strPdfARetenir())
-        pager.bottom = CONTENT_BOTTOM_QR
-
         val recapText = buildString {
             append(strPdfRecapProfil(nom, if (isGerman()) analyse.profil.profilType else analyse.profil.profilType.lowercase(Locale.getDefault())))
             append("\n\n")
@@ -376,6 +380,14 @@ object PdfExporter {
             recapText, (CONTENT_W - 48f).toInt(), makePaint(12f, COLOR_INK)
         ) + 48f
 
+        // Conclusion = même phrase que dans l'appli (inclut la mention « bilan indicatif »)
+        val conclusion = strPhraseFin(nom)
+        val conclusionPaint = makePaint(11f, COLOR_INK)
+        val blocTotal = 48f + recapH + 32f + 48f + paragraphHeight(conclusion, conclusionPaint)
+        if (pager.y + blocTotal > CONTENT_BOTTOM_QR) pager.newPage(strPdfARetenir()) else pager.suite(strPdfARetenir())
+        pager.bottom = CONTENT_BOTTOM_QR
+        pager.sectionTitle(strPdfARetenir(), keepWith = recapH)
+
         pager.ensure(recapH)
         val canvas = pager.canvas
         drawCard(canvas, MARGIN, pager.y, PAGE_W - MARGIN, pager.y + recapH, COLOR_WARM_BG, COLOR_BORDER, 16f)
@@ -383,19 +395,8 @@ object PdfExporter {
         drawStaticText(canvas, recapText, MARGIN + 24f, pager.y + 24f, (CONTENT_W - 48f).toInt(), makePaint(12f, COLOR_INK))
         pager.y += recapH + 32f
 
-        val conclusion = strPdfConclusionTexte(nom)
-        val conclusionPaint = makePaint(11f, COLOR_INK)
         pager.sectionTitle(strPdfConclusion(), keepWith = minOf(paragraphHeight(conclusion, conclusionPaint), 300f))
-        pager.paragraph(conclusion, conclusionPaint, spaceAfter = 32f)
-
-        val disclaimer = strPdfDisclaimer()
-        val disclaimerPaint = makePaint(9.5f, COLOR_INK_SOFT)
-        val disclaimerH = measureStaticTextHeight(disclaimer, CONTENT_W.toInt(), disclaimerPaint)
-        pager.ensure(16f + disclaimerH)
-        drawLine(pager.canvas, MARGIN, pager.y, PAGE_W - MARGIN, pager.y, COLOR_BORDER, 0.5f)
-        pager.y += 16f
-        drawStaticText(pager.canvas, disclaimer, MARGIN, pager.y, CONTENT_W.toInt(), disclaimerPaint)
-        pager.y += disclaimerH
+        pager.paragraph(conclusion, conclusionPaint, spaceAfter = 16f)
 
         pager.closePage(withQr = true)
         pager.bottom = CONTENT_BOTTOM
@@ -431,8 +432,9 @@ object PdfExporter {
         val descriptionH = measureStaticTextHeight(description, innerW, paintDescription)
         val disclaimerH = measureStaticTextHeight(disclaimer, innerW, paintDisclaimer)
 
+        val prixH = measureStaticTextHeight(prix, innerW, paintPrix)
         val totalH = 24f + titreH + 12f + sousTitreH + 18f + descriptionH + 20f +
-                disclaimerH + 24f + 24f + 18f + 20f + 24f
+                disclaimerH + 24f + prixH + 18f + 20f + 24f
 
         val cardTop = y
         val cardBottom = y + totalH
@@ -453,8 +455,8 @@ object PdfExporter {
         drawStaticText(canvas, disclaimer, cx, cy, innerW, paintDisclaimer)
         cy += disclaimerH + 24f
 
-        canvas.drawText(prix, cx, cy, paintPrix)
-        cy += 24f
+        drawStaticText(canvas, prix, cx, cy - paintPrix.textSize, innerW, paintPrix)
+        cy += prixH
 
         val lienLabel = "$bouton :"
         canvas.drawText(lienLabel, cx, cy, paintLienLabel)
@@ -513,9 +515,12 @@ object PdfExporter {
     private fun drawBullet(canvas: Canvas, y: Float, text: String): Float {
         val textX = MARGIN + 18f
         val paint = makePaint(10.5f, COLOR_INK)
-        canvas.drawCircle(MARGIN + 6f, y - 2f, 2.5f,
-            Paint(Paint.ANTI_ALIAS_FLAG).apply { color = COLOR_PRIMARY_SOFT; style = Paint.Style.FILL })
         val sl = makeStaticLayout(text, (CONTENT_W - 18f).toInt(), paint)
+        // La puce est centrée sur la première ligne du texte
+        val haut = y - paint.textSize * 1.33f
+        val centrePuce = haut + sl.getLineBaseline(0) - paint.textSize * 0.33f
+        canvas.drawCircle(MARGIN + 6f, centrePuce, 2.5f,
+            Paint(Paint.ANTI_ALIAS_FLAG).apply { color = COLOR_PRIMARY_SOFT; style = Paint.Style.FILL })
         canvas.save()
         canvas.translate(textX, y - paint.textSize * 1.33f)
         sl.draw(canvas)
@@ -567,7 +572,7 @@ object PdfExporter {
         canvas.drawText(appLabel, appQrLeft + (qrSize - labelPaint.measureText(appLabel)) / 2f, qrTop + qrSize + 10f, labelPaint)
         if (appLang() == AppLang.FR) {
             val siteQrLeft = appQrLeft - qrSize - 12
-            canvas.drawBitmap(generateQrCode("https://comportementaliste91.fr", 300), null, Rect(siteQrLeft, qrTop, siteQrLeft + qrSize, qrTop + qrSize), null)
+            canvas.drawBitmap(generateQrCode(WEBSITE_URL, 300), null, Rect(siteQrLeft, qrTop, siteQrLeft + qrSize, qrTop + qrSize), null)
             val siteLabel = "Site internet"
             canvas.drawText(siteLabel, siteQrLeft + (qrSize - labelPaint.measureText(siteLabel)) / 2f, qrTop + qrSize + 10f, labelPaint)
         }
