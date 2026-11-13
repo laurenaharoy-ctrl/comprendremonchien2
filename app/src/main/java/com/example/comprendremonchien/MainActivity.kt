@@ -113,6 +113,8 @@ fun ComprendreMonChienApp() {
     val questions = remember { questionsApplication() }
 
     var indexQuestion by remember { mutableStateOf(0) }
+    var montrerLettre by remember { mutableStateOf(false) }
+    var lettreVue by remember { mutableStateOf(false) }
     var screen by remember { mutableStateOf<AppScreen>(AppScreen.Accueil) }
     var hasSavedProgress by remember { mutableStateOf(false) }
     var isLoaded by remember { mutableStateOf(false) }
@@ -266,7 +268,8 @@ Enviado desde la aplicación ${strAppName()}
     BackHandler(enabled = screen != AppScreen.Accueil && screen != AppScreen.Onboarding) {
         when (screen) {
             AppScreen.Questionnaire -> {
-                if (indexQuestion > 0) { indexQuestion--; saveState() }
+                if (montrerLettre) montrerLettre = false
+                else if (indexQuestion > 0) { indexQuestion--; saveState() }
                 else { screen = AppScreen.Accueil; saveState() }
             }
             AppScreen.Chargement -> { screen = AppScreen.Questionnaire; saveState() }
@@ -308,7 +311,8 @@ Enviado desde la aplicación ${strAppName()}
                     {
                         when (screen) {
                             AppScreen.Questionnaire -> {
-                                if (indexQuestion > 0) indexQuestion--
+                                if (montrerLettre) montrerLettre = false
+                                else if (indexQuestion > 0) indexQuestion--
                                 else screen = AppScreen.Accueil
                                 saveState()
                             }
@@ -406,7 +410,14 @@ Enviado desde la aplicación ${strAppName()}
                 }
 
                 AppScreen.Questionnaire -> {
-                    if (questionsVisibles.isNotEmpty()) {
+                    if (montrerLettre) {
+                        LettreMiCheminScreen(
+                            modifier = Modifier.padding(padding),
+                            nomChien = reponsesTexte["nom_chien"].orEmpty(),
+                            onContinuer = { montrerLettre = false },
+                            onPause = { montrerLettre = false; screen = AppScreen.Accueil; saveState() }
+                        )
+                    } else if (questionsVisibles.isNotEmpty()) {
                         val question = questionsVisibles[indexQuestion]
                         QuestionnaireScreen(
                             modifier = Modifier.padding(padding),
@@ -420,7 +431,14 @@ Enviado desde la aplicación ${strAppName()}
                             onValeurChangee = { reponsesTexte[question.id] = it; saveState() },
                             onChoixSelectionne = { reponsesChoix[question.id] = it; effacerReponsesMasquees(questions, reponsesChoix); saveState() },
                             onSuivant = {
-                                if (indexQuestion < questionsVisibles.lastIndex) indexQuestion++
+                                if (indexQuestion < questionsVisibles.lastIndex) {
+                                    indexQuestion++
+                                    // Lettre d'encouragement à mi-parcours (une fois par session)
+                                    if (!lettreVue && questionsVisibles.size >= 10 && indexQuestion == questionsVisibles.size / 2) {
+                                        lettreVue = true
+                                        montrerLettre = true
+                                    }
+                                }
                                 else screen = AppScreen.Chargement
                                 saveState()
                             }

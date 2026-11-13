@@ -587,6 +587,47 @@ val LoraItalique = FontFamily(Font(R.font.lora_italic, FontWeight.Normal, FontSt
 val Beige = Color(0xFFF5EBE0)
 
 @Composable
+fun LettreMiCheminScreen(modifier: Modifier = Modifier, nomChien: String, onContinuer: () -> Unit, onPause: () -> Unit) {
+    val nom = nomChienAffiche(nomChien)
+    val fond = if (isSystemInDarkTheme()) Color(0xFF5A2E1A) else PremiumPalette.Primary
+    val lettre = MaterialTheme.typography.titleMedium.copy(fontFamily = LoraItalique, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, fontSize = 19.sp, lineHeight = 30.sp)
+    Box(modifier = modifier.fillMaxSize().background(fond)) {
+        Column(
+            modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 32.dp, vertical = 36.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(Icons.Rounded.Pets, contentDescription = null, tint = Beige.copy(alpha = 0.8f), modifier = Modifier.size(34.dp))
+            Spacer(modifier = Modifier.height(18.dp))
+            Text(tr("Vous êtes à mi-chemin !", "You're halfway there!", "Sie haben die Hälfte geschafft!", "¡Vas por la mitad!"), style = lettre.copy(fontSize = 26.sp, lineHeight = 34.sp), color = Beige, textAlign = TextAlign.Center)
+            Spacer(modifier = Modifier.height(26.dp))
+            Text(
+                tr(
+                    "Je sais, le questionnaire est un peu long. Mais cette appli n'est pas un simple test : elle est conçue pour vous aider réellement à comprendre $nom et à repérer une éventuelle difficulté de comportement. Pour cela, j'ai besoin de vous poser un certain nombre de questions.",
+                    "I know, the questionnaire is a bit long. But this app isn't just a simple quiz: it's designed to genuinely help you understand $nom and spot any possible behavioral difficulty. To do that, I need to ask you a certain number of questions.",
+                    "Ich weiß, der Fragebogen ist etwas lang. Aber diese App ist kein einfacher Test: Sie soll Ihnen wirklich helfen, $nom zu verstehen und eine mögliche Verhaltensschwierigkeit zu erkennen. Dafür muss ich Ihnen eine Reihe von Fragen stellen.",
+                    "Lo sé, el cuestionario es un poco largo. Pero esta aplicación no es un simple test: está pensada para ayudarte de verdad a comprender a $nom y a detectar una posible dificultad de comportamiento. Para ello, necesito hacerte cierto número de preguntas."
+                ),
+                style = lettre, color = Beige, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(18.dp))
+            Text(tr("Courage, vous avez déjà fait la moitié du chemin !", "Keep going, you're already halfway through!", "Nur Mut, die Hälfte haben Sie schon geschafft!", "¡Ánimo, ya has hecho la mitad del camino!"), style = lettre, color = Beige, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(22.dp))
+            Text("Lauréna", style = lettre.copy(fontSize = 28.sp), color = Beige, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(40.dp))
+            Button(
+                onClick = onContinuer, modifier = Modifier.fillMaxWidth().height(54.dp), shape = RoundedCornerShape(18.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Beige, contentColor = fond)
+            ) { Text(tr("Continuer le questionnaire", "Continue the questionnaire", "Fragebogen fortsetzen", "Continuar el cuestionario"), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold) }
+            Spacer(modifier = Modifier.height(14.dp))
+            TextButton(onClick = onPause) {
+                Text(tr("Faire une pause", "Take a break", "Eine Pause machen", "Hacer una pausa"), color = Beige, textDecoration = TextDecoration.Underline)
+            }
+            Text(tr("Vos réponses sont enregistrées, vous pourrez reprendre plus tard.", "Your answers are saved, you can pick up where you left off later.", "Ihre Antworten sind gespeichert, Sie können später weitermachen.", "Tus respuestas están guardadas, podrás continuar más tarde."), style = MaterialTheme.typography.bodySmall, color = Beige.copy(alpha = 0.75f), textAlign = TextAlign.Center)
+        }
+    }
+}
+
+@Composable
 fun EncartMarron(content: @Composable ColumnScope.() -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp),
