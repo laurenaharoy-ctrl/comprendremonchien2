@@ -522,7 +522,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Bilan émotionnel",
-                    Icons.Rounded.PictureAsPdf to "Export PDF 4 pages",
+                    Icons.Rounded.PictureAsPdf to "Export PDF",
                     Icons.Rounded.History to "Historique des bilans"
                 )
             )
@@ -553,7 +553,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Emotional assessment",
-                    Icons.Rounded.PictureAsPdf to "4-page PDF export",
+                    Icons.Rounded.PictureAsPdf to "PDF export",
                     Icons.Rounded.History to "Assessment history"
                 )
             )
@@ -584,7 +584,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
                 illustrationType = IllustrationType.BILAN_COMPLET,
                 features = listOf<Pair<ImageVector, String>>(
                     Icons.Rounded.CheckCircle to "Emotionale Einschätzung",
-                    Icons.Rounded.PictureAsPdf to "4-seitiger PDF-Export",
+                    Icons.Rounded.PictureAsPdf to "PDF-Export",
                     Icons.Rounded.History to "Verlauf der Einschätzungen"
                 )
             )
