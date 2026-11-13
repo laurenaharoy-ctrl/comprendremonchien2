@@ -401,7 +401,17 @@ Enviado desde la aplicación ${strAppName()}
                             clearSavedState()
                             saveState()
                         },
-                        onReprendre = { screen = AppScreen.Questionnaire; saveState() },
+                        onReprendre = {
+                            // Reprendre à la première question sans réponse (et non depuis le début)
+                            val premiereSansReponse = questionsVisibles.indexOfFirst { q ->
+                                when (q) {
+                                    is QuestionTexte -> reponsesTexte[q.id].isNullOrBlank()
+                                    is QuestionChoix -> reponsesChoix[q.id] == null
+                                }
+                            }
+                            indexQuestion = if (premiereSansReponse >= 0) premiereSansReponse else questionsVisibles.lastIndex.coerceAtLeast(0)
+                            screen = AppScreen.Questionnaire; saveState()
+                        },
                         onDictionnaire = { screen = AppScreen.Dictionnaire; saveState() },
                         onAlimentation = { screen = AppScreen.Alimentation; saveState() }
                     )
