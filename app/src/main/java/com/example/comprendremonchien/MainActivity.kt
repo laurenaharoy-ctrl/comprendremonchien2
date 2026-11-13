@@ -295,11 +295,8 @@ Enviado desde la aplicación ${strAppName()}
                     AppScreen.Questionnaire -> strScreenQuestionnaire()
                     AppScreen.Chargement -> strScreenAnalyse()
                     AppScreen.Resultat -> strScreenResultat()
-                    AppScreen.Dictionnaire -> strScreenDictionnaire()
-                    is AppScreen.DictionnaireDetail -> {
-                        val ficheId = (screen as AppScreen.DictionnaireDetail).ficheId
-                        getComportementEntryById(ficheId)?.titre ?: strScreenFicheComportementale()
-                    }
+                    AppScreen.Dictionnaire -> ""
+                    is AppScreen.DictionnaireDetail -> ""
                     AppScreen.Alimentation -> strScreenAlimentation()
                     AppScreen.Feedback -> strScreenSignalement()
                     AppScreen.Historique -> strScreenHistorique()
