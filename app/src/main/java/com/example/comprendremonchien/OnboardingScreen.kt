@@ -198,7 +198,7 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
         Spacer(modifier = Modifier.height(16.dp))
 
         if (bienvenue) {
-            Text(tr("Créée par Lauréna Haroy, comportementaliste depuis 2007", "Created by Lauréna Haroy, animal behaviourist since 2007", "Entwickelt von Lauréna Haroy, Verhaltensberaterin für Tiere seit 2007", "Creada por Lauréna Haroy, especialista en comportamiento animal desde 2007"),
+            Text(tr("Créée par Lauréna Haroy, comportementaliste animalier", "Created by Lauréna Haroy, animal behaviourist", "Entwickelt von Lauréna Haroy, Verhaltensberaterin für Tiere", "Creada por Lauréna Haroy, especialista en comportamiento animal"),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
