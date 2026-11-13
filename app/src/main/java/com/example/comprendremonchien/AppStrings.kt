@@ -505,7 +505,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Comment ça marche",
-                titre = "Un questionnaire, quatre dimensions",
+                titre = "",
                 description = "En quelques minutes, vous explorez les quatre axes qui façonnent le comportement de votre chien au quotidien.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -536,7 +536,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "How it works",
-                titre = "One questionnaire, four dimensions",
+                titre = "",
                 description = "In just a few minutes, you explore the four axes that shape your dog's everyday behavior.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -567,7 +567,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "So funktioniert’s",
-                titre = "Ein Fragebogen, vier Dimensionen",
+                titre = "",
                 description = "In wenigen Minuten erkunden Sie die vier Achsen, die das Verhalten Ihres Hundes im Alltag prägen.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(
@@ -598,7 +598,7 @@ fun strOnboardingSlides(): List<OnboardingSlide> {
             ),
             OnboardingSlide(
                 kicker = "Cómo funciona",
-                titre = "Un cuestionario, cuatro dimensiones",
+                titre = "",
                 description = "En pocos minutos, exploras los cuatro ejes que dan forma al comportamiento de tu perro en el día a día.",
                 illustrationType = IllustrationType.QUATRE_AXES,
                 features = listOf<Pair<ImageVector, String>>(

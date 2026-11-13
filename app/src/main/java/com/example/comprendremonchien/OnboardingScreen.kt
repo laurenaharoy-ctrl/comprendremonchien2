@@ -202,8 +202,8 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        Text(slide.description, style = styleDoux().copy(fontSize = 16.sp, lineHeight = 23.sp),
-            color = if (isSystemInDarkTheme()) Beige else PremiumPalette.Primary,
+        Text(slide.description, style = styleDoux().copy(fontSize = 17.sp, lineHeight = 24.sp),
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center)
 
         if (hasFeatures) {
@@ -220,10 +220,10 @@ fun OnboardingSlideContent(slide: OnboardingSlide) {
                     ) {
                         Box(
                             modifier = Modifier.size(30.dp).clip(CircleShape)
-                                .background(PremiumPalette.Primary.copy(alpha = 0.10f)),
+                                .background(PremiumPalette.Primary),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(icon, contentDescription = null, tint = PremiumPalette.Primary,
+                            Icon(icon, contentDescription = null, tint = Beige,
                                 modifier = Modifier.size(16.dp))
                         }
                         Text(label, style = MaterialTheme.typography.bodySmall,
@@ -246,11 +246,7 @@ fun SlideBienvenue(slide: OnboardingSlide) {
         Text(slide.titre, style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraBold, color = if (isDark) PremiumPalette.PrimarySoft else PremiumPalette.Primary,
             textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(6.dp))
-        Text(slide.kicker.uppercase(), style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold, color = PremiumPalette.PrimarySoft,
-            letterSpacing = 2.sp, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
             style = styleDoux().copy(fontSize = 19.sp, lineHeight = 26.sp), color = if (isDark) Beige else PremiumPalette.Primary, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(8.dp))
