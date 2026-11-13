@@ -806,23 +806,32 @@ fun ResultatScreen(
                         Text(tr("$nom semble évoluer dans un équilibre global satisfaisant.", "$nom seems to be in a good overall balance.", "$nom scheint sich in einem insgesamt guten Gleichgewicht zu befinden.", "$nom parece encontrarse en un buen equilibrio general."), textAlign = TextAlign.Center)
                     }
                 } else {
-                    EditorialKicker(strResultatNiveauSituation(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(12.dp))
-                    Text(analyse.messageSituation, textAlign = TextAlign.Center)
-                    if (analyse.niveauSituation != NiveauSituation.STABLE) {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    // Chaque partie dans son propre encart, pour aérer
+                    EncartDoux {
+                        KickerDoux(strResultatNiveauSituation()); Spacer(modifier = Modifier.height(10.dp))
+                        AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(12.dp))
+                        Text(analyse.messageSituation, textAlign = TextAlign.Center)
+                        if (analyse.niveauSituation != NiveauSituation.STABLE) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
                     }
-                    Spacer(modifier = Modifier.height(22.dp))
-                    EditorialKicker(strResultatInquieter(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center)
-                    Spacer(modifier = Modifier.height(22.dp))
-                    EditorialKicker(strResultatSePasse(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    EncartDoux {
+                        KickerDoux(strResultatInquieter()); Spacer(modifier = Modifier.height(10.dp))
+                        Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center)
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    EncartDoux {
+                        KickerDoux(strResultatSePasse()); Spacer(modifier = Modifier.height(10.dp))
+                        Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
+                    }
                     if (analyse.originesPossibles.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(22.dp))
-                        EditorialKicker(strResultatPourquoi(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                        Text(analyse.originesPossibles, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                        Spacer(modifier = Modifier.height(12.dp))
+                        EncartDoux {
+                            KickerDoux(strResultatPourquoi()); Spacer(modifier = Modifier.height(10.dp))
+                            Text(analyse.originesPossibles, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                        }
                     }
                 }
             }
