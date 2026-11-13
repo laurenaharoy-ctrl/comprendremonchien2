@@ -243,14 +243,14 @@ fun SlideBienvenue(slide: OnboardingSlide) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(slide.kicker.uppercase(), style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold, color = PremiumPalette.PrimarySoft,
-            letterSpacing = 2.sp, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(6.dp))
         Text(slide.titre, style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraBold, color = if (isDark) PremiumPalette.PrimarySoft else PremiumPalette.Primary,
             textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(slide.kicker.uppercase(), style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold, color = PremiumPalette.PrimarySoft,
+            letterSpacing = 2.sp, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(8.dp))
         Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
             style = styleDoux().copy(fontSize = 19.sp, lineHeight = 26.sp), color = if (isDark) Beige else PremiumPalette.Primary, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(8.dp))
