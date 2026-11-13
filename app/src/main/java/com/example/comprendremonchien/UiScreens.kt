@@ -638,6 +638,16 @@ fun EncartMarron(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
+fun KickerBeige(text: String) {
+    Text(text.uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = Beige.copy(alpha = 0.8f), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun KickerDoux(text: String) {
+    Text(text.uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = PremiumPalette.Primary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
 fun EncartDoux(content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp))
@@ -1106,14 +1116,14 @@ fun DictionnaireInfoScreen(modifier: Modifier = Modifier, onOpenFiche: (String) 
     val fichesFiltrees = remember(recherche) { if (recherche.isBlank()) fiches else fiches.filter { it.titre.contains(recherche, ignoreCase = true) || it.resume.contains(recherche, ignoreCase = true) } }
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            PremiumCard(centered = true) {
-                EditorialKicker(strDicoTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(strDicoSousTitre(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-                OutlinedTextField(value = recherche, onValueChange = { recherche = it }, placeholder = { Text(strDicoRecherchePlaceholder()) }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PremiumPalette.Primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline, focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
+            EncartMarron {
+                KickerBeige(strDicoTitre()); Spacer(modifier = Modifier.height(10.dp))
+                Text(strDicoSousTitre(), style = styleDoux().copy(fontSize = 21.sp, lineHeight = 29.sp), color = Beige, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(value = recherche, onValueChange = { recherche = it }, placeholder = { Text(strDicoRecherchePlaceholder()) }, singleLine = true, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Beige, unfocusedBorderColor = Beige.copy(alpha = 0.5f), focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, cursorColor = PremiumPalette.Primary, focusedContainerColor = MaterialTheme.colorScheme.surface, unfocusedContainerColor = MaterialTheme.colorScheme.surface))
             }
             if (fichesFiltrees.isEmpty()) PremiumCard(centered = true) { Text(strDicoAucunResultat(recherche), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             else fichesFiltrees.forEach { fiche -> ComportementListItem(entry = fiche, onClick = { onOpenFiche(fiche.id) }) }
-            PremiumCard(centered = true) { EditorialKicker(strDicoImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strDicoDisclaimer(), textAlign = TextAlign.Center) }
+            EncartDoux { KickerDoux(strDicoImportant()); Spacer(modifier = Modifier.height(8.dp)); Text(strDicoDisclaimer(), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }
     }
 }
@@ -1125,11 +1135,18 @@ fun DictionnaireDetailScreen(modifier: Modifier = Modifier, ficheId: String) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             if (fiche == null) PremiumCard(centered = true) { Text(strDicoFicheIntrouvable(), style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center) }
             else {
-                PremiumCard(centered = true) { EditorialKicker(strDicoFicheKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp)); Text(fiche.resume, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                EncartMarron {
+                    KickerBeige(strDicoFicheKicker()); Spacer(modifier = Modifier.height(10.dp))
+                    Text(fiche.titre, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = Beige, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(12.dp))
+                    Text(fiche.resume, style = styleDoux(), color = Beige, textAlign = TextAlign.Center)
+                }
                 PremiumCard { EditorialKicker(strDicoExplication()); Spacer(modifier = Modifier.height(12.dp)); Text(fiche.explication, style = MaterialTheme.typography.bodyLarge) }
-                PremiumCard { EditorialKicker(strDicoQueFaire()); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.queFaire) }
-                PremiumCard { EditorialKicker(strDicoAEviter()); Spacer(modifier = Modifier.height(12.dp)); Bullet(fiche.aEviter) }
-                PremiumCard(centered = true) { EditorialKicker(strDicoRappelKicker(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strDicoRappel(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                PremiumCard {
+                    TitreEncart(strDicoQueFaire(), Icons.Rounded.CheckCircle); Spacer(modifier = Modifier.height(10.dp)); Bullet(fiche.queFaire)
+                    Spacer(modifier = Modifier.height(20.dp))
+                    TitreEncart(strDicoAEviter(), Icons.Rounded.Block); Spacer(modifier = Modifier.height(10.dp)); Bullet(fiche.aEviter)
+                }
+                EncartDoux { KickerDoux(strDicoRappelKicker()); Spacer(modifier = Modifier.height(8.dp)); Text(strDicoRappel(), style = styleDoux().copy(fontSize = 16.sp, lineHeight = 23.sp), textAlign = TextAlign.Center, color = PremiumPalette.Primary) }
             }
         }
     }
@@ -1139,8 +1156,8 @@ fun DictionnaireDetailScreen(modifier: Modifier = Modifier, ficheId: String) {
 fun ComportementListItem(entry: ComportementEntry, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border)) {
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = if (isSystemInDarkTheme()) PremiumPalette.PrimarySoft else PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft)
         }
     }
 }
@@ -1156,21 +1173,21 @@ fun DictionnaireScreen(modifier: Modifier = Modifier) {
             when {
                 selectedEntryState.value != null -> {
                     val entry = selectedEntryState.value!!
-                    PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton(strBtnRetourCategorie(), onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
-                    PremiumCard(centered = true) { EditorialKicker(tr("Rappel", "Reminder", "Zur Erinnerung", "Recuerda"), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimRappel(), textAlign = TextAlign.Center) }
+                    PremiumCard { AccentChip(entry.categorie.titre); Spacer(modifier = Modifier.height(14.dp)); Text(entry.titre, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = if (isSystemInDarkTheme()) PremiumPalette.PrimarySoft else PremiumPalette.Primary); Spacer(modifier = Modifier.height(12.dp)); Text(entry.contenu, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(modifier = Modifier.height(18.dp)); SecondaryPremiumButton(strBtnRetourCategorie(), onClick = { selectedEntryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) }) }
+                    EncartDoux { KickerDoux(tr("Rappel", "Reminder", "Zur Erinnerung", "Recuerda")); Spacer(modifier = Modifier.height(8.dp)); Text(strAlimRappel(), style = styleDoux().copy(fontSize = 16.sp, lineHeight = 23.sp), textAlign = TextAlign.Center, color = PremiumPalette.Primary) }
                 }
                 selectedCategoryState.value != null -> {
                     val categorie = selectedCategoryState.value!!
                     val items = entries.filter { it.categorie == categorie }
-                    PremiumCard(centered = true) { EditorialKicker(strAlimTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(categorie.titre, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center) }
+                    EncartMarron { KickerBeige(strAlimTitre()); Spacer(modifier = Modifier.height(10.dp)); Text(categorie.titre, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = Beige, textAlign = TextAlign.Center) }
                     items.forEach { entry -> DictionnaireListItem(entry = entry, onClick = { selectedEntryState.value = entry }) }
                     SecondaryPremiumButton(strBtnRetourRubriques(), onClick = { selectedCategoryState.value = null }, leading = { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null) })
                 }
                 else -> {
-                    PremiumCard(centered = true) { EditorialKicker(strAlimTitre(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimSousTitre(), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                    PremiumCard { EditorialKicker(strAlimARetenirKicker()); Spacer(modifier = Modifier.height(12.dp)); Bullet(strAlimRetenir1()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir2()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir3()) }
+                    EncartMarron { KickerBeige(strAlimTitre()); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimSousTitre(), style = styleDoux(), color = Beige, textAlign = TextAlign.Center) }
+                    PremiumCard { TitreEncart(strAlimARetenirKicker(), Icons.Rounded.Star); Spacer(modifier = Modifier.height(12.dp)); Bullet(strAlimRetenir1()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir2()); Spacer(modifier = Modifier.height(8.dp)); Bullet(strAlimRetenir3()) }
                     categories.forEach { categorie -> DictionnaireCategoryButton(categorie = categorie, onClick = { selectedCategoryState.value = categorie }) }
-                    PremiumCard(centered = true) { EditorialKicker(strAlimImportant(), centered = true); Spacer(modifier = Modifier.height(10.dp)); Text(strAlimDisclaimer(), textAlign = TextAlign.Center) }
+                    EncartDoux { KickerDoux(strAlimImportant()); Spacer(modifier = Modifier.height(8.dp)); Text(strAlimDisclaimer(), style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                 }
             }
         }
@@ -1182,7 +1199,7 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(26.dp), colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border)) {
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(categorie.titre, style = MaterialTheme.typography.titleLarge); Spacer(modifier = Modifier.height(6.dp))
+                Text(categorie.titre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = if (isSystemInDarkTheme()) PremiumPalette.PrimarySoft else PremiumPalette.Primary); Spacer(modifier = Modifier.height(6.dp))
                 Text(when (categorie) {
                     DictionnaireCategorie.DANGEREUX -> strAlimCatDangereuxDesc()
                     DictionnaireCategorie.AUTORISES -> strAlimCatAutorisesDesc()
@@ -1190,7 +1207,7 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
                     DictionnaireCategorie.DIGESTION -> strAlimCatDigestionDesc()
                 }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft)
         }
     }
 }
@@ -1199,8 +1216,8 @@ fun DictionnaireCategoryButton(categorie: DictionnaireCategorie, onClick: () -> 
 fun DictionnaireListItem(entry: DictionnaireEntry, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft), border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border)) {
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Column(modifier = Modifier.weight(1f)) { Text(entry.titre, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = if (isSystemInDarkTheme()) PremiumPalette.PrimarySoft else PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp)); Text(entry.resume, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            Spacer(modifier = Modifier.width(12.dp)); Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = PremiumPalette.PrimarySoft)
         }
     }
 }
