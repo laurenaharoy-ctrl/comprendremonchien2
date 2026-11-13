@@ -630,7 +630,7 @@ fun showConsultation(): Boolean = appLang() == AppLang.FR
 
 const val CGV_URL = "https://laurenaharoy-ctrl.github.io/comprendremonchien2/cgv.html"
 
-const val WEBSITE_URL = "https://comportementaliste91.fr"
+const val WEBSITE_URL = "https://www.laurenaharoy.com/fr/"
 
 const val TELEPHONE_NATIONAL = "06 20 65 78 88"
 
