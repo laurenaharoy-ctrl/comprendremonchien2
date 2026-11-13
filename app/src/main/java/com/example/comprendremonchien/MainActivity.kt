@@ -297,7 +297,7 @@ Enviado desde la aplicación ${strAppName()}
                     AppScreen.Resultat -> strScreenResultat()
                     AppScreen.Dictionnaire -> ""
                     is AppScreen.DictionnaireDetail -> ""
-                    AppScreen.Alimentation -> strScreenAlimentation()
+                    AppScreen.Alimentation -> ""
                     AppScreen.Feedback -> strScreenSignalement()
                     AppScreen.Historique -> strScreenHistorique()
                     is AppScreen.HistoriqueDetail -> strScreenDetailBilan()
