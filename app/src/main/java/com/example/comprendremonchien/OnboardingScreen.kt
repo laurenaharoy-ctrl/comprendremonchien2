@@ -69,6 +69,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.fillMaxHeight
 
 data class OnboardingSlide(
     val kicker: String,
@@ -155,112 +156,73 @@ fun OnboardingScreen(onTermine: () -> Unit) {
 
 @Composable
 fun OnboardingSlideContent(slide: OnboardingSlide) {
-    if (slide.illustrationType == IllustrationType.CHIEN_ASSIS) { SlideBienvenue(slide); return }
-    val hasFeatures = slide.features.isNotEmpty()
+    // Les 3 pages suivent exactement la même structure : titre, (accroche), illustration, texte, complément
+    val isDark = isSystemInDarkTheme()
+    val bienvenue = slide.illustrationType == IllustrationType.CHIEN_ASSIS
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (!hasFeatures) {
-            Text(slide.titre, style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center, lineHeight = 28.sp)
-            Spacer(modifier = Modifier.height(16.dp))
+        Text(if (bienvenue) slide.titre else slide.kicker, style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.ExtraBold, color = if (isDark) PremiumPalette.PrimarySoft else PremiumPalette.Primary,
+            textAlign = TextAlign.Center)
+        if (bienvenue) {
+            Spacer(modifier = Modifier.height(18.dp))
+            Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
+                style = styleDoux().copy(fontSize = 18.sp, lineHeight = 25.sp), color = if (isDark) Beige else PremiumPalette.Primary, textAlign = TextAlign.Center)
+            Spacer(modifier = Modifier.height(10.dp))
+        } else {
+            Spacer(modifier = Modifier.height(18.dp))
         }
 
-        val illustrationSize = if (hasFeatures) 130.dp else 200.dp
-        Box(
-            modifier = Modifier.size(illustrationSize).clip(CircleShape)
-                .background(Brush.radialGradient(listOf(PremiumPalette.PaperWarm, PremiumPalette.Paper))),
-            contentAlignment = Alignment.Center
-        ) {
-            when (slide.illustrationType) {
-                IllustrationType.CHIEN_ASSIS -> Image(
-                    painter = painterResource(id = R.drawable.logo_accueil),
-                    contentDescription = strContentDescLogo(),
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
-                    contentScale = ContentScale.Fit
-                )
-                IllustrationType.QUATRE_AXES -> QuatreAxesIllustration()
-                IllustrationType.BILAN_COMPLET -> BilanIllustration()
+        Box(modifier = Modifier.fillMaxWidth().height(150.dp), contentAlignment = Alignment.Center) {
+            if (bienvenue) {
+                Box(modifier = Modifier.matchParentSize().background(Brush.radialGradient(listOf(Color.White.copy(alpha = if (isDark) 0.06f else 0.6f), Color.Transparent))))
+                Image(painter = painterResource(id = R.drawable.logo_accueil_rogne), contentDescription = strContentDescLogo(),
+                    modifier = Modifier.fillMaxHeight(), contentScale = ContentScale.Fit)
+            } else {
+                Box(
+                    modifier = Modifier.size(150.dp).clip(CircleShape)
+                        .background(Brush.radialGradient(listOf(PremiumPalette.PaperWarm, PremiumPalette.Paper))),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (slide.illustrationType == IllustrationType.QUATRE_AXES) QuatreAxesIllustration() else BilanIllustration()
+                }
             }
         }
 
-        Spacer(modifier = Modifier.height(if (hasFeatures) 16.dp else 20.dp))
-
-        Text(slide.kicker.uppercase(), style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold, color = PremiumPalette.PrimarySoft,
-            letterSpacing = 2.sp, textAlign = TextAlign.Center)
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        if (hasFeatures && slide.titre.isNotBlank()) {
-            Text(slide.titre, style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center, lineHeight = 28.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
+        Spacer(modifier = Modifier.height(18.dp))
         Text(slide.description, style = styleDoux().copy(fontSize = 17.sp, lineHeight = 24.sp),
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center)
+            color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(16.dp))
 
-        if (hasFeatures) {
-            Spacer(modifier = Modifier.height(14.dp))
+        if (bienvenue) {
+            Text(tr("Créée par Lauréna Haroy, comportementaliste depuis 2007", "Created by Lauréna Haroy, animal behaviourist since 2007", "Entwickelt von Lauréna Haroy, Verhaltensberaterin für Tiere seit 2007", "Creada por Lauréna Haroy, especialista en comportamiento animal desde 2007"),
+                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+        } else {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 slide.features.forEach { (icon, label) ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp))
-                            .background(if (isSystemInDarkTheme()) Color(0xFF231B17) else PremiumPalette.PaperSoft)
-                            .border(1.dp, if (isSystemInDarkTheme()) Color(0xFF56433B) else PremiumPalette.Border, RoundedCornerShape(14.dp))
+                            .background(if (isDark) Color(0xFF231B17) else PremiumPalette.PaperSoft)
+                            .border(1.dp, if (isDark) Color(0xFF56433B) else PremiumPalette.Border, RoundedCornerShape(14.dp))
                             .padding(horizontal = 14.dp, vertical = 8.dp)
                     ) {
                         Box(
-                            modifier = Modifier.size(30.dp).clip(CircleShape)
-                                .background(PremiumPalette.Primary),
+                            modifier = Modifier.size(30.dp).clip(CircleShape).background(PremiumPalette.Primary),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(icon, contentDescription = null, tint = Beige,
-                                modifier = Modifier.size(16.dp))
+                            Icon(icon, contentDescription = null, tint = Beige, modifier = Modifier.size(16.dp))
                         }
-                        Text(label, style = MaterialTheme.typography.bodySmall,
+                        Text(label, style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun SlideBienvenue(slide: OnboardingSlide) {
-    val isDark = isSystemInDarkTheme()
-    Column(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 28.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(slide.titre, style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.ExtraBold, color = if (isDark) PremiumPalette.PrimarySoft else PremiumPalette.Primary,
-            textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(30.dp))
-        Text(tr("Mieux le comprendre pour mieux l'accompagner", "Understand them better to support them better", "Ihn besser verstehen, um ihn besser zu begleiten", "Comprenderlo mejor para acompañarlo mejor"),
-            style = styleDoux().copy(fontSize = 19.sp, lineHeight = 26.sp), color = if (isDark) Beige else PremiumPalette.Primary, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Box(modifier = Modifier.size(width = 320.dp, height = 240.dp).background(Brush.radialGradient(listOf(Color.White.copy(alpha = if (isDark) 0.06f else 0.6f), Color.Transparent))))
-            Image(painter = painterResource(id = R.drawable.logo_accueil_rogne), contentDescription = strContentDescLogo(),
-                modifier = Modifier.widthIn(max = 300.dp).fillMaxWidth(0.85f), contentScale = ContentScale.Fit)
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(slide.description, style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, lineHeight = 22.sp)
-        Spacer(modifier = Modifier.height(14.dp))
-        Text(tr("Créée par Lauréna Haroy, comportementaliste depuis 2007", "Created by Lauréna Haroy, animal behaviourist since 2007", "Entwickelt von Lauréna Haroy, Verhaltensberaterin für Tiere seit 2007", "Creada por Lauréna Haroy, especialista en comportamiento animal desde 2007"),
-            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
     }
 }
 
