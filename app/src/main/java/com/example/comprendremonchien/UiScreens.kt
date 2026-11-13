@@ -609,6 +609,9 @@ fun ResultatScreen(
 ) {
     val context = LocalContext.current
     val nom = nomChienAffiche(nomChien)
+    // Profil calme : scores bas et situation stable -> on évite les textes contradictoires ou superflus
+    val profilCalme = maxOf(analyse.peur, analyse.attachement, analyse.impulsivite, analyse.reactivite) <= 30 && analyse.niveauSituation == NiveauSituation.STABLE
+    val explicationGenerique = analyse.explicationPrincipale.startsWith(tr("Les éléments recueillis ne mettent pas", "The information collected does not", "Die gesammelten Angaben zeigen derzeit keine", "La información recopilada no muestra"))
     EditorialContainer(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.navigationBars).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 10.dp), maxWidth = 780) {
         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             // --- Toujours visible en haut
@@ -633,26 +636,41 @@ fun ResultatScreen(
                 SectionDeroulante(strResultatProfilRace()) { RaceCard(raceCategorie = analyse.raceCategorie, racePrecise = analyse.racePrecise, bare = true) }
             }
             SectionDeroulante(strResultatRessent(nom), ouvertParDefaut = true) {
-                Text(phraseHumaineCoherente(analyse, nom), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(14.dp))
-                Text(strResumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
-                Text(strIntentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
-                Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(phraseHumaineCoherente(analyse, nom), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+                if (!profilCalme) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(strResumeEmotionnel(analyse.problemePrincipal), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, color = PremiumPalette.Primary); Spacer(modifier = Modifier.height(8.dp))
+                    Text(strIntentionChien(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.height(6.dp))
+                    Text(strBesoinPrincipal(analyse.problemePrincipal), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
             SectionDeroulante(strResultatSePasse()) {
-                EditorialKicker(strResultatNiveauSituation(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(12.dp))
-                Text(analyse.messageSituation, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(8.dp))
-                Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Spacer(modifier = Modifier.height(22.dp))
-                EditorialKicker(strResultatInquieter(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.height(22.dp))
-                EditorialKicker(strResultatSePasse(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
-                if (analyse.originesPossibles.isNotBlank()) {
+                if (profilCalme) {
+                    // Situation stable : un seul texte, sans « Faut-il s'inquiéter ? » ni raison générique
+                    Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
+                    if (explicationGenerique) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(tr("$nom semble évoluer dans un équilibre global satisfaisant.", "$nom seems to be in a good overall balance.", "$nom scheint sich in einem insgesamt guten Gleichgewicht zu befinden.", "$nom parece encontrarse en un buen equilibrio general."), textAlign = TextAlign.Center)
+                    }
+                } else {
+                    EditorialKicker(strResultatNiveauSituation(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                    AccentChip(strNiveauSituation(analyse.niveauSituation)); Spacer(modifier = Modifier.height(12.dp))
+                    Text(analyse.messageSituation, textAlign = TextAlign.Center)
+                    if (analyse.niveauSituation != NiveauSituation.STABLE) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(analyse.raisonSituation, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                     Spacer(modifier = Modifier.height(22.dp))
-                    EditorialKicker(strResultatPourquoi(), centered = true); Spacer(modifier = Modifier.height(10.dp))
-                    Text(analyse.originesPossibles, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                    EditorialKicker(strResultatInquieter(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                    Text(strTexteVigilance(analyse.vigilance, nomChien), textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.height(22.dp))
+                    EditorialKicker(strResultatSePasse(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                    Text(analyse.explicationPrincipale, textAlign = TextAlign.Center)
+                    if (analyse.originesPossibles.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(22.dp))
+                        EditorialKicker(strResultatPourquoi(), centered = true); Spacer(modifier = Modifier.height(10.dp))
+                        Text(analyse.originesPossibles, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
+                    }
                 }
             }
             SectionDeroulante(strResultat3Jours()) {
@@ -736,7 +754,7 @@ fun ConsultationCard(lieuResidence: Int? = null) {
             Text("Une heure ensemble, $lieu, pour comprendre votre chien et construire un plan adapté.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(14.dp))
             Text(
-                if (lieuResidence == 0) "Visio : 50 €  •  À domicile : 70 €" else "Visio : 50 € / 1 h",
+                if (lieuResidence == 0) "Visio\u00A0: 50\u00A0€  •  À\u00A0domicile\u00A0: 70\u00A0€" else "Visio\u00A0: 50\u00A0€ / 1\u00A0h",
                 style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(12.dp))
