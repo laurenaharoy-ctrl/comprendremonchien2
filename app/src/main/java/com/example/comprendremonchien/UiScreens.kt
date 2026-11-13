@@ -111,7 +111,7 @@ import androidx.compose.ui.text.style.TextDecoration
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFF8E4A2D), onPrimary = Color.White,
-    background = Color(0xFFF4EFE8), surface = Color(0xFFF8F4EE),
+    background = Color(0xFFEEDFD5), surface = Color(0xFFFCF9F6),
     onSurface = Color(0xFF33231D), onBackground = Color(0xFF33231D),
     surfaceVariant = Color(0xFFF0E5DC), onSurfaceVariant = Color(0xFF75584C),
     outline = Color(0xFFE0D2C6), secondary = Color(0xFFB86A4A),
@@ -132,7 +132,7 @@ object PremiumPalette {
     val PrimarySoft = Color(0xFFB86A4A)
     val Accent = Color(0xFFD9A58F)
     val Paper = Color(0xFFF4EFE8)
-    val PaperSoft = Color(0xFFF8F4EE)
+    val PaperSoft = Color(0xFFFCF9F6)
     val PaperWarm = Color(0xFFF1E7DE)
     val Ink = Color(0xFF33231D)
     val InkSoft = Color(0xFF75584C)
@@ -355,7 +355,7 @@ fun AppBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.(
     val brush = if (isSystemInDarkTheme())
         Brush.verticalGradient(listOf(Color(0xFF241B17), Color(0xFF1D1613), Color(0xFF171210)))
     else
-        Brush.verticalGradient(listOf(Color(0xFFF8F4EE), Color(0xFFF4EFE8), Color(0xFFF1E7DE)))
+        Brush.verticalGradient(listOf(Color(0xFFEEDFD5), Color(0xFFEAD9CD), Color(0xFFE6D3C6)))
     Box(modifier = modifier.fillMaxSize().background(brush)) {
         Box(modifier = Modifier.fillMaxSize().graphicsLayer(alpha = 0.08f).background(Brush.radialGradient(colors = listOf(Color.White, Color.Transparent))))
         content()
@@ -572,7 +572,7 @@ fun QuestionnaireScreen(
 fun ChoiceRow(text: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth().selectable(selected = selected, onClick = onClick, role = Role.RadioButton)
-            .background(if (selected) PremiumPalette.Accent.copy(alpha = 0.20f) else if (isSystemInDarkTheme()) Color(0xFF231B17) else Color(0xFFF8F4EE), RoundedCornerShape(20.dp))
+            .background(if (selected) PremiumPalette.Accent.copy(alpha = 0.20f) else if (isSystemInDarkTheme()) Color(0xFF231B17) else Color(0xFFFCF9F6), RoundedCornerShape(20.dp))
             .border(1.dp, if (selected) PremiumPalette.Primary else MaterialTheme.colorScheme.outline, RoundedCornerShape(20.dp))
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
