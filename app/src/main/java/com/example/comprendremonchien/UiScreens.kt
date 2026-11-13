@@ -680,17 +680,31 @@ fun ResultatScreen(
                 }
             }
             SectionDeroulante(strResultat3Jours()) {
-                AccentChip(strResultatPointAppui()); Spacer(modifier = Modifier.height(12.dp))
-                Text(strResultatLevierPrincipal(), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
-                Text(analyse.conseilPrincipal, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
-                Text(strResultatChangement(), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Spacer(modifier = Modifier.height(22.dp))
-                SubsectionTitle(strResultatAFaire()); Spacer(modifier = Modifier.height(8.dp))
-                analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAEviter()); Spacer(modifier = Modifier.height(8.dp))
-                analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
-                Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAObserver()); Spacer(modifier = Modifier.height(8.dp))
-                analyse.planAction.aObserver.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                if (profilCalme) {
+                    Text(tr("Rien de particulier ne ressort de ce bilan : il n'y a pas de travail spécifique à mettre en place.", "Nothing in particular stands out in this assessment: there is no specific work to put in place.", "In dieser Einschätzung fällt nichts Besonderes auf: Es ist keine gezielte Arbeit nötig.", "Nada en particular destaca en esta evaluación: no hay ningún trabajo específico que poner en marcha."), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(tr("Continuez simplement à prendre soin de son quotidien :", "Simply keep taking care of everyday life:", "Achten Sie einfach weiterhin auf einen guten Alltag:", "Simplemente sigue cuidando su día a día:"), textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    listOf(
+                        tr("Garder des repères stables : horaires, sorties, temps de repos.", "Keep a stable routine: regular times, walks, rest.", "Feste Gewohnheiten beibehalten: Zeiten, Spaziergänge, Ruhephasen.", "Mantener rutinas estables: horarios, paseos, tiempos de descanso."),
+                        tr("Lui offrir chaque jour des activités adaptées : promenades variées, flair, jeux.", "Offer suitable activities every day: varied walks, sniffing, games.", "Ihm täglich passende Beschäftigung bieten: abwechslungsreiche Spaziergänge, Schnüffeln, Spiele.", "Ofrecerle cada día actividades adaptadas: paseos variados, olfato, juegos."),
+                        tr("Préserver des moments de calme et de complicité.", "Protect moments of calm and closeness.", "Momente der Ruhe und Verbundenheit pflegen.", "Preservar momentos de calma y complicidad.")
+                    ).forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    SubsectionTitle(strResultatAObserver()); Spacer(modifier = Modifier.height(8.dp))
+                    Text(tr("Tout changement inhabituel de comportement, d'appétit ou de sommeil. Dans ce cas, n'hésitez pas à refaire le bilan.", "Any unusual change in behavior, appetite or sleep. If that happens, feel free to take the assessment again.", "Jede ungewöhnliche Veränderung im Verhalten, beim Appetit oder beim Schlaf. In diesem Fall die Einschätzung gern erneut durchführen.", "Cualquier cambio inusual de comportamiento, apetito o sueño. En ese caso, no dudes en repetir la evaluación."), textAlign = TextAlign.Center)
+                } else {
+                    AccentChip(strResultatPointAppui()); Spacer(modifier = Modifier.height(12.dp))
+                    Text(analyse.conseilPrincipal, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center); Spacer(modifier = Modifier.height(10.dp))
+                    Text(strResultatChangement(), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.height(22.dp))
+                    SubsectionTitle(strResultatAFaire()); Spacer(modifier = Modifier.height(8.dp))
+                    analyse.planAction.aFaire.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                    Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAEviter()); Spacer(modifier = Modifier.height(8.dp))
+                    analyse.planAction.aEviter.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                    Spacer(modifier = Modifier.height(8.dp)); SubsectionTitle(strResultatAObserver()); Spacer(modifier = Modifier.height(8.dp))
+                    analyse.planAction.aObserver.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) }
+                }
             }
             if (analyse.conseilsPratiques.isNotEmpty()) {
                 SectionDeroulante(strResultatConseilsComplementaires()) { analyse.conseilsPratiques.forEach { Bullet(it, centered = true); Spacer(modifier = Modifier.height(8.dp)) } }
