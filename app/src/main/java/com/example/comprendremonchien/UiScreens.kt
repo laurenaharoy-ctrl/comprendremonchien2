@@ -945,7 +945,7 @@ fun ConsultationCard(lieuResidence: Int? = null) {
             Text("Une heure ensemble, $lieu, pour comprendre votre chien et construire un plan adapté.", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(14.dp))
             Text(
-                if (lieuResidence == 0) "Visio\u00A0: 50\u00A0€  •  À\u00A0domicile\u00A0: 70\u00A0€" else "Visio\u00A0: 50\u00A0€ / 1\u00A0h",
+                if (lieuResidence == 0) "Visio\u00A0: 50\u00A0€\nÀ\u00A0domicile\u00A0: 70\u00A0€" else "Visio\u00A0: 50\u00A0€ / 1\u00A0h",
                 style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(12.dp))
