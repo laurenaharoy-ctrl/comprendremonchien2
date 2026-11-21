@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.content.FileProvider
+import java.util.Locale
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -56,7 +57,9 @@ sealed interface AppScreen {
     data object Alimentation : AppScreen
     data object Feedback : AppScreen
     data object Historique : AppScreen
+    data class HistoriqueAnimal(val cle: String) : AppScreen
     data class HistoriqueDetail(val bilanId: String) : AppScreen
+    data class Comparaison(val idAvant: String, val idApres: String) : AppScreen
     data object Parametres : AppScreen
 }
 
@@ -71,7 +74,9 @@ fun AppScreen.toStorageValue(): String = when (this) {
     AppScreen.Alimentation -> "alimentation"
     AppScreen.Feedback -> "accueil"
     AppScreen.Historique -> "historique"
+    is AppScreen.HistoriqueAnimal -> "historique"
     is AppScreen.HistoriqueDetail -> "historique"
+    is AppScreen.Comparaison -> "historique"
     AppScreen.Parametres -> "accueil"
 }
 
@@ -124,6 +129,13 @@ fun ComprendreMonChienApp() {
     val reponsesChoix = remember { mutableStateMapOf<String, Int>() }
 
     val bilans by HistoriqueManager.getBilans(context).collectAsState(initial = emptyList())
+
+    // Historique classé par animal : s'il y a plusieurs animaux, on passe par la liste des animaux
+    val nbAnimaux = bilans.map { it.cleAnimal() }.distinct().size
+    fun ecranHistoriquePour(cle: String?): AppScreen =
+        if (cle != null && nbAnimaux > 1) AppScreen.HistoriqueAnimal(cle) else AppScreen.Historique
+    fun retourDepuisBilan(bilanId: String): AppScreen =
+        ecranHistoriquePour(bilans.firstOrNull { it.id == bilanId }?.cleAnimal())
 
     fun saveState() {
         scope.launch {
@@ -279,7 +291,9 @@ Enviado desde la aplicación ${strAppName()}
             AppScreen.Alimentation -> { screen = AppScreen.Accueil; saveState() }
             AppScreen.Feedback -> { screen = screenAvantFeedback }
             AppScreen.Historique -> { screen = AppScreen.Accueil; saveState() }
-            is AppScreen.HistoriqueDetail -> { screen = AppScreen.Historique }
+            is AppScreen.HistoriqueAnimal -> { screen = AppScreen.Historique }
+            is AppScreen.HistoriqueDetail -> { screen = retourDepuisBilan((screen as AppScreen.HistoriqueDetail).bilanId) }
+            is AppScreen.Comparaison -> { screen = retourDepuisBilan((screen as AppScreen.Comparaison).idApres) }
             AppScreen.Parametres -> { screen = AppScreen.Accueil }
             AppScreen.Accueil, AppScreen.Onboarding -> Unit
         }
@@ -300,7 +314,9 @@ Enviado desde la aplicación ${strAppName()}
                     AppScreen.Alimentation -> ""
                     AppScreen.Feedback -> strScreenSignalement()
                     AppScreen.Historique -> strScreenHistorique()
+                    is AppScreen.HistoriqueAnimal -> strScreenHistorique()
                     is AppScreen.HistoriqueDetail -> strScreenDetailBilan()
+                    is AppScreen.Comparaison -> tr("Comparaison", "Comparison", "Vergleich", "Comparación")
                     AppScreen.Parametres -> ""
                 }
 
@@ -319,7 +335,9 @@ Enviado desde la aplicación ${strAppName()}
                             AppScreen.Alimentation -> { screen = AppScreen.Accueil; saveState() }
                             AppScreen.Feedback -> screen = screenAvantFeedback
                             AppScreen.Historique -> { screen = AppScreen.Accueil; saveState() }
-                            is AppScreen.HistoriqueDetail -> screen = AppScreen.Historique
+                            is AppScreen.HistoriqueAnimal -> screen = AppScreen.Historique
+                            is AppScreen.HistoriqueDetail -> screen = retourDepuisBilan((screen as AppScreen.HistoriqueDetail).bilanId)
+                            is AppScreen.Comparaison -> screen = retourDepuisBilan((screen as AppScreen.Comparaison).idApres)
                             AppScreen.Parametres -> screen = AppScreen.Accueil
                             else -> Unit
                         }
@@ -457,7 +475,15 @@ Enviado desde la aplicación ${strAppName()}
                 AppScreen.Chargement -> {
                     ChargementAnalyseScreen(
                         modifier = Modifier.padding(padding),
-                        onTermine = { screen = AppScreen.Resultat; saveState() }
+                        onTermine = {
+                            // Le bilan est sauvegardé une seule fois, à la fin du questionnaire
+                            // (et non à chaque affichage de l'écran de résultat, ce qui créait des doublons)
+                            val analyseFinale = QuestionnaireEngine.calculerResultat(questions, reponsesTexte, reponsesChoix)
+                            val nomFinal = reponsesTexte["nom_chien"].orEmpty()
+                            scope.launch { HistoriqueManager.sauvegarderBilan(context, nomFinal, analyseFinale) }
+                            screen = AppScreen.Resultat
+                            saveState()
+                        }
                     )
                 }
 
@@ -465,14 +491,6 @@ Enviado desde la aplicación ${strAppName()}
                     val analyse = QuestionnaireEngine.calculerResultat(
                         questions, reponsesTexte, reponsesChoix
                     )
-
-                    LaunchedEffect(Unit) {
-                        HistoriqueManager.sauvegarderBilan(
-                            context,
-                            reponsesTexte["nom_chien"].orEmpty(),
-                            analyse
-                        )
-                    }
 
                     val textePartage = construireTextePartageBilan(
                         reponsesTexte["nom_chien"].orEmpty(), analyse
@@ -523,6 +541,11 @@ Enviado desde la aplicación ${strAppName()}
                         onOpenAlimentation = {
                             screen = AppScreen.Alimentation
                             saveState()
+                        },
+                        onOpenHistorique = {
+                            // Ouvre directement les bilans du chien qui vient d'être évalué
+                            screen = ecranHistoriquePour(nomChienAffiche(reponsesTexte["nom_chien"].orEmpty()).trim().lowercase(Locale.ROOT))
+                            saveState()
                         }
                     )
                 }
@@ -561,17 +584,91 @@ Enviado desde la aplicación ${strAppName()}
                 }
 
                 AppScreen.Historique -> {
-                    HistoriqueScreen(
-                        modifier = Modifier.padding(padding),
-                        bilans = bilans,
-                        onOuvrirBilan = { bilanId -> screen = AppScreen.HistoriqueDetail(bilanId) },
-                        onSupprimerBilan = { bilanId ->
-                            scope.launch { HistoriqueManager.supprimerBilan(context, bilanId) }
-                        },
-                        onSupprimerTout = {
-                            scope.launch { HistoriqueManager.supprimerTout(context) }
-                        }
-                    )
+                    if (nbAnimaux > 1) {
+                        AnimauxHistoriqueScreen(
+                            modifier = Modifier.padding(padding),
+                            bilans = bilans,
+                            onOuvrirAnimal = { cle -> screen = AppScreen.HistoriqueAnimal(cle) },
+                            onSupprimerTout = {
+                                scope.launch { HistoriqueManager.supprimerTout(context) }
+                            }
+                        )
+                    } else {
+                        // Un seul animal : on affiche directement ses bilans
+                        HistoriqueComparableScreen(
+                            modifier = Modifier.padding(padding),
+                            bilans = bilans,
+                            nomAnimal = bilans.firstOrNull()?.nomChien,
+                            onOuvrirBilan = { bilanId -> screen = AppScreen.HistoriqueDetail(bilanId) },
+                            onSupprimerBilan = { bilanId ->
+                                scope.launch { HistoriqueManager.supprimerBilan(context, bilanId) }
+                            },
+                            onSupprimerTout = {
+                                scope.launch { HistoriqueManager.supprimerTout(context) }
+                            },
+                            onBasculerReference = { bilanId ->
+                                scope.launch { HistoriqueManager.definirReference(context, bilanId) }
+                            },
+                            onComparer = { idAvant, idApres ->
+                                screen = AppScreen.Comparaison(idAvant, idApres)
+                            }
+                        )
+                    }
+                }
+
+                is AppScreen.HistoriqueAnimal -> {
+                    val cle = (screen as AppScreen.HistoriqueAnimal).cle
+                    val bilansAnimal = bilans.filter { it.cleAnimal() == cle }
+                    if (bilansAnimal.isEmpty()) {
+                        LaunchedEffect(cle) { screen = AppScreen.Historique }
+                    } else {
+                        HistoriqueComparableScreen(
+                            modifier = Modifier.padding(padding),
+                            bilans = bilansAnimal,
+                            nomAnimal = bilansAnimal.first().nomChien,
+                            onOuvrirBilan = { bilanId -> screen = AppScreen.HistoriqueDetail(bilanId) },
+                            onSupprimerBilan = { bilanId ->
+                                scope.launch { HistoriqueManager.supprimerBilan(context, bilanId) }
+                            },
+                            onSupprimerTout = {
+                                scope.launch {
+                                    HistoriqueManager.supprimerBilansAnimal(context, cle)
+                                    screen = AppScreen.Historique
+                                }
+                            },
+                            onBasculerReference = { bilanId ->
+                                scope.launch { HistoriqueManager.definirReference(context, bilanId) }
+                            },
+                            onComparer = { idAvant, idApres ->
+                                screen = AppScreen.Comparaison(idAvant, idApres)
+                            }
+                        )
+                    }
+                }
+
+                is AppScreen.Comparaison -> {
+                    val comparaison = screen as AppScreen.Comparaison
+                    val avant = bilans.firstOrNull { it.id == comparaison.idAvant }
+                    val apres = bilans.firstOrNull { it.id == comparaison.idApres }
+                    if (avant != null && apres != null) {
+                        ComparaisonBilansScreen(
+                            modifier = Modifier.padding(padding),
+                            avant = avant,
+                            apres = apres,
+                            onPartagerPdf = {
+                                val file = ComparaisonPdfExporter.exporterComparaisonPdf(context, avant, apres)
+                                val uri = FileProvider.getUriForFile(
+                                    context, "${context.packageName}.fileprovider", file
+                                )
+                                val intent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "application/pdf"
+                                    putExtra(Intent.EXTRA_STREAM, uri)
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                }
+                                context.startActivity(Intent.createChooser(intent, tr("Partager le PDF", "Share PDF", "PDF teilen", "Compartir el PDF")))
+                            }
+                        )
+                    }
                 }
 
                 is AppScreen.HistoriqueDetail -> {
@@ -582,9 +679,10 @@ Enviado desde la aplicación ${strAppName()}
                             modifier = Modifier.padding(padding),
                             bilan = bilan,
                             onSupprimer = {
+                                val retour = retourDepuisBilan(bilanId)
                                 scope.launch {
                                     HistoriqueManager.supprimerBilan(context, bilanId)
-                                    screen = AppScreen.Historique
+                                    screen = retour
                                 }
                             }
                         )

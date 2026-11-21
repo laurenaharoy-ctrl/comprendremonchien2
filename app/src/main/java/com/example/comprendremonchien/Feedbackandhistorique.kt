@@ -606,7 +606,7 @@ fun QuatreAxesMini(peur: Int, attachement: Int, impulsivite: Int, reactivite: In
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         axes.forEach { (label, score) ->
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(96.dp))
+                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, softWrap = false, modifier = Modifier.width(112.dp))
                 Box(modifier = Modifier.weight(1f).height(5.dp).clip(RoundedCornerShape(999.dp)).background(if (isSystemInDarkTheme()) Color(0xFF342923) else Color(0xFFE9DED5))) {
                     Box(modifier = Modifier.fillMaxWidth((score / 100f).coerceIn(0f, 1f)).height(5.dp).clip(RoundedCornerShape(999.dp)).background(PremiumPalette.PrimarySoft))
                 }

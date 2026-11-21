@@ -33,8 +33,25 @@ data class BilanSauvegarde(
     val reactivite: Int,
     val hypothesePrincipale: String,
     val conseilPrincipal: String,
-    val aDejaMordu: Boolean
+    val aDejaMordu: Boolean,
+    // Bilan marqué comme « Bilan de référence » (un seul par animal) — absent des anciens bilans : false par défaut
+    val estReference: Boolean = false
 )
+
+/** Clé qui permet de regrouper les bilans d'un même animal (insensible aux majuscules et aux espaces). */
+fun BilanSauvegarde.cleAnimal(): String = nomChien.trim().lowercase(Locale.ROOT)
+
+/**
+ * Chaque animal a toujours un bilan de référence : celui choisi par l'utilisateur,
+ * sinon automatiquement son bilan le plus ancien.
+ */
+fun List<BilanSauvegarde>.avecReferenceParDefaut(): List<BilanSauvegarde> {
+    val idsReferenceAuto = groupBy { it.cleAnimal() }.values
+        .filter { groupe -> groupe.none { it.estReference } }
+        .mapNotNull { groupe -> groupe.minByOrNull { it.dateTimestamp }?.id }
+        .toSet()
+    return map { if (it.id in idsReferenceAuto) it.copy(estReference = true) else it }
+}
 
 object HistoriqueManager {
 
@@ -60,8 +77,11 @@ object HistoriqueManager {
 
         context.historiqueDataStore.edit { prefs ->
             val existingJson = prefs[HISTORIQUE_KEY] ?: "[]"
-            val array = JSONArray(existingJson)
-            array.put(0, bilanToJson(bilan))
+            val anciens = JSONArray(existingJson)
+            // Le nouveau bilan est ajouté en tête, les anciens sont conservés à la suite
+            // (JSONArray.put(0, …) remplaçait le premier bilan au lieu d'en ajouter un)
+            val array = JSONArray().put(bilanToJson(bilan))
+            for (i in 0 until anciens.length()) array.put(anciens.getJSONObject(i))
             prefs[HISTORIQUE_KEY] = array.toString()
         }
     }
@@ -69,7 +89,39 @@ object HistoriqueManager {
     fun getBilans(context: Context): Flow<List<BilanSauvegarde>> {
         return context.historiqueDataStore.data.map { prefs ->
             val json = prefs[HISTORIQUE_KEY] ?: "[]"
-            parseBilans(json)
+            parseBilans(json).avecReferenceParDefaut()
+        }
+    }
+
+    /**
+     * Fait d'un bilan le « Bilan de référence » de son animal.
+     * Un seul bilan de référence par animal : les autres bilans du même animal perdent la marque.
+     */
+    suspend fun definirReference(context: Context, id: String) {
+        context.historiqueDataStore.edit { prefs ->
+            val bilans = parseBilans(prefs[HISTORIQUE_KEY] ?: "[]")
+            val cible = bilans.firstOrNull { it.id == id } ?: return@edit
+            val cle = cible.cleAnimal()
+            val miseAJour = bilans.map { bilan ->
+                when {
+                    bilan.id == id -> bilan.copy(estReference = true)
+                    bilan.cleAnimal() == cle -> bilan.copy(estReference = false)
+                    else -> bilan
+                }
+            }
+            val array = JSONArray()
+            miseAJour.forEach { array.put(bilanToJson(it)) }
+            prefs[HISTORIQUE_KEY] = array.toString()
+        }
+    }
+
+    /** Supprime tous les bilans d'un même animal (clé = nom normalisé, voir cleAnimal). */
+    suspend fun supprimerBilansAnimal(context: Context, cle: String) {
+        context.historiqueDataStore.edit { prefs ->
+            val restants = parseBilans(prefs[HISTORIQUE_KEY] ?: "[]").filter { it.cleAnimal() != cle }
+            val array = JSONArray()
+            restants.forEach { array.put(bilanToJson(it)) }
+            prefs[HISTORIQUE_KEY] = array.toString()
         }
     }
 
@@ -106,6 +158,7 @@ object HistoriqueManager {
             put("hypothesePrincipale", bilan.hypothesePrincipale)
             put("conseilPrincipal", bilan.conseilPrincipal)
             put("aDejaMordu", bilan.aDejaMordu)
+            put("estReference", bilan.estReference)
         }
     }
 
@@ -128,7 +181,8 @@ object HistoriqueManager {
                     reactivite = obj.getInt("reactivite"),
                     hypothesePrincipale = obj.getString("hypothesePrincipale"),
                     conseilPrincipal = obj.getString("conseilPrincipal"),
-                    aDejaMordu = obj.getBoolean("aDejaMordu")
+                    aDejaMordu = obj.getBoolean("aDejaMordu"),
+                    estReference = obj.optBoolean("estReference", false)
                 )
             }
         } catch (e: Exception) { emptyList() }

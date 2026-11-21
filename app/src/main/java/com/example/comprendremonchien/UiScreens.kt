@@ -59,6 +59,7 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.MenuBook
 import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Pets
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Star
@@ -764,7 +765,8 @@ fun SectionDeroulante(titre: String, ouvertParDefaut: Boolean = false, content: 
 fun ResultatScreen(
     modifier: Modifier = Modifier, nomChien: String, analyse: ResultatAnalyse,
     onShare: () -> Unit, onCopy: () -> Unit, onExportPdf: () -> Unit,
-    onRecommencer: () -> Unit, onOpenFiche: (String) -> Unit = {}, onOpenAlimentation: () -> Unit = {}
+    onRecommencer: () -> Unit, onOpenFiche: (String) -> Unit = {}, onOpenAlimentation: () -> Unit = {},
+    onOpenHistorique: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val nom = nomChienAffiche(nomChien)
@@ -914,6 +916,11 @@ fun ResultatScreen(
                 Icon(Icons.Rounded.Refresh, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(strBtnRecommencer(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            TextButton(onClick = onOpenHistorique, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.Rounded.History, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(tr("Historique des bilans", "Assessment history", "Verlauf der Einschätzungen", "Historial de evaluaciones"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
