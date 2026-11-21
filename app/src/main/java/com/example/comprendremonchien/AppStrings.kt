@@ -381,7 +381,7 @@ fun strTitreSection(questionId: String) = when (questionId) {
         tr("Attachement et séparation", "Attachment and separation", "Bindung und Trennung", "Apego y separación")
     "regulation_excitation", "vole_objets", "poursuite_mouvement" ->
         tr("Excitation et impulsivité", "Excitement and impulsivity", "Erregung und Impulsivität", "Excitación e impulsividad")
-    "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "cible_agression", "defense_ressources" ->
+    "reaction_inconnus", "reaction_chiens", "a_deja_mordu", "derniere_morsure", "frequence_morsure", "cible_agression", "defense_ressources" ->
         tr("Réactivité", "Reactivity", "Reaktivität", "Reactividad")
     "a_un_probleme", "lieu_residence" -> tr("Pour aller plus loin", "Going further", "Weiterführendes", "Para ir más lejos")
     else -> tr("Contexte actuel", "Current context", "Aktuelle Situation", "Contexto actual")

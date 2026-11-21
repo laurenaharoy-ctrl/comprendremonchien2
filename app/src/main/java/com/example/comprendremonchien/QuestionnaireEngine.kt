@@ -18,6 +18,20 @@ fun estFemelleEntiere(reponsesChoix: Map<String, Int>): Boolean =
 
 object QuestionnaireEngine {
 
+    // ── Morsure : on tient compte de l'ancienneté et de la fréquence ──
+    // derniere_morsure : 0 = moins de 6 mois, 1 = 6 mois à 2 ans, 2 = plus de 2 ans
+    // frequence_morsure : 0 = une seule fois (contexte particulier), 1 = quelques fois, 2 = régulièrement
+    /** Une seule morsure, il y a plus de 2 ans : elle ne fait plus monter la priorité. */
+    fun morsureAncienneIsolee(r: Map<String, Int>): Boolean =
+        r["a_deja_mordu"] == 1 && r["derniere_morsure"] == 2 && r["frequence_morsure"] == 0
+    /** Morsure qui compte encore dans l'analyse (toutes sauf l'ancienne et isolée). */
+    fun morsurePesante(r: Map<String, Int>): Boolean = r["a_deja_mordu"] == 1 && !morsureAncienneIsolee(r)
+    /** Une seule morsure, il y a 6 mois à 2 ans : priorité élevée plutôt qu'urgente. */
+    fun morsureIntermediaire(r: Map<String, Int>): Boolean =
+        r["a_deja_mordu"] == 1 && r["derniere_morsure"] == 1 && r["frequence_morsure"] == 0
+    /** Morsure récente (moins de 6 mois) ou répétée — ou ancienneté non renseignée. */
+    fun morsureForte(r: Map<String, Int>): Boolean = morsurePesante(r) && !morsureIntermediaire(r)
+
     fun convertirChoixEnPoints(question: QuestionChoix, indexChoisi: Int): Int {
         val scoreBase = question.scoreParOption?.getOrNull(indexChoisi) ?: when (indexChoisi) {
             0 -> 0; 1 -> 1; 2 -> 2; 3 -> 3; else -> 0
@@ -160,7 +174,10 @@ object QuestionnaireEngine {
     fun calculerNiveauVigilance(questions: List<Question>, reponsesChoix: Map<String, Int>,
                                 peur: Int, attachement: Int, impulsivite: Int, reactivite: Int, contexte: ContexteAnalyse): NiveauVigilance {
         val questionsChoix = questions.filterIsInstance<QuestionChoix>()
-        val critiqueDetecte = questionsChoix.any { q -> q.signalCritique && (reponsesChoix[q.id] ?: 0) > 0 }
+        val critiqueDetecte = questionsChoix.any { q ->
+            q.signalCritique && (reponsesChoix[q.id] ?: 0) > 0 &&
+                !(q.id == "a_deja_mordu" && morsureAncienneIsolee(reponsesChoix))
+        }
         val nbAlertes = questionsChoix.count { q -> q.signalAlerte && (reponsesChoix[q.id] ?: 0) >= 2 }
         val scoreMax = maxOf(peur, attachement, impulsivite, reactivite)
         return when {
@@ -182,7 +199,8 @@ object QuestionnaireEngine {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
         return when {
             contexte.physique >= 4 -> NiveauSituation.SENSIBLE
-            reponsesChoix["a_deja_mordu"] == 1 -> NiveauSituation.SENSIBLE
+            morsureForte(reponsesChoix) -> NiveauSituation.SENSIBLE
+            morsureIntermediaire(reponsesChoix) -> NiveauSituation.A_TRAVAILLER
             reponsesChoix["evolution_probleme"] == 2 && (reponsesChoix["intensite_probleme"] == 3 || reponsesChoix["duree_probleme"] == 0) -> NiveauSituation.SENSIBLE
             contexte.scoreContexte >= 10 -> NiveauSituation.SENSIBLE
             maxAxe >= 75 && contexte.scoreContexte >= 6 -> NiveauSituation.SENSIBLE
@@ -341,8 +359,9 @@ object QuestionnaireEngine {
     fun genererMessageAide(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, niveauSituation: NiveauSituation, nomChien: String): String? {
         val nom = nomChienAffiche(nomChien)
         return when {
-            reponsesChoix["a_deja_mordu"] == 1 && reponsesChoix["cible_agression"] == 1 -> tr("Une morsure envers un autre animal a été signalée. Cela évoque souvent un manque de sociabilisation ou une cohabitation à reprendre autrement — un comportementaliste canin peut vous aider à reconstruire une présentation plus progressive et sécurisée entre les animaux.", "A bite toward another animal has been reported. This often points to a lack of socialization or to a living arrangement between the animals that needs a fresh start — a dog behavior consultant can help you rebuild a safer, more gradual introduction between them.", "Es wurde ein Biss gegenüber einem anderen Tier gemeldet. Das deutet oft auf mangelnde Sozialisierung oder ein Zusammenleben hin, das neu aufgebaut werden sollte – eine Fachperson für Hundeverhalten kann Ihnen helfen, eine schrittweisere und sicherere Zusammenführung der Tiere zu gestalten.", "Se ha señalado una mordedura a otro animal. A menudo esto indica una falta de socialización o una convivencia que hay que replantear: un especialista en comportamiento canino puede ayudarte a reconstruir una presentación más progresiva y segura entre los animales.")
-            reponsesChoix["a_deja_mordu"] == 1 -> tr("Le fait qu'il y ait déjà eu morsure envers une personne justifie de ne pas rester seul avec cette situation. Un accompagnement professionnel individualisé est recommandé pour $nom.", "The fact that there has already been a bite toward a person means this situation should not be handled alone. Individual professional support is recommended for $nom.", "Da es bereits einen Biss gegenüber einem Menschen gab, sollten Sie mit dieser Situation nicht allein bleiben. Eine individuelle professionelle Begleitung wird für $nom empfohlen.", "El hecho de que ya haya habido una mordedura a una persona justifica no afrontar esta situación en solitario. Se recomienda un acompañamiento profesional individualizado para $nom.")
+            morsurePesante(reponsesChoix) && reponsesChoix["cible_agression"] == 1 -> tr("Une morsure envers un autre animal a été signalée. Cela évoque souvent un manque de sociabilisation ou une cohabitation à reprendre autrement — un comportementaliste canin peut vous aider à reconstruire une présentation plus progressive et sécurisée entre les animaux.", "A bite toward another animal has been reported. This often points to a lack of socialization or to a living arrangement between the animals that needs a fresh start — a dog behavior consultant can help you rebuild a safer, more gradual introduction between them.", "Es wurde ein Biss gegenüber einem anderen Tier gemeldet. Das deutet oft auf mangelnde Sozialisierung oder ein Zusammenleben hin, das neu aufgebaut werden sollte – eine Fachperson für Hundeverhalten kann Ihnen helfen, eine schrittweisere und sicherere Zusammenführung der Tiere zu gestalten.", "Se ha señalado una mordedura a otro animal. A menudo esto indica una falta de socialización o una convivencia que hay que replantear: un especialista en comportamiento canino puede ayudarte a reconstruir una presentación más progresiva y segura entre los animales.")
+            morsurePesante(reponsesChoix) -> tr("Le fait qu'il y ait déjà eu morsure envers une personne justifie de ne pas rester seul avec cette situation. Un accompagnement professionnel individualisé est recommandé pour $nom.", "The fact that there has already been a bite toward a person means this situation should not be handled alone. Individual professional support is recommended for $nom.", "Da es bereits einen Biss gegenüber einem Menschen gab, sollten Sie mit dieser Situation nicht allein bleiben. Eine individuelle professionelle Begleitung wird für $nom empfohlen.", "El hecho de que ya haya habido una mordedura a una persona justifica no afrontar esta situación en solitario. Se recomienda un acompañamiento profesional individualizado para $nom.")
+            morsureAncienneIsolee(reponsesChoix) -> tr("Une morsure ancienne et isolée a été signalée : restez simplement attentif aux situations qui l'avaient provoquée.", "An old, isolated bite has been reported: simply stay attentive to the situations that triggered it.", "Ein alter, einmaliger Biss wurde gemeldet: Achten Sie einfach auf die Situationen, die ihn ausgelöst hatten.", "Se ha señalado una mordedura antigua y aislada: simplemente presta atención a las situaciones que la provocaron.")
             reponsesChoix["age"] == 3 && (reponsesChoix["senior_desorientation"] == 2 || reponsesChoix["senior_vocalise_nocturne"] == 2) -> tr("Compte tenu de l'âge de $nom et des signes décrits, un bilan vétérinaire est recommandé en priorité pour écarter ou confirmer un déclin cognitif lié à l'âge avant d'envisager une approche comportementale.", "Given $nom's age and the signs described, a veterinary check-up is recommended as a priority to rule out or confirm age-related cognitive decline before considering a behavioral approach.", "Angesichts des Alters von $nom und der beschriebenen Anzeichen wird vorrangig eine tierärztliche Untersuchung empfohlen, um einen altersbedingten kognitiven Abbau auszuschließen oder zu bestätigen, bevor an einen verhaltensbezogenen Ansatz gedacht wird.", "Teniendo en cuenta la edad de $nom y los signos descritos, se recomienda en primer lugar una revisión veterinaria para descartar o confirmar un deterioro cognitivo asociado a la edad antes de plantear un enfoque de comportamiento.")
             reponsesChoix["age"] == 0 && reponsesChoix["proprete_type"] != null -> tr("Ne consultez que si l'apprentissage de la propreté semble anormalement long à se mettre en place au-delà de quelques mois, ou si vous remarquez de la douleur, du sang, ou des efforts inhabituels quand $nom fait ses besoins.", "Only consult a vet if house-training is still unusually slow after a few months, or if you notice pain, blood or straining when $nom relieves himself.", "Suchen Sie nur dann einen Tierarzt auf, wenn die Stubenreinheit über einige Monate hinaus ungewöhnlich lange braucht oder wenn Sie Schmerzen, Blut oder ungewöhnliches Pressen bemerken, wenn $nom sich löst.", "Solo consulta al veterinario si el aprendizaje parece anormalmente lento después de unos meses, o si notas dolor, sangre o esfuerzos inusuales cuando $nom hace sus necesidades.")
             reponsesChoix["marquage_habitude_post_sterilisation"] == 0 -> tr("Ce marquage est devenu une habitude acquise plutôt qu'un comportement hormonal — un comportementaliste canin peut aider $nom à désapprendre ce geste précis, ce qui prend souvent plus de temps qu'un marquage lié au stress ou aux hormones.", "This marking has become a learned habit rather than a hormonal behavior — a dog behavior consultant can help $nom unlearn this specific behavior, which often takes longer than addressing stress- or hormone-related marking.", "Diese Markierung ist eher zu einer erlernten Gewohnheit als zu einem hormonellen Verhalten geworden – eine Fachperson für Hundeverhalten kann $nom helfen, dieses Verhalten zu verlernen, was oft länger dauert als bei einer stress- oder hormonbedingten Markierung.", "Este marcaje se ha convertido en un hábito adquirido más que en un comportamiento hormonal: un especialista en comportamiento canino puede ayudar a $nom a desaprender este gesto concreto, algo que suele llevar más tiempo que un marcaje relacionado con el estrés o las hormonas.")
@@ -402,8 +421,9 @@ object QuestionnaireEngine {
     fun determinerPrioriteAction(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, peur: Int, attachement: Int, impulsivite: Int, reactivite: Int): PrioriteAction {
         val maxAxe = maxOf(peur, attachement, impulsivite, reactivite)
         return when {
-            reponsesChoix["a_deja_mordu"] == 1 && reponsesChoix["cible_agression"] == 1 -> PrioriteAction.ELEVEE
-            reponsesChoix["a_deja_mordu"] == 1 -> PrioriteAction.URGENTE
+            morsureForte(reponsesChoix) && reponsesChoix["cible_agression"] == 1 -> PrioriteAction.ELEVEE
+            morsureForte(reponsesChoix) -> PrioriteAction.URGENTE
+            morsureIntermediaire(reponsesChoix) -> PrioriteAction.ELEVEE
             contexte.physique >= 4 -> PrioriteAction.URGENTE
             reponsesChoix["apparition"] == 1 && reponsesChoix["intensite_probleme"] == 3 -> PrioriteAction.URGENTE
             reponsesChoix["evolution_probleme"] == 2 && (reponsesChoix["generalisation_probleme"] == 2 || reponsesChoix["intensite_probleme"] == 3) -> PrioriteAction.ELEVEE
@@ -418,14 +438,14 @@ object QuestionnaireEngine {
     fun construirePrioriteImmediate(reponsesChoix: Map<String, Int>, contexte: ContexteAnalyse, priorite: PrioriteAction, niveauSituation: NiveauSituation, nomChien: String): PrioriteImmediate {
         val nom = nomChienAffiche(nomChien)
         return when {
-            reponsesChoix["a_deja_mordu"] == 1 && reponsesChoix["cible_agression"] == 1 -> PrioriteImmediate(PrioriteAction.ELEVEE,
+            morsureForte(reponsesChoix) && reponsesChoix["cible_agression"] == 1 -> PrioriteImmediate(PrioriteAction.ELEVEE,
                 tr("Priorité immédiate : reprendre la présentation avec les autres animaux", "Immediate priority: rework the introduction with other animals", "Sofortige Priorität: die Zusammenführung mit den anderen Tieren neu aufbauen", "Prioridad inmediata: replantear la presentación con los otros animales"),
                 tr("Comme il y a déjà eu morsure envers un autre animal, la cohabitation doit être reprise calmement pour $nom.", "Since there has already been a bite toward another animal, living together needs to be rebuilt calmly for $nom.", "Da es bereits einen Biss gegenüber einem anderen Tier gab, sollte das Zusammenleben für $nom in Ruhe neu aufgebaut werden.", "Como ya ha habido una mordedura a otro animal, la convivencia debe reconstruirse con calma para $nom."),
                 trList(listOf("Séparer temporairement les animaux en conflit.", "Envisager un accompagnement par un comportementaliste canin pour une réintroduction progressive."),
                     listOf("Temporarily separate the animals in conflict.", "Consider support from a dog behavior consultant for a gradual reintroduction."),
                     listOf("Die Tiere im Konflikt vorübergehend trennen.", "Eine Begleitung durch eine Fachperson für Hundeverhalten für eine schrittweise Wiederzusammenführung in Betracht ziehen."),
                 listOf("Separar temporalmente a los animales en conflicto.", "Considerar el acompañamiento de un especialista en comportamiento canino para una reintroducción progresiva.")))
-            reponsesChoix["a_deja_mordu"] == 1 -> PrioriteImmediate(PrioriteAction.URGENTE,
+            morsureForte(reponsesChoix) -> PrioriteImmediate(PrioriteAction.URGENTE,
                 tr("Priorité immédiate : sécuriser et se faire accompagner", "Immediate priority: ensure safety and get support", "Sofortige Priorität: absichern und sich begleiten lassen", "Prioridad inmediata: garantizar la seguridad y buscar acompañamiento"),
                 tr("Comme il y a déjà eu morsure envers une personne, la situation ne doit pas être banalisée pour $nom.", "As there has already been a bite toward a person, the situation should not be minimized for $nom.", "Da es bereits einen Biss gegenüber einem Menschen gab, sollte die Situation von $nom nicht verharmlost werden.", "Como ya ha habido una mordedura a una persona, la situación de $nom no debe tomarse a la ligera."),
                 trList(listOf("Éviter les situations à risque.", "Demander rapidement l'aide d'un professionnel du comportement."),
@@ -616,7 +636,7 @@ object QuestionnaireEngine {
                     AppLang.EN -> {
                         append("$nom's reactivity may be explained by a combination of factors. ")
                         append("Incomplete socialization — few encounters with other dogs, varied people or different environments during sensitive periods — is often involved. ")
-                        if (reponsesChoix["a_deja_mordu"] == 1) append("The fact that there has already been a bite may indicate that reactivity has crossed an important threshold, sometimes associated with a history of confrontations that went badly. ")
+                        if (morsurePesante(reponsesChoix)) append("The fact that there has already been a bite may indicate that reactivity has crossed an important threshold, sometimes associated with a history of confrontations that went badly. ")
                         if (estMaleEntier(reponsesChoix)) append("In an intact male, interactions with other males may be more tense due to hormonal influence. ")
                         append("Repeated negative experiences with certain triggers may also have led the dog to anticipate threat and react preventively. ")
                         append("In some cases, reactivity is also a way of managing a safety distance when the dog feels overwhelmed.")
@@ -624,7 +644,7 @@ object QuestionnaireEngine {
                     AppLang.DE -> {
                         append("Die Reaktivität von $nom lässt sich durch ein Zusammenspiel mehrerer Faktoren erklären. ")
                         append("Oft ist eine unvollständige Sozialisierung beteiligt – wenige Begegnungen mit anderen Hunden, verschiedenen Menschen oder unterschiedlichen Umgebungen in den sensiblen Phasen. ")
-                        if (reponsesChoix["a_deja_mordu"] == 1) append("Dass es bereits einen Biss gab, kann darauf hindeuten, dass die Reaktivität eine wichtige Schwelle überschritten hat, manchmal verbunden mit schlecht erlebten Konfrontationen in der Vergangenheit. ")
+                        if (morsurePesante(reponsesChoix)) append("Dass es bereits einen Biss gab, kann darauf hindeuten, dass die Reaktivität eine wichtige Schwelle überschritten hat, manchmal verbunden mit schlecht erlebten Konfrontationen in der Vergangenheit. ")
                         if (estMaleEntier(reponsesChoix)) append("Bei einem unkastrierten Rüden können Begegnungen mit anderen Rüden durch hormonellen Einfluss angespannter sein. ")
                         append("Wiederholte negative Erfahrungen mit bestimmten Auslösern können den Hund auch dazu gebracht haben, eine Bedrohung vorwegzunehmen und vorbeugend zu reagieren. ")
                         append("In manchen Fällen ist Reaktivität auch eine Art, einen Sicherheitsabstand zu wahren, wenn sich der Hund überfordert fühlt.")
@@ -632,7 +652,7 @@ object QuestionnaireEngine {
                     AppLang.ES -> {
                         append("La reactividad de $nom puede explicarse por una combinación de factores. ")
                         append("Con frecuencia influye una socialización incompleta: pocos encuentros con otros perros, con personas variadas o con entornos diferentes durante los periodos sensibles. ")
-                        if (reponsesChoix["a_deja_mordu"] == 1) append("El hecho de que ya haya habido una mordedura puede indicar que la reactividad ha superado un umbral importante, a veces asociado a enfrentamientos que se vivieron mal. ")
+                        if (morsurePesante(reponsesChoix)) append("El hecho de que ya haya habido una mordedura puede indicar que la reactividad ha superado un umbral importante, a veces asociado a enfrentamientos que se vivieron mal. ")
                         if (estMaleEntier(reponsesChoix)) append("En un macho sin esterilizar, las interacciones con otros machos pueden ser más tensas por la influencia hormonal. ")
                         append("Las experiencias negativas repetidas con ciertos desencadenantes también pueden haber llevado al perro a anticipar la amenaza y a reaccionar de forma preventiva. ")
                         append("En algunos casos, la reactividad es también una forma de mantener una distancia de seguridad cuando el perro se siente desbordado.")
@@ -640,7 +660,7 @@ object QuestionnaireEngine {
                     AppLang.FR -> {
                         append("La réactivité de $nom peut s'expliquer par une combinaison de facteurs. ")
                         append("Une socialisation incomplète — peu de rencontres avec d'autres chiens, des personnes variées ou des environnements différents pendant les périodes sensibles — est souvent en cause. ")
-                        if (reponsesChoix["a_deja_mordu"] == 1) append("Le fait qu'il y ait déjà eu morsure peut indiquer que la réactivité a franchi un seuil important, parfois associé à une histoire de confrontations mal vécues. ")
+                        if (morsurePesante(reponsesChoix)) append("Le fait qu'il y ait déjà eu morsure peut indiquer que la réactivité a franchi un seuil important, parfois associé à une histoire de confrontations mal vécues. ")
                         if (estMaleEntier(reponsesChoix)) append("Chez un mâle entier, les interactions avec d'autres mâles peuvent être plus tendues en raison de l'influence hormonale. ")
                         append("Des expériences négatives répétées face à certains déclencheurs peuvent aussi avoir conduit le chien à anticiper la menace et à réagir de manière préventive. ")
                         append("Dans certains cas, la réactivité est aussi une façon de gérer une distance de sécurité quand le chien se sent dépassé.")
@@ -690,7 +710,7 @@ object QuestionnaireEngine {
             raisonSituation = genererRaisonSituation(reponsesChoix, contexte),
             messageAide = genererMessageAide(reponsesChoix, contexte, niveauSituation, reponsesTexte["nom_chien"].orEmpty()),
             apparitionBrutale = reponsesChoix["apparition"] == 1,
-            aDejaMordu = reponsesChoix["a_deja_mordu"] == 1,
+            aDejaMordu = morsurePesante(reponsesChoix),
             hypothesePrincipale = hypothesePrincipale, prioriteAction = prioriteAction,
             prioriteImmediate = prioriteImmediate, explicationResultat = explicationResultat,
             facteursAggravants = facteursAggravants, facteursProtecteurs = facteursProtecteurs,
@@ -703,7 +723,7 @@ object QuestionnaireEngine {
     fun doitAfficherQuestion(questionId: String, reponsesChoix: Map<String, Int>): Boolean {
         return when (questionId) {
             "senior_desorientation", "senior_vocalise_nocturne" -> reponsesChoix["age"] == 3
-            "cible_agression" -> reponsesChoix["a_deja_mordu"] == 1
+            "cible_agression", "derniere_morsure", "frequence_morsure" -> reponsesChoix["a_deja_mordu"] == 1
             "lieu_residence" -> showConsultation()
             "proprete_type" -> reponsesChoix["proprete_maison"] != 0
             "marquage_habitude_post_sterilisation" -> estSterilise(reponsesChoix) && reponsesChoix["proprete_maison"] != 0 && (reponsesChoix["proprete_type"] == 0 || reponsesChoix["proprete_type"] == 2)
@@ -910,6 +930,22 @@ fun questionsApplication(): List<Question> {
                 listOf("Nein", "Ja"),
                 listOf("No", "Sí")),
             axe = Axe.REACTIVITE, scoreParOption = listOf(0, 4), poids = 2, signalCritique = true),
+
+        QuestionChoix("derniere_morsure",
+            tr("Quand a eu lieu la dernière morsure ?", "When did the last bite happen?", "Wann war der letzte Biss?", "¿Cuándo fue la última mordedura?"),
+            trList(listOf("Il y a moins de 6 mois", "Il y a 6 mois à 2 ans", "Il y a plus de 2 ans"),
+                listOf("Less than 6 months ago", "6 months to 2 years ago", "More than 2 years ago"),
+                listOf("Vor weniger als 6 Monaten", "Vor 6 Monaten bis 2 Jahren", "Vor mehr als 2 Jahren"),
+                listOf("Hace menos de 6 meses", "Hace entre 6 meses y 2 años", "Hace más de 2 años")),
+            axe = Axe.REACTIVITE, scoreParOption = listOf(0, 0, 0)),
+
+        QuestionChoix("frequence_morsure",
+            tr("Combien de fois est-ce arrivé ?", "How many times has it happened?", "Wie oft ist das passiert?", "¿Cuántas veces ha ocurrido?"),
+            trList(listOf("Une seule fois, dans un contexte particulier (surpris en dormant, douleur, enfant qui s'est jeté sur lui…)", "Quelques fois", "Régulièrement"),
+                listOf("Only once, in a particular context (startled while sleeping, pain, a child jumping on him…)", "A few times", "Regularly"),
+                listOf("Nur einmal, in einer besonderen Situation (im Schlaf überrascht, Schmerzen, ein Kind ist auf ihn gesprungen …)", "Einige Male", "Regelmäßig"),
+                listOf("Una sola vez, en un contexto particular (sorprendido mientras dormía, dolor, un niño que se le echó encima…)", "Algunas veces", "Con regularidad")),
+            axe = Axe.REACTIVITE, scoreParOption = listOf(0, 0, 0)),
 
         QuestionChoix("cible_agression",
             tr("Envers qui cela s'est-il produit ?", "Who was it directed at?", "Gegen wen hat sich das gerichtet?", "¿Hacia quién fue?"),
