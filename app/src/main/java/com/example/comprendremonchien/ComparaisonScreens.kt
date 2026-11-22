@@ -107,7 +107,7 @@ fun texteEcart(ecart: Int): String = if (ecart > 0) "+$ecart" else "$ecart"
 
 fun texteAvertissementComparaison(): String = tr(
     "Cette comparaison montre l'évolution des comportements observés par le propriétaire. Elle ne remplace pas l'avis d'un vétérinaire ou d'un comportementaliste.",
-    "This comparison shows how the behaviours observed by the owner have changed. It does not replace the advice of a veterinarian or a behaviourist.",
+    "This comparison shows how the behaviors observed by the owner have changed. It does not replace the advice of a veterinarian or a behaviorist.",
     "Dieser Vergleich zeigt die Entwicklung der vom Halter beobachteten Verhaltensweisen. Er ersetzt nicht den Rat eines Tierarztes oder Verhaltensberaters.",
     "Esta comparación muestra la evolución de los comportamientos observados por el propietario. No sustituye la opinión de un veterinario o de un especialista en comportamiento."
 )
@@ -120,7 +120,7 @@ fun texteResumeComparaison(evolutions: List<EvolutionAxe>): String {
     return tr(
         "En résumé, sur les ${evolutions.size} axes : $amelio en amélioration, $stables stable${if (stables > 1) "s" else ""}, $surveiller à surveiller.",
         "In short, across the ${evolutions.size} axes: $amelio improving, $stables stable, $surveiller to watch.",
-        "Kurz gesagt, bei den ${evolutions.size} Achsen: $amelio verbessert, $stables stabil, $surveiller im Auge behalten.",
+        "Kurz gesagt, von den ${evolutions.size} Achsen: $amelio verbessert, $stables stabil, $surveiller im Auge zu behalten.",
         "En resumen, en los ${evolutions.size} ejes: $amelio en mejora, $stables estable${if (stables > 1) "s" else ""}, $surveiller a vigilar."
     )
 }
